@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Service from './components/service';
-import Map from './components/map'
+import MyMap from './components/map'
 
 import rest from 'rest';
 import mime from 'rest/interceptor/mime';
@@ -40,7 +40,7 @@ class App extends React.Component {
   }
   render() {
     return (
-      <Map services={this.state.services} />
+      <MyMap services={this.state.services} />
     )
   }
 }
