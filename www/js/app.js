@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import Service from './components/service';
+import map from './components/map'
+
 import rest from 'rest';
 import mime from 'rest/interceptor/mime';
 
@@ -54,7 +57,10 @@ class App extends React.Component {
         );
     });
     return (
-      <div className="tbl">{ services }</div>
+      <div className="tbl">
+        { services }
+        { map }
+      </div>
     );
   }
 }
