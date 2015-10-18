@@ -10,6 +10,8 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render((
-    <App />
-), document.getElementById('main'));
+document.addEventListener('deviceready', () => {
+  ReactDOM.render((
+      <App />
+  ), document.getElementById('main'));
+}, false);
