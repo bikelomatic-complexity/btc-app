@@ -22,15 +22,30 @@ class App extends React.Component {
       };
   }
   componentDidMount() {
-    let client = rest.wrap(mime);
-    client({path: 'localhost:80/services'}).then(
-      (response) => {
-        this.setState(response);
-      },
-      (response) => {
-        console.error('could not connect to localhost');
+    let request = new XMLHttpRequest();
+    request.open('GET', 'http://52.3.244.0/services');
+    request.onload = (response) => {
+      if(request.status === 200) {
+        console.log("what?");
+        let json = JSON.parse(request.responseText);
+        this.setState({services: json});
+      } else {
+        console.error('error');
       }
-    )
+    };
+    request.send();
+
+    // let client = rest.wrap(mime);
+    // client({path: 'http://52.3.240.0/services'}).then(
+    //   (response) => {
+    //     console.log('here');
+    //     console.log(response);
+    //     this.setState({services: response});
+    //   },
+    //   (response) => {
+    //     console.error('could not connect to localhost');
+    //   }
+    // )
   }
   render() {
     let services = this.state.services.map((service) => {
