@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Service from './components/service';
-import map from './components/map'
+import Map from './components/map'
 
 import rest from 'rest';
 import mime from 'rest/interceptor/mime';
@@ -14,13 +14,13 @@ class App extends React.Component {
         services: [ {
           name: "Joe's Pizzeria",
           type: "Restaurant",
-          lat: "1",
-          lon: "1"
+          lat: 43.0848,
+          lon: -77.6744
         }, {
           name: "Joe's Whisky Bar",
           type: "Bar",
-          lat: "1",
-          lon: "2"
+          lat: 0,
+          lon: 0
         } ]
       };
   }
@@ -37,33 +37,11 @@ class App extends React.Component {
       }
     };
     request.send();
-
-    // let client = rest.wrap(mime);
-    // client({path: 'http://52.3.240.0/services'}).then(
-    //   (response) => {
-    //     console.log('here');
-    //     console.log(response);
-    //     this.setState({services: response});
-    //   },
-    //   (response) => {
-    //     console.error('could not connect to localhost');
-    //   }
-    // )
   }
   render() {
-    let services = this.state.services.map((service) => {
-        return (
-          <Service key={service.name} json={ service }/>
-        );
-    });
     return (
-      <div>
-        <div className="tbl">
-          { services }
-        </div>
-        { map }
-      </div>
-    );
+      <Map services={this.state.services} />
+    )
   }
 }
 
