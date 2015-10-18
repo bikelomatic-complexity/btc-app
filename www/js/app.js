@@ -57,8 +57,10 @@ class App extends React.Component {
         );
     });
     return (
-      <div className="tbl">
-        { services }
+      <div>
+        <div className="tbl">
+          { services }
+        </div>
         { map }
       </div>
     );
