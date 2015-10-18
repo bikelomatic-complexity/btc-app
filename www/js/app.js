@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Service from './components/service';
+import rest from 'rest';
+import mime from 'rest/interceptor/mime';
 
 class App extends React.Component {
   constructor(props) {
@@ -17,12 +19,23 @@ class App extends React.Component {
           lat: "1",
           lon: "2"
         } ]
+      };
+  }
+  componentDidMount() {
+    let client = rest.wrap(mime);
+    client({path: 'localhost:80/services'}).then(
+      (response) => {
+        this.setState(response);
+      },
+      (response) => {
+        console.error('could not connect to localhost');
       }
+    )
   }
   render() {
     let services = this.state.services.map((service) => {
         return (
-          <Service json={ service }/>
+          <Service key={service.name} json={ service }/>
         );
     });
     return (
