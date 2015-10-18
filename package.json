@@ -4,7 +4,10 @@
   "description": "Bicycle touring digital companion",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node_modules/.bin/browserify www/js/app.js -t babelify -o www/js/bundle.js",
+    "prestart": "npm run build",
+    "start": "node_modules/.bin/cordova run android"
   },
   "repository": {
     "type": "git",
@@ -21,6 +24,8 @@
     "react-dom": "^0.14.0"
   },
   "devDependencies": {
-    "babelify": "^6.3.0"
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
+    "cordova": "^5.3.3"
   }
 }

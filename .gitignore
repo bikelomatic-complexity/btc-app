@@ -1,6 +1,8 @@
 platforms/
 plugins/
 
+www/js/bundle.js
+
 # Logs
 logs
 *.log
