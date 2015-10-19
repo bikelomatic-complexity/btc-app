@@ -4,10 +4,10 @@
   "description": "Bicycle touring digital companion",
   "main": "index.js",
   "scripts": {
-		"doc": "node_modules/.bin/esdoc -c .esdoc.json",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "node_modules/.bin/jscs www/ -x -r inline; true",
+    "doc": "node_modules/.bin/esdoc -c .esdoc.json",
     "build": "node_modules/.bin/browserify www/js/app.js -t babelify -o www/js/bundle.js",
-		"postbuild": "npm run doc",
+    "postbuild": "npm run doc",
     "prestart": "npm run build",
     "start": "node_modules/.bin/cordova run android"
   },
@@ -32,6 +32,7 @@
     "babelify": "^6.3.0",
     "browserify": "^11.2.0",
     "cordova": "^5.3.3",
-    "esdoc": "^0.4.1"
+    "esdoc": "^0.4.1",
+    "jscs": "^2.3.4"
   }
 }
