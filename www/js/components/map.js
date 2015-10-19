@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import { render } from 'react-dom';
-import { Map, CircleMarker, Marker, Popup, TileLayer } from 'react-leaflet';
+
+import * as leaflet from 'react-leaflet';
+let {Marker, Popup, Map, TileLayer} = leaflet;
+
+leaflet.setIconDefaultImagePath('img/icons');
 
 export default class MyMap extends Component {
   constructor(props) {
@@ -9,11 +13,11 @@ export default class MyMap extends Component {
   render() {
     let markers = this.props.services.map((service) => {
       return (
-        <CircleMarker key={service['_id']} radius={10} center={[service.lat, service.lon]}>
+        <Marker key={service._id} radius={10} position={[service.lat, service.lon]}>
           <Popup>
             <span>{service.name}<br/>{service.type}</span>
           </Popup>
-        </CircleMarker>
+        </Marker>
       );
     });
     let first = this.props.services[0];
