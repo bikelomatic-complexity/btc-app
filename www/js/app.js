@@ -12,32 +12,25 @@ class App extends React.Component {
       super(props);
       this.state = {
         services: [ {
-          _id: "id0",
-          name: "Joe's Pizzeria",
-          type: "Restaurant",
+          _id: "0",
+          name: "Rochester Institute of Technology",
+          type: "School",
           lat: 43.0848,
           lon: -77.6744
-        }, {
-          _id: "id1",
-          name: "Joe's Whisky Bar",
-          type: "Bar",
-          lat: 0,
-          lon: 0
         } ]
       };
   }
   componentDidMount() {
-    let request = new XMLHttpRequest();
-    request.open('GET', 'http://52.3.244.0/services');
-    request.onload = (response) => {
-      if(request.status === 200) {
-        let json = JSON.parse(request.responseText);
-        this.setState({services: json});
-      } else {
-        console.error('error');
+    const client = rest.wrap(mime);
+    client({ path: 'http://52.3.244.0/services' }).then(response => {
+      switch(response.status.code) {
+        case 200:
+          this.setState({services: response.entity});
+          break;
+        default:
+          console.error("Could not load services");
       }
-    };
-    request.send();
+    })
   }
   render() {
     return (
@@ -46,6 +39,7 @@ class App extends React.Component {
   }
 }
 
+/* Requires cordova.js to already be loaded via <script> */
 document.addEventListener('deviceready', () => {
   ReactDOM.render((
       <App />
