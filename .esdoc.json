@@ -1,0 +1,6 @@
+{
+  "source": "./www/js",
+	"destination": "./doc",
+  "excludes": ["bundle.js"],
+  "unexportIdentifier": true
+}
