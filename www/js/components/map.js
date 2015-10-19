@@ -9,7 +9,7 @@ export default class MyMap extends Component {
   render() {
     let markers = this.props.services.map((service) => {
       return (
-        <CircleMarker radius={10} center={[service.lat, service.lon]}>
+        <CircleMarker key={service['_id']} radius={10} center={[service.lat, service.lon]}>
           <Popup>
             <span>{service.name}<br/>{service.type}</span>
           </Popup>
