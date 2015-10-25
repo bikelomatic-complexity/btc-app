@@ -1,5 +1,4 @@
 platforms/
-!platforms/platforms.json
 plugins/
 
 www/js/bundle.js

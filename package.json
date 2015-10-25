@@ -4,12 +4,13 @@
   "description": "Bicycle touring digital companion",
   "main": "index.js",
   "scripts": {
-    "format": "node_modules/.bin/jscs www/ -x -r inline; true",
-    "doc": "node_modules/.bin/esdoc -c .esdoc.json",
-    "build": "node_modules/.bin/browserify www/js/app.js -t babelify -o www/js/bundle.js",
+		"postinstall": "cordova platform add android browser; true",
+    "format": "jscs www/ -x -r inline; true",
+    "doc": "esdoc -c .esdoc.json",
+    "build": "browserify www/js/app.js -t babelify -o www/js/bundle.js",
     "postbuild": "npm run doc",
     "prestart": "npm run build",
-    "start": "node_modules/.bin/cordova run android"
+    "start": "cordova run android"
   },
   "repository": {
     "type": "git",
