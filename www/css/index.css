@@ -14,5 +14,6 @@ body {
     height: inherit;
 }
 .leaflet-container {
-    height: inherit;
+    /* set height to 100% minus the height of the navbar */
+    height: calc(100% - 56px)
 }
