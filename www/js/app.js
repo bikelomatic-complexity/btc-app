@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Service from './components/service';
-import MyMap from './components/map';
+import MainPage from './components/main-page';
 
 import rest from 'rest';
 import mime from 'rest/interceptor/mime';
@@ -48,7 +47,7 @@ class App extends React.Component {
   }
   render() {
     return (
-      <MyMap services={this.state.services} />
+      <MainPage services={this.state.services} />
     );
   }
 }

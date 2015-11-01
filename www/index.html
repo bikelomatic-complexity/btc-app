@@ -20,44 +20,28 @@
 <html>
     <head>
         <!-- TODO: implement CSP -->
+        <!-- cordova elements -->
         <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-inline' *" />
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/leaflet.css">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
 
-        <link rel="stylesheet" href="mdl/material.min.css">
-        <script src="mdl/material.min.js"></script>
+        <!-- Leaflet css -->
+        <link rel="stylesheet" type="text/css" href="lib/leaflet/leaflet.css">
+
+        <!-- custom css -->
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" type="text/css" href="css/mod.css">
+
+        <!-- MDL resources -->
+        <link rel="stylesheet" href="lib/mdl/material.css">
+        <script src="lib/mdl/material.js"></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-        <title>Bicycle Touring Ditital Companion</title>
+        <title>Bicycle Touring Digital Companion</title>
     </head>
     <body>
-        <!-- <div id="main"></div> -->
-
-        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-          <header class="mdl-layout__header">
-            <div class="mdl-layout__header-row">
-              <!-- Title -->
-              <span class="mdl-layout-title">Adventure Cycling</span>
-              <!-- Add spacer, to align navigation to the right -->
-              <div class="mdl-layout-spacer"></div>
-            </div>
-          </header>
-          <div class="mdl-layout__drawer">
-            <span class="mdl-layout-title">Menu</span>
-            <nav class="mdl-navigation">
-              <a class="mdl-navigation__link" href="">Services</a>
-              <a class="mdl-navigation__link" href="">Points of Interest</a>
-              <a class="mdl-navigation__link" href="">Alerts</a>
-              <a class="mdl-navigation__link" href="">Filter</a>
-            </nav>
-          </div>
-          <main class="mdl-layout__content" id="main">
-            <!-- <div class="page-content"></div> -->
-          </main>
-        </div>
+        <div id="main"></div>
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/bundle.js"></script>

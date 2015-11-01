@@ -1,6 +1,6 @@
 /**
  * material-design-lite - Material Design Components in CSS, JS and HTML
- * @version v1.0.5
+ * @version v1.0.4
  * @license Apache-2.0
  * @copyright 2015 Google, Inc.
  * @link https://github.com/google/material-design-lite
@@ -113,7 +113,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -302,7 +301,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -713,7 +711,6 @@ main {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -1269,7 +1266,6 @@ ul, ol {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -3105,7 +3101,6 @@ ul, ol {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -3281,7 +3276,6 @@ ul, ol {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -3453,7 +3447,6 @@ ul, ol {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -3659,7 +3652,6 @@ ul, ol {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -4029,7 +4021,6 @@ input.mdl-button[type="submit"] {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -4294,7 +4285,6 @@ input.mdl-button[type="submit"] {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -4582,7 +4572,6 @@ input.mdl-button[type="submit"] {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -4823,7 +4812,6 @@ input.mdl-button[type="submit"] {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -5213,7 +5201,6 @@ input.mdl-button[type="submit"] {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -5441,7 +5428,6 @@ input.mdl-button[type="submit"] {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -5672,7 +5658,6 @@ input.mdl-button[type="submit"] {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -5997,7 +5982,6 @@ input.mdl-button[type="submit"] {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -6266,7 +6250,6 @@ input.mdl-button[type="submit"] {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -6352,6 +6335,17 @@ input.mdl-button[type="submit"] {
   margin: 0; }
 
 .mdl-layout {
+  position: absolute;
+  width: 100%;
+  height: 100%; }
+
+.mdl-layout.is-small-screen .mdl-layout--large-screen-only {
+  display: none; }
+
+.mdl-layout:not(.is-small-screen) .mdl-layout--small-screen-only {
+  display: none; }
+
+.mdl-layout__inner-container {
   width: 100%;
   height: 100%;
   display: -webkit-box;
@@ -6367,17 +6361,6 @@ input.mdl-button[type="submit"] {
   overflow-x: hidden;
   position: relative;
   -webkit-overflow-scrolling: touch; }
-
-.mdl-layout.is-small-screen .mdl-layout--large-screen-only {
-  display: none; }
-
-.mdl-layout:not(.is-small-screen) .mdl-layout--small-screen-only {
-  display: none; }
-
-.mdl-layout__container {
-  position: absolute;
-  width: 100%;
-  height: 100%; }
 
 .mdl-layout-title {
   display: block;
@@ -6478,7 +6461,7 @@ input.mdl-button[type="submit"] {
         background-color: rgb(0,0,0);
         color: rgb(63,81,181); }
   @media screen and (min-width: 1025px) {
-    .mdl-layout--fixed-drawer > .mdl-layout__drawer {
+    .mdl-layout--fixed-drawer > .mdl-layout__inner-container > .mdl-layout__drawer {
       -webkit-transform: translateX(0);
           -ms-transform: translateX(0);
               transform: translateX(0); } }
@@ -6515,7 +6498,7 @@ input.mdl-button[type="submit"] {
       margin: 4px;
       color: rgba(0, 0, 0, 0.5); } }
   @media screen and (min-width: 1025px) {
-    .mdl-layout--fixed-drawer > .mdl-layout__drawer-button {
+    .mdl-layout--fixed-drawer > .mdl-layout__inner-container > .mdl-layout__drawer-button {
       display: none; } }
 
 .mdl-layout__header {
@@ -6558,11 +6541,11 @@ input.mdl-button[type="submit"] {
   @media screen and (max-width: 1024px) {
     .mdl-layout__header {
       min-height: 56px; } }
-  .mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen) > .mdl-layout__header {
+  .mdl-layout--fixed-drawer:not(.is-small-screen) > .mdl-layout__inner-container > .mdl-layout__header {
     margin-left: 240px;
     width: calc(100% - 240px); }
-  @media screen and (min-width: 1025px) {
-    .mdl-layout--fixed-drawer > .mdl-layout__header .mdl-layout__header-row {
+  @media screen and (min-width: 1024px) {
+    .mdl-layout--fixed-drawer > .mdl-layout__inner-container > .mdl-layout__header .mdl-layout__header-row {
       padding-left: 40px; } }
   .mdl-layout__header > .mdl-layout-icon {
     position: absolute;
@@ -6592,7 +6575,7 @@ input.mdl-button[type="submit"] {
   @media screen and (max-width: 1024px) {
     .mdl-layout__header {
       display: none; }
-    .mdl-layout--fixed-header > .mdl-layout__header {
+    .mdl-layout--fixed-header > .mdl-layout__inner-container > .mdl-layout__header {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -6707,14 +6690,14 @@ input.mdl-button[type="submit"] {
           flex-grow: 1;
   z-index: 1;
   -webkit-overflow-scrolling: touch; }
-  .mdl-layout--fixed-drawer > .mdl-layout__content {
+  .mdl-layout--fixed-drawer > .mdl-layout__inner-container > .mdl-layout__content {
     margin-left: 240px; }
-  .mdl-layout__container.has-scrolling-header .mdl-layout__content {
+  .mdl-layout.has-scrolling-header .mdl-layout__content {
     overflow: visible; }
   @media screen and (max-width: 1024px) {
-    .mdl-layout--fixed-drawer > .mdl-layout__content {
+    .mdl-layout--fixed-drawer > .mdl-layout__inner-container > .mdl-layout__content {
       margin-left: 0; }
-    .mdl-layout__container.has-scrolling-header .mdl-layout__content {
+    .mdl-layout.has-scrolling-header .mdl-layout__content {
       overflow-y: auto;
       overflow-x: hidden; } }
 
@@ -6756,7 +6739,7 @@ input.mdl-button[type="submit"] {
       -ms-flex-negative: 0;
           flex-shrink: 0;
   overflow: hidden; }
-  .mdl-layout__container > .mdl-layout__tab-bar-container {
+  .mdl-layout > .mdl-layout__inner-container > .mdl-layout__tab-bar-container {
     position: absolute;
     top: 0;
     left: 0; }
@@ -6966,7 +6949,6 @@ input.mdl-button[type="submit"] {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -7239,7 +7221,6 @@ input.mdl-button[type="submit"] {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -7652,7 +7633,6 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -8135,7 +8115,6 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -8441,7 +8420,6 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -8694,7 +8672,6 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -8996,7 +8973,6 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -9212,7 +9188,6 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -9409,7 +9384,6 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */

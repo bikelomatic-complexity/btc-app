@@ -1,0 +1,16 @@
+/* modify the controls for leaflet to be below mdl */
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 8 !important;
+}
+
+/* modify leaflet container to fill space */
+.leaflet-container {
+  height: inherit;
+  width: inherit;
+}
+
+/* modify mdl drawer to be above the leaflet controls */
+.mdl-layout__drawer {
+  z-index: 10 !important;
+}
