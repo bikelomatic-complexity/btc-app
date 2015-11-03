@@ -14,3 +14,7 @@
 .mdl-layout__drawer {
   z-index: 10 !important;
 }
+
+.mdl-layout__obfuscator {
+  z-index: 8 !important;
+}

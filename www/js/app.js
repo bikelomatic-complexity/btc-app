@@ -27,9 +27,20 @@ class App extends React.Component {
         services: [{
           _id: '0',
           name: 'Rochester Institute of Technology',
+          description: 'Rochester Institute of Technology is a private university located within the town of Henrietta in the Rochester, New York metropolitan area. RIT is composed of nine academic colleges, including National Technical Institute for the Deaf.',
           type: 'School',
           lat: 43.0848,
-          lon: -77.6744
+          lon: -77.6744,
+          image: 'http://www.usnews.com/img/college-photo_3121._445x280-zmm.JPG'
+        },
+        {
+          _id: '1',
+          name: 'University of Rochester',
+          description: 'The University of Rochester is a private, nonsectarian, research university in Rochester, New York. The university grants undergraduate and graduate degrees, including doctoral and professional degrees.',
+          type: 'School',
+          lat: 43.130553,
+          lon: -77.626003,
+          image: 'https://www.rochester.edu/college/psc/images/bg/background22.jpg'
         }]
       };
   }
