@@ -1,6 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import clientApp from './reducers/reducer';
+
+let store = createStore(clientApp);
+
 import MainPage from './components/main-page';
 
 import rest from 'rest';
@@ -66,6 +72,8 @@ class App extends React.Component {
 /* Requires cordova.js to already be loaded via <script> */
 document.addEventListener('deviceready', () => {
   ReactDOM.render((
+    <Provider store={store}>
       <App />
+    </Provider>
   ), document.getElementById('main'));
 }, false);

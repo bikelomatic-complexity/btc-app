@@ -9,8 +9,8 @@ export default class PointCard extends Component {
     let cardStyle = {
       width: '100%',
       position: 'fixed',
-      bottom: '-300px',
-      transition: 'all 200ms ease',
+      bottom: (this.props.show ? '0px' : '-300px'),
+      transition: 'all 300ms ease',
       'zIndex':'8'
     }
     let cardTitleStyle = {
