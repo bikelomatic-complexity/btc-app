@@ -37,7 +37,16 @@ class App extends React.Component {
           type: 'School',
           lat: 43.0848,
           lon: -77.6744,
-          image: 'http://www.usnews.com/img/college-photo_3121._445x280-zmm.JPG'
+          image: 'http://www.usnews.com/img/college-photo_3121._445x280-zmm.JPG',
+          comments: [],
+          dateCreated: '',
+          flag: [],
+          amenities: [],
+          schedule: [],
+          seasonal: false,
+          phone: '1-555-555-5555',
+          rating: 4,
+          website: 'www.rit.edu'
         },
         {
           _id: '1',
@@ -46,7 +55,16 @@ class App extends React.Component {
           type: 'School',
           lat: 43.130553,
           lon: -77.626003,
-          image: 'https://www.rochester.edu/college/psc/images/bg/background22.jpg'
+          image: 'https://www.rochester.edu/college/psc/images/bg/background22.jpg',
+          comments: [],
+          dateCreated: '',
+          flag: [],
+          amenities: [],
+          schedule: [],
+          seasonal: false,
+          phone: '1-555-555-5555',
+          rating: 4,
+          website: 'www.rochester.edu' 
         }]
       };
   }
