@@ -42,11 +42,18 @@ class App extends React.Component {
           dateCreated: '',
           flag: [],
           amenities: [],
-          schedule: [],
+          hours: [
+            {day: 'Sunday', opens: '5:00 AM', closes: '3:00 PM'},
+            {day: 'Monday', opens: '10:00 AM', closes: '6:00 PM'},
+            {day: 'Tuesday', opens: '10:00 AM', closes: '6:00 PM'},
+            {day: 'Wednesday', opens: '10:00 AM', closes: '3:00 PM'},
+            {day: 'Thursday', opens: '10:00 AM', closes: '6:00 PM'},
+            {day: 'Friday', opens: '10:00 AM', closes: '6:00 PM'},
+            {day: 'Saturday', opens: '10:00 AM', closes: '4:00 PM'}],
           seasonal: false,
           phone: '1-555-555-5555',
           rating: 4,
-          website: 'www.rit.edu'
+          website: 'https://www.rit.edu'
         },
         {
           _id: '1',
@@ -60,11 +67,18 @@ class App extends React.Component {
           dateCreated: '',
           flag: [],
           amenities: [],
-          schedule: [],
+          hours: [
+            {day: 'Sunday', opens: '10:00 AM', closes: '4:00 PM'},
+            {day: 'Monday', opens: '8:00 AM', closes: '10:00 PM'},
+            {day: 'Tuesday', opens: '8:00 AM', closes: '10:00 PM'},
+            {day: 'Wednesday', opens: '8:00 AM', closes: '6:00 PM'},
+            {day: 'Thursday', opens: '8:00 AM', closes: '10:00 PM'},
+            {day: 'Friday', opens: '8:00 AM', closes: '10:00 PM'},
+            {day: 'Saturday', opens: '10:00 AM', closes: '4:00 PM'}],
           seasonal: false,
           phone: '1-555-555-5555',
           rating: 4,
-          website: 'www.rochester.edu' 
+          website: 'https://www.rochester.edu'
         }]
       };
   }

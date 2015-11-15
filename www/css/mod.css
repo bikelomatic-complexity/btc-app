@@ -22,3 +22,7 @@
 .mdl-card__title-text {
   text-shadow: 0px 0px 8px rgba(0,0,0,1);
 }
+
+.mdl-js-data-table {
+  width: 100%;
+}

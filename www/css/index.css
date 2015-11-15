@@ -15,3 +15,31 @@ body {
 #main {
     height: inherit;
 }
+
+.open-until {
+    color: rgb(76,175,80);
+}
+
+.point-details {
+    overflow-y: scroll;
+}
+
+.view-button {
+    margin: 8px;
+    padding: 0px !important;
+}
+
+/* Get the bobbing motion for new markers */
+.leaflet-marker-icon .adding-point{
+    position: relative;
+    top: 0px;
+    -webkit-animation-name: adding;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes adding {
+    0%   {top: 0px;}
+    50%  {top: -15px;}
+    100% {top: 0px;}
+}
