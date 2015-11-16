@@ -109,18 +109,18 @@ class PointCard extends Component {
     }
 
     return (
-      <Hammer vertical={true} onPan={this.handleSwipe.bind(this)}>
-        <Card id="mdl-map-card" shadow={5} style={cardStyle}>
+      <Card id="mdl-map-card" shadow={5} style={cardStyle}>
+        <Hammer vertical={true} onPan={this.handleSwipe.bind(this)}>
           <CardTitle style={cardTitleStyle}>{this.props.point.name}</CardTitle>
-          { cardDetails }
-          <CardActions border className="view-button">
-            {seeButton}
-          </CardActions>
-          <CardMenu style={{color: '#fff'}}>
-              <IconButton name="share" />
-          </CardMenu>
-        </Card>
-      </Hammer>
+        </Hammer>
+        { cardDetails }
+        <CardActions border className="view-button">
+          {seeButton}
+        </CardActions>
+        <CardMenu style={{color: '#fff'}}>
+            <IconButton name="share" />
+        </CardMenu>
+      </Card>
     );
   }
 }
