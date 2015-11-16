@@ -53,7 +53,7 @@ class PointCard extends Component {
     return seasonDays;
   }
   render() {
-    let headerHeight = 55 + this.state.heightOffset;
+    let headerHeight = Math.max(55,  55 + this.state.heightOffset);
     let smallHeight = 300 - this.state.heightOffset;
     let cardStyle = {
       width: '100%',
@@ -109,18 +109,18 @@ class PointCard extends Component {
     }
 
     return (
-      <Card id="mdl-map-card" shadow={5} style={cardStyle}>
-        <Hammer vertical={true} onPan={this.handleSwipe.bind(this)}>
+      <Hammer vertical={true} onPan={this.handleSwipe.bind(this)}>
+        <Card id="mdl-map-card" shadow={5} style={cardStyle}>
           <CardTitle style={cardTitleStyle}>{this.props.point.name}</CardTitle>
-        </Hammer>
-        { cardDetails }
-        <CardActions border className="view-button">
-          {seeButton}
-        </CardActions>
-        <CardMenu style={{color: '#fff'}}>
-            <IconButton name="share" />
-        </CardMenu>
-      </Card>
+          { cardDetails }
+          <CardActions border className="view-button">
+            {seeButton}
+          </CardActions>
+          <CardMenu style={{color: '#fff'}}>
+              <IconButton name="share" />
+          </CardMenu>
+        </Card>
+      </Hammer>
     );
   }
 }
