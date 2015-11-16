@@ -15,6 +15,7 @@ class PointCard extends Component {
     this.state = {
       fullScreen: false,
       heightOffset: 0,
+      changeScreen: false
     };
   }
   onSeeMore() {
@@ -25,12 +26,30 @@ class PointCard extends Component {
   }
   handleSwipe(e) {
     const { dispatch } = this.props;
-    this.setState({heightOffset:e.deltaY})
-    if (e.isFinal) {
-      this.setState({heightOffset:0});
-      if (e.deltaY < -100) {
+    const pointDetails = document.getElementById('point-details');
+    /* if we are at the top of the card, pulling down should shrink the card */
+    if (this.state.fullScreen) {
+      // in full screen
+      // because hammer onPanStart doesn't work, just check if that time of the action was within 0.15s
+      if ((pointDetails.scrollTop == 0) && (e.isFirst || e.deltaTime < 150)) {
+        // you can change the screen state since you're at the top
+        this.setState({changeScreen: true});
+      }
+      if ((pointDetails.scrollTop == 0) && this.state.changeScreen) {
+        // at the top of the details
+        this.setState({heightOffset: e.deltaY});
+      }
+    } else {
+      // in peek screen
+      this.setState({changeScreen: true});
+      this.setState({heightOffset: e.deltaY});
+    }
+    /* Change the screen size (to full, peek, or hide) */
+    if (e.isFinal && this.state.changeScreen) {
+      this.setState({heightOffset: 0, changeScreen: false});
+      if (e.deltaY < -120) {
         this.setState({fullScreen:true});
-      } else if (e.deltaY > 100){
+      } else if (e.deltaY > 120){
         if (this.state.fullScreen) {
           this.setState({fullScreen:false});
         } else {
@@ -98,7 +117,7 @@ class PointCard extends Component {
     // large screen details
     if (this.state.fullScreen) {
       cardDetails = (
-        <div className="point-details">
+        <div id="point-details">
           <CardText> {point.description} </CardText>
           <CardText> {point.type} </CardText>
           <CardText> {point.phone} </CardText>
@@ -109,7 +128,7 @@ class PointCard extends Component {
     }
 
     return (
-      <Hammer vertical={true} onPan={this.handleSwipe.bind(this)}>
+      <Hammer vertical={true} onPanStart={this.handleSwipe.bind(this)} onPan={this.handleSwipe.bind(this)}>
         <Card id="mdl-map-card" shadow={5} style={cardStyle}>
           <CardTitle style={cardTitleStyle}>{this.props.point.name}</CardTitle>
           { cardDetails }

@@ -20,7 +20,7 @@ body {
     color: rgb(76,175,80);
 }
 
-.point-details {
+#point-details {
     overflow-y: scroll;
 }
 

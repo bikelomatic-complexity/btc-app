@@ -41,7 +41,6 @@ class MainPage extends Component {
 }
 
 function select(state) {
-  console.log(state);
   return {
     marker: state.marker
   };
