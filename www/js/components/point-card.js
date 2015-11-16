@@ -3,13 +3,18 @@ import { Card, CardTitle, CardActions, IconButton, CardText, CardMenu, Button } 
 import Hammer from 'react-hammerjs';
 import HoursTable from './hours-table';
 
+// import redux components
+import { connect } from 'react-redux';
+import { deselectMarker } from '../actions/actions';
+
 const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-export default class PointCard extends Component {
+class PointCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullScreen: false
+      fullScreen: false,
+      heightOffset: 0,
     };
   }
   onSeeMore() {
@@ -19,7 +24,20 @@ export default class PointCard extends Component {
     this.setState({fullScreen:false});
   }
   handleSwipe(e) {
-    console.log(e)
+    const { dispatch } = this.props;
+    this.setState({heightOffset:e.deltaY})
+    if (e.isFinal) {
+      this.setState({heightOffset:0});
+      if (e.deltaY < -100) {
+        this.setState({fullScreen:true});
+      } else if (e.deltaY > 100){
+        if (this.state.fullScreen) {
+          this.setState({fullScreen:false});
+        } else {
+          dispatch(deselectMarker());
+        }
+      }
+    }
   }
   getDays(seasons) {
     let seasonDays = seasons[0].days;
@@ -35,12 +53,14 @@ export default class PointCard extends Component {
     return seasonDays;
   }
   render() {
+    let headerHeight = 55 + this.state.heightOffset;
+    let smallHeight = 300 - this.state.heightOffset;
     let cardStyle = {
       width: '100%',
       position: 'fixed',
       bottom: (this.props.show ? '0px' : '-300px'),
-      height: (this.state.fullScreen ? 'calc(100% - 55px)' : '300px'),
-      transition: 'all 300ms ease',
+      height: (this.state.fullScreen ? 'calc(100% - '+ headerHeight +'px)' : smallHeight +'px'),
+      transition: (this.state.heightOffset == 0 ? 'all 300ms ease' : ''),
       'zIndex':'8'
     }
     let cardTitleStyle = {
@@ -89,7 +109,7 @@ export default class PointCard extends Component {
     }
 
     return (
-      <Hammer vertical={true} onPan={this.handleSwipe}>
+      <Hammer vertical={true} onPan={this.handleSwipe.bind(this)}>
         <Card id="mdl-map-card" shadow={5} style={cardStyle}>
           <CardTitle style={cardTitleStyle}>{this.props.point.name}</CardTitle>
           { cardDetails }
@@ -104,3 +124,5 @@ export default class PointCard extends Component {
     );
   }
 }
+
+export default connect()(PointCard);
