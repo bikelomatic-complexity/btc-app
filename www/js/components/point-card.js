@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import { Card, CardTitle, CardActions, IconButton, CardText, CardMenu, Button } from 'react-mdl';
+import Hammer from 'react-hammerjs';
 import HoursTable from './hours-table';
+
+const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 export default class PointCard extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +17,22 @@ export default class PointCard extends Component {
   }
   onSeeLess() {
     this.setState({fullScreen:false});
+  }
+  handleSwipe(e) {
+    console.log(e)
+  }
+  getDays(seasons) {
+    let seasonDays = seasons[0].days;
+    const date = (new Date());
+    seasons.forEach((season)=>{
+      if ((season.seasonStart) && (season.seasonEnd) &&
+        (season.seasonStart.month <= date.getMonth() <= season.seasonEnd.month) &&
+        (season.seasonStart.date <= date.getDate() <= season.seasonEnd.date))
+      {
+        seasonDays = season.days;
+      }
+    });
+    return seasonDays;
   }
   render() {
     let cardStyle = {
@@ -38,35 +58,49 @@ export default class PointCard extends Component {
     }
 
     let point = this.props.point;
-    let closing = point.hours[(new Date()).getDay()].closes;
+    let day = this.getDays(point.hours).filter(
+      (dayEle)=>{
+        return dayMap.indexOf(dayEle.day) == (new Date()).getDay();
+      })[0]; // get the day that matches today.
+
+    // small screen details
     let cardDetails = (
       <CardText>
-        {point.description} <span className="open-until">Open until: {closing}</span>
+        {point.description}
+        {(day) ?
+          <span className="open-until"> Open until: {day.closes}</span>
+        :
+          <span className="open-until"> Not Open Today </span>
+        }
       </CardText>
     );
+
+    // large screen details
     if (this.state.fullScreen) {
       cardDetails = (
         <div className="point-details">
           <CardText> {point.description} </CardText>
           <CardText> {point.type} </CardText>
           <CardText> {point.phone} </CardText>
-          <HoursTable hours={point.hours}/>
+          <HoursTable hours={this.getDays(point.hours)}/>
           <CardText> Visit <a href={point.website}>{point.website}</a> for more details </CardText>
         </div>
       )
     }
 
     return (
-      <Card id="mdl-map-card" shadow={5} style={cardStyle}>
-        <CardTitle style={cardTitleStyle}>{this.props.point.name}</CardTitle>
-        { cardDetails }
-        <CardActions border className="view-button">
-          {seeButton}
-        </CardActions>
-        <CardMenu style={{color: '#fff'}}>
-            <IconButton name="share" />
-        </CardMenu>
-      </Card>
+      <Hammer vertical={true} onPan={this.handleSwipe}>
+        <Card id="mdl-map-card" shadow={5} style={cardStyle}>
+          <CardTitle style={cardTitleStyle}>{this.props.point.name}</CardTitle>
+          { cardDetails }
+          <CardActions border className="view-button">
+            {seeButton}
+          </CardActions>
+          <CardMenu style={{color: '#fff'}}>
+              <IconButton name="share" />
+          </CardMenu>
+        </Card>
+      </Hammer>
     );
   }
 }

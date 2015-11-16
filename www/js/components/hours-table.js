@@ -13,10 +13,10 @@ export default class HoursTable extends Component {
       {name: 'hours', label: 'Open Hours'},
     ];
 
-    const hoursData = this.props.hours.map((dayElement) => {
+    const hoursData = this.props.hours.map((day) => {
       return {
-        'day':dayElement.day,
-        'hours':dayElement.opens + " - " + dayElement.closes
+        'day':day.day,
+        'hours':day.opens + " - " + day.closes
       }
     });
 

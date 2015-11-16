@@ -43,13 +43,31 @@ class App extends React.Component {
           flag: [],
           amenities: [],
           hours: [
-            {day: 'Sunday', opens: '5:00 AM', closes: '3:00 PM'},
-            {day: 'Monday', opens: '10:00 AM', closes: '6:00 PM'},
-            {day: 'Tuesday', opens: '10:00 AM', closes: '6:00 PM'},
-            {day: 'Wednesday', opens: '10:00 AM', closes: '3:00 PM'},
-            {day: 'Thursday', opens: '10:00 AM', closes: '6:00 PM'},
-            {day: 'Friday', opens: '10:00 AM', closes: '6:00 PM'},
-            {day: 'Saturday', opens: '10:00 AM', closes: '4:00 PM'}],
+            {
+              // default season listed first
+              days: [
+                {day:'Sunday', opens: '10:00 AM', closes: '4:00 PM'},
+                {day:'Monday', opens: '8:00 AM', closes: '10:00 PM'},
+                {day:'Tuesday', opens: '8:00 AM', closes: '10:00 PM'},
+                {day:'Wednesday', opens: '8:00 AM', closes: '6:00 PM'},
+                {day:'Thursday', opens: '8:00 AM', closes: '10:00 PM'},
+                {day:'Friday', opens: '8:00 AM', closes: '10:00 PM'},
+                {day:'Saturday', opens: '10:00 AM', closes: '4:00 PM'}
+              ]
+            },
+            {
+              // november 1st to decemeber 31st
+              seasonStart: {date:1, month:10},
+              seasonEnd: {date:31, month:11},
+              days: [
+                {day:'Monday', opens: '11:00 AM', closes: '3:00 PM'},
+                {day:'Tuesday', opens: '11:00 AM', closes: '3:00 PM'},
+                {day:'Wednesday', opens: '1:00 PM', closes: '6:00 PM'},
+                {day:'Thursday', opens: '11:00 AM', closes: '3:00 PM'},
+                {day:'Friday', opens: '11:00 AM', closes: '3:00 PM'}
+              ]
+            },
+          ],
           seasonal: false,
           phone: '1-555-555-5555',
           rating: 4,
@@ -68,14 +86,18 @@ class App extends React.Component {
           flag: [],
           amenities: [],
           hours: [
-            {day: 'Sunday', opens: '10:00 AM', closes: '4:00 PM'},
-            {day: 'Monday', opens: '8:00 AM', closes: '10:00 PM'},
-            {day: 'Tuesday', opens: '8:00 AM', closes: '10:00 PM'},
-            {day: 'Wednesday', opens: '8:00 AM', closes: '6:00 PM'},
-            {day: 'Thursday', opens: '8:00 AM', closes: '10:00 PM'},
-            {day: 'Friday', opens: '8:00 AM', closes: '10:00 PM'},
-            {day: 'Saturday', opens: '10:00 AM', closes: '4:00 PM'}],
-          seasonal: false,
+            {
+              days: [
+                {day:'Sunday', opens: '9:00 AM', closes: '4:00 PM'},
+                {day:'Monday', opens: '9:00 AM', closes: '10:00 PM'},
+                {day:'Tuesday', opens: '9:00 AM', closes: '10:00 PM'},
+                {day:'Wednesday', opens: '9:00 AM', closes: '6:00 PM'},
+                {day:'Thursday', opens: '9:00 AM', closes: '10:00 PM'},
+                {day:'Friday', opens: '9:00 AM', closes: '10:00 PM'},
+                {day:'Saturday', opens: '9:00 AM', closes: '4:00 PM'}
+              ]
+            }
+          ],
           phone: '1-555-555-5555',
           rating: 4,
           website: 'https://www.rochester.edu'
