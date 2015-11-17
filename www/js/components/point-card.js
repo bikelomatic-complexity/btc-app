@@ -39,6 +39,11 @@ class PointCard extends Component {
         // at the top of the details
         this.setState({heightOffset: e.deltaY});
       }
+      if (e.target.classList.contains("mdl-card__title") || e.target.classList.contains("mdl-card__title-text")) {
+        // at the top of the details
+        this.setState({heightOffset: e.deltaY});
+        this.setState({changeScreen: true});
+      }
     } else {
       // in peek screen
       this.setState({changeScreen: true});
@@ -102,15 +107,18 @@ class PointCard extends Component {
         return dayMap.indexOf(dayEle.day) == (new Date()).getDay();
       })[0]; // get the day that matches today.
 
+    // when is the service open
+    let timeDetails = (<span>{(day) ?
+        <span className="open-until"> Open until: {day.closes}</span>
+      :
+        <span className="open-until"> Not Open Today </span>
+      }</span>);
+
     // small screen details
     let cardDetails = (
       <CardText>
         {point.description}
-        {(day) ?
-          <span className="open-until"> Open until: {day.closes}</span>
-        :
-          <span className="open-until"> Not Open Today </span>
-        }
+        {timeDetails}
       </CardText>
     );
 
@@ -118,7 +126,7 @@ class PointCard extends Component {
     if (this.state.fullScreen) {
       cardDetails = (
         <div id="point-details">
-          <CardText> {point.description} </CardText>
+          <CardText> {point.description} {timeDetails}</CardText>
           <CardText> {point.type} </CardText>
           <CardText> {point.phone} </CardText>
           <HoursTable hours={this.getDays(point.hours)}/>
