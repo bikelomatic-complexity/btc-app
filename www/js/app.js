@@ -41,7 +41,7 @@ class App extends React.Component {
           comments: [],
           dateCreated: '',
           flag: [],
-          amenities: [],
+          amenities: ["housing", "food and drinks", "medical center"],
           hours: [
             {
               // default season listed first
@@ -84,7 +84,7 @@ class App extends React.Component {
           comments: [],
           dateCreated: '',
           flag: [],
-          amenities: [],
+          amenities: ["bike trail", "food and drink", "library"],
           hours: [
             {
               days: [

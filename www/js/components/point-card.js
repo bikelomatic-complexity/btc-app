@@ -122,15 +122,21 @@ class PointCard extends Component {
       </CardText>
     );
 
+    let seasonal = point.hours.length > 1;
+
     // large screen details
     if (this.state.fullScreen) {
       cardDetails = (
         <div id="point-details">
           <CardText> {point.description} {timeDetails}</CardText>
           <CardText> {point.type} </CardText>
+          {point.amenities.map((amenity) => {
+            return(<CardText>- {amenity}</CardText>)
+          })}
           <CardText> {point.phone} </CardText>
-          <HoursTable hours={this.getDays(point.hours)}/>
           <CardText> Visit <a href={point.website}>{point.website}</a> for more details </CardText>
+          { seasonal ? <br/> : <CardText> these hours are seasonal (call or check online for more information) </CardText> }
+          <HoursTable hours={this.getDays(point.hours)}/>
         </div>
       )
     }
