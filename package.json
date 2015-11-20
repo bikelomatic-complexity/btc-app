@@ -11,7 +11,7 @@
     "postbuild": "npm run doc",
     "prestart": "npm run build",
     "start": "cordova run android",
-    "test": "mocha --compilers js:babel/register test/*.js"
+    "test": "mocha --compilers js:babel/register --recursive"
   },
   "repository": {
     "type": "git",
