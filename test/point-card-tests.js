@@ -8,7 +8,7 @@ import React from 'react';
 import sd from 'skin-deep';
 
 // import the component we'll be testing
-import PointCard from '../www/js/components/point-card';
+import { PointCard } from '../www/js/components/point-card';
 
 // import sample data for tests
 import { SamplePoints } from './mock-data';
@@ -30,22 +30,73 @@ beforeEach(() => {
   vdom = tree.getRenderOutput();
 });
 
-describe('the PointCard component', () => {
-  describe('render', () => {
+describe('PointCard', () => {
 
-    it('should have an id ', () => {
-      vdom.props.id.should.be.equal( "mdl-map-card" );
+  describe('minimized', () => {
+
+    describe('render', () => {
+      let cardComponent;
+      beforeEach(() => {
+        cardComponent = vdom.props.children;
+      });
+
+      it('should have an id ', () => {
+        cardComponent.props.id.should.be.equal( "mdl-map-card" );
+      });
+
+      it('should have a title', () => {
+        const cardTitle = cardComponent.props.children[0];
+        cardTitle.props.children.should.be.equal(sample.name);
+      });
+
+      it('should have a description', () => {
+        const cardDetails = cardComponent.props.children[1];
+        const cardDescription = cardDetails.props.children[0];
+        cardDescription.should.be.equal(sample.description);
+      });
     });
 
-    it('should have a title', () => {
-      const cardTitle = vdom.props.children[0];
-      cardTitle.props.children.should.be.equal(sample.name);
+    describe('state', () => {
+      it('should start not full screen', () => {
+          instance.state.fullScreen.should.not.be.true;
+      });
     });
 
-    it('should have a description', () => {
-      const cardTitle = vdom.props.children[1];
-      cardTitle.props.children.should.be.equal(sample.description);
+  });
+
+  describe('full screen', () => {
+
+    beforeEach(() => {
+      instance.setState({fullScreen:true});
     });
 
-  })
+    describe('render', () => {
+      let cardComponent;
+      beforeEach(() => {
+        cardComponent = vdom.props.children;
+      });
+
+      it('should have an id ', () => {
+        cardComponent.props.id.should.be.equal( "mdl-map-card" );
+      });
+
+      it('should have a title', () => {
+        const cardTitle = cardComponent.props.children[0];
+        cardTitle.props.children.should.be.equal(sample.name);
+      });
+
+      it('should have a description', () => {
+        const cardDetails = cardComponent.props.children[1];
+        const cardDescription = cardDetails.props.children[0];
+        cardDescription.should.be.equal(sample.description);
+      });
+    });
+
+    describe('state', () => {
+      it('should be full screen', () => {
+          instance.state.fullScreen.should.be.true;
+      });
+    });
+
+  });
 });
