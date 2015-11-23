@@ -2,7 +2,6 @@
   "name": "btdc",
   "version": "1.0.0",
   "description": "Bicycle touring digital companion",
-  "main": "index.js",
   "scripts": {
     "postinstall": "cordova platform add android browser & true",
     "format": "jscs www/ -x -r inline; true",
@@ -10,19 +9,26 @@
     "build": "browserify www/js/app.js -t babelify -o www/js/bundle.js",
     "postbuild": "npm run doc",
     "prestart": "npm run build",
-    "start": "cordova run android",
-    "test": "mocha --compilers js:babel/register --recursive"
+    "prestart:browser": "npm run prestart",
+    "prestart:android": "npm run prestart",
+    "start:browser": "cordova serve 8000",
+    "start:android": "cordova run android",
+    "start": "npm run start:android",
+    "test": "mocha --compilers js:babel/register --recursive",
+    "watch": "nodemon -e js,html,css --watch \"www\" --ignore \"www/js/bundle.js\" --exec \"npm run start:browser\"",
+    "livereload": "livereload \"platforms/browser/www/\"",
+    "dev": "parallelshell \"npm run watch\" \"npm run livereload\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bikelomatic-complexity/client-demo.git"
+    "url": "git+https://github.com/bikelomatic-complexity/app.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bikelomatic-complexity/client-demo/issues"
+    "url": "https://github.com/bikelomatic-complexity/app/issues"
   },
-  "homepage": "https://github.com/bikelomatic-complexity/client-demo#readme",
+  "homepage": "https://github.com/bikelomatic-complexity/app#readme",
   "dependencies": {
     "leaflet": "^0.7.5",
     "react": "^0.14.0",
@@ -41,7 +47,10 @@
     "cordova": "^5.3.3",
     "esdoc": "^0.4.1",
     "jscs": "^2.3.4",
+    "livereload": "^0.4.0",
     "mocha": "^2.3.4",
+    "nodemon": "^1.8.1",
+    "parallelshell": "^2.0.0",
     "react-addons-test-utils": "^0.14.2",
     "redux-devtools": "^2.1.5",
     "skin-deep": "^0.13.0"
