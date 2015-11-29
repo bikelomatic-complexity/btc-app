@@ -29,6 +29,10 @@ body {
     padding: 0px !important;
 }
 
+.amenities {
+    font-style: italic;
+}
+
 /* Get the bobbing motion for new markers */
 .leaflet-marker-icon .adding-point{
     position: relative;

@@ -129,10 +129,11 @@ class PointCard extends Component {
       cardDetails = (
         <div id="point-details">
           <CardText> {point.description} {timeDetails}</CardText>
-          <CardText> {point.type} </CardText>
-          {point.amenities.map((amenity) => {
-            return(<CardText>- {amenity}</CardText>)
-          })}
+          <CardText>
+            {point.type} <br/>
+            <span className="amenities"> {point.amenities.join(", ")} </span>
+          </CardText>
+
           <CardText> {point.phone} </CardText>
           <CardText> Visit <a href={point.website}>{point.website}</a> for more details </CardText>
           { seasonal ? <br/> : <CardText> these hours are seasonal (call or check online for more information) </CardText> }
