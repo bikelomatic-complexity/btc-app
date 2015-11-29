@@ -1,17 +1,27 @@
 import { combineReducers } from 'redux';
-import { SELECT_MARKER, DESELECT_MARKER } from '../actions/actions';
+import { SELECT_MARKER, PEEK_MARKER, DESELECT_MARKER, FULLSCREEN_MARKER } from '../actions/actions';
 
 function marker(state = {}, action) {
   switch (action.type) {
     case SELECT_MARKER:
       return {
         selectedMarker: action.marker,
-        showCard: true
+        showPointCard: 'peek'
+      };
+    case PEEK_MARKER:
+      return {
+        selectedMarker: state.selectedMarker,
+        showPointCard: 'peek'
       };
     case DESELECT_MARKER:
       return {
         selectedMarker: state.selectedMarker,
-        showCard: false
+        showPointCard: 'hide'
+      };
+    case FULLSCREEN_MARKER:
+      return {
+        selectedMarker: state.selectedMarker,
+        showPointCard: 'full'
       };
     default:
       return state;
