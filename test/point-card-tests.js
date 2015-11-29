@@ -8,7 +8,7 @@ import React from 'react';
 import sd from 'skin-deep';
 
 // import the component we'll be testing
-import PointCard from '../www/js/components/point-card';
+import { PointCard } from '../www/js/components/point-card';
 
 // import sample data for tests
 import { SamplePoints } from './mock-data';
@@ -17,35 +17,76 @@ import { SamplePoints } from './mock-data';
 // instance is the react component
 let vdom, instance, sample;
 
-beforeEach(() => {
-  sample = SamplePoints[0];
-  const tree = sd.shallowRender(
-    <PointCard
-      point={sample}
-      show={true}
-    />
-  );
+describe('PointCard', () => {
 
-  instance = tree.getMountedInstance();
-  vdom = tree.getRenderOutput();
-});
+  describe('peeked', () => {
 
-describe('the PointCard component', () => {
-  describe('render', () => {
+    beforeEach(() => {
+      sample = SamplePoints[0];
+      const tree = sd.shallowRender(
+        <PointCard
+          point={sample}
+          show={'peek'}
+        />
+      );
 
-    it('should have an id ', () => {
-      vdom.props.id.should.be.equal( "mdl-map-card" );
+      instance = tree.getMountedInstance();
+      vdom = tree.getRenderOutput();
     });
 
-    it('should have a title', () => {
-      const cardTitle = vdom.props.children[0];
-      cardTitle.props.children.should.be.equal(sample.name);
+    describe('render', () => {
+
+      it('should have an id ', () => {
+        vdom.props.id.should.be.equal( "mdl-map-card" );
+      });
+
+      it('should have a title', () => {
+        const cardTitle = vdom.props.children[0];
+        cardTitle.props.children.should.be.equal(sample.name);
+      });
+
+      it('should have a description', () => {
+        const cardDetails = vdom.props.children[1];
+        const cardDescription = cardDetails.props.children[0];
+        cardDescription.should.be.equal(sample.description);
+      });
     });
 
-    it('should have a description', () => {
-      const cardTitle = vdom.props.children[1];
-      cardTitle.props.children.should.be.equal(sample.description);
+  });
+
+  describe('full screen', () => {
+
+    beforeEach(() => {
+      sample = SamplePoints[0];
+      const tree = sd.shallowRender(
+        <PointCard
+          point={sample}
+          show={'full'}
+        />
+      );
+
+      instance = tree.getMountedInstance();
+      vdom = tree.getRenderOutput();
     });
 
-  })
+    describe('render', () => {
+
+      it('should have an id ', () => {
+        vdom.props.id.should.be.equal( "mdl-map-card" );
+      });
+
+      it('should have a title', () => {
+        const cardTitle = vdom.props.children[0];
+        cardTitle.props.children.should.be.equal(sample.name);
+      });
+
+      it('should have a description', () => {
+        const cardDetailsDiv = vdom.props.children[1];
+        const cardDescription = cardDetailsDiv.props.children[0];
+        const cardDescriptionText = cardDescription.props.children[1];
+        cardDescriptionText.should.be.equal(sample.description);
+      });
+    });
+
+  });
 });
