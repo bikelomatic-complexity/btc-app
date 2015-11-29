@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { render } from 'react-dom';
 
 import { Layout, Header, Drawer, Navigation, Content } from 'react-mdl';
 import MyMap from './my-map';

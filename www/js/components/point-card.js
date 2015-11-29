@@ -9,7 +9,8 @@ import { deselectMarker } from '../actions/actions';
 
 const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-class PointCard extends Component {
+// export class for testing (use default export in application)
+export class PointCard extends Component {
   constructor(props) {
     super(props);
     this.state = {

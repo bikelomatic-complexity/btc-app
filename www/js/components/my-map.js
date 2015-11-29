@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { render } from 'react-dom';
 
 // import leaflet components
 import * as leaflet from 'react-leaflet';
