@@ -6,7 +6,7 @@ import MyMap from './my-map';
 // import redux components
 import { connect } from 'react-redux';
 
-import PointCard from './point-card';
+import HammerPointCard from './hammer-point-card';
 
 class MainPage extends Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class MainPage extends Component {
             </Navigation>
           </Drawer>
           <MyMap services={this.props.services}/>
-          <PointCard point={selectedPoint} show={marker.showCard}/>
+          <HammerPointCard point={selectedPoint} show={marker.showPointCard}/>
         </Layout>
       </div>
     );
