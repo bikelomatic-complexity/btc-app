@@ -19,7 +19,7 @@ class MyMap extends Component {
     const { dispatch } = this.props;
     let markers = this.props.services.map((service) => {
       return (
-        <Marker key={service._id} radius={10} position={[service.lat, service.lon]}
+        <Marker key={service._id} radius={10} position={service.location}
           onclick={() => {
             dispatch(selectMarker(service));
           }}
@@ -27,7 +27,17 @@ class MyMap extends Component {
       );
     });
     let first = this.props.services[0];
-    let position = [first.lat, first.lon];
+    let position = first.location;
+
+    let alerts = this.props.alerts.map((alert) => {
+      return (
+        <Marker key={alert._id} radius={10} position={alert.location}
+          onclick={() => {
+            dispatch(selectMarker(alert));
+          }}
+        />
+      );
+    });
 
     return (
       <Map center={position} zoom={13}
@@ -40,6 +50,7 @@ class MyMap extends Component {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         { markers }
+        { alerts }
       </Map>
     );
   }

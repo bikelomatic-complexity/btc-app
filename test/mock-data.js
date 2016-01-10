@@ -4,14 +4,13 @@ export const SamplePoints = [
     name: 'Rochester Institute of Technology',
     description: 'Rochester Institute of Technology is a private university located within the town of Henrietta in the Rochester, New York metropolitan area. RIT is composed of nine academic colleges, including National Technical Institute for the Deaf.',
     type: 'School',
-    lat: 43.0848,
-    lon: -77.6744,
+    location: [43.0848, -77.6744],
     image: 'http://www.usnews.com/img/college-photo_3121._445x280-zmm.JPG',
     comments: [],
     dateCreated: '',
     flag: [],
     amenities: ["housing", "food and drinks", "medical center"],
-    hours: [
+    schedule: [
       {
         // default season listed first
         days: [

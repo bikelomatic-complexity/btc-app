@@ -31,7 +31,7 @@ class MainPage extends Component {
               <a href="">Filter</a>
             </Navigation>
           </Drawer>
-          <MyMap services={this.props.services}/>
+          <MyMap services={this.props.services} alerts={this.props.alerts}/>
           <HammerPointCard point={selectedPoint} show={marker.showPointCard}/>
         </Layout>
       </div>
