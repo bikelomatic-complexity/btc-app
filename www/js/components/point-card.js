@@ -58,18 +58,33 @@ export class PointCard extends Component {
       );
     }
 
+    // this logic is for points with hour / schedule information
+    // TODO: consider revising logic placement
     let point = this.props.point;
-    let day = this.getDays(point.schedule).filter(
-      (dayEle)=>{
-        return dayMap.indexOf(dayEle.day) == (new Date()).getDay();
-      })[0]; // get the day that matches today.
+    let seasonalDetails = <br/>;
+    let timeDetails = "";
+    let hoursDetails = "";
+    if (point.schedule){
+      let day = this.getDays(point.schedule).filter(
+        (dayEle)=>{
+          return dayMap.indexOf(dayEle.day) == (new Date()).getDay();
+        })[0]; // get the day that matches today.
 
-    // when is the service open
-    let timeDetails = (<span>{(day) ?
-        <span className="open-until"> Open until: {day.closes}</span>
-      :
-        <span className="open-until"> Not Open Today </span>
-      }</span>);
+      // when is the service open
+      timeDetails = (<span>{(day) ?
+          <span className="open-until"> Open until: {day.closes}</span>
+        :
+          <span className="open-until"> Not Open Today </span>
+        }</span>);
+
+        // is this point seasonal?
+        if (point.seasonal) {
+          seasonalDetails = <CardText> these hours are seasonal (call or check online for more information) </CardText>
+        }
+
+        // hours for service
+        hoursDetails = <HoursTable hours={this.getDays(point.schedule)}/>
+    }
 
     // small screen details
     let cardDetails = (
@@ -79,24 +94,30 @@ export class PointCard extends Component {
       </CardText>
     );
 
-    let seasonal = point.schedule.length > 1;
-
     // large screen details
     if (this.props.show=='full') {
-      cardDetails = (
-        <div id="point-details">
-          <CardText> {point.description} {timeDetails}</CardText>
-          <CardText>
-            {point.type} <br/>
-            <span className="amenities"> {point.amenities.join(", ")} </span>
-          </CardText>
+      if (point.type === 'alert') {
+        cardDetails = (
+          <div id="point-details">
+            <CardText> {point.description} </CardText>
+          </div>
+        );
+      } else {
+        cardDetails = (
+          <div id="point-details">
+            <CardText> {point.description} {timeDetails}</CardText>
+            <CardText>
+              {point.type} <br/>
+              <span className="amenities"> {point.amenities.join(", ")} </span>
+            </CardText>
 
-          <CardText> {point.phone} </CardText>
-          <CardText> Visit <a href={point.website}>{point.website}</a> for more details </CardText>
-          <HoursTable hours={this.getDays(point.schedule)}/>
-          { seasonal ? <br/> : <CardText> these hours are seasonal (call or check online for more information) </CardText> }
-        </div>
-      )
+            <CardText> {point.phone} </CardText>
+            <CardText> Visit <a href={point.website}>{point.website}</a> for more details </CardText>
+            { hoursDetails }
+            { seasonalDetails }
+          </div>
+        );
+      }
     }
 
     return (
@@ -107,7 +128,7 @@ export class PointCard extends Component {
           { seeButton }
           <Button colored onClick={() => {
             dispatch(deselectMarker());
-          }}>Dismiss</Button>
+          }}>Close</Button>
         </CardActions>
         <CardMenu style={{color: '#fff'}}>
             <IconButton name="share" />

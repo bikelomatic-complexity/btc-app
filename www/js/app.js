@@ -33,8 +33,8 @@ class App extends React.Component {
         alerts : [{
           _id: '0',
           name: 'Fire',
-          location: [43.0846, -77.6742],
-          type: 'Fire',
+          location: [43.0830, -77.6722],
+          type: 'alert',
           description: 'There is a fire in this location. Beware!',
           image: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Large_bonfire.jpg',
           comments: [],
@@ -129,7 +129,7 @@ class App extends React.Component {
   }
   render() {
     return (
-      <MainPage services={this.state.services} />
+      <MainPage services={this.state.services} alerts={this.state.alerts} />
     );
   }
 }
