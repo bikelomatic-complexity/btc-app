@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
-import { Layout, Header, Drawer, Navigation, Content } from 'react-mdl';
+import { Layout, Header, Content } from 'react-mdl';
+import ACDrawer from './ac-drawer';
 import MyMap from './my-map';
 
 // import redux components
@@ -8,7 +9,7 @@ import { connect } from 'react-redux';
 
 import HammerPointCard from './hammer-point-card';
 
-class MainPage extends Component {
+class MapPage extends Component {
   constructor(props) {
     super(props);
   }
@@ -23,14 +24,7 @@ class MainPage extends Component {
       <div>
         <Layout fixedHeader>
           <Header title="Adventure Cycling" />
-          <Drawer title="Menu">
-            <Navigation>
-              <a href="">Services</a>
-              <a href="">Points of Interest</a>
-              <a href="">Alerts</a>
-              <a href="">Filter</a>
-            </Navigation>
-          </Drawer>
+          <ACDrawer page="Map"/>
           <MyMap services={this.props.services} alerts={this.props.alerts}/>
           <HammerPointCard point={selectedPoint} show={marker.showPointCard}/>
         </Layout>
@@ -45,4 +39,4 @@ function select(state) {
   };
 }
 
-export default connect(select)(MainPage);
+export default connect(select)(MapPage);

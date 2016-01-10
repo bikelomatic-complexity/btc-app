@@ -7,7 +7,7 @@ import clientApp from './reducers/reducer';
 
 let store = createStore(clientApp);
 
-import MainPage from './components/main-page';
+import MapPage from './components/map-page';
 
 import rest from 'rest';
 import mime from 'rest/interceptor/mime';
@@ -129,7 +129,7 @@ class App extends React.Component {
   }
   render() {
     return (
-      <MainPage services={this.state.services} alerts={this.state.alerts} />
+      <MapPage services={this.state.services} alerts={this.state.alerts} />
     );
   }
 }

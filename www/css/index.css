@@ -33,6 +33,10 @@ body {
     font-style: italic;
 }
 
+.mdl-navigation__link.selected-page {
+    font-weight: bold;
+}
+
 /* Get the bobbing motion for new markers */
 .leaflet-marker-icon .adding-point{
     position: relative;
