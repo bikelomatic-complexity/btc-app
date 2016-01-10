@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import { Drawer, Navigation } from 'react-mdl';
+import { Link } from 'react-router';
 
 class ACDrawer extends Component {
   constructor(props) {
@@ -8,12 +9,12 @@ class ACDrawer extends Component {
   }
   render() {
     let pages = [
-      {link: "", title: "Map"},
+      {link: "/", title: "Map"},
       {link: "", title: "Services"},
       {link: "", title: "Points of Interest"},
       {link: "", title: "Alerts"},
       {link: "", title: "Filter"},
-      {link: "", title: "Add Point"}
+      {link: "add-point", title: "Add Point"}
     ];
 
     let navs = pages.map((page) => {
@@ -21,7 +22,7 @@ class ACDrawer extends Component {
       if (this.props.page == page.title) {
         classNames = "selected-page";
       }
-      return (<a key={page.title} className={classNames} href={page.link}>{page.title}</a>);
+      return (<Link key={page.title} className={classNames} to={page.link}>{page.title}</Link>);
     });
 
     return (

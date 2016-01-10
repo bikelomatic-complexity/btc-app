@@ -10,7 +10,7 @@ leaflet.setIconDefaultImagePath('img/icons');
 import { connect } from 'react-redux';
 import {selectMarker, deselectMarker} from '../actions/actions';
 
-class MyMap extends Component {
+class PointMap extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -56,4 +56,4 @@ class MyMap extends Component {
   }
 }
 
-export default connect()(MyMap);
+export default connect()(PointMap);
