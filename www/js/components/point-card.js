@@ -59,7 +59,7 @@ export class PointCard extends Component {
     }
 
     let point = this.props.point;
-    let day = this.getDays(point.hours).filter(
+    let day = this.getDays(point.schedule).filter(
       (dayEle)=>{
         return dayMap.indexOf(dayEle.day) == (new Date()).getDay();
       })[0]; // get the day that matches today.
@@ -79,7 +79,7 @@ export class PointCard extends Component {
       </CardText>
     );
 
-    let seasonal = point.hours.length > 1;
+    let seasonal = point.schedule.length > 1;
 
     // large screen details
     if (this.props.show=='full') {
@@ -93,7 +93,7 @@ export class PointCard extends Component {
 
           <CardText> {point.phone} </CardText>
           <CardText> Visit <a href={point.website}>{point.website}</a> for more details </CardText>
-          <HoursTable hours={this.getDays(point.hours)}/>
+          <HoursTable hours={this.getDays(point.schedule)}/>
           { seasonal ? <br/> : <CardText> these hours are seasonal (call or check online for more information) </CardText> }
         </div>
       )

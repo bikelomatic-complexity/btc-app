@@ -19,7 +19,7 @@ class MyMap extends Component {
     const { dispatch } = this.props;
     let markers = this.props.services.map((service) => {
       return (
-        <Marker key={service._id} radius={10} position={[service.lat, service.lon]}
+        <Marker key={service._id} radius={10} position={service.location}
           onclick={() => {
             dispatch(selectMarker(service));
           }}
@@ -27,7 +27,7 @@ class MyMap extends Component {
       );
     });
     let first = this.props.services[0];
-    let position = [first.lat, first.lon];
+    let position = first.location;
 
     return (
       <Map center={position} zoom={13}
