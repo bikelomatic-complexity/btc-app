@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Card, Button, Menu, MenuItem, Textfield, Checkbox } from 'react-mdl';
+import { Card, Button, Textfield, Checkbox } from 'react-mdl';
+import DropDown from './drop-down';
 import HoursTable from './hours-table';
 
 // import redux components
@@ -10,12 +11,13 @@ export class AddPointCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pointType: 'service',        // alert or service
-      type: '',             // place type
+      pointType: 'service', // alert or service
+      type: 'Type',         // place type
       description: '',      // description
       checkIn: false,       // mark if they were there or not
       img: '',              // image url
-      fullscreen: false     // should the card cover the map
+      fullscreen: false,    // should the card cover the map
+      typeMenu: false       // should the type menu be open
     }
   }
 
@@ -36,7 +38,28 @@ export class AddPointCard extends Component {
   }
 
   onCancel() {
+    this.setState({
+      pointType: 'service',
+      type: 'Type',
+      description: '',
+      checkIn: false,
+      img: '',
+      fullscreen: false,
+      typeMenu: false
+    });
+  }
 
+  onTypeSelect(type) {
+    this.setState({'type': type});
+    this.closeTypeMenu();
+  }
+
+  openTypeMenu() {
+    this.setState({'typeMenu': true});
+  }
+
+  closeTypeMenu() {
+    this.setState({'typeMenu': false});
   }
 
   render() {
@@ -72,9 +95,11 @@ export class AddPointCard extends Component {
     ].sort();
     serviceTypes.push('other'); // other should be last
 
-    let serviceOptions = serviceTypes.map((service)=> {
-      return <MenuItem key={service}>{service}</MenuItem>;
-    })
+    let dropDown = '';
+    if (this.state.typeMenu) {
+      dropDown = <DropDown  elements={serviceTypes}
+                            func={this.onTypeSelect.bind(this)}/>;
+    }
 
     if (this.state.fullscreen) {
       view = <div>
@@ -89,10 +114,10 @@ export class AddPointCard extends Component {
         <Button raised onClick={this.onLocationSelect.bind(this)}>
           Location {latLngString}
         </Button>
-        <Button raised id="menu-button">Menu</Button>
-        <Menu target="menu-button" align='left' valign='bottom'>
-          { serviceOptions }
-        </Menu>
+        <Button raised id="menu-button" onClick={this.openTypeMenu.bind(this)}>
+          {this.state.type}
+        </Button>
+        { dropDown }
         <Textfield rows={3} label="Description" />
         <Checkbox onChange={this.onCheckIn.bind(this)} label="Were you there?"/>
         <Button colored>Upload Photo</Button>
