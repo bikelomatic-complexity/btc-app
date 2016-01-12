@@ -4,7 +4,7 @@ import HoursTable from './hours-table';
 
 // import redux components
 import { connect } from 'react-redux';
-import { peekMarker, fullscreenMarker, deselectMarker } from '../actions/actions';
+import { peekMarker, fullscreenMarker, deselectMarker } from '../actions/map_actions';
 
 const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -34,9 +34,9 @@ export class PointCard extends Component {
       width: '100%',
       position: 'fixed',
       bottom: ( (this.props.show=='peek' || this.props.show=='full') ? '0px' : '-300px'),
-      height: ( (this.props.show=='full') ? 'calc(100% - '+ headerHeight +'px)' : smallHeight +'px'),
+      height: ( (this.props.show=='full') ? `calc(100% - ${headerHeight}px)` : smallHeight +'px'),
       transition: (this.props.heightOffset == 0 ? 'all 300ms ease' : ''),
-      'zIndex':'8'
+      zIndex:'8'
     }
 
     let cardTitleStyle = {
@@ -64,7 +64,7 @@ export class PointCard extends Component {
     let seasonalDetails = <br/>;
     let timeDetails = "";
     let hoursDetails = "";
-    if (point.schedule){
+    if (point.schedule && point.schedule.length > 0){
       let day = this.getDays(point.schedule).filter(
         (dayEle)=>{
           return dayMap.indexOf(dayEle.day) == (new Date()).getDay();
