@@ -12,10 +12,14 @@ import MainPage from './components/main-page';
 import rest from 'rest';
 import mime from 'rest/interceptor/mime';
 
+import PouchDB from 'pouchdb';
+import {pluck} from 'underscore';
+
 /**
  * @type {string} - server ip address
  */
-const server = '52.3.244.0';
+const server = '54.88.14.198';
+const port = '5984';
 
 /**
  * the App component fetches service data from the server and displays
@@ -29,6 +33,9 @@ class App extends React.Component {
    */
   constructor(props) {
     super(props);
+
+    this.db = new PouchDB(`http://${server}:${port}/points`);
+
     this.state = {
         alerts : [{
           _id: '0',
@@ -116,15 +123,10 @@ class App extends React.Component {
       };
   }
   componentDidMount() {
-    const client = rest.wrap(mime);
-    client({path: 'http://' + server + '/services'}).then(response => {
-      switch (response.status.code) {
-        case 200:
-          this.setState({services: response.entity});
-          break;
-        default:
-          console.error('Could not load services');
-      }
+    this.db.query('points/all_points', {
+      include_docs: true
+    }).then(result => {
+      this.setState({services: pluck(result.rows, 'doc'});
     });
   }
   render() {
