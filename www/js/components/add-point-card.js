@@ -63,10 +63,10 @@ export class AddPointCard extends Component {
   }
 
   render() {
+    const {lat, lng} = this.props.latlng;
+    const latLngString = `(${lat.toFixed(4)}, ${lng.toFixed(4)})`;
 
-    let latLngString = `(${this.props.latlng.join(',')})`;
-
-    let cardStyle = {
+    const cardStyle = {
       position: 'fixed',
       bottom: '0px',
       width: '100%',
@@ -82,10 +82,10 @@ export class AddPointCard extends Component {
       Add Point Here
     </Button>
 
-    let isService = (this.state.pointType === 'service');
-    let isAlert = (this.state.pointType === 'alert');
+    const isService = (this.state.pointType === 'service');
+    const isAlert = (this.state.pointType === 'alert');
 
-    let serviceTypes = [
+    const serviceTypes = [
       'bar', 'bed & breakfast', 'bike shop', 'campground',
       'convenience store', 'cyclists camping', 'cyclists lodging',
       'grocery', 'hostel', 'hotel/motel', 'library', 'rest area',

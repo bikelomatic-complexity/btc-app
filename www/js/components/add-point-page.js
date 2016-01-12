@@ -16,7 +16,7 @@ import HammerPointCard from './hammer-point-card';
 class AddPointPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {center: [43.0830, -77.6722]};
+    this.state = {center: {lat:43.0830, lng:-77.6722}};
   }
 
   onMapMoved(e) {
