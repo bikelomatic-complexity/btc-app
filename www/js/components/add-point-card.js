@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Card, Button, Menu, MenuItem } from 'react-mdl';
+import { Card, Button, Menu, MenuItem, Textfield, Checkbox } from 'react-mdl';
 import HoursTable from './hours-table';
 
 // import redux components
@@ -13,7 +13,7 @@ export class AddPointCard extends Component {
       pointType: 'service',        // alert or service
       type: '',             // place type
       description: '',      // description
-      checkin: false,       // mark if they were there or not
+      checkIn: false,       // mark if they were there or not
       img: '',              // image url
       fullscreen: false     // should the card cover the map
     }
@@ -29,6 +29,14 @@ export class AddPointCard extends Component {
 
   onAlertSelect() {
     this.setState({'pointType': 'alert'});
+  }
+
+  onCheckIn() {
+    this.setState({'checkIn': !this.state.checkIn});
+  }
+
+  onCancel() {
+
   }
 
   render() {
@@ -79,15 +87,17 @@ export class AddPointCard extends Component {
           Alert
         </Button>
         <Button raised onClick={this.onLocationSelect.bind(this)}>
-                Location {latLngString}
+          Location {latLngString}
         </Button>
         <Button raised id="menu-button">Menu</Button>
         <Menu target="menu-button" align='left' valign='bottom'>
           { serviceOptions }
         </Menu>
-
-
-
+        <Textfield rows={3} label="Description" />
+        <Checkbox onChange={this.onCheckIn.bind(this)} label="Were you there?"/>
+        <Button colored>Upload Photo</Button>
+        <Button colored raised>Submit</Button>
+        <Button onClick={this.onCancel.bind(this)}>Cancel</Button>
       </div>
     }
 
