@@ -21,7 +21,6 @@ class AddPointPage extends Component {
 
   onMapMoved(e) {
     this.setState({center: e.target.getCenter()});
-    console.log(e.target.getCenter());
   }
 
   render() {
@@ -40,7 +39,7 @@ class AddPointPage extends Component {
             <Marker position={this.state.center} radius={10}/>
           </Map>
 
-          <AddPointCard />
+          <AddPointCard latlng={this.state.center} />
         </Layout>
       </div>
     );
