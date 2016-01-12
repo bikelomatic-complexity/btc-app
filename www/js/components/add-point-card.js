@@ -62,6 +62,10 @@ export class AddPointCard extends Component {
     this.setState({'typeMenu': false});
   }
 
+  onDescriptionUpdate(newText) {
+    this.setState({'description': newText});
+  }
+
   render() {
     const {lat, lng} = this.props.latlng;
     const latLngString = `(${lat.toFixed(4)}, ${lng.toFixed(4)})`;
@@ -102,27 +106,49 @@ export class AddPointCard extends Component {
     }
 
     if (this.state.fullscreen) {
-      view = <div>
-        <Button primary={isService} colored={isService} raised
-                onClick={this.onServiceSelect.bind(this)}>
-          Service
-        </Button>
-        <Button accent={isAlert} colored={isAlert} raised
-                onClick={this.onAlertSelect.bind(this)}>
-          Alert
-        </Button>
-        <Button raised onClick={this.onLocationSelect.bind(this)}>
-          Location {latLngString}
-        </Button>
-        <Button raised id="menu-button" onClick={this.openTypeMenu.bind(this)}>
-          {this.state.type}
-        </Button>
+      view = <div className="form-column">
+        <div className="form-row">
+          <Button primary={isService} colored={isService} raised
+                  onClick={this.onServiceSelect.bind(this)}>
+            Service
+          </Button>
+          <Button accent={isAlert} colored={isAlert} raised
+                  onClick={this.onAlertSelect.bind(this)}>
+            Alert
+          </Button>
+        </div>
+        <div className="form-row">
+          <Button raised onClick={this.onLocationSelect.bind(this)}>
+            Location {latLngString}
+          </Button>
+        </div>
+        <div className="form-row">
+          <Button raised id="menu-button" onClick={this.openTypeMenu.bind(this)}>
+            {this.state.type}
+          </Button>
+        </div>
         { dropDown }
-        <Textfield rows={3} label="Description" />
-        <Checkbox onChange={this.onCheckIn.bind(this)} label="Were you there?"/>
-        <Button colored>Upload Photo</Button>
-        <Button colored raised>Submit</Button>
-        <Button onClick={this.onCancel.bind(this)}>Cancel</Button>
+        <div className="form-row">
+          <Textfield  rows={3} label="Description"
+                      onChange={this.onDescriptionUpdate.bind(this)}>
+            {this.state.description}
+          </Textfield>
+        </div>
+        <div className="form-row">
+          <Button colored={this.state.checkIn}
+                  raised onClick={this.onCheckIn.bind(this)}>
+            {this.state.checkIn ? "Checked In" : "Check In"}
+          </Button>
+        </div>
+        <div className="form-row">
+          <Button raised>Upload Photo</Button>
+        </div>
+        <div className="form-row">
+          <Button colored raised>Submit</Button>
+          <Button raised onClick={this.onCancel.bind(this)}>
+            Cancel
+          </Button>
+        </div>
       </div>
     }
 
