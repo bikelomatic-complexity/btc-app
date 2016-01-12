@@ -8,7 +8,7 @@ leaflet.setIconDefaultImagePath('img/icons');
 
 // import redux components
 import { connect } from 'react-redux';
-import {selectMarker, deselectMarker} from '../actions/actions';
+import {selectMarker, deselectMarker} from '../actions/map_actions';
 
 class PointMap extends Component {
   constructor(props) {
