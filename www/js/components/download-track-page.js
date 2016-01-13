@@ -21,19 +21,23 @@ class DownloadTrackPage extends Component {
     let modTracks = this.state.tracks;
     modTracks[trackId].downloading = true;
     let saving = setInterval(()=>{
-      if (!modTracks[trackId].downloading) {
+      if (modTracks[trackId].downloaded >= modTracks[trackId].downloadSize || (!modTracks[trackId].downloading)) {
+        modTracks[trackId].downloading = false;
+        this.setState({'tracks': modTracks});
         clearInterval(saving);
+      } else {
+        modTracks[trackId].downloaded++;
+        modTracks[trackId].downloading = true;
+        this.setState({'tracks': modTracks});
       }
-      modTracks[trackId].downloaded++;
-      modTracks[trackId].downloading = true;
-      this.setState({'tracks': modTracks});
     }, 50);
   }
 
-  stopTrack(trackId) {
+  cancelTrack(trackId) {
     let tracks = this.state.tracks;
     tracks[trackId].downloading = false;
     this.setState(tracks);
+    this.removeTrack(trackId);
   }
 
   removeTrack(trackId) {
@@ -46,8 +50,8 @@ class DownloadTrackPage extends Component {
     if (updateString == "Save") {
       this.saveTrack(trackId);
     }
-    else if (updateString == "Stop") {
-      this.stopTrack(trackId);
+    else if (updateString == "Cancel") {
+      this.cancelTrack(trackId);
     }
     else if (updateString == "Remove") {
       this.removeTrack(trackId);
@@ -60,18 +64,15 @@ class DownloadTrackPage extends Component {
       let track = this.state.tracks[trackId];
       let progressBar = <ProgressBar progress={(track.downloaded/track.downloadSize) * 100}/>
       if (track.downloading) {
-        downloadButtonText = "Stop";
+        downloadButtonText = "Cancel";
       }
       if (track.downloaded >= track.downloadSize){
         downloadButtonText = "Remove";
       }
       const isSave = downloadButtonText == "Save";
-      const isRemove = downloadButtonText == "Remove";
-      const isStop = downloadButtonText == "Stop";
       return (<div>
         <CardText> {track.name} </CardText>
-        <Button primary={isSave} accent={isRemove || isStop}
-                flat={isRemove} raised={isSave || isStop}
+        <Button primary={isSave} accent={!isSave} raised
                 onClick={this.trackDownload.bind(this,downloadButtonText,trackId)}>
             { downloadButtonText }
         </Button>
