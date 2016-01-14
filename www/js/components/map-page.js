@@ -7,6 +7,10 @@ import PointMap from './point-map';
 // import redux components
 import { connect } from 'react-redux';
 
+// import pouch library
+import ACPouch from '../ac-pouch';
+import {pluck} from 'underscore';
+
 import HammerPointCard from './hammer-point-card';
 
 class MapPage extends Component {
@@ -97,7 +101,18 @@ class MapPage extends Component {
           website: 'https://www.rochester.edu'
         }]
       };
+
   }
+
+  componentDidMount() {
+    let pouch = new ACPouch();
+    pouch.getPoints().query('points/all_points', {
+      include_docs: true
+    }).then(result => {
+      this.setState({services: pluck(result.rows, 'doc')});
+    });
+  }
+
   render() {
     const { marker } = this.props;
     let selectedPoint = this.state.services[0];
