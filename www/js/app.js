@@ -15,6 +15,7 @@ let store = createStore(clientApp);
 import MapPage from './components/map-page';
 import AddPointPage from './components/add-point-page';
 import Login from './components/login-page';
+import RegisterPage from './components/register-page';
 import DownloadTrackPage from './components/download-track-page';
 
 import rest from 'rest';
@@ -42,6 +43,7 @@ document.addEventListener('deviceready', () => {
         <Route path="/" component={App}>
           <IndexRoute component={MapPage}/>
           <Route path="/login" component={Login}/>
+          <Route path="/register" component={RegisterPage}/>
           <Route path="/add-point" component={AddPointPage}/>
           <Route path="/download-track" component={DownloadTrackPage}/>
         </Route>
