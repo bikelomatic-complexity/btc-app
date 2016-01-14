@@ -19,8 +19,8 @@ class DeviceStorage extends Component {
     return (
       <div>
         <div className="form-row">
-          <CardText style={{'font-size':'2em','font-weight':'bold'}}> Storage </CardText>
-          <div className="form-column">
+          <CardText style={{fontSize:'2em',fontWeight:'bold'}}> Storage </CardText>
+          <div>
             <div> { this.makeBlock({width:'1em',background:'gray'}) } Other Apps </div>
             <div> { this.makeBlock({width:'1em',background:'#3f51b5'}) } Adventure Cycling </div>
             <div> { this.makeBlock({width:'1em',background:'lightgray'}) }  Free Space </div>
