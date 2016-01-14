@@ -8,25 +8,15 @@ class FilterDropDown extends Component {
   constructor(props) {
     super(props);
     const { filterService } = this.props;
-    this.state = {activeFilter: filterService, showOptions: false};
-  }
-
-  toggleOptions() {
-    this.setState({showOptions:!this.state.showOptions});
-  }
-
-  updateFilter(activeFilter) {
-    this.props.updateFunction(this.props.index, activeFilter);
-    this.setState({activeFilter});
-    this.toggleOptions();
+    this.state = {activeFilter: filterService};
   }
 
   render() {
-    const { filters, removeFunction} = this.props;
+    const { filters, removeFunction, updateFunction } = this.props;
     return (
       <div>
         <div className="form-row">
-          <Button style={{flex:5}} raised onClick={this.toggleOptions.bind(this)}> {this.state.activeFilter} </Button>
+          <Button style={{flex:5}} raised onClick={updateFunction}> {this.state.activeFilter} </Button>
           <Button raised accent onClick={removeFunction}> X </Button>
         </div>
       </div>

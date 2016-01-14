@@ -17,27 +17,33 @@ class FilterPage extends Component {
       'airport', 'scenic area', 'hot spring', 'outdoor store',
       'cabin', 'other'
     ].sort();
-    this.state = {filters, activeFilters:[], open:false, alert:false, showOptions: false};
+    this.state = {filters, activeFilters:[], open:false, alert:false, showOptions: -1};
   }
 
   addFilter(service) {
+    console.log('addFilter')
     const activeFilters = this.state.activeFilters;
     const filters = this.state.filters;
     activeFilters.push(service);
     filters.splice(filters.indexOf(service),1);
     this.setState({activeFilters, filters});
-    this.toggleOptions();
+    this.toggleOptions(-1);
   }
 
   updateFilter(index, service) {
-    const activeFilters = this.state.activeFilters;
+    console.log('updateFilter',index)
+    const { activeFilters, filters } = this.state;
+    const oldFilter = activeFilters[index];
+    filters.splice(filters.indexOf(service),1);
     activeFilters[index] = service;
+    filters.push(oldFilter);
+    filters.sort();
     this.setState({activeFilters});
+    this.toggleOptions(-1);
   }
 
   removeFilter(index) {
-    const activeFilters = this.state.activeFilters;
-    const filters = this.state.filters;
+    const { activeFilters, filters } = this.state;
     const service = activeFilters.splice(index,1);
     filters.push(service);
     filters.sort();
@@ -53,11 +59,12 @@ class FilterPage extends Component {
       'airport', 'scenic area', 'hot spring', 'outdoor store',
       'cabin', 'other'
     ].sort();
-    this.setState({filters, activeFilters:[], open:false, alert:false, showOptions: false});
+    this.setState({filters, activeFilters:[], open:false, alert:false, showOptions: -1});
   }
 
-  toggleOptions() {
-    this.setState({showOptions:!this.state.showOptions});
+  toggleOptions({index=-1}) {
+    console.log(index)
+    this.setState({showOptions:index});
   }
 
   render() {
@@ -65,13 +72,17 @@ class FilterPage extends Component {
       return (
         <FilterDropDown key={filterService} index={index} filters={this.state.filters}
                         filterService={filterService}
-                        updateFunction={this.updateFilter.bind(this)}
+                        updateFunction={this.toggleOptions.bind(this, {index})}
                         removeFunction={this.removeFilter.bind(this, index)}/>
       )
     });
     let dropDown = '';
-    if (this.state.showOptions) {
-      dropDown = (<DropDown elements={this.state.filters} func={this.addFilter.bind(this)}/>);
+    if (this.state.showOptions >= 0) {
+      let func = this.addFilter.bind(this);
+      if (this.state.showOptions < this.state.activeFilters.length) {
+        func = this.updateFilter.bind(this,this.state.showOptions);
+      }
+      dropDown = (<DropDown elements={this.state.filters} func={func}/>);
     }
 
     return (
@@ -87,7 +98,7 @@ class FilterPage extends Component {
             { filtersDropDowns }
 
             <div className="form-row">
-              <Button colored raised onClick={this.toggleOptions.bind(this)}> Add Filter </Button>
+              <Button colored raised onClick={this.toggleOptions.bind(this,{index:this.state.activeFilters.length})}> Add Filter </Button>
             </div>
 
             { dropDown }
