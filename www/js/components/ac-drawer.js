@@ -14,7 +14,8 @@ class ACDrawer extends Component {
       {link: "", title: "Points of Interest"},
       {link: "", title: "Alerts"},
       {link: "", title: "Filter"},
-      {link: "add-point", title: "Add Point"}
+      {link: "add-point", title: "Add Point"},
+      {link: "download-track", title: "Download Track"}
     ];
 
     let navs = pages.map((page) => {
