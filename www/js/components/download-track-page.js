@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
 
 import { Layout, Header, Content, CardText, ProgressBar, Button } from 'react-mdl';
+import DeviceStorage from './device-storage';
 import ACDrawer from './ac-drawer';
 
 class DownloadTrackPage extends Component {
   constructor(props) {
     super(props);
     this.state = {'tracks':{
-      1: { name:'track1', url:'', downloadSize:807, downloading:false, downloaded:0, subtracks: [1,2]},
-      2: { name:'track2', url:'', downloadSize:255, downloading:false, downloaded:0 },
-      3: { name:'track3', url:'', downloadSize:552, downloading:false, downloaded:0 },
-      4: { name:'track4', url:'', downloadSize:707, downloading:false, downloaded:0, subtracks: [5,6]},
-      5: { name:'track5', url:'', downloadSize:555, downloading:false, downloaded:0 },
-      6: { name:'track6', url:'', downloadSize:152, downloading:false, downloaded:0 }
+      1: { name:'Track 01', description:'This track is so excellent!', url:'', downloadSize:35210000, downloading:false, downloaded:0, subtracks: [1,2]},
+      2: { name:'Track 02', description:'This track is so excellent!', url:'', downloadSize:25340500, downloading:false, downloaded:0 },
+      3: { name:'Track 03', description:'This track is so excellent!', url:'', downloadSize:26467100, downloading:false, downloaded:0 },
+      4: { name:'Track 04', description:'This track is so excellent!', url:'', downloadSize:35210000, downloading:false, downloaded:0, subtracks: [5,6]},
+      5: { name:'Track 05', description:'This track is so excellent!', url:'', downloadSize:25340510, downloading:false, downloaded:0 },
+      6: { name:'Track 06', description:'This track is so excellent!', url:'', downloadSize:26467100, downloading:false, downloaded:0 }
     }}
   }
 
@@ -26,7 +27,7 @@ class DownloadTrackPage extends Component {
         this.setState({'tracks': modTracks});
         clearInterval(saving);
       } else {
-        modTracks[trackId].downloaded++;
+        modTracks[trackId].downloaded = modTracks[trackId].downloaded + (modTracks[trackId].downloadSize / 300);
         modTracks[trackId].downloading = true;
         this.setState({'tracks': modTracks});
       }
@@ -70,23 +71,26 @@ class DownloadTrackPage extends Component {
         downloadButtonText = "Remove";
       }
       const isSave = downloadButtonText == "Save";
-      return (<div>
-        <CardText> {track.name} </CardText>
-        <Button primary={isSave} accent={!isSave} raised
-                onClick={this.trackDownload.bind(this,downloadButtonText,trackId)}>
-            { downloadButtonText }
-        </Button>
-        { progressBar }
+      return (<div className="form-column">
+        <div className="form-row">
+          <CardText> {track.name} </CardText>
+          <Button primary={isSave} accent={!isSave} raised
+                  onClick={this.trackDownload.bind(this,downloadButtonText,trackId)}>
+              { `${downloadButtonText} (${(track.downloadSize / 1000000).toFixed(0)}MB)` }
+          </Button>
+        </div>
+        <div className="form-row">
+          { progressBar }
+        </div>
       </div>);
     });
     return (
-      <div className="adding-point">
-        <Layout fixedHeader>
-          <Header title="Save Track to Phone"/>
-          <ACDrawer page="Download Tracks"/>
-          { tracks }
-        </Layout>
-      </div>
+      <Layout fixedHeader>
+        <Header title="Save Track to Phone"/>
+        <ACDrawer page="Download Tracks"/>
+        <DeviceStorage/>
+        { tracks }
+      </Layout>
     );
   }
 }
