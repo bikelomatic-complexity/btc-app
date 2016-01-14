@@ -28,8 +28,24 @@ export class PointCard extends Component {
   render() {
     const { dispatch } = this.props;
 
+    // if we have an image, use that
+    // otherwise, use an mdl-blue for the title,
+    // and make the card a bit smaller
+    let backgroundStyle;
+    let titleHeight;
+    let smallHeight;
+    if (this.props.point.image) {
+        backgroundStyle = `url(${this.props.point.image}) center / cover`;
+        titleHeight = '176px';
+        smallHeight = 300 - this.props.heightOffset;
+    }
+    else {
+        backgroundStyle = '#3f51b5';
+        titleHeight = '100px';
+        smallHeight = 224 - this.props.heightOffset;
+    }
+
     let headerHeight = Math.max(55,  55 + this.props.heightOffset);
-    let smallHeight = 300 - this.props.heightOffset;
     let cardStyle = {
       width: '100%',
       position: 'fixed',
@@ -41,8 +57,8 @@ export class PointCard extends Component {
 
     let cardTitleStyle = {
       color: '#fff',
-      height: '176px',
-      background: 'url(' + this.props.point.image + ') center / cover'
+      height: titleHeight,
+      background: backgroundStyle
     }
 
     let seeButton = (
