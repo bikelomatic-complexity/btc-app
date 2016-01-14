@@ -6,12 +6,7 @@ import PointMap from './point-map';
 import AddPointCard from './add-point-card';
 
 // import leaflet components
-import { Marker, Popup, Map, TileLayer } from 'react-leaflet';
-
-// import redux components
-import { connect } from 'react-redux';
-
-import HammerPointCard from './hammer-point-card';
+import { Marker, Map, TileLayer } from 'react-leaflet';
 
 class AddPointPage extends Component {
   constructor(props) {
