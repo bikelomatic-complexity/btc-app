@@ -1,15 +1,11 @@
 .form-column {
-  display: flex;
-  flex-direction: column;
-  align-content: space-around;
+  margin: auto 0px;
+  overflow-y: auto;
 }
 
 .form-row {
   flex: 1;
-
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
 }
 
 .form-row > * {

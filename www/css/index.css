@@ -21,7 +21,7 @@ body {
 }
 
 #point-details {
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .view-button {
