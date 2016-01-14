@@ -60,6 +60,7 @@ class DownloadTrackPage extends Component {
   }
 
   render() {
+    const scrollStyle = {'overflow-y':'scroll'};
     const tracks = Object.keys(this.state.tracks).map((trackId)=>{
       let downloadButtonText = "Save";
       let track = this.state.tracks[trackId];
@@ -89,7 +90,9 @@ class DownloadTrackPage extends Component {
         <Header title="Save Track to Phone"/>
         <ACDrawer page="Download Tracks"/>
         <DeviceStorage/>
-        { tracks }
+        <div style={scrollStyle}>
+          { tracks }
+        </div>
       </Layout>
     );
   }
