@@ -9,6 +9,7 @@ class ACDrawer extends Component {
   }
   render() {
     let pages = [
+      {link: "login", title: "Login"},
       {link: "/", title: "Map"},
       {link: "", title: "Services"},
       {link: "", title: "Points of Interest"},
