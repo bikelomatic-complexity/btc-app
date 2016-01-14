@@ -14,6 +14,7 @@ let store = createStore(clientApp);
 // pages to render for different routes
 import MapPage from './components/map-page';
 import AddPointPage from './components/add-point-page';
+import Login from './components/login-page';
 
 import rest from 'rest';
 import mime from 'rest/interceptor/mime';
@@ -39,6 +40,7 @@ document.addEventListener('deviceready', () => {
       <Router history={browserHistory}>
         <Route path="/" component={App}>
           <IndexRoute component={MapPage}/>
+          <Route path="/login" component={Login}/>
           <Route path="/add-point" component={AddPointPage}/>
         </Route>
       </Router>
