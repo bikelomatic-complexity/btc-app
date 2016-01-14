@@ -14,7 +14,7 @@ class ACDrawer extends Component {
       {link: "", title: "Services"},
       {link: "", title: "Points of Interest"},
       {link: "", title: "Alerts"},
-      {link: "", title: "Filter"},
+      {link: "filter", title: "Filter"},
       {link: "add-point", title: "Add Point"},
       {link: "download-track", title: "Download Track"}
     ];
