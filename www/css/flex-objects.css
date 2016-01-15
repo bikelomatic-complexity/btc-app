@@ -2,14 +2,18 @@
   display: flex;
   flex-direction: column;
   align-content: space-around;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .form-row {
   flex: 1;
-  
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+}
+
+.form-row:last-child {
+  margin-top: auto;
+  margin-bottom: 10px;
 }
 
 .form-row > * {

@@ -130,8 +130,8 @@ export class AddPointCard extends Component {
         { dropDown }
         <div className="form-row">
           <Textfield  rows={3} label="Description"
-                      onChange={this.onDescriptionUpdate.bind(this)}>
-            {this.state.description}
+                      onChange={this.onDescriptionUpdate.bind(this)}
+                      value={this.state.description}>
           </Textfield>
         </div>
         <div className="form-row">

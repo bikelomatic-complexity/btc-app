@@ -9,14 +9,14 @@ class ACDrawer extends Component {
   }
   render() {
     let pages = [
-      {link: "login", title: "Login"},
       {link: "/", title: "Map"},
       {link: "", title: "Services"},
       {link: "", title: "Points of Interest"},
       {link: "", title: "Alerts"},
       {link: "filter", title: "Filter"},
       {link: "add-point", title: "Add Point"},
-      {link: "download-track", title: "Download Track"}
+      {link: "download-track", title: "Download Track"},
+      {link: "login", title: "Login"}
     ];
 
     let navs = pages.map((page) => {

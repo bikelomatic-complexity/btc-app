@@ -60,7 +60,6 @@ class DownloadTrackPage extends Component {
   }
 
   render() {
-    const scrollStyle = {'overflow-y':'scroll'};
     const tracks = Object.keys(this.state.tracks).map((trackId)=>{
       let downloadButtonText = "Save";
       let track = this.state.tracks[trackId];
@@ -72,25 +71,27 @@ class DownloadTrackPage extends Component {
         downloadButtonText = "Remove";
       }
       const isSave = downloadButtonText == "Save";
-      return (<div className="form-column">
-        <div className="form-row">
-          <CardText> {track.name} </CardText>
-          <Button primary={isSave} accent={!isSave} raised
-                  onClick={this.trackDownload.bind(this,downloadButtonText,trackId)}>
-              { `${downloadButtonText} (${(track.downloadSize / 1000000).toFixed(0)}MB)` }
-          </Button>
+      return (
+        <div key={trackId}>
+          <div className="form-row">
+            <CardText> {track.name} </CardText>
+            <Button primary={isSave} accent={!isSave} raised
+                    onClick={this.trackDownload.bind(this,downloadButtonText,trackId)}>
+                { `${downloadButtonText} (${(track.downloadSize / 1000000).toFixed(0)}MB)` }
+            </Button>
+          </div>
+          <div className="form-row">
+            { progressBar }
+          </div>
         </div>
-        <div className="form-row">
-          { progressBar }
-        </div>
-      </div>);
+      );
     });
     return (
       <Layout fixedHeader>
         <Header title="Save Track to Phone"/>
-        <ACDrawer page="Download Tracks"/>
-        <DeviceStorage/>
-        <div style={scrollStyle}>
+        <ACDrawer page="Download Track"/>
+        <div className="form-column">
+          <DeviceStorage/>
           { tracks }
         </div>
       </Layout>

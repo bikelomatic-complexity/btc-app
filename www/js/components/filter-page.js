@@ -93,14 +93,13 @@ class FilterPage extends Component {
       }
       dropDown = (<DropDown elements={this.state.filters} func={func}/>);
     }
-    const scrollStyle = {'overflowY':'scroll'};
 
     return (
       <div>
         <Layout fixedHeader>
           <Header title="Filter Points"/>
           <ACDrawer page="Filter"/>
-          <div style={scrollStyle} className="form-column">
+          <div className="form-column">
 
             { filtersDropDowns }
 

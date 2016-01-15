@@ -14,10 +14,6 @@ class LoginPage extends Component {
       display: 'block',
       margin: 'auto'
     }
-    const centerValign = {
-      margin: 'auto 0px',
-      overflowY: 'scroll'
-    }
     const centerText = {
       textAlign: 'center'
     }
@@ -26,9 +22,9 @@ class LoginPage extends Component {
         <Layout fixedHeader>
           <Header title="Login"/>
           <ACDrawer page="Login"/>
-          <div style={centerValign}>
+          <div className="form-column">
             <img style={imgStyle} src="./img/advc.png"/>
-            <div className="form-column">
+            <div>
               <div className="form-row">
                 <Textfield label="Email..."/>
               </div>
