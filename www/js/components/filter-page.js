@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { Layout, Header, CardText, Textfield, Button } from 'react-mdl';
+import { Layout, Header, CardText, Checkbox, Textfield, Button } from 'react-mdl';
 
 import ACDrawer from './ac-drawer';
 import DropDown from './drop-down';
@@ -17,11 +17,10 @@ class FilterPage extends Component {
       'airport', 'scenic area', 'hot spring', 'outdoor store',
       'cabin', 'other'
     ].sort();
-    this.state = {filters, activeFilters:[], open:false, alert:false, showOptions: -1};
+    this.state = {filters, activeFilters:[], openServices:false, alert:false, showOptions: -1};
   }
 
   addFilter(service) {
-    console.log('addFilter')
     const activeFilters = this.state.activeFilters;
     const filters = this.state.filters;
     activeFilters.push(service);
@@ -31,7 +30,6 @@ class FilterPage extends Component {
   }
 
   updateFilter(index, service) {
-    console.log('updateFilter',index)
     const { activeFilters, filters } = this.state;
     const oldFilter = activeFilters[index];
     filters.splice(filters.indexOf(service),1);
@@ -59,12 +57,23 @@ class FilterPage extends Component {
       'airport', 'scenic area', 'hot spring', 'outdoor store',
       'cabin', 'other'
     ].sort();
-    this.setState({filters, activeFilters:[], open:false, alert:false, showOptions: -1});
+    this.setState({filters, activeFilters:[], openServices:false, alert:false, showOptions: -1});
   }
 
   toggleOptions({index=-1}) {
-    console.log(index)
+    // do not toggle options if there are no options left
+    if (this.state.filters.length < 1) {
+      index = -1;
+    }
     this.setState({showOptions:index});
+  }
+
+  toggleOpenServices() {
+    this.setState({openServices:(!this.state.openServices)})
+  }
+
+  toggleAlert() {
+    this.setState({alert:(!this.state.alert)})
   }
 
   render() {
@@ -84,35 +93,44 @@ class FilterPage extends Component {
       }
       dropDown = (<DropDown elements={this.state.filters} func={func}/>);
     }
+    const scrollStyle = {'overflowY':'scroll'};
 
     return (
       <div>
         <Layout fixedHeader>
           <Header title="Filter Points"/>
           <ACDrawer page="Filter"/>
-          <div className="form-column">
-            <div className="form-row">
-              <CardText> Types to Display </CardText>
-            </div>
+          <div style={scrollStyle} className="form-column">
 
             { filtersDropDowns }
 
             <div className="form-row">
-              <Button colored raised onClick={this.toggleOptions.bind(this,{index:this.state.activeFilters.length})}> Add Filter </Button>
+              <Button colored raised
+                      onClick={this.toggleOptions.bind(this,{index:this.state.activeFilters.length})}
+                      disabled={this.state.filters.length < 1}>
+                Add Filter
+              </Button>
             </div>
 
             { dropDown }
 
             <div className="form-row">
-              <CardText> Display Open Services? </CardText>
+              <Checkbox label="Display Open Services?"
+                        onChange={this.toggleOpenServices.bind(this)}
+                        checked={this.state.openServices}/>
             </div>
+
             <div className="form-row">
-              <CardText> Hide Alerts </CardText>
+              <Checkbox label="Hide Alerts"
+                        onChange={this.toggleAlert.bind(this)}
+                        checked={this.state.alert}/>
             </div>
+
             <div className="form-row">
               <Button raised accent onClick={this.clearFilters.bind(this)}> Clear </Button>
               <Button raised colored> Filter </Button>
             </div>
+
           </div>
         </Layout>
       </div>
