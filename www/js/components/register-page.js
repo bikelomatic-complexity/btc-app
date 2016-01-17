@@ -39,10 +39,10 @@ class RegisterPage extends Component {
             <Textfield type="password" label="Confirm Password"/>
           </div>
           <div className="form-row">
-            <Button colored raised>Submit</Button>
             <Button raised onClick={this.onCancel.bind(this)}>
               Cancel
             </Button>
+            <Button colored raised>Submit</Button>
           </div>
         </div>
       </Layout>

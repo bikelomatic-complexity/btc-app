@@ -144,10 +144,10 @@ export class AddPointCard extends Component {
           <Button raised>Upload Photo</Button>
         </div>
         <div className="form-row">
-          <Button colored raised>Submit</Button>
           <Button raised onClick={this.onCancel.bind(this)}>
             Cancel
           </Button>
+          <Button colored raised>Submit</Button>
         </div>
       </div>
     }
