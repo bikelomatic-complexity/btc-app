@@ -121,14 +121,12 @@ class MapPage extends Component {
     }
 
     return (
-      <div>
-        <Layout fixedHeader>
-          <Header title="Adventure Cycling" />
-          <ACDrawer page="Map"/>
-          <PointMap services={this.state.services} alerts={this.state.alerts}/>
-          <HammerPointCard point={selectedPoint} show={marker.showPointCard}/>
-        </Layout>
-      </div>
+      <Layout fixedHeader>
+        <Header title="Adventure Cycling" />
+        <ACDrawer page="Map"/>
+        <PointMap services={this.state.services} alerts={this.state.alerts}/>
+        <HammerPointCard point={selectedPoint} show={marker.showPointCard}/>
+      </Layout>
     );
   }
 }

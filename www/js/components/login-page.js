@@ -19,36 +19,34 @@ class LoginPage extends Component {
       textAlign: 'center'
     }
     return (
-      <div>
-        <Layout fixedHeader>
-          <Header title="Login"/>
-          <ACDrawer page="Login"/>
-          <div className="form-column">
-            <img style={imgStyle} src="./img/advc.png"/>
-            <div>
-              <div className="form-row">
-                <Textfield label="Email..."/>
-              </div>
-              <div className="form-row">
-                <Textfield type="password" label="Password"/>
-              </div>
-              <div className="form-row">
-                <Button raised colored> Log In </Button>
-              </div>
-              <div className="form-row">
-                <div style={centerText}>
-                  <CardText>
-                    <Link to="register">Sign Up</Link> for Adventure Cycling
-                  </CardText>
-                  <CardText>
-                    <a>Forgot Password?</a>
-                  </CardText>
-                </div>
+      <Layout fixedHeader>
+        <Header title="Login"/>
+        <ACDrawer page="Login"/>
+        <div className="form-column">
+          <img style={imgStyle} src="./img/advc.png"/>
+          <div>
+            <div className="form-row">
+              <Textfield label="Email..."/>
+            </div>
+            <div className="form-row">
+              <Textfield type="password" label="Password"/>
+            </div>
+            <div className="form-row">
+              <Button raised colored> Log In </Button>
+            </div>
+            <div className="form-row">
+              <div style={centerText}>
+                <CardText>
+                  <Link to="register">Sign Up</Link> for Adventure Cycling
+                </CardText>
+                <CardText>
+                  <a>Forgot Password?</a>
+                </CardText>
               </div>
             </div>
           </div>
-        </Layout>
-      </div>
+        </div>
+      </Layout>
     );
   }
 }
