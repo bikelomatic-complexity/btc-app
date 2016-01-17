@@ -95,44 +95,42 @@ class FilterPage extends Component {
     }
 
     return (
-      <div>
-        <Layout fixedHeader>
-          <Header title="Filter Points"/>
-          <ACDrawer page="Filter"/>
-          <div className="form-column">
+      <Layout fixedHeader>
+        <Header title="Filter Points"/>
+        <ACDrawer page="Filter"/>
+        <div className="form-column">
 
-            { filtersDropDowns }
+          { filtersDropDowns }
 
-            <div className="form-row">
-              <Button colored raised
-                      onClick={this.toggleOptions.bind(this,{index:this.state.activeFilters.length})}
-                      disabled={this.state.filters.length < 1}>
-                Add Filter
-              </Button>
-            </div>
-
-            { dropDown }
-
-            <div className="form-row">
-              <Checkbox label="Display Open Services?"
-                        onChange={this.toggleOpenServices.bind(this)}
-                        checked={this.state.openServices}/>
-            </div>
-
-            <div className="form-row">
-              <Checkbox label="Hide Alerts"
-                        onChange={this.toggleAlert.bind(this)}
-                        checked={this.state.alert}/>
-            </div>
-
-            <div className="form-row">
-              <Button raised accent onClick={this.clearFilters.bind(this)}> Clear </Button>
-              <Button raised colored> Filter </Button>
-            </div>
-
+          <div className="form-row">
+            <Button colored raised
+                    onClick={this.toggleOptions.bind(this,{index:this.state.activeFilters.length})}
+                    disabled={this.state.filters.length < 1}>
+              Add Filter
+            </Button>
           </div>
-        </Layout>
-      </div>
+
+          { dropDown }
+
+          <div className="form-row">
+            <Checkbox label="Display Open Services?"
+                      onChange={this.toggleOpenServices.bind(this)}
+                      checked={this.state.openServices}/>
+          </div>
+
+          <div className="form-row">
+            <Checkbox label="Hide Alerts"
+                      onChange={this.toggleAlert.bind(this)}
+                      checked={this.state.alert}/>
+          </div>
+
+          <div className="form-row">
+            <Button raised accent onClick={this.clearFilters.bind(this)}> Clear </Button>
+            <Button raised colored> Filter </Button>
+          </div>
+
+        </div>
+      </Layout>
     );
   }
 }

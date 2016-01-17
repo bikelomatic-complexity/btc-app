@@ -31,22 +31,22 @@ class AddPointPage extends Component {
   render() {
 
     return (
-      <div className="adding-point">
-        <Layout fixedHeader>
-          <Header title="Choose a Location"/>
-          <ACDrawer page="Add Point"/>
+      <Layout fixedHeader>
+        <Header title="Choose a Location"/>
+        <ACDrawer page="Add Point"/>
 
-          <Map center={this.state.startCenter} zoom={13} onLeafletDrag={this.onMapMoved.bind(this)}>
-            <TileLayer
-              url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Marker position={this.state.center} radius={10}/>
-          </Map>
+        <Map  className="adding-point"
+              center={this.state.startCenter} zoom={13}
+              onLeafletDrag={this.onMapMoved.bind(this)}>
+          <TileLayer
+            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <Marker position={this.state.center} radius={10}/>
+        </Map>
 
-          <AddPointCard latlng={this.state.center} />
-        </Layout>
-      </div>
+        <AddPointCard latlng={this.state.center} />
+      </Layout>
     );
   }
 }
