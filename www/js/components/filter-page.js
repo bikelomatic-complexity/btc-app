@@ -125,7 +125,7 @@ class FilterPage extends Component {
           </div>
 
           <div className="form-row">
-            <Button raised accent onClick={this.clearFilters.bind(this)}> Clear </Button>
+            <Button onClick={this.clearFilters.bind(this)}> Clear </Button>
             <Button raised colored> Filter </Button>
           </div>
 
