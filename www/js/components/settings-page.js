@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import { Layout, Header, CardText, Button } from 'react-mdl';
 
 import ACDrawer from './ac-drawer';
