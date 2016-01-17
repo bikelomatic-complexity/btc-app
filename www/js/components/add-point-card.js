@@ -123,7 +123,8 @@ export class AddPointCard extends Component {
           </Button>
         </div>
         <div className="form-row">
-          <Button raised id="menu-button" onClick={this.openTypeMenu.bind(this)}>
+          <Button raised id="menu-button"
+                  onClick={this.openTypeMenu.bind(this)}>
             {this.state.type}
           </Button>
         </div>
