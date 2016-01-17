@@ -17,12 +17,16 @@ export class AddPointCard extends Component {
       checkIn: false,       // mark if they were there or not
       img: '',              // image url
       fullscreen: false,    // should the card cover the map
-      typeMenu: false       // should the type menu be open
+      typeMenu: false,       // should the type menu be open
+      addMessage: 'Add Point Here' // message to show on adding a point
     }
   }
 
   onLocationSelect() {
-    this.setState({'fullscreen': !this.state.fullscreen});
+    this.setState({
+      'fullscreen': !this.state.fullscreen,
+      'addMessage': 'Set New Location'
+    });
   }
 
   onServiceSelect() {
@@ -45,7 +49,8 @@ export class AddPointCard extends Component {
       checkIn: false,
       img: '',
       fullscreen: false,
-      typeMenu: false
+      typeMenu: false,
+      addMessage: 'Add Point Here'
     });
   }
 
@@ -83,7 +88,7 @@ export class AddPointCard extends Component {
     }
 
     let view = <Button colored onClick={this.onLocationSelect.bind(this)}>
-      Add Point Here
+      { this.state.addMessage }
     </Button>
 
     const isService = (this.state.pointType === 'service');
