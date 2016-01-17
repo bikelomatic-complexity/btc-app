@@ -1,11 +1,18 @@
 .form-column {
-  margin: auto 0px;
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
   overflow-y: auto;
+  height: 100%;
 }
 
 .form-row {
-  flex: 1;
+  /*flex: 1;*/
   display: flex;
+}
+
+.form-row:last-child {
+  margin-top: auto;
 }
 
 .form-row > * {

@@ -10,7 +10,7 @@ class ACDrawer extends Component {
   render() {
     let pages = [
       {link: "/", title: "Map"},
-      {link: "", title: "Filter"},
+      {link: "filter", title: "Filter"},
       {link: "add-point", title: "Add Point"},
       {link: "download-track", title: "Download Track"},
       {link: "login", title: "Login"}
