@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Bicycle touring digital companion",
   "scripts": {
-    "postinstall": "cordova platform add android browser & true",
+    "postinstall": "npm run install:cordova",
+    "install:cordova": "cordova platform add android browser & true",
+    "postinstall:cordova": "cordova plugin add cordova-plugin-geolocation",
     "format": "jscs www/ -x -r inline; true",
     "doc": "esdoc -c .esdoc.json",
     "build": "browserify www/js/app.js -t babelify -o www/js/bundle.js",
