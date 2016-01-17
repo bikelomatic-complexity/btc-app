@@ -8,7 +8,7 @@ import AddPointCard from './add-point-card';
 // import leaflet components
 import { Marker, Map, TileLayer } from 'react-leaflet';
 
-class AddPointPage extends Component {
+export class AddPointPage extends Component {
   constructor(props) {
     super(props);
     this.state = {startCenter: [0,0], center: {lat:0, lng:0}};
@@ -21,15 +21,21 @@ class AddPointPage extends Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        this.setState({startCenter:[pos.coords.latitude, pos.coords.longitude]});
-        this.setState({center:{lat:pos.coords.latitude, lng:pos.coords.longitude}});
-        },
+        const {latitude, longitude} = pos.coords;
+        this.setState({startCenter:[latitude, longitude]});
+        this.setState({center:{lat:latitude, lng:longitude}});
+      },
       (err) => {console.log(err)}
     );
   }
 
   render() {
 
+    const tileLayerInfo = {
+      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      attr: `&copy; <a href="http://osm.org/copyright">
+              OpenStreetMap</a>contributors`
+    }
     return (
       <Layout fixedHeader>
         <Header title="Choose a Location"/>
@@ -39,8 +45,8 @@ class AddPointPage extends Component {
               center={this.state.startCenter} zoom={13}
               onLeafletDrag={this.onMapMoved.bind(this)}>
           <TileLayer
-            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url={tileLayerInfo.url}
+            attribution={tileLayerInfo.attr}
           />
           <Marker position={this.state.center} radius={10}/>
         </Map>

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { Drawer, Navigation } from 'react-mdl';
 import { Link } from 'react-router';
 
-class ACDrawer extends Component {
+export class ACDrawer extends Component {
   constructor(props) {
     super(props);
   }
@@ -22,7 +22,11 @@ class ACDrawer extends Component {
       if (this.props.page == page.title) {
         classNames = "selected-page";
       }
-      return (<Link key={page.title} className={classNames} to={page.link}>{page.title}</Link>);
+      return (<Link key={page.title}
+                    className={classNames}
+                    to={page.link}>
+                {page.title}
+              </Link>);
     });
 
     return (

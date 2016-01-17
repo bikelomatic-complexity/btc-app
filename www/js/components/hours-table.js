@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { render } from 'react-dom';
 
-import { Layout, Header, Drawer, Navigation, Content, DataTable } from 'react-mdl';
+import { DataTable } from 'react-mdl';
 
 export default class HoursTable extends Component {
   constructor(props) {
