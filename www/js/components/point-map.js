@@ -14,11 +14,10 @@ class PointMap extends Component {
   constructor(props) {
     super(props);
     this.state = {startPos:[0,0]};
-    this.getCenter();
   }
 
 
-  getCenter() {
+  componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       (pos) => {this.setState({startPos:[pos.coords.latitude, pos.coords.longitude]});},
       (err) => {console.log(err)}

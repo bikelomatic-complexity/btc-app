@@ -12,14 +12,13 @@ class AddPointPage extends Component {
   constructor(props) {
     super(props);
     this.state = {startCenter: [0,0], center: {lat:0, lng:0}};
-    this.getCenter();
   }
 
   onMapMoved(e) {
     this.setState({center: e.target.getCenter()});
   }
 
-  getCenter() {
+  componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         this.setState({startCenter:[pos.coords.latitude, pos.coords.longitude]});
