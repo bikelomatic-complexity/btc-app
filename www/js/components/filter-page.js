@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { Layout, Header, CardText, Checkbox, Textfield, Button } from 'react-mdl';
+import { Layout, Header, Checkbox, Button } from 'react-mdl';
 
 import ACDrawer from './ac-drawer';
 import DropDown from './drop-down';
@@ -17,7 +17,13 @@ class FilterPage extends Component {
       'airport', 'scenic area', 'hot spring', 'outdoor store',
       'cabin', 'other'
     ].sort();
-    this.state = {filters, activeFilters:[], openServices:false, alert:false, showOptions: -1};
+    this.state = {
+      filters,
+      activeFilters:[],
+      openServices:false,
+      alert:false,
+      showOptions: -1
+    };
   }
 
   addFilter(service) {

@@ -19,7 +19,10 @@ class PointMap extends Component {
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
-      (pos) => {this.setState({startPos:[pos.coords.latitude, pos.coords.longitude]});},
+      (pos) => {
+        const {latitude, longitude} = pos.coords;
+        this.setState({startPos:[latitude, longitude]});
+      },
       (err) => {console.log(err)}
     );
   }
@@ -46,6 +49,12 @@ class PointMap extends Component {
       );
     });
 
+    const tileLayerInfo = {
+      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      attr: `&copy; <a href="http://osm.org/copyright">
+              OpenStreetMap</a>contributors`
+    }
+
     return (
       <Map center={this.state.startPos} zoom={13}
         onclick={() => {
@@ -53,8 +62,8 @@ class PointMap extends Component {
         }}
       >
         <TileLayer
-          url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url={tileLayerInfo.url}
+          attribution={tileLayerInfo.attr}
         />
         { markers }
         { alerts }
