@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import { Layout, Header, CardText, Textfield, Button } from 'react-mdl';
+import { Link } from 'react-router';
 import ACDrawer from './ac-drawer';
 
 class LoginPage extends Component {
@@ -37,7 +38,7 @@ class LoginPage extends Component {
               <div className="form-row">
                 <div style={centerText}>
                   <CardText>
-                    <a>Sign Up</a> for Adventure Cycling
+                    <Link to="register">Sign Up</Link> for Adventure Cycling
                   </CardText>
                   <CardText>
                     <a>Forgot Password?</a>
