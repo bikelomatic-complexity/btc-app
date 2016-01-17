@@ -17,9 +17,6 @@ export class DeviceStorage extends Component {
   }
 
   render() {
-    if (this.state.free == -1) {
-
-    }
     return (
       <div>
         <div className="form-row">
