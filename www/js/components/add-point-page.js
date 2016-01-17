@@ -34,7 +34,7 @@ class AddPointPage extends Component {
             <Marker position={this.state.center} radius={10}/>
           </Map>
 
-          <AddPointCard latlng={this.state.center} />
+          <AddPointCard {...this.props } latlng={this.state.center} />
         </Layout>
       </div>
     );

@@ -6,3 +6,11 @@ export function addPoint(point) {
     point
   };
 }
+
+export const RESET_POINTS = 'RESET_POINTS';
+export function resetPoints(points) {
+  return {
+    type: RESET_POINTS,
+    points
+  };
+};

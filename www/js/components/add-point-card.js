@@ -53,13 +53,24 @@ export class AddPointCard extends Component {
 
   onSubmit() {
     this.props.dispatch(addPoint({
+      class: this.state.pointType,
+      created_at: new Date().toISOString(),
       name: "TODO",
+      location: [this.props.latlng.lat, this.props.latlng.lng],
+      type: "TODO",
       description: this.state.description,
-      type: this.state.pointType,
-      location: [this.props.latlng.lat, this.props.latlng.lng]
+      flag: false,
+      amenities: [],
+      seasonal: false,
+      schedule: null,
+      phone: null,
+      rating: 5,
+      website: null,
+      address: null
     }));
     console.dir(this.state);
     console.dir(this.props);
+    this.props.history.pushState(null, '/');
   }
 
   onTypeSelect(type) {

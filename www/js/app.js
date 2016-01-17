@@ -20,7 +20,8 @@ import LoginPage from './components/login-page';
 import DownloadTrackPage from './components/download-track-page';
 import FilterPage from './components/filter-page';
 
-window.store = store;
+import {init} from './db'
+import {resetPoints} from './actions/point-actions';
 
 /**
  * the App component fetches service data from the server and displays
@@ -52,4 +53,9 @@ document.addEventListener('deviceready', () => {
       </Router>
     </Provider>
   ), document.getElementById('main'));
+
+  init().then(points => {
+    store.dispatch(resetPoints(points));
+  });
+
 }, false);
