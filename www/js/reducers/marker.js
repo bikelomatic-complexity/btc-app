@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { SELECT_MARKER, PEEK_MARKER, DESELECT_MARKER, FULLSCREEN_MARKER } from '../actions/map_actions';
 
-function marker(state = {}, action) {
+export function marker(state = {}, action) {
   switch (action.type) {
     case SELECT_MARKER:
       return {
@@ -28,8 +28,8 @@ function marker(state = {}, action) {
   }
 }
 
-const clientApp = combineReducers({
-  marker
-});
-
-export default clientApp;
+// const clientApp = combineReducers({
+//   marker
+// });
+//
+// export default clientApp;

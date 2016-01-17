@@ -2,14 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // redux components
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import clientApp from './reducers/reducer';
+// import clientApp from './reducers/reducer';
 
 // react-router components
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-let store = createStore(clientApp);
+import {store} from './store'
+// let store = createStore(clientApp);
 
 // pages to render for different routes
 import MapPage from './components/map-page';
@@ -19,8 +20,7 @@ import LoginPage from './components/login-page';
 import DownloadTrackPage from './components/download-track-page';
 import FilterPage from './components/filter-page';
 
-import rest from 'rest';
-import mime from 'rest/interceptor/mime';
+window.store = store;
 
 /**
  * the App component fetches service data from the server and displays
