@@ -63,7 +63,13 @@ class FilterPage extends Component {
       'airport', 'scenic area', 'hot spring', 'outdoor store',
       'cabin', 'other'
     ].sort();
-    this.setState({filters, activeFilters:[], openServices:false, alert:false, showOptions: -1});
+    this.setState({
+      filters,
+      activeFilters:[],
+      openServices:false,
+      alert:false,
+      showOptions: -1
+    });
   }
 
   toggleOptions({index=-1}) {
@@ -83,14 +89,17 @@ class FilterPage extends Component {
   }
 
   render() {
-    const filtersDropDowns = this.state.activeFilters.map((filterService, index)=>{
-      return (
-        <FilterDropDown key={filterService} index={index} filters={this.state.filters}
+    const filtersDropDowns = this.state.activeFilters.map(
+      (filterService, index) => {
+        return (
+          <FilterDropDown key={filterService}
+                        index={index} filters={this.state.filters}
                         filterService={filterService}
                         updateFunction={this.toggleOptions.bind(this, {index})}
                         removeFunction={this.removeFilter.bind(this, index)}/>
-      )
-    });
+        );
+      }
+    );
     let dropDown = '';
     if (this.state.showOptions >= 0) {
       let func = this.addFilter.bind(this);
@@ -110,7 +119,9 @@ class FilterPage extends Component {
 
           <div className="form-row">
             <Button colored raised
-                    onClick={this.toggleOptions.bind(this,{index:this.state.activeFilters.length})}
+                    onClick={this.toggleOptions.bind(this,
+                        {index:this.state.activeFilters.length}
+                    )}
                     disabled={this.state.filters.length < 1}>
               Add Filter
             </Button>
@@ -131,7 +142,9 @@ class FilterPage extends Component {
           </div>
 
           <div className="form-row">
-            <Button raised onClick={this.clearFilters.bind(this)}> Clear </Button>
+            <Button raised onClick={this.clearFilters.bind(this)}>
+              Clear
+            </Button>
             <Button raised colored> Filter </Button>
           </div>
 
