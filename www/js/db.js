@@ -16,17 +16,15 @@ const points = {
   }
 };
 
-export function init() {
-  return db.put(points).catch(err => {
-    if(err.status !== 409) {
-      throw err;
-    }
-    // ignore if doc already exists
-  }).then(() => {
-    return db.query('points', {
-      include_docs: true
-    });
-  }).then(response => {
-    return response.rows.map(row => row.doc);
-  })
-}
+export const loadDb = db.put(points).catch(err => {
+  if(err.status !== 409) {
+    throw err;
+  }
+  // ignore if doc already exists
+}).then(() => {
+  return db.query('points', {
+    include_docs: true
+  });
+}).then(response => {
+  return response.rows.map(row => row.doc);
+});

@@ -4,10 +4,6 @@ import {marker} from './reducers/marker'
 import {points} from './reducers/points'
 import {db, init} from './db'
 
-const app = combineReducers({
-  marker,
-  points
-});
 
 const persister = store => next => action => {
   switch(action.type) {
@@ -30,11 +26,19 @@ const persister = store => next => action => {
   }
 };
 
+const app = combineReducers({
+  marker,
+  points
+});
+
 const finalCreateStore = compose(
   applyMiddleware(persister),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 )(createStore);
-export const store = finalCreateStore(app);
+
+export function createAppStore(initState) {
+  return finalCreateStore(app, initState);
+}
 
 // const remoteDb = new PouchDB('http://52.21.125.160:5984/points');
 
