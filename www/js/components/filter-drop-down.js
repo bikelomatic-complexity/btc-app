@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 
-import { Layout, Header, CardText, Textfield, Button } from 'react-mdl';
-
-import DropDown from './drop-down';
+import { Button } from 'react-mdl';
 
 class FilterDropDown extends Component {
   constructor(props) {
