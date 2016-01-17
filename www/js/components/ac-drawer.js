@@ -13,6 +13,7 @@ class ACDrawer extends Component {
       {link: "filter", title: "Filter"},
       {link: "add-point", title: "Add Point"},
       {link: "download-track", title: "Download Track"},
+      {link: "settings", title: "Settings"},
       {link: "login", title: "Login"}
     ];
 

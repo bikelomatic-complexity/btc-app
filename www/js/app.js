@@ -18,6 +18,7 @@ import RegisterPage from './components/register-page';
 import LoginPage from './components/login-page';
 import DownloadTrackPage from './components/download-track-page';
 import FilterPage from './components/filter-page';
+import SettingsPage from './components/settings-page';
 
 import rest from 'rest';
 import mime from 'rest/interceptor/mime';
@@ -43,6 +44,7 @@ document.addEventListener('deviceready', () => {
       <Router history={browserHistory}>
         <Route path="/" component={App}>
           <IndexRoute component={MapPage}/>
+          <Route path="/settings" component={SettingsPage}/>
           <Route path="/login" component={LoginPage}/>
           <Route path="/register" component={RegisterPage}/>
           <Route path="/add-point" component={AddPointPage}/>
