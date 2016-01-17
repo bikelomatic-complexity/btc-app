@@ -8,12 +8,12 @@ class DownloadTrackPage extends Component {
   constructor(props) {
     super(props);
     this.state = {'tracks':{
-      1: { name:'Track 01', description:'This track is so excellent!', url:'', downloadSize:35210000, downloading:false, downloaded:0, subtracks: [1,2]},
-      2: { name:'Track 02', description:'This track is so excellent!', url:'', downloadSize:25340500, downloading:false, downloaded:0 },
-      3: { name:'Track 03', description:'This track is so excellent!', url:'', downloadSize:26467100, downloading:false, downloaded:0 },
-      4: { name:'Track 04', description:'This track is so excellent!', url:'', downloadSize:35210000, downloading:false, downloaded:0, subtracks: [5,6]},
-      5: { name:'Track 05', description:'This track is so excellent!', url:'', downloadSize:25340510, downloading:false, downloaded:0 },
-      6: { name:'Track 06', description:'This track is so excellent!', url:'', downloadSize:26467100, downloading:false, downloaded:0 }
+      1: { name:'Track 01', description:'This track is so excellent!', url:'', downloadSize:35200, downloading:false, downloaded:0, subtracks: [1,2]},
+      2: { name:'Track 02', description:'This track is so excellent!', url:'', downloadSize:25340, downloading:false, downloaded:0 },
+      3: { name:'Track 03', description:'This track is so excellent!', url:'', downloadSize:26400, downloading:false, downloaded:0 },
+      4: { name:'Track 04', description:'This track is so excellent!', url:'', downloadSize:35200, downloading:false, downloaded:0, subtracks: [5,6]},
+      5: { name:'Track 05', description:'This track is so excellent!', url:'', downloadSize:25030, downloading:false, downloaded:0 },
+      6: { name:'Track 06', description:'This track is so excellent!', url:'', downloadSize:20646, downloading:false, downloaded:0 }
     }}
   }
 
@@ -60,10 +60,14 @@ class DownloadTrackPage extends Component {
   }
 
   render() {
+    let downloaded = 0;
     const tracks = Object.keys(this.state.tracks).map((trackId)=>{
       let downloadButtonText = "Save";
       let track = this.state.tracks[trackId];
-      let progressBar = <ProgressBar progress={(track.downloaded/track.downloadSize) * 100}/>
+      downloaded += this.state.tracks[trackId].downloaded;
+      let progressBar = (
+        <ProgressBar progress={(track.downloaded/track.downloadSize) * 100}/>
+      )
       if (track.downloading) {
         downloadButtonText = "Cancel";
       }
@@ -76,8 +80,10 @@ class DownloadTrackPage extends Component {
           <div className="form-row">
             <CardText> {track.name} </CardText>
             <Button primary={isSave} accent={!isSave} raised
-                    onClick={this.trackDownload.bind(this,downloadButtonText,trackId)}>
-                { `${downloadButtonText} (${(track.downloadSize / 1000000).toFixed(0)}MB)` }
+                    onClick={
+                      this.trackDownload.bind(this,downloadButtonText,trackId)
+                    }>
+                {downloadButtonText} ({(track.downloadSize/1024).toFixed(0)} MB)
             </Button>
           </div>
           <div className="form-row">
@@ -86,12 +92,13 @@ class DownloadTrackPage extends Component {
         </div>
       );
     });
+
     return (
       <Layout fixedHeader>
         <Header title="Save Track to Phone"/>
         <ACDrawer page="Download Track"/>
         <div className="form-column">
-          <DeviceStorage/>
+          <DeviceStorage downloaded={downloaded}/>
           { tracks }
         </div>
       </Layout>
