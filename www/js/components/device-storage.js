@@ -1,17 +1,18 @@
 import React, {Component} from 'react';
 
-import { Layout, Header, Content, CardText, ProgressBar, Button } from 'react-mdl';
-import ACDrawer from './ac-drawer';
+import { CardText } from 'react-mdl';
 
-class DeviceStorage extends Component {
+export class DeviceStorage extends Component {
   constructor(props) {
     super(props);
-    this.state = {other:'0.25',ac:'0.25',free:'0.5'}
+    this.state = { free:0 }
   }
 
-  makeBlock({width, background, height='1em'}) {
-    return (
-      <span style={{height,width,display:'inline-block',background}}/>
+  componentDidMount() {
+    cordova.exec(
+      free => this.setState({free}),
+      err => this.setState({free:0}),
+      "File", "getFreeDiskSpace", []
     );
   }
 
@@ -19,21 +20,51 @@ class DeviceStorage extends Component {
     return (
       <div>
         <div className="form-row">
-          <CardText style={{fontSize:'2em',fontWeight:'bold'}}> Storage </CardText>
+          <CardText style={{ fontSize:'2em', fontWeight:'bold' }}>
+            Storage
+          </CardText>
           <div>
-            <div> { this.makeBlock({width:'1em',background:'gray'}) } Other Apps </div>
-            <div> { this.makeBlock({width:'1em',background:'#3f51b5'}) } Adventure Cycling </div>
-            <div> { this.makeBlock({width:'1em',background:'lightgray'}) }  Free Space </div>
+            <div>
+              <VisualBlock background='#3f51b5'/> Adventure Cycling
+              ({ (this.props.downloaded / 1024).toFixed(0) } MB)
+            </div>
+            <div>
+              <VisualBlock background='lightgray'/> Free Space
+              ({ (this.state.free / 1024).toFixed(0) } MB)
+            </div>
           </div>
         </div>
         <div className="form-row">
-          <div>
-            { this.makeBlock({background:'gray',width:`${this.state.other*100}%`}) }
-            { this.makeBlock({background:'#3f51b5',width:`${this.state.ac*100}%`}) }
-            { this.makeBlock({background:'lightgray',width:`${this.state.free*100}%`}) }
-          </div>
+          <VisualBlock  background='#3f51b5'
+                        flex={this.props.downloaded}
+                        noRightMargin />
+
+          <VisualBlock  background='lightgray'
+                        flex={this.state.free}
+                        noLeftMargin />
         </div>
       </div>
+    );
+  }
+}
+
+export class VisualBlock extends Component {
+  render() {
+    let propStyle = {
+      flex: this.props.flex || 1,
+      width: this.props.width || '1em',
+      height: '1em',
+      display: 'inline-block',
+      background: this.props.background
+    }
+    if (this.props.noRightMargin) {
+      propStyle['marginRight'] = '0px !important';
+    }
+    if (this.props.noLeftMargin) {
+      propStyle['marginLeft'] = '0px !important';
+    }
+    return (
+      <span style={propStyle}/>
     );
   }
 }

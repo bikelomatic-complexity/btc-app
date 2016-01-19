@@ -9,14 +9,12 @@ const persister = store => next => action => {
   switch(action.type) {
     case ADD_POINT:
       db.post(action.point).then(response => {
-        console.log('new point posted:');
-        console.log(response);
         action.point = Object.assign({}, action.point, {
           _id: response.id,
           _rev: response.rev
         });
       }).catch(err => {
-        console.log(err);
+        console.error(err);
       }).then(() => {
         next(action);
       });

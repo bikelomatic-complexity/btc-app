@@ -19,12 +19,16 @@ export class AddPointCard extends Component {
       checkIn: false,       // mark if they were there or not
       img: '',              // image url
       fullscreen: false,    // should the card cover the map
-      typeMenu: false       // should the type menu be open
+      typeMenu: false,       // should the type menu be open
+      addMessage: 'Add Point Here' // message to show on adding a point
     }
   }
 
   onLocationSelect() {
-    this.setState({'fullscreen': !this.state.fullscreen});
+    this.setState({
+      'fullscreen': !this.state.fullscreen,
+      'addMessage': 'Set New Location'
+    });
   }
 
   onServiceSelect() {
@@ -47,7 +51,8 @@ export class AddPointCard extends Component {
       checkIn: false,
       img: '',
       fullscreen: false,
-      typeMenu: false
+      typeMenu: false,
+      addMessage: 'Add Point Here'
     });
   }
 
@@ -107,7 +112,7 @@ export class AddPointCard extends Component {
     }
 
     let view = <Button colored onClick={this.onLocationSelect.bind(this)}>
-      Add Point Here
+      { this.state.addMessage }
     </Button>
 
     const isService = (this.state.pointType === 'service');
@@ -147,7 +152,8 @@ export class AddPointCard extends Component {
           </Button>
         </div>
         <div className="form-row">
-          <Button raised id="menu-button" onClick={this.openTypeMenu.bind(this)}>
+          <Button raised id="menu-button"
+                  onClick={this.openTypeMenu.bind(this)}>
             {this.state.type}
           </Button>
         </div>
@@ -168,10 +174,10 @@ export class AddPointCard extends Component {
           <Button raised>Upload Photo</Button>
         </div>
         <div className="form-row">
-          <Button colored raised onClick={this.onSubmit.bind(this)}>Submit</Button>
           <Button raised onClick={this.onCancel.bind(this)}>
             Cancel
           </Button>
+          <Button colored raised onClick={this.onSubmit.bind(this)}>Submit</Button>
         </div>
       </div>
     }

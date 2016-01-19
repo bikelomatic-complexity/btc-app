@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
-import { Card, CardTitle, CardActions, IconButton, CardText, CardMenu, Button } from 'react-mdl';
+import { Card, CardTitle, CardActions, IconButton,
+          CardText, CardMenu, Button } from 'react-mdl';
 import HoursTable from './hours-table';
 
 // import redux components
 import { connect } from 'react-redux';
-import { peekMarker, fullscreenMarker, deselectMarker } from '../actions/map_actions';
+import {  peekMarker,
+          fullscreenMarker,
+          deselectMarker } from '../actions/map_actions';
 
-const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
+                'Thursday', 'Friday', 'Saturday'];
 
 // export class for testing (use default export in application)
 export class PointCard extends Component {
@@ -14,10 +18,12 @@ export class PointCard extends Component {
   getDays(seasons) {
     let seasonDays = seasons[0].days;
     const date = (new Date());
+    const currentMonth = date.getMonth();
+    const currentDate = date.getDate();
     seasons.forEach((season)=>{
       if ((season.seasonStart) && (season.seasonEnd) &&
-        (season.seasonStart.month <= date.getMonth() <= season.seasonEnd.month) &&
-        (season.seasonStart.date <= date.getDate() <= season.seasonEnd.date))
+        (season.seasonStart.month <= currentMonth <= season.seasonEnd.month) &&
+        (season.seasonStart.date <= currentDate <= season.seasonEnd.date))
       {
         seasonDays = season.days;
       }
@@ -45,12 +51,14 @@ export class PointCard extends Component {
         smallHeight = 224 - this.props.heightOffset;
     }
 
-    let headerHeight = Math.max(55,  55 + this.props.heightOffset);
+    const headerHeight = Math.max(55,  55 + this.props.heightOffset);
+    const headerHeightCSS = `calc(100% - ${headerHeight}px)`;
+    const smallHeightCSS = `${smallHeight}px`;
     let cardStyle = {
       width: '100%',
       position: 'fixed',
-      bottom: ( (this.props.show=='peek' || this.props.show=='full') ? '0px' : '-300px'),
-      height: ( (this.props.show=='full') ? `calc(100% - ${headerHeight}px)` : smallHeight +'px'),
+      bottom: ( (this.props.show=='hide') ? '-300px' : '0px'),
+      height: ( (this.props.show=='full') ? headerHeightCSS : smallHeightCSS),
       transition: (this.props.heightOffset == 0 ? 'all 300ms ease' : ''),
       zIndex:'8'
     }
@@ -95,7 +103,12 @@ export class PointCard extends Component {
 
         // is this point seasonal?
         if (point.seasonal) {
-          seasonalDetails = <CardText> these hours are seasonal (call or check online for more information) </CardText>
+          seasonalDetails = (
+            <CardText>
+              These hours are seasonal.
+              Call or check online for more information.
+            </CardText>
+          )
         }
 
         // hours for service
@@ -128,7 +141,9 @@ export class PointCard extends Component {
             </CardText>
 
             <CardText> {point.phone} </CardText>
-            <CardText> Visit <a href={point.website}>{point.website}</a> for more details </CardText>
+            <CardText>
+              Visit <a href={point.website}>{point.website}</a> for more details
+            </CardText>
             { hoursDetails }
             { seasonalDetails }
           </div>

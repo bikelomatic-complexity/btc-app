@@ -25,7 +25,7 @@ export const loadDb = db.put(points).catch(err => {
 }).then(() => {
   return db.replicate.from(remote);
 }).catch(err => {
-  console.log(err);
+  console.error(err);
 }).then(() => {
   return db.query('points', {
     include_docs: true

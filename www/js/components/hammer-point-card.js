@@ -3,7 +3,9 @@ import Hammer from 'react-hammerjs';
 
 // import redux components
 import { connect } from 'react-redux';
-import { fullscreenMarker, peekMarker, deselectMarker } from '../actions/map_actions';
+import {  fullscreenMarker,
+          peekMarker,
+          deselectMarker } from '../actions/map_actions';
 
 // import the PointCard
 import PointCard from './point-card';
@@ -24,7 +26,9 @@ export class HammerPointCard extends Component {
     /* if we are at the top of the card, pulling down should shrink the card */
     if (this.props.show == "full") {
       // in full screen
-      // because hammer onPanStart doesn't work, just check if that time of the action was within 0.15s
+
+      // because hammer onPanStart doesn't work,
+      // just check if that time of the action was within 0.15s
       if ((pointDetails.scrollTop == 0) && (e.isFirst || e.deltaTime < 150)) {
         // you can change the screen state since you're at the top
         this.setState({changeScreen: true});
@@ -33,7 +37,8 @@ export class HammerPointCard extends Component {
         // at the top of the details
         this.setState({heightOffset: e.deltaY});
       }
-      if (e.target.classList.contains("mdl-card__title") || e.target.classList.contains("mdl-card__title-text")) {
+      if (e.target.classList.contains("mdl-card__title") ||
+          e.target.classList.contains("mdl-card__title-text")) {
         // at the top of the details
         this.setState({heightOffset: e.deltaY});
         this.setState({changeScreen: true});
@@ -63,7 +68,8 @@ export class HammerPointCard extends Component {
   render() {
 
     return (
-      <Hammer vertical={true} onPanStart={this.handleSwipe.bind(this)} onPan={this.handleSwipe.bind(this)}>
+      <Hammer vertical={true} onPanStart={this.handleSwipe.bind(this)}
+                              onPan={this.handleSwipe.bind(this)}>
         <PointCard
           point={this.props.point}
           show={this.props.show}

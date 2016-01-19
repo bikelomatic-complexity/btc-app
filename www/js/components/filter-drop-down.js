@@ -14,7 +14,9 @@ class FilterDropDown extends Component {
     return (
       <div>
         <div className="form-row">
-          <Button style={{flex:5}} raised onClick={updateFunction}> {this.state.activeFilter} </Button>
+          <Button style={{flex:5}} raised onClick={updateFunction}>
+            {this.state.activeFilter}
+          </Button>
           <Button raised accent onClick={removeFunction}> X </Button>
         </div>
       </div>

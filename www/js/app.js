@@ -17,6 +17,7 @@ import RegisterPage from './components/register-page';
 import LoginPage from './components/login-page';
 import DownloadTrackPage from './components/download-track-page';
 import FilterPage from './components/filter-page';
+import SettingsPage from './components/settings-page';
 
 import {loadDb} from './db'
 import {resetPoints} from './actions/point-actions';
@@ -42,7 +43,6 @@ const deviceReady = new Promise(resolve => {
 });
 
 Promise.all([deviceReady, loadDb]).then( ([device, points]) => {
-  console.log('POINTS READY');
   const store = createAppStore({points});
 
   ReactDOM.render((
@@ -50,6 +50,7 @@ Promise.all([deviceReady, loadDb]).then( ([device, points]) => {
       <Router history={browserHistory}>
         <Route path="/" component={App}>
           <IndexRoute component={MapPage}/>
+          <Route path="/settings" component={SettingsPage}/>
           <Route path="/login" component={LoginPage}/>
           <Route path="/register" component={RegisterPage}/>
           <Route path="/add-point" component={AddPointPage}/>

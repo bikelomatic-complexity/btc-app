@@ -6,7 +6,11 @@ export class DropDown extends Component {
   render() {
     const { elements, func } = this.props;
     const options = elements.map((element)=> {
-      return <MenuItem onClick={()=>{func(element)}} key={element}>{element}</MenuItem>;
+      return (
+        <MenuItem onClick={()=>{func(element)}} key={element}>
+          {element}
+        </MenuItem>
+      );
     })
     return (
       <div className="ac-drop-down">

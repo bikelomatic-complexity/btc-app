@@ -8,13 +8,25 @@ leaflet.setIconDefaultImagePath('img/icons');
 
 // import redux components
 import { connect } from 'react-redux';
-import {selectMarker, deselectMarker} from '../actions/map_actions';
+import { selectMarker, deselectMarker } from '../actions/map_actions';
 
 class PointMap extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {startPos:[0,0]};
   }
+
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const {latitude, longitude} = pos.coords;
+        this.setState({startPos:[latitude, longitude]});
+      },
+      (err) => {console.log(err)}
+    );
+  }
+
   render() {
     const { dispatch } = this.props;
     let markers = this.props.services.map((service) => {
@@ -26,8 +38,6 @@ class PointMap extends Component {
         />
       );
     });
-    let first = this.props.services[0];
-    let position = first.location;
 
     let alerts = this.props.alerts.map((alert) => {
       return (
@@ -39,15 +49,21 @@ class PointMap extends Component {
       );
     });
 
+    const tileLayerInfo = {
+      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      attr: `&copy; <a href="http://osm.org/copyright">
+              OpenStreetMap</a>contributors`
+    }
+
     return (
-      <Map center={position} zoom={13}
+      <Map center={this.state.startPos} zoom={13}
         onclick={() => {
           dispatch(deselectMarker());
         }}
       >
         <TileLayer
-          url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url={tileLayerInfo.url}
+          attribution={tileLayerInfo.attr}
         />
         { markers }
         { alerts }
