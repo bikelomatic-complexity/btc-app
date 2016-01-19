@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 // import leaflet components
 import * as leaflet from 'react-leaflet';
-let {Marker, Popup, Map, TileLayer, CircleMarker, Polyline} = leaflet;
+let {Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline} = leaflet;
 import { usbr20 } from '../mock-route';
 
 leaflet.setIconDefaultImagePath('img/icons');
@@ -94,7 +94,7 @@ class PointMap extends Component {
         { markers }
         { alerts }
 
-        <Polyline positions={usbr20}
+        <MultiPolyline polylines={usbr20}
                   color="#f30"
                   opacity="0.8"
                   />
