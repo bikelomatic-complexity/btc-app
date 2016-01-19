@@ -3,18 +3,12 @@ import React, {Component} from 'react';
 import { Layout, Header, Content, CardText, ProgressBar, Button } from 'react-mdl';
 import DeviceStorage from './device-storage';
 import ACDrawer from './ac-drawer';
+import { downloadableTracks } from '../mock-data';
 
 class DownloadTrackPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {'tracks':{
-      1: { name:'Track 01', description:'This track is so excellent!', url:'', downloadSize:35200, downloading:false, downloaded:0, subtracks: [1,2]},
-      2: { name:'Track 02', description:'This track is so excellent!', url:'', downloadSize:25340, downloading:false, downloaded:0 },
-      3: { name:'Track 03', description:'This track is so excellent!', url:'', downloadSize:26400, downloading:false, downloaded:0 },
-      4: { name:'Track 04', description:'This track is so excellent!', url:'', downloadSize:35200, downloading:false, downloaded:0, subtracks: [5,6]},
-      5: { name:'Track 05', description:'This track is so excellent!', url:'', downloadSize:25030, downloading:false, downloaded:0 },
-      6: { name:'Track 06', description:'This track is so excellent!', url:'', downloadSize:20646, downloading:false, downloaded:0 }
-    }}
+    this.state = {'tracks':downloadableTracks}
   }
 
   saveTrack(trackId) {
