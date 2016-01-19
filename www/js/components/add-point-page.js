@@ -25,7 +25,7 @@ export class AddPointPage extends Component {
         this.setState({startCenter:[latitude, longitude]});
         this.setState({center:{lat:latitude, lng:longitude}});
       },
-      (err) => {console.log(err)}
+      (err) => {console.error(err)}
     );
   }
 
@@ -51,7 +51,7 @@ export class AddPointPage extends Component {
           <Marker position={this.state.center} radius={10}/>
         </Map>
 
-        <AddPointCard latlng={this.state.center} />
+        <AddPointCard history={this.props.history} latlng={this.state.center} />
       </Layout>
     );
   }

@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 
 // import leaflet components
 import * as leaflet from 'react-leaflet';
-let {Marker, Popup, Map, TileLayer, CircleMarker} = leaflet;
+let {Marker, Popup, Map, TileLayer, CircleMarker, Polyline} = leaflet;
+import { usbr20 } from '../mock-route';
 
 leaflet.setIconDefaultImagePath('img/icons');
 
@@ -77,9 +78,11 @@ class PointMap extends Component {
         <Spinner singleColor />
       </div>;
     } else {
-      view = <Map center={this.state.startPos} zoom={this.state.zoom}
-        onclick={() => {
-          dispatch(deselectMarker());
+      view = <Map
+          center={this.state.startPos}
+          zoom={this.state.zoom}
+          onclick={() => {
+            dispatch(deselectMarker());
         }}
       >
         <CircleMarker center={this.state.startPos} />
@@ -87,8 +90,14 @@ class PointMap extends Component {
           url={tileLayerInfo.url}
           attribution={tileLayerInfo.attr}
         />
+
         { markers }
         { alerts }
+
+        <Polyline positions={usbr20}
+                  color="#f30"
+                  opacity="0.8"
+                  />
       </Map>;
     }
 
