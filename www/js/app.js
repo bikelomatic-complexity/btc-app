@@ -42,6 +42,7 @@ const deviceReady = new Promise(resolve => {
 });
 
 Promise.all([deviceReady, loadDb]).then( ([device, points]) => {
+  console.log('POINTS READY');
   const store = createAppStore({points});
 
   ReactDOM.render((
