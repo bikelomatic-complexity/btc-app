@@ -45,6 +45,7 @@ export class AddPointCard extends Component {
     this.setState({
       pointType: 'service',
       type: 'Type',
+      name: 'Name',
       description: '',
       checkIn: false,
       img: '',
@@ -69,6 +70,18 @@ export class AddPointCard extends Component {
 
   onDescriptionUpdate(newText) {
     this.setState({'description': newText});
+  }
+
+  onNameUpdate(newText) {
+    this.setState({'name': newText});
+  }
+
+  onPhotoAdd() {
+    window.imagePicker.getPictures(
+      img => this.setState({ img }),
+      err => console.error( err ),
+      {maxImages: 1}
+    )
   }
 
   render() {
@@ -135,6 +148,12 @@ export class AddPointCard extends Component {
         </div>
         { dropDown }
         <div className="form-row">
+          <Textfield  label="Name"
+                      onChange={this.onNameUpdate.bind(this)}
+                      value={this.state.name}>
+          </Textfield>
+        </div>
+        <div className="form-row">
           <Textfield  rows={3} label="Description"
                       onChange={this.onDescriptionUpdate.bind(this)}
                       value={this.state.description}>
@@ -147,7 +166,10 @@ export class AddPointCard extends Component {
           </Button>
         </div>
         <div className="form-row">
-          <Button raised>Upload Photo</Button>
+          <Button onClick={this.onPhotoAdd.bind(this)}
+                  colored={this.state.img !== ''} raised>
+                  Upload Photo
+          </Button>
         </div>
         <div className="form-row">
           <Button raised onClick={this.onCancel.bind(this)}>
