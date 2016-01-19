@@ -1,4 +1,4 @@
-
+ 
 import {ADD_POINT, RESET_POINTS} from '../actions/point-actions'
 
 export function points(state = [], action) {
@@ -6,7 +6,7 @@ export function points(state = [], action) {
     case ADD_POINT:
       return [
         ...state,
-        Object.assign({}, action.point)
+        action.point
       ];
     case RESET_POINTS:
       return action.points;
