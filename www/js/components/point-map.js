@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 
 // import leaflet components
 import * as leaflet from 'react-leaflet';
-let {Marker, Popup, Map, TileLayer} = leaflet;
+let {Marker, Popup, Map, TileLayer, Polyline} = leaflet;
+import { usbr20 } from '../mock-route';
 
 leaflet.setIconDefaultImagePath('img/icons');
 
@@ -56,8 +57,9 @@ class PointMap extends Component {
     }
 
     return (
-      <Map center={this.state.startPos} zoom={13}
-        onclick={() => {
+      <Map  center={this.state.startPos}
+            zoom={13}
+            onclick={() => {
           dispatch(deselectMarker());
         }}
       >
@@ -67,6 +69,10 @@ class PointMap extends Component {
         />
         { markers }
         { alerts }
+        <Polyline positions={usbr20}
+                  color="#f30"
+                  opacity="0.8"
+                  />
       </Map>
     );
   }
