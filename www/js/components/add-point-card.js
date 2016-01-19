@@ -102,17 +102,12 @@ export class AddPointCard extends Component {
   }
 
   onPhotoAdd() {
-    // window.imagePicker.getPictures(
-    //   img => this.setState({ img }),
-    //   err => console.error( err ),
-    //   {maxImages: 1}
-    // );
     navigator.camera.getPicture(
       img => this.setState({ img }),
       err => console.error( err ),
       { sourceType:navigator.camera.PictureSourceType.PHOTOLIBRARY,
-        targetWidth:711,
-        targetHeight:400
+        targetWidth:626,
+        targetHeight:352
       }
     )
   }
@@ -156,6 +151,13 @@ export class AddPointCard extends Component {
                             func={this.onTypeSelect.bind(this)}/>;
     }
 
+    let imgView = <div />
+    if (this.state.img !== '') {
+      imgView = <div>
+        <img src={this.state.img} width="100%" />
+      </div>
+    }
+
     if (this.state.fullscreen) {
       view = <div className="form-column">
         <div className="form-row">
@@ -183,14 +185,12 @@ export class AddPointCard extends Component {
         <div className="form-row">
           <Textfield  label="Name"
                       onChange={this.onNameUpdate.bind(this)}
-                      value={this.state.name}>
-          </Textfield>
+                      value={this.state.name} />
         </div>
         <div className="form-row">
           <Textfield  rows={3} label="Description"
                       onChange={this.onDescriptionUpdate.bind(this)}
-                      value={this.state.description}>
-          </Textfield>
+                      value={this.state.description} />
         </div>
         <div className="form-row">
           <Button colored={this.state.checkIn}
@@ -205,7 +205,7 @@ export class AddPointCard extends Component {
           </Button>
         </div>
         <div className="form-row">
-          <img src={this.state.img} />
+          { imgView }
         </div>
         <div className="form-row">
           <Button raised onClick={this.onCancel.bind(this)}>
