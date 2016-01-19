@@ -1,6 +1,7 @@
 import PouchDB from 'pouchdb'
 
-export const db = new PouchDB('stophere');
+export const db = new PouchDB('points');
+const remote = new PouchDB('http://52.21.125.160:5984/points');
 window.db = db;
 
 const points = {
@@ -21,6 +22,10 @@ export const loadDb = db.put(points).catch(err => {
     throw err;
   }
   // ignore if doc already exists
+}).then(() => {
+  return db.replicate.from(remote);
+}).catch(err => {
+  console.log(err);
 }).then(() => {
   return db.query('points', {
     include_docs: true
