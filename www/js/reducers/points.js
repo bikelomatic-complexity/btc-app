@@ -6,7 +6,7 @@ export function points(state = [], action) {
     case ADD_POINT:
       return [
         ...state,
-        Object.assign({}, action.point)
+        action.point
       ];
     case EDIT_POINT:
       console.log('FIXME: `EDIT_POINT`');

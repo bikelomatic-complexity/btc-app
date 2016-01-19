@@ -8,7 +8,6 @@ import PointMap from './point-map';
 import { connect } from 'react-redux';
 
 // import pouch library
-import ACPouch from '../ac-pouch';
 import {pluck} from 'underscore';
 
 import HammerPointCard from './hammer-point-card';

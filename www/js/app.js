@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 
 // redux components
 import { Provider } from 'react-redux';
-// import clientApp from './reducers/reducer';
 
 // react-router components
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
@@ -20,8 +19,6 @@ import FilterPage from './components/filter-page';
 import SettingsPage from './components/settings-page';
 
 import {loadDb} from './db'
-import {resetPoints} from './actions/point-actions';
-
 
 /**
  * the App component fetches service data from the server and displays
