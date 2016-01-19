@@ -2,14 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // redux components
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import clientApp from './reducers/reducer';
 
 // react-router components
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-let store = createStore(clientApp);
+import { createAppStore } from './store'
 
 // pages to render for different routes
 import MapPage from './components/map-page';
@@ -20,8 +18,7 @@ import DownloadTrackPage from './components/download-track-page';
 import FilterPage from './components/filter-page';
 import SettingsPage from './components/settings-page';
 
-import rest from 'rest';
-import mime from 'rest/interceptor/mime';
+import {loadDb} from './db'
 
 /**
  * the App component fetches service data from the server and displays
@@ -38,7 +35,13 @@ class App extends React.Component {
 }
 
 /* Requires cordova.js to already be loaded via <script> */
-document.addEventListener('deviceready', () => {
+const deviceReady = new Promise(resolve => {
+  document.addEventListener('deviceReady', resolve, false);
+});
+
+Promise.all([deviceReady, loadDb]).then( ([device, points]) => {
+  const store = createAppStore({points});
+
   ReactDOM.render((
     <Provider store={store}>
       <Router history={browserHistory}>
@@ -54,4 +57,4 @@ document.addEventListener('deviceready', () => {
       </Router>
     </Provider>
   ), document.getElementById('main'));
-}, false);
+})

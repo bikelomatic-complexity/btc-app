@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { SELECT_MARKER, PEEK_MARKER, DESELECT_MARKER, FULLSCREEN_MARKER } from '../actions/map_actions';
 
-function marker(state = {showPointCard:'hide'}, action) {
+export function marker(state = {showPointCard:'hide'}, action) {
   switch (action.type) {
     case SELECT_MARKER:
       return {
@@ -27,9 +27,3 @@ function marker(state = {showPointCard:'hide'}, action) {
       return state;
   }
 }
-
-const clientApp = combineReducers({
-  marker
-});
-
-export default clientApp;
