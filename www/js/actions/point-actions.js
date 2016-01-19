@@ -7,7 +7,7 @@ export function addPoint(point) {
   };
 }
 
-export const DELETE_POINT = 'DELETE_POINT';
+export const RESCIND_POINT = 'DELETE_POINT';
 export function deletePoint(id) {
   return {
     type: DELETE_POINT,
@@ -33,7 +33,7 @@ export function replicatePoint(id, point) {
   };
 }
 
-export const RESET_POINTS = 'RESET_POINTS';
+export const RELOAD_POINTS = 'RESET_POINTS';
 export function resetPoints(points) {
   return {
     type: RESET_POINTS,

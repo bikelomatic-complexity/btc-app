@@ -1,5 +1,11 @@
 
-import {ADD_POINT, EDIT_POINT, DELETE_POINT} from '../actions/point-actions'
+import {
+  ADD_POINT,
+  UPDATE_POINT,
+  RESCIND_POINT,
+  REPLICATE_POINT,
+  RELOAD_POINTS
+} from '../actions/point-actions'
 
 export function points(state = [], action) {
   switch(action.type) {
@@ -8,14 +14,17 @@ export function points(state = [], action) {
         ...state,
         action.point
       ];
-    case EDIT_POINT:
-      console.log('FIXME: `EDIT_POINT`');
+    case UPDATE_POINT:
+      console.log('FIXME: `UPDATE_POINT`');
       return state;
-    case DELETE_POINT:
-      console.log('FIXME: `DELETE_POINT`');
+    case RESCIND_POINT:
+      console.log('FIXME: `RESCIND_POINT`');
       return state;
     case REPLICATE_POINT:
       console.log('FIXME: `REPLICATE_POINT`');
+      return state;
+    case RELOAD_POINTS:
+      console.log('FIXME: `RELOAD_POINTS`');
       return state;
     default:
       return state;
