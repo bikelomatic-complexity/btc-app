@@ -33,7 +33,6 @@
   "homepage": "https://github.com/bikelomatic-complexity/app#readme",
   "dependencies": {
     "leaflet": "^0.7.5",
-    "pouch-redux-middleware": "^0.1.0",
     "pouchdb": "^5.1.0",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
