@@ -6,6 +6,8 @@ import HoursTable from './hours-table';
 // import redux components
 import { connect } from 'react-redux';
 
+import {addPoint} from '../actions/point-actions';
+
 // export class for testing (use default export in application)
 export class AddPointCard extends Component {
   constructor(props) {
@@ -53,6 +55,28 @@ export class AddPointCard extends Component {
       typeMenu: false,
       addMessage: 'Add Point Here'
     });
+  }
+
+  onSubmit() {
+    this.props.dispatch(addPoint({
+      class: this.state.pointType,
+      created_at: new Date().toISOString(),
+      name: "TODO",
+      location: [this.props.latlng.lat, this.props.latlng.lng],
+      type: "TODO",
+      description: this.state.description,
+      flag: false,
+      amenities: [],
+      seasonal: false,
+      schedule: null,
+      phone: null,
+      rating: 5,
+      website: null,
+      address: null
+    }));
+    console.dir(this.state);
+    console.dir(this.props);
+    this.props.history.pushState(null, '/');
   }
 
   onTypeSelect(type) {
@@ -175,7 +199,7 @@ export class AddPointCard extends Component {
           <Button raised onClick={this.onCancel.bind(this)}>
             Cancel
           </Button>
-          <Button colored raised>Submit</Button>
+          <Button colored raised onClick={this.onSubmit.bind(this)}>Submit</Button>
         </div>
       </div>
     }
@@ -188,4 +212,4 @@ export class AddPointCard extends Component {
   }
 }
 
-export default AddPointCard;
+export default connect()(AddPointCard);
