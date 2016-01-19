@@ -15,6 +15,7 @@ export class AddPointCard extends Component {
     this.state = {
       pointType: 'service', // alert or service
       type: 'Type',         // place type
+      name: '',
       description: '',      // description
       checkIn: false,       // mark if they were there or not
       img: '',              // image url
@@ -47,7 +48,7 @@ export class AddPointCard extends Component {
     this.setState({
       pointType: 'service',
       type: 'Type',
-      name: 'Name',
+      name: '',
       description: '',
       checkIn: false,
       img: '',
@@ -101,10 +102,18 @@ export class AddPointCard extends Component {
   }
 
   onPhotoAdd() {
-    window.imagePicker.getPictures(
+    // window.imagePicker.getPictures(
+    //   img => this.setState({ img }),
+    //   err => console.error( err ),
+    //   {maxImages: 1}
+    // );
+    navigator.camera.getPicture(
       img => this.setState({ img }),
       err => console.error( err ),
-      {maxImages: 1}
+      { sourceType:navigator.camera.PictureSourceType.PHOTOLIBRARY,
+        targetWidth:711,
+        targetHeight:400
+      }
     )
   }
 
@@ -194,6 +203,9 @@ export class AddPointCard extends Component {
                   colored={this.state.img !== ''} raised>
                   Upload Photo
           </Button>
+        </div>
+        <div className="form-row">
+          <img src={this.state.img} />
         </div>
         <div className="form-row">
           <Button raised onClick={this.onCancel.bind(this)}>
