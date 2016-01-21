@@ -18,7 +18,9 @@ import DownloadTrackPage from './components/download-track-page';
 import FilterPage from './components/filter-page';
 import SettingsPage from './components/settings-page';
 
-import {loadDb} from './db'
+import {loadDb, db, remote} from './db'
+
+import Sync from './sync'
 
 /**
  * the App component fetches service data from the server and displays
@@ -41,6 +43,9 @@ const deviceReady = new Promise(resolve => {
 
 Promise.all([deviceReady, loadDb]).then( ([device, points]) => {
   const store = createAppStore({points});
+
+  const sync = new Sync(db, remote, store);
+  sync.start();
 
   ReactDOM.render((
     <Provider store={store}>

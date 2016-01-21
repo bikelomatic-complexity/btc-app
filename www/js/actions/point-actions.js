@@ -25,11 +25,12 @@ export function updatePoint(id, point) {
 }
 
 export const REPLICATE_POINT = 'REPLICATE_POINT';
-export function replicatePoint(id, point) {
+export function replicatePoint(id, point, deleted) {
   return {
     type: REPLICATE_POINT,
     id,
-    point
+    point,
+    deleted
   };
 }
 
