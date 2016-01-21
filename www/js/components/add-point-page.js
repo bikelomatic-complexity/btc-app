@@ -17,6 +17,10 @@ export class AddPointPage extends Component {
     this.state = {startCenter: [0,0], center: {lat:0, lng:0}};
   }
 
+  onMapMoved(e) {
+    this.setState({center: e.target.getCenter()});
+  }
+
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -31,29 +35,11 @@ export class AddPointPage extends Component {
   render() {
     const { marker, services, alerts } = this.props;
 
-    // const tileLayerInfo = {
-    //   url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-    //   attr: `&copy; <a href="http://osm.org/copyright">
-    //           OpenStreetMap</a>contributors`
-    // }
     return (
       <Layout fixedHeader>
         <Header title="Choose a Location"/>
         <ACDrawer page="Add Point"/>
-        {/*
-        <Map  className="adding-point"
-              center={this.state.startCenter} zoom={13}
-              onLeafletDrag={this.onMapMoved.bind(this)}>
-          <TileLayer
-            url={tileLayerInfo.url}
-            attribution={tileLayerInfo.attr}
-          />
-
-        </Map>
-        */}
-        <PointMap services={services}
-                  alerts={alerts}
-                  addMarker={true} />
+        <PointMap addpoint services={services} alerts={alerts}/>
         <AddPointCard history={this.props.history} latlng={this.state.center} />
       </Layout>
     );
