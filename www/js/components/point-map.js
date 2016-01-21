@@ -9,43 +9,53 @@ leaflet.setIconDefaultImagePath('img/icons');
 
 // import redux components
 import { connect } from 'react-redux';
-import { selectMarker, deselectMarker } from '../actions/map_actions';
+import { selectMarker, deselectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 
 import { Spinner, CardText } from 'react-mdl';
 
 class PointMap extends Component {
   constructor(props) {
     super(props);
+    const { mapReducer } = this.props;
     this.state = {
-      startPos:[0,0],
-      loadingGeolocation: true,
-      zoom: 13
-    };
+      center: mapReducer.center,
+      zoom: mapReducer.zoom
+    }
   }
 
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const {latitude, longitude} = pos.coords;
-        this.setState({
-          startPos: [latitude, longitude],
-          loadingGeolocation: false,
-          zoom: 13
-        });
-      },
-      (err) => {
-        console.error(err);
-        this.setState({
-          startPos: [39.8145, -99.9946],
-          loadingGeolocation: false,
-          zoom: 3
-        });
-      }
-    );
+    const { dispatch, mapReducer } = this.props;
+    if (mapReducer.loading) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const {latitude, longitude} = pos.coords;
+          dispatch(setGeoLocation([latitude, longitude]));
+          dispatch(setMapLoading(false));
+          this.setState({
+            center:[latitude, longitude],
+            zoom:13
+          });
+        },
+        (err) => {
+          console.error(err);
+          dispatch(setMapLoading(false));
+        }
+      )
+    }
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch(setMapCenter(this.state.center));
+    dispatch(setMapZoom(this.state.zoom));
+  }
+
+  onMapMoved(e) {
+    this.setState({center: e.target.getCenter()});
   }
 
   render() {
-    const { dispatch } = this.props;
+    const { dispatch, mapReducer } = this.props;
     let markers = this.props.services.map((service) => {
       return (
         <Marker key={service._id} radius={10} position={service.location}
@@ -72,37 +82,58 @@ class PointMap extends Component {
               OpenStreetMap</a>contributors`
     }
 
+    const { children } = this.props;
+
+    let circleMarker = '';
+    if (mapReducer.geolocation) {
+      circleMarker = <CircleMarker center={mapReducer.geolocation} />
+    }
+
     let view;
-    if (this.state.loadingGeolocation) {
+    let addCenter;
+    if (mapReducer.loading) {
       view = <div style={{margin:'auto'}}>
         <Spinner singleColor />
       </div>;
     } else {
-      view = <Map
-          center={this.state.startPos}
-          zoom={this.state.zoom}
-          onclick={() => {
-            dispatch(deselectMarker());
-        }}
-      >
-        <CircleMarker center={this.state.startPos} />
-        <TileLayer
-          url={tileLayerInfo.url}
-          attribution={tileLayerInfo.attr}
-        />
+      view = (
+        <Map  center={mapReducer.center} zoom={this.state.zoom}
+              onLeafletDrag={leafletMap=>{
+                this.setState({center:leafletMap.target.getCenter()});
+              }}
+              onLeafletDragEnd={leafletMap=>{
+                this.setState({center:leafletMap.target.getCenter()});
+              }}
+              onclick={() => {
+                dispatch(deselectMarker());
+              }} >
 
-        { markers }
-        { alerts }
+          { circleMarker }
 
-        <MultiPolyline polylines={usbr20}
-                  color="#f30"
-                  opacity="0.8"
-                  />
-      </Map>;
+          <TileLayer url={tileLayerInfo.url} attribution={tileLayerInfo.attr} />
+
+          { markers }
+          { alerts }
+
+          <MultiPolyline  polylines={usbr20}
+                          color="#f30"
+                          opacity="0.8"/>
+
+          { this.props.addMarker ? <Marker  className="adding-point"
+                                            position={this.state.center}
+                                            radius={10}/> : '' }
+
+        </Map>);
     }
 
     return view;
   }
 }
 
-export default connect()(PointMap);
+function select(state) {
+  return {
+    mapReducer: state.mapReducer
+  };
+}
+
+export default connect(select)(PointMap);

@@ -7,7 +7,7 @@ import HoursTable from './hours-table';
 import { connect } from 'react-redux';
 import {  peekMarker,
           fullscreenMarker,
-          deselectMarker } from '../actions/map_actions';
+          deselectMarker } from '../actions/map-actions';
 
 const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
                 'Thursday', 'Friday', 'Saturday'];

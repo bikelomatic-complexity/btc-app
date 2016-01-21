@@ -5,6 +5,9 @@ import ACDrawer from './ac-drawer';
 import PointMap from './point-map';
 import AddPointCard from './add-point-card';
 
+// import redux components
+import { connect } from 'react-redux';
+
 // import leaflet components
 import { Marker, Map, TileLayer } from 'react-leaflet';
 
@@ -12,10 +15,6 @@ export class AddPointPage extends Component {
   constructor(props) {
     super(props);
     this.state = {startCenter: [0,0], center: {lat:0, lng:0}};
-  }
-
-  onMapMoved(e) {
-    this.setState({center: e.target.getCenter()});
   }
 
   componentDidMount() {
@@ -30,17 +29,18 @@ export class AddPointPage extends Component {
   }
 
   render() {
+    const { marker, services, alerts } = this.props;
 
-    const tileLayerInfo = {
-      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      attr: `&copy; <a href="http://osm.org/copyright">
-              OpenStreetMap</a>contributors`
-    }
+    // const tileLayerInfo = {
+    //   url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+    //   attr: `&copy; <a href="http://osm.org/copyright">
+    //           OpenStreetMap</a>contributors`
+    // }
     return (
       <Layout fixedHeader>
         <Header title="Choose a Location"/>
         <ACDrawer page="Add Point"/>
-
+        {/*
         <Map  className="adding-point"
               center={this.state.startCenter} zoom={13}
               onLeafletDrag={this.onMapMoved.bind(this)}>
@@ -48,13 +48,24 @@ export class AddPointPage extends Component {
             url={tileLayerInfo.url}
             attribution={tileLayerInfo.attr}
           />
-          <Marker position={this.state.center} radius={10}/>
-        </Map>
 
+        </Map>
+        */}
+        <PointMap services={services}
+                  alerts={alerts}
+                  addMarker={true} />
         <AddPointCard history={this.props.history} latlng={this.state.center} />
       </Layout>
     );
   }
 }
 
-export default AddPointPage;
+function select(state) {
+  return {
+    marker: state.marker,
+    services: state.points,
+    alerts: []
+  };
+}
+
+export default connect(select)(AddPointPage);
