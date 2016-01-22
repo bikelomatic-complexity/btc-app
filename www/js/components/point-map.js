@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import * as leaflet from 'react-leaflet';
 let {Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline} = leaflet;
 import { usbr20 } from '../mock-route';
+import MBTilesLayer from './mbtiles-layer';
 
 leaflet.setIconDefaultImagePath('img/icons');
 
@@ -72,6 +73,12 @@ class PointMap extends Component {
               OpenStreetMap</a>contributors`
     }
 
+    // const tileLayerInfo = {
+    //   url: 'http://localhost:8080/{z}/{x}/{y}.png',
+    //   attr: `&copy; <a href="http://osm.org/copyright">
+    //           OpenStreetMap</a>contributors`
+    // }
+
     let view;
     if (this.state.loadingGeolocation) {
       view = <div style={{margin:'auto'}}>
@@ -86,7 +93,7 @@ class PointMap extends Component {
         }}
       >
         <CircleMarker center={this.state.startPos} />
-        <TileLayer
+        <MBTilesLayer
           url={tileLayerInfo.url}
           attribution={tileLayerInfo.attr}
         />
@@ -100,6 +107,8 @@ class PointMap extends Component {
                   />
       </Map>;
     }
+
+    console.dir(view);
 
     return view;
   }
