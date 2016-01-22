@@ -7,9 +7,7 @@ import blobUtil from 'blob-util';
 L.MBTilesLayer = L.TileLayer.extend({
   initialize: function(url, options, db) {
     L.TileLayer.prototype.initialize.call(this, url, options);
-    // this.db = db
     this.db = sqlitePlugin.openDatabase({
-      // name: 'usbr20.mbtiles',
       name: 'usbr20.mbtiles',
       location: 2,
       createFromLocation: 1
@@ -18,44 +16,17 @@ L.MBTilesLayer = L.TileLayer.extend({
   },
 
   getTileUrl: function(tilePoint, tile) {
-    // const z = this._getOffsetZoom(zoom);
     const {z, x, y} = tilePoint;
-    const mby = Math.pow(2, z) - 1 - y // MBTiles expects adjusted y
+    const mby = Math.pow(2, z) - 1 - y // MBTiles expects adjusted an y
 
-    const base64 = 'blob:';
-
-    this.db.executeSql('SELECT zoom_level, tile_column, tile_row, tile_data, hex(tile_data) AS hexData FROM tiles WHERE tiles.zoom_level=? AND tiles.tile_column=? AND tiles.tile_row=? LIMIT 10', [z, x, mby], result => {
-      console.log([z, x, y], [z, x, mby]);
+    this.db.executeSql('SELECT hex(tile_data) AS hex FROM tiles WHERE tiles.zoom_level=? AND tiles.tile_column=? AND tiles.tile_row=?', [z, x, mby], result => {
       if (result.rows.length > 0) {
-        const hexData = result.rows.item(0).hexData;
-        const base64String = new Buffer(hexData, 'hex').toString('base64');
-        // console.log('>>> ' + base64String);
-
-        // const binary = result.rows.item(0).tile_data;
-        //
-        // // console.log(blob);
-        // // blobUtil.createObjectURL(blob);
-        // const blob = blobUtil.createBlob([binary], {type: 'image/png'});
-        //
-        // const reader = new FileReader();
-        // reader.onload = e => {
-        //   console.log(e.target.result);
-        //   console.log(reader.result);
-        //   tile.src = reader.result;
-        // };
-        // reader.readAsDataURL(blob);
-        //
-
-
-        // const url = blobUtil.createObjectURL(blob);
-        // console.log(url);
-        // tile.src = url;
-
-        const dataUri = 'data:image/png;base64,' + base64String;
-        console.log(dataUri);
-        tile.src = dataUri;
+        const hex = result.rows.item(0).hex;
+        const b64 = new Buffer(hex, 'hex').toString('base64');
+        const url = `data:image/png;base64,${b64}`;
+        tile.src = url;
       } else {
-        console.log("No Blob!");
+        // No tile data found
       }
     }, err => {
       console.error(err);
@@ -76,8 +47,6 @@ L.MBTilesLayer = L.TileLayer.extend({
     });
   }
 });
-
-console.log(TileLayer);
 
 export default class MBTilesLayer extends TileLayer {
   componentWillMount() {
