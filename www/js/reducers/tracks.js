@@ -1,5 +1,6 @@
 
-import { fromJS } from 'immutable';
+import { fromJS } from 'immutable'
+import usbr20 from '../usbr20.json'
 
 import {
   MBTILES_SERVER,
@@ -12,7 +13,12 @@ const REQUEST = 'pannier/tracks/REQUEST';
 const RECEIVE = 'pannier/tracks/RECEIVE';
 const CLEAR = 'pannier/tracks/CLEAR';
 const ACTIVATE = 'pannier/tracks/ACTIVATE';
+const DEACTIVATE = 'pannier/tracks/DEACTIVATE';
 
+/**
+ * TODO: Investigate performance hit of loading waypoints JSON into
+ * the Immutable data structure
+ */
 const initState = fromJS({
   'usbr-20': {
     _id: 'usbr-20',
@@ -24,7 +30,8 @@ const initState = fromJS({
     isFetching: false,
     active: false,
     sizeMiB: 4.7,
-    sha256: null
+    sha256: null,
+    waypoints: usbr20 // See above
   },
   'usbr-1': {
     _id: 'usbr-1',
@@ -36,12 +43,13 @@ const initState = fromJS({
     isFetching: false,
     active: false,
     sizeMiB: 4.7,
-    sha256: null
+    sha256: null,
+    waypoints: usbr20 // See above
   }
 });
 
 export default function reducer(state = initState, action) {
-  console.log('reducer' + state);
+  // console.log('reducer' + state);
   switch(action.type) {
     case REQUEST:
       return state.mergeDeepIn([action.id], {
@@ -55,6 +63,14 @@ export default function reducer(state = initState, action) {
     case CLEAR:
       return state.mergeDeepIn([action.id], {
         status: 'absent'
+      });
+    case DEACTIVATE:
+      return state.mergeDeepIn([action.id], {
+        active: false
+      });
+    case ACTIVATE:
+      return state.mergeDeepIn([action.id], {
+        active: true
       });
     default:
       return state;
@@ -74,7 +90,7 @@ export function fetchTrack(id, pkg) {
 
     return new Promise((resolve, reject) => {
       transfer.download(source, target, entry => {
-        console.log(`beginning download of ${source}`);
+        // console.log(`beginning download of ${source}`);
         resolve(entry);
       }, error => {
         console.error(`fetch error code ${error.code}`);
@@ -102,7 +118,7 @@ export function fetchTrack(id, pkg) {
 }
 
 export function requestTrack(id, progress) {
-  console.log('requestTrack: progress ' + progress * 100);
+  // console.log('requestTrack: progress ' + progress * 100);
   return { type: REQUEST, id, progress };
 }
 
@@ -118,4 +134,8 @@ export function clearTrack(id) {
 
 export function activateTrack(id) {
   return { type: ACTIVATE, id };
+}
+
+export function deactivateTrack(id) {
+  return { type: DEACTIVATE, id };
 }

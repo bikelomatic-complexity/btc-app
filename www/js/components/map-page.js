@@ -39,7 +39,7 @@ function select(state) {
   return {
     marker: state.marker,
     services: state.points,
-    alerts: []
+    alerts: [],
   };
 }
 

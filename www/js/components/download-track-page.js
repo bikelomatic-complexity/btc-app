@@ -2,11 +2,17 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { isFinite, bindAll } from 'underscore'
 
-import { Layout, Header, Content, Card, CardActions, CardText, CardTitle, ProgressBar, Button } from 'react-mdl';
+import { Switch, Layout, Header, Content, Card, CardActions, CardText, CardTitle, ProgressBar, Button } from 'react-mdl';
 import DeviceStorage from './device-storage';
 import ACDrawer from './ac-drawer';
 import { downloadableTracks } from '../mock-data';
-import { fetchTrack, clearTrack } from '../reducers/tracks'
+
+import {
+  fetchTrack,
+  clearTrack,
+  activateTrack,
+  deactivateTrack
+} from '../reducers/tracks'
 
 class DownloadTrackPage extends Component {
   constructor(props) {
@@ -26,6 +32,11 @@ class DownloadTrackPage extends Component {
     this.props.dispatch(clearTrack(id));
   }
 
+  activationChange(id, val) {
+    const fn = val ? activateTrack : deactivateTrack;
+    this.props.dispatch(fn(id));
+  }
+
   render() {
     const { tracks } = this.props;
 
@@ -39,7 +50,7 @@ class DownloadTrackPage extends Component {
 
       let progressBar;
       if(track.isFetching === true) {
-        console.log('indeterminate');
+        // console.log('indeterminate');
         progressBar = (
           <ProgressBar indeterminate={true} />
         );
@@ -47,9 +58,9 @@ class DownloadTrackPage extends Component {
         progressBar = (
           <ProgressBar progress={track.isFetching * 100} />
         )
-        console.log('progress');
+        // console.log('progress');
       } else {
-        console.log('nope');
+        // console.log('nope');
       }
 
       let downloadButtonText;
@@ -77,6 +88,7 @@ class DownloadTrackPage extends Component {
             <Button primary={isSave} accent={!isSave} raised onClick={action}>
                 {`${downloadButtonText} (${track.sizeMiB} MiB)`}
             </Button>
+            <Switch id={id} ripple={true} checked={track.active} onChange={this.activationChange.bind(this, id)}/>
           </CardActions>
         </Card>
       );

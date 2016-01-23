@@ -32,7 +32,7 @@ const app = combineReducers({
   tracks
 });
 
-console.log(tracks);
+// console.log(tracks);
 
 const finalCreateStore = compose(
   applyMiddleware(persister, thunk),

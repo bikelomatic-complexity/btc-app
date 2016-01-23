@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import {values} from 'underscore';
 
 // import leaflet components
 import * as leaflet from 'react-leaflet';
 let {Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline} = leaflet;
-import { usbr20 } from '../mock-route';
+// import { usbr20 } from '../mock-route';
 import MBTilesLayer from './mbtiles-layer';
 
 leaflet.setIconDefaultImagePath('img/icons');
@@ -79,6 +80,16 @@ class PointMap extends Component {
     //           OpenStreetMap</a>contributors`
     // }
 
+
+    const trackViews = values(this.props.tracks)
+      .filter(track => track.active)
+      .map(track => {
+        return (
+          <MultiPolyline key={track._id} polylines={track.waypoints}
+            color="#f30" opacity="0.8" />
+        )
+      });
+
     let view;
     if (this.state.loadingGeolocation) {
       view = <div style={{margin:'auto'}}>
@@ -93,25 +104,24 @@ class PointMap extends Component {
         }}
       >
         <CircleMarker center={this.state.startPos} />
-        <MBTilesLayer
+        <TileLayer
           url={tileLayerInfo.url}
           attribution={tileLayerInfo.attr}
         />
 
         { markers }
         { alerts }
-
-        <MultiPolyline polylines={usbr20}
-                  color="#f30"
-                  opacity="0.8"
-                  />
+        { trackViews }
       </Map>;
     }
-
-    console.dir(view);
 
     return view;
   }
 }
 
-export default connect()(PointMap);
+function select(state) {
+  return {
+    tracks: state.tracks.toJS()
+  };
+}
+export default connect(select)(PointMap);
