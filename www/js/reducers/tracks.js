@@ -1,5 +1,5 @@
 
-import { Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 import {
   MBTILES_SERVER,
@@ -10,29 +10,38 @@ import {
 const FETCH = 'pannier/tracks/FETCH';
 const REQUEST = 'pannier/tracks/REQUEST';
 const RECEIVE = 'pannier/tracks/RECEIVE';
+const CLEAR = 'pannier/tracks/CLEAR';
 const ACTIVATE = 'pannier/tracks/ACTIVATE';
 
-const initState = Map();
-initState.set('usbr-20', {
-  _id: 'usbr-20',
-  number: 20,
-  pkg: 'usbr20.mbtiles',
-  status: 'missing',
-  isFetching: false,
-  active: false,
-  sha256: null
-});
+const initState = fromJS({
+  'usbr-20': {
+    _id: 'usbr-20',
+    name: 'USBR 20',
+    number: 20,
+    description: 'USBR20, through Michigan',
+    pkg: 'usbr20.mbtiles',
+    status: 'absent',
+    isFetching: false,
+    active: false,
+    sizeMiB: 4.7,
+    sha256: null
+}});
 
 export default function reducer(state = initState, action) {
+  console.log('reducer' + state);
   switch(action.type) {
     case REQUEST:
-      return state.mergeIn([action.id], {
+      return state.mergeDeepIn([action.id], {
         isFetching: action.progress
       });
     case RECEIVE:
-      return state.mergeIn([action.id], {
+      return state.mergeDeepIn([action.id], {
         isFetching: false,
         status: action.status,
+      });
+    case CLEAR:
+      return state.mergeDeepIn([action.id], {
+        status: 'absent'
       });
     default:
       return state;
@@ -59,15 +68,20 @@ export function fetchTrack(id, pkg) {
         reject(error);
       },
       true);
+      let last = 0.0;
       transfer.onprogress = e => {
         if(e.lengthComputable) {
-          dispatch(requestTrack(id, e.loaded / e.total));
+          const fract = e.loaded / e.total;
+          if(fract >= last) {
+            last = last + 0.1;
+            dispatch(requestTrack(id, fract));
+          }
         } else {
           dispatch(requestTrack(id, true));
         }
       };
     }).then(entry => {
-      dispatch(receiveTrack(id, 'fetched'));
+      dispatch(receiveTrack(id, 'available'));
     }).catch(error => {
       dispatch(receiveTrack(id, 'failed'));
     });
@@ -75,13 +89,18 @@ export function fetchTrack(id, pkg) {
 }
 
 export function requestTrack(id, progress) {
-  // console.log('requestTrack: progress ' + progress * 100);
+  console.log('requestTrack: progress ' + progress * 100);
   return { type: REQUEST, id, progress };
 }
 
 export function receiveTrack(id, status) {
   console.log('receiveTrack')
   return { type: RECEIVE, id, status };
+}
+
+export function clearTrack(id) {
+  console.log('FIXME `clearTrack: remove associated mbtiles pkg`');
+  return { type: CLEAR, id };
 }
 
 export function activateTrack(id) {

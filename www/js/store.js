@@ -4,7 +4,7 @@ import thunk from 'redux-thunk'
 import {ADD_POINT} from './actions/point-actions'
 import {marker} from './reducers/marker'
 import {points} from './reducers/points'
-import {tracks} from './reducers/tracks'
+import tracks from './reducers/tracks'
 import {db, init} from './db'
 
 const persister = store => next => action => {
@@ -31,6 +31,8 @@ const app = combineReducers({
   points,
   tracks
 });
+
+console.log(tracks);
 
 const finalCreateStore = compose(
   applyMiddleware(persister, thunk),
