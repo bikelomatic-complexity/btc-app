@@ -20,6 +20,8 @@ import SettingsPage from './components/settings-page';
 
 import {loadDb} from './db'
 
+import {fetchTrack} from './reducers/tracks'
+
 /**
  * the App component fetches service data from the server and displays
  * a map with points for each service. Fetching hapens upon mount.
@@ -41,6 +43,10 @@ const deviceReady = new Promise(resolve => {
 
 Promise.all([deviceReady, loadDb]).then( ([device, points]) => {
   const store = createAppStore({points});
+
+  window.try = () => {
+    store.dispatch(fetchTrack('usbr-20', 'usbr20.mbtiles'));
+  };
 
   ReactDOM.render((
     <Provider store={store}>
