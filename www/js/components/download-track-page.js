@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { isFinite, bindAll } from 'underscore'
 
-import { Layout, Header, Content, CardText, ProgressBar, Button } from 'react-mdl';
+import { Layout, Header, Content, Card, CardActions, CardText, CardTitle, ProgressBar, Button } from 'react-mdl';
 import DeviceStorage from './device-storage';
 import ACDrawer from './ac-drawer';
 import { downloadableTracks } from '../mock-data';
@@ -70,18 +70,30 @@ class DownloadTrackPage extends Component {
       }
 
       return (
-        <div key={id}>
-          <div className="form-row">
-            <CardText> {track.name} </CardText>
+        <Card key={id} className={'track-card'} shadow={3}>
+          <CardTitle>{track.name}</CardTitle>
+          <CardText>{track.description}</CardText>
+          <CardActions border={true}>
             <Button primary={isSave} accent={!isSave} raised onClick={action}>
                 {`${downloadButtonText} (${track.sizeMiB} MiB)`}
             </Button>
-          </div>
-          <div className="form-row">
-            { progressBar }
-          </div>
-        </div>
+          </CardActions>
+        </Card>
       );
+
+    //   return (
+    //     <div key={id}>
+    //       <div className="form-row">
+    //         <CardText> {track.name} </CardText>
+    //         <Button primary={isSave} accent={!isSave} raised onClick={action}>
+    //             {`${downloadButtonText} (${track.sizeMiB} MiB)`}
+    //         </Button>
+    //       </div>
+    //       <div className="form-row">
+    //         { progressBar }
+    //       </div>
+    //     </div>
+    //   );
     });
 
     return (

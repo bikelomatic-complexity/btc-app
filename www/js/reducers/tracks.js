@@ -18,14 +18,27 @@ const initState = fromJS({
     _id: 'usbr-20',
     name: 'USBR 20',
     number: 20,
-    description: 'USBR20, through Michigan',
+    description: 'This route begins in Luddington, MI and ends near Detroit in Marine City, MI.',
     pkg: 'usbr20.mbtiles',
     status: 'absent',
     isFetching: false,
     active: false,
     sizeMiB: 4.7,
     sha256: null
-}});
+  },
+  'usbr-1': {
+    _id: 'usbr-1',
+    name: 'USBR 1',
+    number: 20,
+    description: 'This route travels up to Bar Harbor.',
+    pkg: 'usbr20.mbtiles',
+    status: 'absent',
+    isFetching: false,
+    active: false,
+    sizeMiB: 4.7,
+    sha256: null
+  }
+});
 
 export default function reducer(state = initState, action) {
   console.log('reducer' + state);

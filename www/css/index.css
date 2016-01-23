@@ -85,3 +85,17 @@ body {
 .ac-drop-down > li {
   opacity: inherit;
 }
+
+.track-card.mdl-card {
+  margin: 10px;
+  width: auto;
+  background: #FAFAFA;
+}
+.track-card > .mdl-card__title {
+  color: #fff;
+  height: 75px;
+  background: url('../img/usbr20.png') center / cover;
+}
+.track-card > .mdl-card__menu {
+  color: #fff;
+}
