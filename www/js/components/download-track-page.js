@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { isFinite, bindAll } from 'underscore'
 
-import { Switch, Layout, Header, Content, Card, CardActions, CardText, CardTitle, ProgressBar, Button } from 'react-mdl';
+import { Checkbox, Switch, Layout, Header, Content, Card, CardActions, CardText, CardTitle, ProgressBar, Button } from 'react-mdl';
 import DeviceStorage from './device-storage';
 import ACDrawer from './ac-drawer';
 import { downloadableTracks } from '../mock-data';
@@ -33,6 +33,7 @@ class DownloadTrackPage extends Component {
   }
 
   activationChange(id, val) {
+    console.log('wha? ' + val);
     const fn = val ? activateTrack : deactivateTrack;
     this.props.dispatch(fn(id));
   }
@@ -63,6 +64,7 @@ class DownloadTrackPage extends Component {
         // console.log('nope');
       }
 
+      let icon;
       let downloadButtonText;
       let isSave;
       let action;
@@ -70,14 +72,17 @@ class DownloadTrackPage extends Component {
         downloadButtonText = 'Cancel';
         isSave = false;
         action = this.cancelTrack.bind(this, id);
+        icon = 'cloud_download';
       } else if(track.status === 'available') {
         downloadButtonText = "Remove";
         isSave = false;
         action = this.removeTrack.bind(this, id);
+        icon = 'cloud_download';
       } else {
         downloadButtonText = "Save";
         isSave = true;
         action = this.saveTrack.bind(this, id, track.pkg);
+        icon = 'cloud_download';
       }
 
       return (
@@ -86,9 +91,20 @@ class DownloadTrackPage extends Component {
           <CardText>{track.description}</CardText>
           <CardActions border={true}>
             <Button primary={isSave} accent={!isSave} raised onClick={action}>
-                {`${downloadButtonText} (${track.sizeMiB} MiB)`}
+              <span className='material-icons'>{icon}</span>
+              <span className='button-text'>{downloadButtonText}</span>
             </Button>
+            <span className='size-text'>{`${track.sizeMiB} MiB`}</span>
+            {/*}<div>
+            <Checkbox id={id} ripple={true} checked={track.active} onChange={this.activationChange.bind(this, id)} label={'SHOW'} ripple={true}/>
+            </div>*/}
+            {/*<Button raised onClick={this.activationChange.bind(this, id)}>
+              <span className='material-icons'>map</span>
+              <span className='button-text'>{'Show'}</span>
+            </Button>*/}
+            <div>
             <Switch id={id} ripple={true} checked={track.active} onChange={this.activationChange.bind(this, id)}/>
+            </div>
           </CardActions>
         </Card>
       );
