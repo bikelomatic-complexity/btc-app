@@ -10,22 +10,24 @@ import { connect } from 'react-redux';
 
 import {addPoint} from '../actions/point-actions';
 
+const defaultState = {
+  pointType: 'service', // alert or service
+  type: 'Type',         // place type
+  name: '',
+  description: '',      // description
+  checkIn: false,       // mark if they were there or not
+  imgSrc: '',           // image url
+  imgBlob: '',          // image blob
+  fullscreen: false,    // should the card cover the map
+  typeMenu: false,       // should the type menu be open
+  addMessage: 'Add Point Here' // message to show on adding a point
+};
+
 // export class for testing (use default export in application)
 export class AddPointCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      pointType: 'service', // alert or service
-      type: 'Type',         // place type
-      name: '',
-      description: '',      // description
-      checkIn: false,       // mark if they were there or not
-      imgSrc: '',           // image url
-      imgBlob: '',          // image blob
-      fullscreen: false,    // should the card cover the map
-      typeMenu: false,       // should the type menu be open
-      addMessage: 'Add Point Here' // message to show on adding a point
-    }
+    this.state = defaultState;
   }
 
   onLocationSelect() {
@@ -48,18 +50,7 @@ export class AddPointCard extends Component {
   }
 
   onCancel() {
-    this.setState({
-      pointType: 'service',
-      type: 'Type',
-      name: '',
-      description: '',
-      checkIn: false,
-      imgSrc: '',
-      imgBlob: '',
-      fullscreen: false,
-      typeMenu: false,
-      addMessage: 'Add Point Here'
-    });
+    this.setState(defaultState);
   }
 
   onSubmit() {
