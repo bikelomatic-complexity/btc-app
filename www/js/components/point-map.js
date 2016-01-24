@@ -53,6 +53,11 @@ class PointMap extends Component {
     }
   }
 
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch(setMapZoom(this.state.zoom));
+  }
+
   render() {
     const { dispatch, mapReducer } = this.props;
     let markers = this.props.services.map((service) => {
