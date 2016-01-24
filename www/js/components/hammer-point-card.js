@@ -5,7 +5,7 @@ import Hammer from 'react-hammerjs';
 import { connect } from 'react-redux';
 import {  fullscreenMarker,
           peekMarker,
-          deselectMarker } from '../actions/map_actions';
+          deselectMarker } from '../actions/map-actions';
 
 // import the PointCard
 import PointCard from './point-card';
