@@ -33,7 +33,7 @@ class PointMap extends Component {
     this.state = {
       startCenter: mapReducer.center,
       center: mapReducer.center,
-      zoom: mapReducer.zoom,
+      zoom: mapReducer.zoom
     }
   }
 
@@ -84,7 +84,9 @@ class PointMap extends Component {
       return (
         <Marker key={service._id} radius={10} position={service.location}
           onclick={() => {
-            dispatch(selectMarker(service));
+            if (!this.props.addpoint){
+              dispatch(selectMarker(service));
+            }
           }}
         />
       );
@@ -94,7 +96,9 @@ class PointMap extends Component {
       return (
         <Marker key={alert._id} radius={10} position={alert.location}
           onclick={() => {
-            dispatch(selectMarker(alert));
+            if (!this.props.addpoint){
+              dispatch(selectMarker(alert));
+            }
           }}
         />
       );
