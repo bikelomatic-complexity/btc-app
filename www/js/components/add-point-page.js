@@ -28,7 +28,7 @@ export class AddPointPage extends Component {
       <Layout fixedHeader>
         <Header title="Choose a Location"/>
         <ACDrawer page="Add Point"/>
-        <PointMap addpoint services={services} alerts={alerts}/>
+        <PointMap watchOnMove addpoint services={services} alerts={alerts}/>
         <AddPointCard history={this.props.history}/>
       </Layout>
     );

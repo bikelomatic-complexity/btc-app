@@ -64,17 +64,19 @@ class PointMap extends Component {
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch(setMapZoom(this.state.zoom));
+    dispatch(setMapCenter(this.state.center));
   }
 
   onMapMove(leaflet) {
     const { dispatch } = this.props;
-    const {lat, lng} = leaflet.target.getCenter();
+    const { lat, lng } = leaflet.target.getCenter();
     this.setState({center:[lat, lng]});
   }
 
   onMapMoved(leaflet) {
     const { dispatch } = this.props;
-    this.setState({zoom:leaflet.target.getZoom()});
+    const { lat, lng } = leaflet.target.getCenter();
+    this.setState({zoom:leaflet.target.getZoom(), center:[lat, lng]});
     dispatch(setMapCenter(this.state.center));
   }
 
@@ -124,6 +126,13 @@ class PointMap extends Component {
                           icon={customIcon} />
     }
 
+    let onLeafletMove = ()=>{};
+    if (this.props.watchOnMove) {
+      onLeafletMove = function(leafletMap){
+        this.onMapMove(leafletMap);
+      }.bind(this);
+    }
+
     let view;
     if (mapReducer.loading) {
       view = <div style={{margin:'auto'}}>
@@ -132,10 +141,8 @@ class PointMap extends Component {
     } else {
       view = (
         <Map  center={this.state.startCenter} zoom={this.state.zoom}
-              onLeafletMove={leafletMap=>{
-                this.onMapMove(leafletMap);
-              }}
-              onLeafletMoveEnd={leafletMap=>{
+              onLeafletMove={onLeafletMove}
+              onLeafletMoveEnd={(leafletMap)=>{
                 this.onMapMoved(leafletMap);
               }}
               onclick={() => {
