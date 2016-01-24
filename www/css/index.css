@@ -38,7 +38,7 @@ body {
 }
 
 /* Get the bobbing motion for new markers */
-.adding-point * > .leaflet-marker-icon{
+.adding-point > .marker{
     position: relative;
     top: 0px;
     -webkit-animation-name: adding;
@@ -121,7 +121,10 @@ body {
   margin-left: 8px;
 }
 
-
 .device-storage {
   flex-grow: 1
+}
+
+#textfield-Description {
+  font-family: Arial, sans-serif;
 }

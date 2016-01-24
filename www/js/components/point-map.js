@@ -1,55 +1,87 @@
-import React, { Component } from 'react';
-import { Spinner, CardText } from 'react-mdl';
-import { connect } from 'react-redux';
-import { keys, values } from 'underscore';
+import React, { Component } from 'react'
+import { Spinner, CardText } from 'react-mdl'
+import { connect } from 'react-redux'
+import { keys, values } from 'underscore'
 
-import * as leaflet from 'react-leaflet';
-let {Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline} = leaflet;
+import { divIcon } from 'leaflet'
+import * as Leaflet from 'react-leaflet'
+const { Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline } = Leaflet;
 import MBTilesLayer from './mbtiles-layer';
 
-import { selectMarker, deselectMarker } from '../actions/map_actions';
+import { selectMarker, deselectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 
-leaflet.setIconDefaultImagePath('img/icons');
+Leaflet.setIconDefaultImagePath('img/icons');
+
+const customIcon = divIcon({
+  className:'adding-point',
+  html:`<img src="img/icons/marker-shadow.png" class="leaflet-marker-shadow" style="margin-left: -12px; margin-top: -31px; width: 41px; height: 41px;">
+  <img src="img/icons/marker-icon.png" class="marker" tabindex="0" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px;">`
+});
 
 class PointMap extends Component {
   constructor(props) {
     super(props);
+    const { mapState } = this.props;
     this.state = {
-      startPos:[0,0],
-      loadingGeolocation: true,
-      zoom: 13
-    };
+      startCenter: mapState.center,
+      center: mapState.center,
+      zoom: mapState.zoom
+    }
   }
 
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const {latitude, longitude} = pos.coords;
-        this.setState({
-          startPos: [latitude, longitude],
-          loadingGeolocation: false,
-          zoom: 13
-        });
-      },
-      (err) => {
-        console.error(err);
-        this.setState({
-          startPos: [39.8145, -99.9946],
-          loadingGeolocation: false,
-          zoom: 3
-        });
-      }
-    );
+    const { dispatch, mapState } = this.props;
+    if (mapState.loading) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const {latitude, longitude} = pos.coords;
+          const coords = [latitude, longitude];
+          dispatch(setGeoLocation(coords));
+          dispatch(setMapCenter(coords));
+          dispatch(setMapLoading(false));
+          this.setState({
+            startCenter: coords,
+            center:coords,
+            zoom:13
+          });
+        },
+        (err) => {
+          console.error(err);
+          dispatch(setMapLoading(false));
+        }
+      )
+    }
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch(setMapZoom(this.state.zoom));
+    dispatch(setMapCenter(this.state.center));
+  }
+
+  onMapMove(leaflet) {
+    const { dispatch } = this.props;
+    const { lat, lng } = leaflet.target.getCenter();
+    this.setState({center:[lat, lng]});
+  }
+
+  onMapMoved(leaflet) {
+    const { dispatch } = this.props;
+    const { lat, lng } = leaflet.target.getCenter();
+    this.setState({zoom:leaflet.target.getZoom(), center:[lat, lng]});
+    dispatch(setMapCenter(this.state.center));
   }
 
   render() {
-    const { dispatch, tracks, settings } = this.props;
+    const { dispatch, tracks, settings, mapState } = this.props;
 
     let markers = this.props.services.map((service) => {
       return (
         <Marker key={service._id} radius={10} position={service.location}
           onclick={() => {
-            dispatch(selectMarker(service));
+            if (!this.props.addpoint){
+              dispatch(selectMarker(service));
+            }
           }}
         />
       );
@@ -59,7 +91,9 @@ class PointMap extends Component {
       return (
         <Marker key={alert._id} radius={10} position={alert.location}
           onclick={() => {
-            dispatch(selectMarker(alert));
+            if (!this.props.addpoint){
+              dispatch(selectMarker(alert));
+            }
           }}
         />
       );
@@ -105,26 +139,57 @@ class PointMap extends Component {
       );
     }
 
+    const { children } = this.props;
+
+    let circleMarker = '';
+    if (mapState.geolocation) {
+      circleMarker = <CircleMarker center={mapState.geolocation} />
+    }
+
+    let addpoint = '';
+    if (this.props.addpoint) {
+      addpoint = <Marker  position={this.state.center}
+                          radius={10}
+                          icon={customIcon} />
+    }
+
+    let onLeafletMove = ()=>{};
+    if (this.props.watchOnMove) {
+      onLeafletMove = function(leafletMap){
+        this.onMapMove(leafletMap);
+      }.bind(this);
+    }
+
     let view;
-    if (this.state.loadingGeolocation) {
-      view = <div style={{margin:'auto'}}>
-        <Spinner singleColor />
-      </div>;
+    if (mapState.loading) {
+      view = (
+        <div style={{margin:'auto'}}>
+          <Spinner singleColor />
+        </div>
+      );
     } else {
-      view = <Map
-          center={this.state.startPos}
+      view = (
+        <Map
+          center={this.state.startCenter}
           zoom={this.state.zoom}
+          onLeafletMove={onLeafletMove}
+          onLeafletMoveEnd={ leafletMap => {
+            this.onMapMoved(leafletMap);
+          }}
           onclick={() => {
             dispatch(deselectMarker());
-        }}
-      >
-        <CircleMarker center={this.state.startPos} />
-        { tileLayer }
+          }}>
 
-        { markers }
-        { alerts }
-        { trackViews }
-      </Map>;
+          { circleMarker }
+          { tileLayer }
+
+          { markers }
+          { alerts }
+          { trackViews }
+          { addpoint }
+
+        </Map>
+      );
     }
 
     return view;
@@ -134,7 +199,8 @@ class PointMap extends Component {
 function select(state) {
   return {
     tracks: state.tracks.toJS(),
-    settings: state.settings.toJS()
+    settings: state.settings.toJS(),
+    mapState: state.mapState
   };
 }
 export default connect(select)(PointMap);

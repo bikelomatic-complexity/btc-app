@@ -5,7 +5,7 @@
   "scripts": {
     "postinstall": "npm run install:cordova",
     "install:cordova": "cordova platform add android browser & true",
-    "postinstall:cordova": "cordova plugin add cordova-plugin-geolocation & cordova plugin add https://github.com/apache/cordova-plugin-file & cordova plugin add cordova-plugin-file-transfer",
+    "postinstall:cordova": "cordova plugin add cordova-plugin-geolocation & cordova plugin add https://github.com/apache/cordova-plugin-file & cordova plugin add cordova-plugin-camera & cordova plugin add cordova-plugin-file-transfer & cordova plugin add https://github.com/hypery2k/cordova-sqlite-plugin",
     "format": "jscs www/ -x -r inline; true",
     "doc": "esdoc -c .esdoc.json",
     "build": "browserify www/js/app.js -t babelify -o www/js/bundle.js",
@@ -39,7 +39,7 @@
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-hammerjs": "^0.4.2",
-    "react-leaflet": "^0.8.0",
+    "react-leaflet": "^0.10.0",
     "react-mdl": "^0.15.0",
     "react-redux": "^4.0.0",
     "react-router": "^1.0.3",
