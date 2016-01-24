@@ -1,4 +1,4 @@
- 
+
 import {ADD_POINT, RESET_POINTS} from '../actions/point-actions'
 
 export function points(state = [], action) {

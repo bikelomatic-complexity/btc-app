@@ -50,7 +50,6 @@ class DownloadTrackPage extends Component {
 
       let progressBar;
       if(track.isFetching === true) {
-        // console.log('indeterminate');
         progressBar = (
           <ProgressBar indeterminate={true} />
         );
@@ -58,9 +57,7 @@ class DownloadTrackPage extends Component {
         progressBar = (
           <ProgressBar progress={track.isFetching * 100} />
         )
-        // console.log('progress');
       } else {
-        // console.log('nope');
       }
 
       let icon;

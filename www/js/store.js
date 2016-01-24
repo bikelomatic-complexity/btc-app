@@ -34,8 +34,6 @@ const app = combineReducers({
   settings
 });
 
-// console.log(tracks);
-
 const finalCreateStore = compose(
   applyMiddleware(persister, thunk),
   window.devToolsExtension ? window.devToolsExtension() : f => f

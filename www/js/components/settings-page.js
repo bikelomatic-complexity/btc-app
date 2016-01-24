@@ -11,8 +11,6 @@ export class SettingsPage extends Component {
 
   render() {
     const {dispatch, settings} = this.props;
-    console.log('OFFLINE MODE!');
-    console.log(!settings.onlineMode);
     return (
       <Layout fixedHeader>
         <Header title="Settings"/>
@@ -28,7 +26,6 @@ export class SettingsPage extends Component {
           </div>
           <div className="form-row">
             <SettingSwitch id="offline-mode-switch" title="Offline Mode" checked={!settings.onlineMode} onChange={change => {
-              console.log(change);
               dispatch(setOnlineMode(!change));
             } }>
               Go into offline mode so you can view your offline tiles.
