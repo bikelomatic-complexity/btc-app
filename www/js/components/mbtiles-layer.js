@@ -17,6 +17,7 @@ const LMBTilesLayer = LTileLayer.extend({
 
   initialize: function(url, options, db) {
     LTileLayer.prototype.initialize.call(this, url, options);
+    this.db = db;
   },
 
   /*
