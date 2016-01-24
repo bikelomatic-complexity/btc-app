@@ -9,13 +9,17 @@ import {  peekMarker,
           fullscreenMarker,
           deselectMarker } from '../actions/map_actions';
 
-import BlobUtil from 'blob-util'
-
 const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
                 'Thursday', 'Friday', 'Saturday'];
 
 // export class for testing (use default export in application)
 export class PointCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: ''
+    };
+  }
 
   getDays(seasons) {
     let seasonDays = seasons[0].days;
@@ -43,9 +47,8 @@ export class PointCard extends Component {
     let titleHeight;
     let smallHeight;
 
-    if (this.props.point.imageBlob) {
-      const imageSrc = BlobUtil.createObjectURL(this.props.point.imageBlob);
-      backgroundStyle = `url(${imageSrc}) center / cover`;
+    if (this.props.point.imageSrc) {
+      backgroundStyle = `url(${this.props.point.imageSrc}) center / cover`;
       titleHeight = '176px';
       smallHeight = 300 - this.props.heightOffset;
     }
