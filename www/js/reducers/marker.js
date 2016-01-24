@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SELECT_MARKER, PEEK_MARKER, DESELECT_MARKER, FULLSCREEN_MARKER } from '../actions/map_actions';
+import { SELECT_MARKER, PEEK_MARKER, DESELECT_MARKER, FULLSCREEN_MARKER } from '../actions/map-actions';
 
 export function marker(state = {showPointCard:'hide'}, action) {
   switch (action.type) {

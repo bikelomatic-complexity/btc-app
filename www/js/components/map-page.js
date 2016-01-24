@@ -10,9 +10,6 @@ import BlobUtil from 'blob-util'
 // import redux components
 import { connect } from 'react-redux';
 
-// import pouch library
-import {pluck} from 'underscore';
-
 import HammerPointCard from './hammer-point-card';
 
 class MapPage extends Component {

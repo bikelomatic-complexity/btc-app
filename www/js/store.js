@@ -1,8 +1,9 @@
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
-import {ADD_POINT} from './actions/point-actions'
-import {marker} from './reducers/marker'
-import {points} from './reducers/points'
-import {db, init} from './db'
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import { ADD_POINT } from './actions/point-actions';
+import { marker } from './reducers/marker';
+import { points } from './reducers/points';
+import { mapState } from './reducers/map';
+import { db, init } from './db';
 
 const persister = store => next => action => {
   switch(action.type) {
@@ -41,7 +42,8 @@ const persister = store => next => action => {
 
 const app = combineReducers({
   marker,
-  points
+  points,
+  mapState
 });
 
 const finalCreateStore = compose(

@@ -38,7 +38,7 @@ body {
 }
 
 /* Get the bobbing motion for new markers */
-.adding-point * > .leaflet-marker-icon{
+.adding-point > .marker{
     position: relative;
     top: 0px;
     -webkit-animation-name: adding;

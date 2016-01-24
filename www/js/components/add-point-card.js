@@ -8,7 +8,7 @@ import BlobUtil from 'blob-util';
 // import redux components
 import { connect } from 'react-redux';
 
-import {addPoint} from '../actions/point-actions';
+import { addPoint } from '../actions/point-actions';
 
 const defaultState = {
   pointType: 'service', // alert or service
@@ -54,11 +54,12 @@ export class AddPointCard extends Component {
   }
 
   onSubmit() {
+    const { mapState } = this.props;
     this.props.dispatch(addPoint({
       class: this.state.pointType,
       created_at: new Date().toISOString(),
       name: this.state.name,
-      location: [this.props.latlng.lat, this.props.latlng.lng],
+      location: mapState.center,
       type: this.state.type,
       description: this.state.description,
       flag: false,
@@ -116,7 +117,8 @@ export class AddPointCard extends Component {
   }
 
   render() {
-    const {lat, lng} = this.props.latlng;
+    const { mapState } = this.props;
+    const [lat, lng] = mapState.center;
     const latLngString = `(${lat.toFixed(4)}, ${lng.toFixed(4)})`;
 
     const cardStyle = {
@@ -227,4 +229,10 @@ export class AddPointCard extends Component {
   }
 }
 
-export default connect()(AddPointCard);
+function select(state) {
+  return {
+    mapState: state.mapState
+  }
+}
+
+export default connect(select)(AddPointCard);
