@@ -1,11 +1,14 @@
 
+import path from 'path'
 import { fromJS } from 'immutable'
+
 import usbr20 from '../usbr20.json'
 
 import {
   MBTILES_SERVER,
   MBTILES_SERVER_ROOT,
-  MBTILES_LOCAL_ROOT
+  MBTILES_LOCAL_ROOT,
+  hackDatabasePath
 } from '../config'
 
 const FETCH = 'pannier/tracks/FETCH';
@@ -90,34 +93,44 @@ export function fetchTrack(id, pkg) {
     const transfer = new FileTransfer();
     const source = encodeURI(`http://${MBTILES_SERVER}/${MBTILES_SERVER_ROOT}/${pkg}`);
 
-    const target = `${MBTILES_LOCAL_ROOT}/${pkg}`;
+    /*
+     * In a perfect world, this commented out code is the best solution.
+     * See `hackDatabasePath`
+     *
+     * return Promise.resolve(`${MBTILES_LOCAL_ROOT}/${pkg}`).then(target => {
+     */
 
-    return new Promise((resolve, reject) => {
+    return hackDatabasePath().then(databasePath => {
+      return new Promise((resolve, reject) => {
 
-      // Use cordova-plugin-file-transfer to initiate the download
-      transfer.download(source, target, entry => {
-        resolve(entry);
-      }, error => {
-        console.error(`fetch error code ${error.code}`);
-        reject(error);
-      },
-      true);
+        const target = path.join(databasePath, pkg);
+        
+        // Use cordova-plugin-file-transfer to initiate the download
+        transfer.download(source, target, entry => {
+          resolve(entry);
+        }, error => {
+          console.error(`fetch error code ${error.code}`);
+          reject(error);
+        },
+        true);
 
-      // Only dispatch updates every 10% to improve performance. If we ever
-      // cannot determine the size of the download, mark progress as
-      // indeterminate.
-      let last = 0.0;
-      transfer.onprogress = e => {
-        if(e.lengthComputable) {
-          const fract = e.loaded / e.total;
-          if(fract >= last) {
-            last = last + 0.1;
-            dispatch(requestTrack(id, fract));
+        // Only dispatch updates every 10% to improve performance. If we ever
+        // cannot determine the size of the download, mark progress as
+        // indeterminate.
+        let last = 0.0;
+        transfer.onprogress = e => {
+          if(e.lengthComputable) {
+            const fract = e.loaded / e.total;
+            if(fract >= last) {
+              last = last + 0.1;
+              dispatch(requestTrack(id, fract));
+            }
+          } else {
+            dispatch(requestTrack(id, true));
           }
-        } else {
-          dispatch(requestTrack(id, true));
-        }
-      };
+        };
+
+    });
 
     }).then(entry => {
       dispatch(receiveTrack(id, 'available'));

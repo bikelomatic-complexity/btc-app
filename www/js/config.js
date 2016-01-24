@@ -1,5 +1,8 @@
 
-export const MBTILES_SERVER = '52.21.125.160:8080';
+import path from 'path'
+
+// export const MBTILES_SERVER = '52.21.125.160:8080';
+export const MBTILES_SERVER = '129.21.158.2:8080';
 export const MBTILES_SERVER_ROOT = 'mbtiles';
 
 // TODO: We should store mbtiles downloads in a subdirectory of the persistent
@@ -9,3 +12,32 @@ export const MBTILES_SERVER_ROOT = 'mbtiles';
 // TODO: We need to store mbtiles packages in localhost/persistent, but we
 // may encounter errors doing that
 export const MBTILES_LOCAL_ROOT = 'cdvfile://localhost/temporary';
+
+/*
+ * Returns a promise that resolves with an absolute path that can be used
+ * to store a sqlite database in just the right location for use with
+ * cordova-plugin-sqlite.
+ *
+ * We are able to use cdvfile paths to store our sqlite databases in
+ * a platform compatible way. However, the cordova-plugin-sqlite plugin is
+ * not able to open dbs at arbitrary cdvfile paths. We could extend
+ * cordova-plugin-sqlite to accept arbitrary cdvfile paths, but for now we
+ * have this hack.
+ *
+ * This only works with android right now!
+ */
+export function hackDatabasePath() {
+  return new Promise((resolve, reject) => {
+    resolveLocalFileSystemURL('cdvfile://localhost/temporary/', entry => {
+      const cachePath = entry.toURL();
+      const parent = path.dirname(cachePath);
+
+      resolve(path.join(parent, 'databases'));
+    }, error => {
+      const err = 'ERROR: `hackDatabasePath` ' + error;
+      console.error(err);
+
+      reject(err);
+    });
+  });
+}

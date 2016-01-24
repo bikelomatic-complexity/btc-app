@@ -1,9 +1,8 @@
-import { PropTypes } from 'react';
-import { TileLayer as LTileLayer } from 'leaflet';
-import { TileLayer } from 'react-leaflet';
-import { omit } from 'underscore';
-
-import { MBTILES_LOCAL_ROOT } from '../config'
+import { PropTypes } from 'react'
+import { TileLayer as LTileLayer } from 'leaflet'
+import { TileLayer } from 'react-leaflet'
+import { omit } from 'underscore'
+import { join } from 'path'
 
 /*
  * A plugin for native leaflet, which gets tile URLs as data URIs. The data
@@ -89,12 +88,9 @@ export default class MBTilesLayer extends TileLayer {
     const { pkg, map, url } = this.props;
     const options = omit(this.props, 'pkg', 'map', 'url');
 
-    const target = `${MBTILES_LOCAL_ROOT}/${pkg}`;
     const db = sqlitePlugin.openDatabase({
-      name: target,
-      location: 2,
-      createFromLocation: 1
-    })
+      name: pkg
+    });
 
     this.leafletElement = new LMBTilesLayer(url, options, db);
   }

@@ -1,19 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
 import { createAppStore } from './store'
 
-import MapPage from './components/map-page';
-import AddPointPage from './components/add-point-page';
-import RegisterPage from './components/register-page';
-import LoginPage from './components/login-page';
-import DownloadTrackPage from './components/download-track-page';
-import FilterPage from './components/filter-page';
-import SettingsPage from './components/settings-page';
+import MapPage from './components/map-page'
+import AddPointPage from './components/add-point-page'
+import RegisterPage from './components/register-page'
+import LoginPage from './components/login-page'
+import DownloadTrackPage from './components/download-track-page'
+import FilterPage from './components/filter-page'
+import SettingsPage from './components/settings-page'
 
-import {loadDb} from './db'
+import { loadDb } from './db'
 
 /**
  * the App component fetches service data from the server and displays
@@ -34,7 +34,7 @@ const deviceReady = new Promise(resolve => {
   document.addEventListener('deviceReady', resolve, false);
 });
 
-Promise.all([deviceReady, loadDb]).then( ([device, points]) => {
+Promise.all([deviceReady, loadDb]).then( ([device, points, databasePath]) => {
   const store = createAppStore({points});
 
   ReactDOM.render((

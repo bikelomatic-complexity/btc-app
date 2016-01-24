@@ -28,7 +28,7 @@ class MapPage extends Component {
       <Layout fixedHeader>
         <Header title="Adventure Cycling" />
         <ACDrawer page="Map"/>
-        <PointMap services={services} alerts={alerts}/>
+        <PointMap services={services} alerts={alerts} />
         <HammerPointCard point={selectedPoint} show={marker.showPointCard}/>
       </Layout>
     );
