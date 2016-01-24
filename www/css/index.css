@@ -85,3 +85,7 @@ body {
 .ac-drop-down > li {
   opacity: inherit;
 }
+
+#textfield-Description {
+  font-family: Arial
+}

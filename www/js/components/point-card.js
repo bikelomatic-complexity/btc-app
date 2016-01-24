@@ -14,6 +14,12 @@ const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
 
 // export class for testing (use default export in application)
 export class PointCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: ''
+    };
+  }
 
   getDays(seasons) {
     let seasonDays = seasons[0].days;
@@ -40,15 +46,16 @@ export class PointCard extends Component {
     let backgroundStyle;
     let titleHeight;
     let smallHeight;
-    if (this.props.point.image) {
-        backgroundStyle = `url(${this.props.point.image}) center / cover`;
-        titleHeight = '176px';
-        smallHeight = 300 - this.props.heightOffset;
+
+    if (this.props.point.imageSrc) {
+      backgroundStyle = `url(${this.props.point.imageSrc}) center / cover`;
+      titleHeight = '176px';
+      smallHeight = 300 - this.props.heightOffset;
     }
     else {
-        backgroundStyle = '#3f51b5';
-        titleHeight = '100px';
-        smallHeight = 224 - this.props.heightOffset;
+      backgroundStyle = '#3f51b5';
+      titleHeight = '100px';
+      smallHeight = 224 - this.props.heightOffset;
     }
 
     const headerHeight = Math.max(55,  55 + this.props.heightOffset);

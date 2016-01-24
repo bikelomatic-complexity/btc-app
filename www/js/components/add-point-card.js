@@ -3,25 +3,31 @@ import { Card, Button, Textfield, Checkbox } from 'react-mdl';
 import DropDown from './drop-down';
 import HoursTable from './hours-table';
 
+import BlobUtil from 'blob-util';
+
 // import redux components
 import { connect } from 'react-redux';
 
 import { addPoint } from '../actions/point-actions';
 
+const defaultState = {
+  pointType: 'service', // alert or service
+  type: '',         // place type
+  name: '',
+  description: '',      // description
+  checkIn: false,       // mark if they were there or not
+  imgSrc: '',           // image url
+  imgBlob: '',          // image blob
+  fullscreen: false,    // should the card cover the map
+  typeMenu: false,       // should the type menu be open
+  addMessage: 'Add Point Here' // message to show on adding a point
+};
+
 // export class for testing (use default export in application)
 export class AddPointCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      pointType: 'service', // alert or service
-      type: 'Type',         // place type
-      description: '',      // description
-      checkIn: false,       // mark if they were there or not
-      img: '',              // image url
-      fullscreen: false,    // should the card cover the map
-      typeMenu: false,       // should the type menu be open
-      addMessage: 'Add Point Here' // message to show on adding a point
-    }
+    this.state = defaultState;
   }
 
   onLocationSelect() {
@@ -44,16 +50,7 @@ export class AddPointCard extends Component {
   }
 
   onCancel() {
-    this.setState({
-      pointType: 'service',
-      type: 'Type',
-      description: '',
-      checkIn: false,
-      img: '',
-      fullscreen: false,
-      typeMenu: false,
-      addMessage: 'Add Point Here'
-    });
+    this.setState(defaultState);
   }
 
   onSubmit() {
@@ -61,9 +58,9 @@ export class AddPointCard extends Component {
     this.props.dispatch(addPoint({
       class: this.state.pointType,
       created_at: new Date().toISOString(),
-      name: "TODO",
+      name: this.state.name,
       location: mapState.center,
-      type: "TODO",
+      type: this.state.type,
       description: this.state.description,
       flag: false,
       amenities: [],
@@ -73,9 +70,7 @@ export class AddPointCard extends Component {
       rating: 5,
       website: null,
       address: null
-    }));
-    console.dir(this.state);
-    console.dir(this.props);
+    }, this.state.imgBlob));
     this.props.history.pushState(null, '/');
   }
 
@@ -94,6 +89,31 @@ export class AddPointCard extends Component {
 
   onDescriptionUpdate(newText) {
     this.setState({'description': newText});
+  }
+
+  onNameUpdate(newText) {
+    this.setState({'name': newText});
+  }
+
+  onPhotoAdd() {
+    // This logic will not work on the browser
+    // because of issue - Apache Cordova / CB-9852
+    // https://issues.apache.org/jira/browse/CB-9852
+    navigator.camera.getPicture(
+      imgSrc => {
+        this.setState({ imgSrc });
+        BlobUtil.imgSrcToBlob(this.state.imgSrc).then(blob => {
+          this.setState({'imgBlob':blob});
+        })
+      },
+      err => console.error( err ),
+      { sourceType:navigator.camera.PictureSourceType.PHOTOLIBRARY,
+        targetWidth:626,
+        targetHeight:352,
+        destinationType:navigator.camera.DestinationType.FILE_URI,
+        encodingType:navigator.camera.EncodingType.PNG
+      }
+    )
   }
 
   render() {
@@ -136,6 +156,13 @@ export class AddPointCard extends Component {
                             func={this.onTypeSelect.bind(this)}/>;
     }
 
+    let imgView = <div />
+    if (this.state.imgSrc !== '') {
+      imgView = <div>
+        <img src={this.state.imgSrc} width="100%" />
+      </div>
+    }
+
     if (this.state.fullscreen) {
       view = <div className="form-column">
         <div className="form-row">
@@ -156,15 +183,19 @@ export class AddPointCard extends Component {
         <div className="form-row">
           <Button raised id="menu-button"
                   onClick={this.openTypeMenu.bind(this)}>
-            {this.state.type}
+            {(this.state.type) ? this.state.type : "Type"}
           </Button>
         </div>
         { dropDown }
         <div className="form-row">
+          <Textfield  label="Name"
+                      onChange={this.onNameUpdate.bind(this)}
+                      value={this.state.name} />
+        </div>
+        <div className="form-row">
           <Textfield  rows={3} label="Description"
                       onChange={this.onDescriptionUpdate.bind(this)}
-                      value={this.state.description}>
-          </Textfield>
+                      value={this.state.description} />
         </div>
         <div className="form-row">
           <Button colored={this.state.checkIn}
@@ -173,7 +204,13 @@ export class AddPointCard extends Component {
           </Button>
         </div>
         <div className="form-row">
-          <Button raised>Upload Photo</Button>
+          <Button onClick={this.onPhotoAdd.bind(this)}
+                  colored={this.state.imgSrc !== ''} raised>
+                  Upload Photo
+          </Button>
+        </div>
+        <div className="form-row">
+          { imgView }
         </div>
         <div className="form-row">
           <Button raised onClick={this.onCancel.bind(this)}>
