@@ -120,3 +120,8 @@ body {
 .button-text {
   margin-left: 8px;
 }
+
+
+.device-storage {
+  flex-grow: 1
+}

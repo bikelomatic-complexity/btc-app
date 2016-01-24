@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { isFinite, bindAll } from 'underscore'
 
-import { Checkbox, Switch, Layout, Header, Content, Card, CardActions, CardText, CardTitle, ProgressBar, Button } from 'react-mdl';
+import { Grid, Cell, Checkbox, Switch, Layout, Header, Content, Card, CardActions, CardText, CardTitle, ProgressBar, Button } from 'react-mdl';
 import DeviceStorage from './device-storage';
 import ACDrawer from './ac-drawer';
 import { downloadableTracks } from '../mock-data';
@@ -33,7 +33,6 @@ class DownloadTrackPage extends Component {
   }
 
   activationChange(id, val) {
-    console.log('wha? ' + val);
     const fn = val ? activateTrack : deactivateTrack;
     this.props.dispatch(fn(id));
   }
@@ -130,6 +129,7 @@ class DownloadTrackPage extends Component {
         <ACDrawer page="Download Track"/>
         <div className="form-column">
           <DeviceStorage downloaded={downloaded}/>
+          {/*<Grid>{ rows }</Grid>*/}
           { rows }
         </div>
       </Layout>
