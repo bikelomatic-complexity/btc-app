@@ -5,6 +5,9 @@ import { points } from './reducers/points';
 import { mapState } from './reducers/map';
 import { db, init } from './db';
 
+// import library for handling image blobs
+import BlobUtil from 'blob-util'
+
 const persister = store => next => action => {
   switch(action.type) {
     case ADD_POINT:
@@ -21,14 +24,20 @@ const persister = store => next => action => {
           }
         };
       }
-      const newPoint = Object.assign(action.point, attachmentObject);
+      
+      let newPoint = Object.assign(action.point, attachmentObject);
 
       db.post(newPoint).then(response => {
-        action.point = Object.assign(newPoint, {
-          _id: response.id,
-          _rev: response.rev
+        if (action.imageBlob !== '') {
+          const imageSrc = BlobUtil.createObjectURL(action.imageBlob);
+          newPoint = Object.assign(newPoint, {imageSrc});
         }
-      );
+        action.point = Object.assign(newPoint,
+          {
+            _id: response.id,
+            _rev: response.rev
+          }
+        );
       }).catch(err => {
         console.error(err);
       }).then(() => {
