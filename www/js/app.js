@@ -1,15 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-// redux components
 import { Provider } from 'react-redux';
-
-// react-router components
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import { createAppStore } from './store'
 
-// pages to render for different routes
 import MapPage from './components/map-page';
 import AddPointPage from './components/add-point-page';
 import RegisterPage from './components/register-page';
@@ -19,8 +14,6 @@ import FilterPage from './components/filter-page';
 import SettingsPage from './components/settings-page';
 
 import {loadDb} from './db'
-
-import {fetchTrack} from './reducers/tracks'
 
 /**
  * the App component fetches service data from the server and displays
@@ -43,10 +36,6 @@ const deviceReady = new Promise(resolve => {
 
 Promise.all([deviceReady, loadDb]).then( ([device, points]) => {
   const store = createAppStore({points});
-
-  window.try = () => {
-    store.dispatch(fetchTrack('usbr-20', 'usbr20.mbtiles'));
-  };
 
   ReactDOM.render((
     <Provider store={store}>
