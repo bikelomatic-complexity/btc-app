@@ -105,7 +105,8 @@ export class AddPointCard extends Component {
   }
 
   onPhotoAdd() {
-    // check device, because of issue - Apache Cordova / CB-9852
+    // This logic will not work on the browser
+    // because of issue - Apache Cordova / CB-9852
     // https://issues.apache.org/jira/browse/CB-9852
     navigator.camera.getPicture(
       imgSrc => {
