@@ -12,7 +12,7 @@ import {addPoint} from '../actions/point-actions';
 
 const defaultState = {
   pointType: 'service', // alert or service
-  type: 'Type',         // place type
+  type: '',         // place type
   name: '',
   description: '',      // description
   checkIn: false,       // mark if they were there or not
@@ -181,7 +181,7 @@ export class AddPointCard extends Component {
         <div className="form-row">
           <Button raised id="menu-button"
                   onClick={this.openTypeMenu.bind(this)}>
-            {this.state.type}
+            {(this.state.type) ? this.state.type : "Type"}
           </Button>
         </div>
         { dropDown }
