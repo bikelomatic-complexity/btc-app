@@ -16,8 +16,14 @@ import { Spinner, CardText } from 'react-mdl';
 
 const usbr20_low = usbr20.map((track)=>{
   return track.filter((point, index)=>{
-    return index % 4 == 0;
+    return index % 100 == 0;
   });
+});
+
+const customIcon = divIcon({
+  className:'adding-point',
+  html:`<img src="img/icons/marker-shadow.png" class="leaflet-marker-shadow" style="margin-left: -12px; margin-top: -31px; width: 41px; height: 41px;">
+  <img src="img/icons/marker-icon.png" class="marker" tabindex="0" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px;">`
 });
 
 class PointMap extends Component {
@@ -25,8 +31,9 @@ class PointMap extends Component {
     super(props);
     const { mapReducer } = this.props;
     this.state = {
+      startCenter: mapReducer.center,
       center: mapReducer.center,
-      zoom: mapReducer.zoom
+      zoom: mapReducer.zoom,
     }
   }
 
@@ -38,9 +45,10 @@ class PointMap extends Component {
           const {latitude, longitude} = pos.coords;
           const coords = [latitude, longitude];
           dispatch(setGeoLocation(coords));
-          dispatch(setMapCenter(coords))
+          dispatch(setMapCenter(coords));
           dispatch(setMapLoading(false));
           this.setState({
+            startCenter: coords,
             center:coords,
             zoom:13
           });
@@ -56,6 +64,18 @@ class PointMap extends Component {
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch(setMapZoom(this.state.zoom));
+  }
+
+  onMapMove(leaflet) {
+    const { dispatch } = this.props;
+    const {lat, lng} = leaflet.target.getCenter();
+    this.setState({center:[lat, lng]});
+  }
+
+  onMapMoved(leaflet) {
+    const { dispatch } = this.props;
+    this.setState({zoom:leaflet.target.getZoom()});
+    dispatch(setMapCenter(this.state.center));
   }
 
   render() {
@@ -95,11 +115,6 @@ class PointMap extends Component {
 
     let addpoint = '';
     if (this.props.addpoint) {
-      const customIcon = divIcon({
-        className:'adding-point',
-        html:`<img src="img/icons/marker-shadow.png" class="leaflet-marker-shadow" style="margin-left: -12px; margin-top: -31px; width: 41px; height: 41px;">
-        <img src="img/icons/marker-icon.png" class="marker" tabindex="0" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px;">`
-      });
       addpoint = <Marker  position={this.state.center}
                           radius={10}
                           icon={customIcon} />
@@ -112,14 +127,12 @@ class PointMap extends Component {
       </div>;
     } else {
       view = (
-        <Map  center={mapReducer.center} zoom={this.state.zoom}
+        <Map  center={this.state.startCenter} zoom={this.state.zoom}
               onLeafletMove={leafletMap=>{
-                this.setState({center:leafletMap.target.getCenter()});
+                this.onMapMove(leafletMap);
               }}
               onLeafletMoveEnd={leafletMap=>{
-                this.setState({zoom:leafletMap.target.getZoom()})
-                const {lat, lng} = leafletMap.target.getCenter()
-                dispatch(setMapCenter([lat, lng]));
+                this.onMapMoved(leafletMap);
               }}
               onclick={() => {
                 dispatch(deselectMarker());
