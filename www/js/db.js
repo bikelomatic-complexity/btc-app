@@ -33,5 +33,12 @@ export const loadDb = db.put(points).catch(err => {
     binary: true
   });
 }).then(response => {
-  return response.rows.map(row => row.doc);
+  return response.rows.map(row => {
+    let imageBlob;
+    console.dir(row.doc);
+    if (row.doc._attachments) {
+      imageBlob = row.doc._attachments['cover.png'].data;
+    }
+    return Object.assign(row.doc, {imageBlob});
+  });
 });

@@ -7,17 +7,21 @@ import {db, init} from './db'
 const persister = store => next => action => {
   switch(action.type) {
     case ADD_POINT:
-      db.post(action.point).then(response => {
-        action.point = Object.assign({}, action.point, {
+
+      // add image attachment to point
+      const newPoint = Object.assign(action.point, {
+        _attachments: {
+          'cover.png': {
+            content_type: 'image/png',
+            data: action.imageBlob
+          }
+        }
+      });
+
+      db.post(newPoint).then(response => {
+        action.point = Object.assign(newPoint, {
           _id: response.id,
           _rev: response.rev
-        }, {
-          _attachments: {
-            'cover.png': {
-              content_type: 'image/png',
-              data: action.imageBlob
-            }
-          }
         }
       );
       }).catch(err => {

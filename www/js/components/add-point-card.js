@@ -68,7 +68,6 @@ export class AddPointCard extends Component {
       phone: null,
       rating: 5,
       website: null,
-      imageBlob: this.state.imgBlob,
       address: null
     }, this.state.imgBlob));
     this.props.history.pushState(null, '/');
