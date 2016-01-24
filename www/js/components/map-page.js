@@ -4,9 +4,6 @@ import { Layout, Header, Content } from 'react-mdl';
 import ACDrawer from './ac-drawer';
 import PointMap from './point-map';
 
-// import library for handling image blobs
-import BlobUtil from 'blob-util'
-
 // import redux components
 import { connect } from 'react-redux';
 
@@ -20,15 +17,8 @@ class MapPage extends Component {
   render() {
     const { marker, services, alerts } = this.props;
     let selectedPoint = services[0];
-    let imageSrc;
-    // if we selected a new marker, set it to the selected point
     if (marker.selectedMarker) {
       selectedPoint = marker.selectedMarker;
-      // if we have an image, load the image using the BlobUtil library
-      if (marker.selectedMarker.imageBlob) {
-        imageSrc = BlobUtil.createObjectURL(marker.selectedMarker.imageBlob);
-      }
-      selectedPoint = Object.assign(marker.selectedMarker, {imageSrc});
     }
 
     return (

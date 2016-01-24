@@ -1,5 +1,8 @@
 import PouchDB from 'pouchdb'
 
+// import library for handling image blobs
+import BlobUtil from 'blob-util'
+
 export const db = new PouchDB('points');
 const remote = new PouchDB('http://52.21.125.160:5984/points');
 window.db = db;
@@ -37,7 +40,9 @@ export const loadDb = db.put(points).catch(err => {
     let result = row.doc;
     if (row.doc._attachments) {
       const imageBlob = row.doc._attachments['cover.png'].data;
-      result = Object.assign(row.doc, {imageBlob})
+      const imageSrc = BlobUtil.createObjectURL(imageBlob);
+      
+      result = Object.assign(row.doc, {imageSrc})
     }
     return result;
   });
