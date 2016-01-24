@@ -28,7 +28,9 @@ export const loadDb = db.put(points).catch(err => {
   console.error(err);
 }).then(() => {
   return db.query('points', {
-    include_docs: true
+    include_docs: true,
+    attachments: true,
+    binary: true
   });
 }).then(response => {
   return response.rows.map(row => row.doc);

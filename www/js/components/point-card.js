@@ -9,6 +9,8 @@ import {  peekMarker,
           fullscreenMarker,
           deselectMarker } from '../actions/map_actions';
 
+import BlobUtil from 'blob-util'
+
 const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
                 'Thursday', 'Friday', 'Saturday'];
 
@@ -40,15 +42,17 @@ export class PointCard extends Component {
     let backgroundStyle;
     let titleHeight;
     let smallHeight;
-    if (this.props.point.image) {
-        backgroundStyle = `url(${this.props.point.image}) center / cover`;
-        titleHeight = '176px';
-        smallHeight = 300 - this.props.heightOffset;
+
+    if (this.props.point.imageBlob) {
+      const imageSrc = BlobUtil.createObjectURL(this.props.point.imageBlob);
+      backgroundStyle = `url(${imageSrc}) center / cover`;
+      titleHeight = '176px';
+      smallHeight = 300 - this.props.heightOffset;
     }
     else {
-        backgroundStyle = '#3f51b5';
-        titleHeight = '100px';
-        smallHeight = 224 - this.props.heightOffset;
+      backgroundStyle = '#3f51b5';
+      titleHeight = '100px';
+      smallHeight = 224 - this.props.heightOffset;
     }
 
     const headerHeight = Math.max(55,  55 + this.props.heightOffset);

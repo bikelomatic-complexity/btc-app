@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/bikelomatic-complexity/app#readme",
   "dependencies": {
+    "blob-util": "^1.2.0",
     "leaflet": "^0.7.5",
     "pouchdb": "^5.1.0",
     "react": "^0.14.0",

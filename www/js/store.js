@@ -11,7 +11,15 @@ const persister = store => next => action => {
         action.point = Object.assign({}, action.point, {
           _id: response.id,
           _rev: response.rev
-        });
+        }, {
+          _attachments: {
+            'cover.png': {
+              content_type: 'image/png',
+              data: action.imageBlob
+            }
+          }
+        }
+      );
       }).catch(err => {
         console.error(err);
       }).then(() => {
