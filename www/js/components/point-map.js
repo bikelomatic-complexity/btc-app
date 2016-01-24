@@ -1,19 +1,15 @@
-import React, {Component} from 'react';
-import {keys, values} from 'underscore';
+import React, { Component } from 'react';
+import { Spinner, CardText } from 'react-mdl';
+import { connect } from 'react-redux';
+import { keys, values } from 'underscore';
 
-// import leaflet components
 import * as leaflet from 'react-leaflet';
 let {Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline} = leaflet;
-// import { usbr20 } from '../mock-route';
 import MBTilesLayer from './mbtiles-layer';
 
-leaflet.setIconDefaultImagePath('img/icons');
-
-// import redux components
-import { connect } from 'react-redux';
 import { selectMarker, deselectMarker } from '../actions/map_actions';
 
-import { Spinner, CardText } from 'react-mdl';
+leaflet.setIconDefaultImagePath('img/icons');
 
 class PointMap extends Component {
   constructor(props) {
@@ -47,7 +43,8 @@ class PointMap extends Component {
   }
 
   render() {
-    const { dispatch, settings } = this.props;
+    const { dispatch, tracks, settings } = this.props;
+
     let markers = this.props.services.map((service) => {
       return (
         <Marker key={service._id} radius={10} position={service.location}
@@ -68,24 +65,29 @@ class PointMap extends Component {
       );
     });
 
-    const tileLayerInfo = {
-      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      attr: `&copy; <a href="http://osm.org/copyright">
-              OpenStreetMap</a>contributors`
-    }
-
-    const trackViews = values(this.props.tracks)
-      .filter(track => track.active)
-      .map(track => {
+    // Display waypoints for active tracks
+    const activeTracks = values(tracks).filter(track => track.active)
+    const trackViews = activeTracks.map(track => {
         return (
           <MultiPolyline key={track._id} polylines={track.waypoints}
             color="#f30" opacity="0.8" />
         )
       });
 
-    const availableTracks = values(this.props.tracks)
-      .filter(track => track.status === 'available')
+    // If offline, display tile layers for tracks with available packages
+    const availableTracks = values(tracks)
+      .filter(track => track.status === 'available');
 
+    const tileLayerInfo = {
+      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      attr: `&copy; <a href="http://osm.org/copyright">
+              OpenStreetMap</a>contributors`
+    };
+
+    // In online mode, use tiles from OpenStreetMap. When offline, display
+    // tiles from the first availble mbtiles package. If no tile packages
+    // are availale when offline, display no tile layers.
+    // TODO: display multiple offline tile layers concurrently
     let tileLayer;
     if(settings.onlineMode) {
       tileLayer = (
@@ -118,7 +120,6 @@ class PointMap extends Component {
       >
         <CircleMarker center={this.state.startPos} />
         { tileLayer }
-
 
         { markers }
         { alerts }
