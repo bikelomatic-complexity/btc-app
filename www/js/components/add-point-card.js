@@ -57,12 +57,12 @@ export class AddPointCard extends Component {
   }
 
   onSubmit() {
-    const { mapReducer } = this.props;
+    const { mapState } = this.props;
     this.props.dispatch(addPoint({
       class: this.state.pointType,
       created_at: new Date().toISOString(),
       name: "TODO",
-      location: mapReducer.center,
+      location: mapState.center,
       type: "TODO",
       description: this.state.description,
       flag: false,
@@ -97,8 +97,8 @@ export class AddPointCard extends Component {
   }
 
   render() {
-    const { mapReducer } = this.props;
-    const [lat, lng] = mapReducer.center;
+    const { mapState } = this.props;
+    const [lat, lng] = mapState.center;
     const latLngString = `(${lat.toFixed(4)}, ${lng.toFixed(4)})`;
 
     const cardStyle = {
@@ -194,7 +194,7 @@ export class AddPointCard extends Component {
 
 function select(state) {
   return {
-    mapReducer: state.mapReducer
+    mapState: state.mapState
   }
 }
 

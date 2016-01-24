@@ -29,17 +29,17 @@ const customIcon = divIcon({
 class PointMap extends Component {
   constructor(props) {
     super(props);
-    const { mapReducer } = this.props;
+    const { mapState } = this.props;
     this.state = {
-      startCenter: mapReducer.center,
-      center: mapReducer.center,
-      zoom: mapReducer.zoom
+      startCenter: mapState.center,
+      center: mapState.center,
+      zoom: mapState.zoom
     }
   }
 
   componentDidMount() {
-    const { dispatch, mapReducer } = this.props;
-    if (mapReducer.loading) {
+    const { dispatch, mapState } = this.props;
+    if (mapState.loading) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const {latitude, longitude} = pos.coords;
@@ -81,7 +81,7 @@ class PointMap extends Component {
   }
 
   render() {
-    const { dispatch, mapReducer } = this.props;
+    const { dispatch, mapState } = this.props;
     let markers = this.props.services.map((service) => {
       return (
         <Marker key={service._id} radius={10} position={service.location}
@@ -115,8 +115,8 @@ class PointMap extends Component {
     const { children } = this.props;
 
     let circleMarker = '';
-    if (mapReducer.geolocation) {
-      circleMarker = <CircleMarker center={mapReducer.geolocation} />
+    if (mapState.geolocation) {
+      circleMarker = <CircleMarker center={mapState.geolocation} />
     }
 
     let addpoint = '';
@@ -134,7 +134,7 @@ class PointMap extends Component {
     }
 
     let view;
-    if (mapReducer.loading) {
+    if (mapState.loading) {
       view = <div style={{margin:'auto'}}>
         <Spinner singleColor />
       </div>;
@@ -171,7 +171,7 @@ class PointMap extends Component {
 
 function select(state) {
   return {
-    mapReducer: state.mapReducer
+    mapState: state.mapState
   };
 }
 
