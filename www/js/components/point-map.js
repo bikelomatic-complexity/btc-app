@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {values} from 'underscore';
+import {keys, values} from 'underscore';
 
 // import leaflet components
 import * as leaflet from 'react-leaflet';
@@ -47,7 +47,7 @@ class PointMap extends Component {
   }
 
   render() {
-    const { dispatch } = this.props;
+    const { dispatch, settings } = this.props;
     let markers = this.props.services.map((service) => {
       return (
         <Marker key={service._id} radius={10} position={service.location}
@@ -74,13 +74,6 @@ class PointMap extends Component {
               OpenStreetMap</a>contributors`
     }
 
-    // const tileLayerInfo = {
-    //   url: 'http://localhost:8080/{z}/{x}/{y}.png',
-    //   attr: `&copy; <a href="http://osm.org/copyright">
-    //           OpenStreetMap</a>contributors`
-    // }
-
-
     const trackViews = values(this.props.tracks)
       .filter(track => track.active)
       .map(track => {
@@ -89,6 +82,26 @@ class PointMap extends Component {
             color="#f30" opacity="0.8" />
         )
       });
+
+    const availableTracks = values(this.props.tracks)
+      .filter(track => track.status === 'available')
+
+    let tileLayer;
+    if(settings.onlineMode) {
+      tileLayer = (
+        <TileLayer
+          url={tileLayerInfo.url}
+          attribution={tileLayerInfo.attr} />
+      );
+    } else if(availableTracks.length > 0) {
+      const pkg = availableTracks[0].pkg;
+      tileLayer = (
+        <MBTilesLayer
+          pkg={pkg}
+          url={tileLayerInfo.url}
+          attribution={tileLayerInfo.attr} />
+      );
+    }
 
     let view;
     if (this.state.loadingGeolocation) {
@@ -104,10 +117,8 @@ class PointMap extends Component {
         }}
       >
         <CircleMarker center={this.state.startPos} />
-        <TileLayer
-          url={tileLayerInfo.url}
-          attribution={tileLayerInfo.attr}
-        />
+        { tileLayer }
+
 
         { markers }
         { alerts }
@@ -121,7 +132,8 @@ class PointMap extends Component {
 
 function select(state) {
   return {
-    tracks: state.tracks.toJS()
+    tracks: state.tracks.toJS(),
+    settings: state.settings.toJS()
   };
 }
 export default connect(select)(PointMap);

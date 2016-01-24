@@ -5,6 +5,7 @@ import {ADD_POINT} from './actions/point-actions'
 import {marker} from './reducers/marker'
 import {points} from './reducers/points'
 import tracks from './reducers/tracks'
+import settings from './reducers/settings'
 import {db, init} from './db'
 
 const persister = store => next => action => {
@@ -29,7 +30,8 @@ const persister = store => next => action => {
 const app = combineReducers({
   marker,
   points,
-  tracks
+  tracks,
+  settings
 });
 
 // console.log(tracks);

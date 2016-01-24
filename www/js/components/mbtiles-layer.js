@@ -4,6 +4,13 @@ import {TileLayer} from 'react-leaflet';
 import {omit} from 'underscore';
 import blobUtil from 'blob-util';
 
+import {
+  MBTILES_SERVER,
+  MBTILES_SERVER_ROOT,
+  MBTILES_LOCAL_ROOT
+} from '../config'
+
+
 L.MBTilesLayer = L.TileLayer.extend({
   initialize: function(url, options, db) {
     L.TileLayer.prototype.initialize.call(this, url, options);
@@ -52,9 +59,16 @@ export default class MBTilesLayer extends TileLayer {
   componentWillMount() {
     super.componentWillMount();
 
-    const { map, url } = this.props;
-    const options = omit(this.props, 'map', 'url');
+    const { pkg, map, url } = this.props;
+    const options = omit(this.props, 'pkg', 'map', 'url');
 
-    this.leafletElement = new L.MBTilesLayer(url, options);
+    const target = `${MBTILES_LOCAL_ROOT}/${pkg}`;
+    const db = sqlitePlugin.openDatabase({
+      name: target,
+      location: 2,
+      createFromLocation: 1
+    })
+
+    this.leafletElement = new L.MBTilesLayer(url, options, db);
   }
 }
