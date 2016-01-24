@@ -212,7 +212,7 @@ export class AddPointCard extends Component {
         </div>
         <div className="form-row">
           <Button onClick={this.onPhotoAdd.bind(this)}
-                  colored={this.state.img !== ''} raised>
+                  colored={this.state.imgSrc !== ''} raised>
                   Upload Photo
           </Button>
         </div>
