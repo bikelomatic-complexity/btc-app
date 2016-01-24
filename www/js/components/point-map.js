@@ -53,12 +53,6 @@ class PointMap extends Component {
     }
   }
 
-  componentWillUnmount() {
-    const { dispatch } = this.props;
-    dispatch(setMapCenter(this.state.center));
-    dispatch(setMapZoom(this.state.zoom));
-  }
-
   render() {
     const { dispatch, mapReducer } = this.props;
     let markers = this.props.services.map((service) => {
@@ -114,8 +108,13 @@ class PointMap extends Component {
     } else {
       view = (
         <Map  center={mapReducer.center} zoom={this.state.zoom}
-              onLeafletDrag={leafletMap=>{
+              onLeafletMove={leafletMap=>{
                 this.setState({center:leafletMap.target.getCenter()});
+              }}
+              onLeafletMoveEnd={leafletMap=>{
+                this.setState({zoom:leafletMap.target.getZoom()})
+                const {lat, lng} = leafletMap.target.getCenter()
+                dispatch(setMapCenter([lat, lng]));
               }}
               onclick={() => {
                 dispatch(deselectMarker());

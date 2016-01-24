@@ -6,7 +6,7 @@ import HoursTable from './hours-table';
 // import redux components
 import { connect } from 'react-redux';
 
-import {addPoint} from '../actions/point-actions';
+import { addPoint } from '../actions/point-actions';
 
 // export class for testing (use default export in application)
 export class AddPointCard extends Component {
@@ -57,11 +57,12 @@ export class AddPointCard extends Component {
   }
 
   onSubmit() {
+    const { mapReducer } = this.props;
     this.props.dispatch(addPoint({
       class: this.state.pointType,
       created_at: new Date().toISOString(),
       name: "TODO",
-      location: [this.props.latlng.lat, this.props.latlng.lng],
+      location: mapReducer.center,
       type: "TODO",
       description: this.state.description,
       flag: false,
@@ -96,7 +97,8 @@ export class AddPointCard extends Component {
   }
 
   render() {
-    const {lat, lng} = this.props.latlng;
+    const { mapReducer } = this.props;
+    const [lat, lng] = mapReducer.center;
     const latLngString = `(${lat.toFixed(4)}, ${lng.toFixed(4)})`;
 
     const cardStyle = {
@@ -190,4 +192,10 @@ export class AddPointCard extends Component {
   }
 }
 
-export default connect()(AddPointCard);
+function select(state) {
+  return {
+    mapReducer: state.mapReducer
+  }
+}
+
+export default connect(select)(AddPointCard);

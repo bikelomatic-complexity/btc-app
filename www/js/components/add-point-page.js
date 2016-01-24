@@ -21,17 +21,6 @@ export class AddPointPage extends Component {
     this.setState({center: e.target.getCenter()});
   }
 
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const {latitude, longitude} = pos.coords;
-        this.setState({startCenter:[latitude, longitude]});
-        this.setState({center:{lat:latitude, lng:longitude}});
-      },
-      (err) => {console.error(err)}
-    );
-  }
-
   render() {
     const { marker, services, alerts } = this.props;
 
@@ -40,7 +29,7 @@ export class AddPointPage extends Component {
         <Header title="Choose a Location"/>
         <ACDrawer page="Add Point"/>
         <PointMap addpoint services={services} alerts={alerts}/>
-        <AddPointCard history={this.props.history} latlng={this.state.center} />
+        <AddPointCard history={this.props.history}/>
       </Layout>
     );
   }
