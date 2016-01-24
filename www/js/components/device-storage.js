@@ -16,6 +16,8 @@ export class DeviceStorage extends Component {
     );
   }
 
+  // TODO: Refactor style logic into CSS
+
   render() {
     return (
       <div style={{'display': 'flex', 'flexDirection': 'row', 'alignItems': 'center', 'justifyContent': 'center'}}>
@@ -39,6 +41,8 @@ export class DeviceStorage extends Component {
       </div>
     )
   }
+
+  // TODO: Re-enable logic for downloaded vs free space bar
 
   // render() {
   //   return (
@@ -84,9 +88,6 @@ export class VisualBlock extends Component {
     if(this.props.noFlex) {
       propStyle.flex = undefined;
     }
-    // if(this.props.flex) {
-    //   propStyle.flex = this.props.flex || 1;
-    // }
     if (this.props.noRightMargin) {
       propStyle['marginRight'] = '0px !important';
     }

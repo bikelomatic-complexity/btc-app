@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { isFinite, bindAll } from 'underscore'
+import { isFinite } from 'underscore'
 
-import { Grid, Cell, Checkbox, Switch, Layout, Header, Content, Card, CardActions, CardText, CardTitle, ProgressBar, Button } from 'react-mdl';
+import { Switch, Layout, Header, Content, Card, CardActions, CardText, CardTitle, ProgressBar, Button } from 'react-mdl';
 import DeviceStorage from './device-storage';
 import ACDrawer from './ac-drawer';
-import { downloadableTracks } from '../mock-data';
 
 import {
   fetchTrack,
@@ -17,7 +16,6 @@ import {
 class DownloadTrackPage extends Component {
   constructor(props) {
     super(props);
-    // this.state = {'tracks':downloadableTracks}
   }
 
   saveTrack(id, pkg) {
@@ -40,7 +38,6 @@ class DownloadTrackPage extends Component {
   render() {
     const { tracks } = this.props;
 
-    // const tracks = Object.keys(this.state.tracks).map((trackId)=>{
     const downloaded = Object.keys(tracks).reduce((pre, cur) => {
       return pre + (tracks[cur].status === 'fetched');
     }, 0);
@@ -60,6 +57,7 @@ class DownloadTrackPage extends Component {
       } else {
       }
 
+      // TODO: Refactor this using O-O principles
       let icon;
       let downloadButtonText;
       let isSave;
@@ -91,6 +89,8 @@ class DownloadTrackPage extends Component {
               <span className='button-text'>{downloadButtonText}</span>
             </Button>
             <span className='size-text'>{`${track.sizeMiB} MiB`}</span>
+
+            {/* TODO: Alternate activate controls to investigate */}
             {/*}<div>
             <Checkbox id={id} ripple={true} checked={track.active} onChange={this.activationChange.bind(this, id)} label={'SHOW'} ripple={true}/>
             </div>*/}
@@ -104,20 +104,6 @@ class DownloadTrackPage extends Component {
           </CardActions>
         </Card>
       );
-
-    //   return (
-    //     <div key={id}>
-    //       <div className="form-row">
-    //         <CardText> {track.name} </CardText>
-    //         <Button primary={isSave} accent={!isSave} raised onClick={action}>
-    //             {`${downloadButtonText} (${track.sizeMiB} MiB)`}
-    //         </Button>
-    //       </div>
-    //       <div className="form-row">
-    //         { progressBar }
-    //       </div>
-    //     </div>
-    //   );
     });
 
     return (
@@ -126,7 +112,6 @@ class DownloadTrackPage extends Component {
         <ACDrawer page="Download Track"/>
         <div className="form-column">
           <DeviceStorage downloaded={downloaded}/>
-          {/*<Grid>{ rows }</Grid>*/}
           { rows }
         </div>
       </Layout>
