@@ -34,11 +34,11 @@ export const loadDb = db.put(points).catch(err => {
   });
 }).then(response => {
   return response.rows.map(row => {
-    let imageBlob;
-    console.dir(row.doc);
+    let result = row.doc;
     if (row.doc._attachments) {
-      imageBlob = row.doc._attachments['cover.png'].data;
+      const imageBlob = row.doc._attachments['cover.png'].data;
+      result = Object.assign(row.doc, {imageBlob})
     }
-    return Object.assign(row.doc, {imageBlob});
+    return result;
   });
 });

@@ -9,14 +9,18 @@ const persister = store => next => action => {
     case ADD_POINT:
 
       // add image attachment to point
-      const newPoint = Object.assign(action.point, {
-        _attachments: {
-          'cover.png': {
-            content_type: 'image/png',
-            data: action.imageBlob
+      let attachmentObject = {};
+      if (action.imageBlob !== '') {
+        attachmentObject = {
+          _attachments: {
+            'cover.png': {
+              content_type: 'image/png',
+              data: action.imageBlob
+            }
           }
-        }
-      });
+        };
+      }
+      const newPoint = Object.assign(action.point, attachmentObject);
 
       db.post(newPoint).then(response => {
         action.point = Object.assign(newPoint, {
