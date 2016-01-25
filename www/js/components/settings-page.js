@@ -4,13 +4,9 @@ import { Layout, Header, CardText, Button } from 'react-mdl';
 import ACDrawer from './ac-drawer';
 import SettingSwitch from './setting-switch';
 
-import {setOnlineMode} from '../reducers/settings'
-import {connect} from 'react-redux'
-
 export class SettingsPage extends Component {
 
   render() {
-    const {dispatch, settings} = this.props;
     return (
       <Layout fixedHeader>
         <Header title="Settings"/>
@@ -23,13 +19,6 @@ export class SettingsPage extends Component {
               </CardText>
               <hr />
             </div>
-          </div>
-          <div className="form-row">
-            <SettingSwitch id="offline-mode-switch" title="Offline Mode" checked={!settings.onlineMode} onChange={change => {
-              dispatch(setOnlineMode(!change));
-            } }>
-              Go into offline mode so you can view your offline tiles.
-            </SettingSwitch>
           </div>
           <div className="form-row">
             <SettingSwitch  id="conflict-switch"
@@ -72,9 +61,4 @@ export class SettingsPage extends Component {
   }
 }
 
-function select(state) {
-  return {
-    settings: state.settings.toJS()
-  };
-}
-export default connect(select)(SettingsPage);
+export default SettingsPage;
