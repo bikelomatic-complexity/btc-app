@@ -1,14 +1,12 @@
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
-import thunk from 'redux-thunk'
-import BlobUtil from 'blob-util'
-
-import {ADD_POINT} from './actions/point-actions'
-import {marker} from './reducers/marker'
-import {points} from './reducers/points'
-import tracks from './reducers/tracks'
-import settings from './reducers/settings'
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import { ADD_POINT } from './actions/point-actions';
+import { marker } from './reducers/marker';
+import { points } from './reducers/points';
 import { mapState } from './reducers/map';
-import {db, init} from './db'
+import { db, init } from './db';
+
+// import library for handling image blobs
+import BlobUtil from 'blob-util'
 
 const persister = store => next => action => {
   switch(action.type) {
@@ -26,7 +24,7 @@ const persister = store => next => action => {
           }
         };
       }
-
+      
       let newPoint = Object.assign(action.point, attachmentObject);
 
       db.post(newPoint).then(response => {
@@ -54,13 +52,11 @@ const persister = store => next => action => {
 const app = combineReducers({
   marker,
   points,
-  tracks,
-  settings,
   mapState
 });
 
 const finalCreateStore = compose(
-  applyMiddleware(persister, thunk),
+  applyMiddleware(persister),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 )(createStore);
 

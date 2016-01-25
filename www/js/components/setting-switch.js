@@ -24,7 +24,7 @@ export class SettingSwitch extends Component {
           <CardText style={textStyle}>
             { this.props.children }
           </CardText>
-          <Switch id={this.props.id} onChange={this.props.onChange}
+          <Switch id={this.props.id} onChange={undefined}
           checked={this.props.checked}/>
         </div>
       </div>
