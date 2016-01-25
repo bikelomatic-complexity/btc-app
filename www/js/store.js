@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import {ADD_POINT} from './actions/point-actions'
 import {marker} from './reducers/marker'
 import {points} from './reducers/points'
+import network from './reducers/network'
 import {db, init} from './db'
 
 const persister = store => next => action => {
@@ -25,7 +26,8 @@ const persister = store => next => action => {
 
 const app = combineReducers({
   marker,
-  points
+  points,
+  network
 });
 
 const finalCreateStore = compose(

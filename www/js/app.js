@@ -21,6 +21,7 @@ import SettingsPage from './components/settings-page';
 import {loadDb, db, remote} from './db'
 
 import Sync from './sync'
+import { NetworkManager } from './reducers/network'
 
 /**
  * the App component fetches service data from the server and displays
@@ -43,6 +44,9 @@ const deviceReady = new Promise(resolve => {
 
 Promise.all([deviceReady, loadDb]).then( ([device, points]) => {
   const store = createAppStore({points});
+
+  const network = new NetworkManager(store);
+  network.monitor();
 
   const sync = new Sync(db, remote, store);
   sync.start();

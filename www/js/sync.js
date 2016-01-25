@@ -10,40 +10,36 @@ export default class Sync {
     this.store = store;
     this.filter = (doc) => true;
 
-    bindAll(this, 'online', 'offline');
+    this.syncing = false;
+
+    bindAll(this, 'update');
   }
 
   start() {
-    document.addEventListener("online", this.online);
-    document.addEventListener("offline", this.offline);
+    const { network } = this.store.getState();
 
-    const connection = navigator.connection.type;
-    switch(connection) {
-      case Connection.WIFI:
-      // case Connection.CELL_2G:
-      // case Connection.CELL_3G:
-      // case Connection.CELL_4G:
-      // case Connection.CELL:
-        console.log('ALREADY ONLINE');
-        this.sync();
-        break;
-    }
-  }
+    this.store.subscribe(this.update);
 
-  online() {
-    if(navigator.connection.type !== Connection.UNKNOWN) {
-      console.log('GOING ONLINE: ', navigator.connection.type);
-      if(this.rep) this.rep.cancel();
+    if(network.online) {
+      console.log('STARTING SYNC');
       this.sync();
     }
   }
 
-  offline() {
-    console.log('GOING OFFLINE: ', navigator.connection.type);
-    if(this.rep) this.rep.cancel();
+  update() {
+    const { network } = this.store.getState();
+    console.log('UPDATE!');
+
+    if(network.online && !this.syncing) {
+      this.sync();
+    } else if(!network.online && this.syncing) {
+      this.rep.cancel();
+    }
   }
 
   sync() {
+    this.syncing = true;
+
     this.rep = PouchDB.sync(this.local, this.remote, {
       live: true,
       retry: false
@@ -70,36 +66,3 @@ export default class Sync {
     });
   }
 }
-
-// pull() {
-//   this.rep = PouchDB.replicate(this.remote, this.local, {
-//     live: false
-//   }).on('change', (info) => {
-//     const [doc, ...others] = info.docs;
-//     if(doc.class === "service") {
-//       if(filter(doc)) {
-//         store.dispatch(replicatePoint(doc))
-//       }
-//     }
-//   }).on('denied', (info) => {
-//     console.log('FIXME: `pull denied`');
-//   }).on('complete', (info) => {
-//     console.log('FIXME: `pull complete`');
-//   }).on('error', (err) => {
-//     console.log('FIXME: `pull error`');
-//   });
-// }
-//
-// push() {
-//   this.rep = PouchDB.replicate(this.local, this.remote, {
-//     live: false
-//   }).on('change', (info) => {
-//     console.log(info);
-//   }).on('denied', (info) => {
-//     console.log('FIXME: `push denied`');
-//   }).on('complete', (info) => {
-//     console.log('FIXME: `push complete`');
-//   }).on('error', (err) => {
-//     console.log('FIXME: `push error`');
-//   });
-// }
