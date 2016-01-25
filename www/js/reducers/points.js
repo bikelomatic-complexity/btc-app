@@ -13,9 +13,10 @@ export function points(state = [], action) {
   console.log('DISPATCHING: ' + action.type);
   switch(action.type) {
     case ADD_POINT:
+      const newPoint = Object.assign({}, action.point, {imageBlob:action.imageBlob});
       return [
         ...state,
-        action.point
+        newPoint
       ];
     case UPDATE_POINT:
       console.log('FIXME: `UPDATE_POINT`');

@@ -1,9 +1,10 @@
 
 export const ADD_POINT = 'ADD_POINT';
-export function addPoint(point) {
+export function addPoint(point, imageBlob) {
   return {
     type: ADD_POINT,
-    point
+    point,
+    imageBlob
   };
 }
 

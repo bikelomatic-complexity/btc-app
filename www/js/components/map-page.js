@@ -7,9 +7,6 @@ import PointMap from './point-map';
 // import redux components
 import { connect } from 'react-redux';
 
-// import pouch library
-import {pluck} from 'underscore';
-
 import HammerPointCard from './hammer-point-card';
 
 class MapPage extends Component {
@@ -28,7 +25,7 @@ class MapPage extends Component {
       <Layout fixedHeader>
         <Header title="Adventure Cycling" />
         <ACDrawer page="Map"/>
-        <PointMap services={services} alerts={alerts}/>
+        <PointMap services={services} alerts={alerts} />
         <HammerPointCard point={selectedPoint} show={marker.showPointCard}/>
       </Layout>
     );
@@ -39,7 +36,7 @@ function select(state) {
   return {
     marker: state.marker,
     services: state.points,
-    alerts: []
+    alerts: [],
   };
 }
 
