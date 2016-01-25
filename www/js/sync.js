@@ -23,14 +23,12 @@ export default class Sync {
     this.store.subscribe(this.update);
 
     if(network.online) {
-      console.log('STARTING SYNC');
       this.sync();
     }
   }
 
   update() {
     const { network } = this.store.getState();
-    console.log('UPDATE!');
 
     if(network.online && !this.syncing) {
       this.sync();
@@ -46,7 +44,6 @@ export default class Sync {
       live: true,
       retry: false
     }).on('change', (info) => {
-      console.log(info.direction);
       if(info.direction === 'pull') {
 
         const [doc, ...others] = info.change.docs;
@@ -61,15 +58,15 @@ export default class Sync {
         }
       }
     }).on('denied', (info) => {
-      console.log('FIXME: `live denied`: ' + info);
+      console.log('SYNC: `denied`: ' + info);
     }).on('paused', () => {
-      console.log('FIXME: `live paused`');
+      console.log('SYNC: `paused`');
     }).on('active', () => {
-      console.log('FIXME: `live active`');
+      console.log('SYNC: `active`');
     }).on('complete', (info) => {
-      console.log('FIXME: `live complete`');
+      console.log('SYNC: `complete`');
     }).on('error', (err) => {
-      console.log('FIXME: `live error`: ' + err);
+      console.log('SYNC: `error`: ' + err);
     });
   }
 }

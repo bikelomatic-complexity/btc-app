@@ -24,7 +24,7 @@ const defaultState = {
 };
 
 // export class for testing (use default export in application)
-export class userAddPointCard extends Component {
+export class AddPointCard extends Component {
   constructor(props) {
     super(props);
     this.state = defaultState;
@@ -235,4 +235,4 @@ function select(state) {
   }
 }
 
-export default connect(select)(userAddPointCard);
+export default connect(select)(AddPointCard);

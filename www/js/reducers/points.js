@@ -13,7 +13,6 @@ import {
 } from '../actions/point-actions'
 
 export function points(state = [], action) {
-  console.log('DISPATCHING: ' + action.type);
   switch(action.type) {
     case USER_ADD_POINT:
       const newPoint = Object.assign({}, action.point, {coverBlob:action.coverBlob});
@@ -22,10 +21,8 @@ export function points(state = [], action) {
         newPoint
       ];
     case USER_UPDATE_POINT:
-      console.log('FIXME: `USER_UPDATE_POINT`');
       return state;
     case USER_RESCIND_POINT:
-      console.log('FIXME: `USER_RESCIND_POINT`');
       return state;
     case SYNC_RECEIVE_POINT:
       const recIdx = findIndex(state, point => point._id === action.id);

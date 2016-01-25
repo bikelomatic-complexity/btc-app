@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { Layout, Header, Content, Button } from 'react-mdl';
 import ACDrawer from './ac-drawer';
 import PointMap from './point-map';
-import userAddPointCard from './add-point-card';
+import AddPointCard from './add-point-card';
 
 // import redux components
 import { connect } from 'react-redux';
@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 // import leaflet components
 import { Marker, Map, TileLayer } from 'react-leaflet';
 
-export class userAddPointPage extends Component {
+export class AddPointPage extends Component {
   constructor(props) {
     super(props);
     this.state = {startCenter: [0,0], center: {lat:0, lng:0}};
@@ -29,7 +29,7 @@ export class userAddPointPage extends Component {
         <Header title="Choose a Location"/>
         <ACDrawer page="Add Point"/>
         <PointMap watchOnMove userAddPoint services={services} alerts={alerts}/>
-        <userAddPointCard history={this.props.history}/>
+        <AddPointCard history={this.props.history}/>
       </Layout>
     );
   }
@@ -43,4 +43,4 @@ function select(state) {
   };
 }
 
-export default connect(select)(userAddPointPage);
+export default connect(select)(AddPointPage);

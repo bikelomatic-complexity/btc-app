@@ -22,6 +22,8 @@ class MapPage extends Component {
       selectedPoint = marker.selectedMarker;
     } else if(services.length > 0) {
       selectedPoint = services[0];
+    } else {
+      selectedPoint = { };
     }
 
     let pointCard;
