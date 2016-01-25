@@ -13,6 +13,8 @@ export const MBTILES_SERVER_ROOT = 'mbtiles';
 // may encounter errors doing that
 export const MBTILES_LOCAL_ROOT = 'cdvfile://localhost/temporary';
 
+export const COUCHDB_REMOTE_SERVER = 'http://52.21.125.160:5984/points';
+
 /*
  * Returns a promise that resolves with an absolute path that can be used
  * to store a sqlite database in just the right location for use with

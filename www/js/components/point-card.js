@@ -47,8 +47,8 @@ export class PointCard extends Component {
     let titleHeight;
     let smallHeight;
 
-    if (this.props.point.imageSrc) {
-      backgroundStyle = `url(${this.props.point.imageSrc}) center / cover`;
+    if (this.props.point.coverSrc) {
+      backgroundStyle = `url(${this.props.point.coverSrc}) center / cover`;
       titleHeight = '176px';
       smallHeight = 300 - this.props.heightOffset;
     }

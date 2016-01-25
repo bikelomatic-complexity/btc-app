@@ -1,44 +1,65 @@
 
-export const ADD_POINT = 'ADD_POINT';
-export function addPoint(point, imageBlob) {
+import { createObjectURL } from 'blob-util';
+
+export const USER_ADD_POINT = 'USER_ADD_POINT';
+export function userAddPoint(point, coverBlob) {
   return {
-    type: ADD_POINT,
-    point,
-    imageBlob
+    type: USER_ADD_POINT,
+    point: withCover(point, coverBlob)
   };
 }
 
-export const RESCIND_POINT = 'DELETE_POINT';
-export function deletePoint(id) {
+export const USER_RESCIND_POINT = 'DELETE_POINT';
+export function userRescindPoint(id) {
   return {
     type: DELETE_POINT,
     id
   };
 }
 
-export const UPDATE_POINT = 'UPDATE_POINT';
-export function updatePoint(id, point) {
+export const USER_UPDATE_POINT = 'USER_UPDATE_POINT';
+export function userUpdatePoint(id, point) {
   return {
-    type: UPDATE_POINT,
+    type: USER_UPDATE_POINT,
     id,
     point
   };
 }
 
-export const REPLICATE_POINT = 'REPLICATE_POINT';
-export function replicatePoint(id, point, deleted) {
+export const SYNC_RECEIVE_POINT = 'SYNC_RECEIVE_POINT';
+export function syncRecievePoint(id, point, coverBlob) {
   return {
-    type: REPLICATE_POINT,
+    type: SYNC_RECEIVE_POINT,
     id,
-    point,
-    deleted
+    point: withCover(point, coverBlob),
+  };
+}
+
+export const SYNC_DELETE_POINT = 'pannier/points/DELETE';
+export function syncDeletePoint(id) {
+  return {
+    type: SYNC_DELETE_POINT,
+    id
   };
 }
 
 export const RELOAD_POINTS = 'RESET_POINTS';
-export function resetPoints(points) {
+export function reloadPoints(points) {
   return {
-    type: RESET_POINTS,
-    points
+    type: RELOAD_POINTS,
+    points: points.map(point => withCover(point, point.coverBlob))
   };
+}
+
+function withCover(point, coverBlob) {
+  let withCover;
+
+  if(coverBlob) {
+    const coverUrl = createObjectURL(coverBlob);
+    withCover = Object.assign({}, point, { coverBlob, coverUrl });
+  } else {
+    withCover = Object.assign({}, point);
+  }
+
+  return withCover;
 }

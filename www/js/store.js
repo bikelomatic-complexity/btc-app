@@ -1,71 +1,24 @@
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
+
+import { union } from 'underscore'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import BlobUtil from 'blob-util'
 
-import {ADD_POINT} from './actions/point-actions'
-import {marker} from './reducers/marker'
-import {points} from './reducers/points'
-import network from './reducers/network'
-import tracks from './reducers/tracks'
-import settings from './reducers/settings'
-import { mapState } from './reducers/map';
-import {db, init} from './db'
+import reducers from './reducers'
 
-const persister = store => next => action => {
-  switch(action.type) {
-    case ADD_POINT:
+const reqMiddleware = [ thunk ];
 
-      // add image attachment to point
-      let attachmentObject = {};
-      if (action.imageBlob !== '') {
-        attachmentObject = {
-          _attachments: {
-            'cover.png': {
-              content_type: 'image/png',
-              data: action.imageBlob
-            }
-          }
-        };
-      }
+const devTools = window.devToolsExtension ? window.devToolsExtension : f => f;
 
-      let newPoint = Object.assign(action.point, attachmentObject);
+export default class StoreBuilder {
 
-      db.post(newPoint).then(response => {
-        if (action.imageBlob !== '') {
-          const imageSrc = BlobUtil.createObjectURL(action.imageBlob);
-          newPoint = Object.assign(newPoint, {imageSrc});
-        }
-        action.point = Object.assign(newPoint,
-          {
-            _id: response.id,
-            _rev: response.rev
-          }
-        );
-      }).catch(err => {
-        console.error(err);
-      }).then(() => {
-        next(action);
-      });
-      break;
-    default:
-      next(action);
+  constructor(extMiddleware) {
+    const allMiddleware = union(extMiddleware, reqMiddleware);
+
+    this.createStore = compose(applyMiddleware(...allMiddleware), devTools)(createStore);
   }
-};
 
-const app = combineReducers({
-  marker,
-  points,
-  network,
-  tracks,
-  settings,
-  mapState
-});
+  build(initState = {}) {
+    return this.createStore(reducers, initState);
+  }
 
-const finalCreateStore = compose(
-  applyMiddleware(persister, thunk),
-  window.devToolsExtension ? window.devToolsExtension() : f => f
-)(createStore);
-
-export function createAppStore(initState) {
-  return finalCreateStore(app, initState);
 }

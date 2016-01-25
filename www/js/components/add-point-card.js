@@ -8,7 +8,7 @@ import BlobUtil from 'blob-util';
 // import redux components
 import { connect } from 'react-redux';
 
-import { addPoint } from '../actions/point-actions';
+import { userAddPoint } from '../actions/point-actions';
 
 const defaultState = {
   pointType: 'service', // alert or service
@@ -24,7 +24,7 @@ const defaultState = {
 };
 
 // export class for testing (use default export in application)
-export class AddPointCard extends Component {
+export class userAddPointCard extends Component {
   constructor(props) {
     super(props);
     this.state = defaultState;
@@ -55,7 +55,7 @@ export class AddPointCard extends Component {
 
   onSubmit() {
     const { mapState } = this.props;
-    this.props.dispatch(addPoint({
+    this.props.dispatch(userAddPoint({
       class: this.state.pointType,
       created_at: new Date().toISOString(),
       name: this.state.name,
@@ -235,4 +235,4 @@ function select(state) {
   }
 }
 
-export default connect(select)(AddPointCard);
+export default connect(select)(userAddPointCard);

@@ -1,12 +1,14 @@
 import PouchDB from 'pouchdb'
-import {bindAll, has} from 'underscore'
-import {replicatePoint} from './actions/point-actions'
+import { bindAll, has } from 'underscore'
+import { syncRecievePoint, syncDeletePoint } from './actions/point-actions'
+
+import { COUCHDB_REMOTE_SERVER } from './config'
 
 export default class Sync {
 
-  constructor(local, remote, store, filter) {
+  constructor(local, store, filter) {
     this.local = local;
-    this.remote = remote;
+    this.remote = new PouchDB(COUCHDB_REMOTE_SERVER);
     this.store = store;
     this.filter = (doc) => true;
 
@@ -46,11 +48,16 @@ export default class Sync {
     }).on('change', (info) => {
       console.log(info.direction);
       if(info.direction === 'pull') {
-        const [doc, ...others] = info.change.docs;
-        const deleted = has(doc, '_deleted');
 
+        const [doc, ...others] = info.change.docs;
         if(doc.class === 'service') {
-          this.store.dispatch(replicatePoint(doc._id, doc, deleted));
+
+          const deleted = has(doc, '_deleted');
+          if(deleted) {
+            this.store.dispatch(syncDeletePoint(doc._id));
+          } else {
+            this.store.dispatch(syncRecievePoint(doc._id, doc));
+          }
         }
       }
     }).on('denied', (info) => {

@@ -1,52 +1,79 @@
 
-import {findIndex} from 'underscore'
+import { findIndex, omit, has, extend } from 'underscore'
+
+import attach from '../util/attach';
 
 import {
-  ADD_POINT,
-  UPDATE_POINT,
-  RESCIND_POINT,
-  REPLICATE_POINT,
+  USER_ADD_POINT,
+  USER_UPDATE_POINT,
+  USER_RESCIND_POINT,
+  SYNC_RECEIVE_POINT,
+  SYNC_DELETE_POINT,
   RELOAD_POINTS
 } from '../actions/point-actions'
 
 export function points(state = [], action) {
   console.log('DISPATCHING: ' + action.type);
   switch(action.type) {
-    case ADD_POINT:
-      const newPoint = Object.assign({}, action.point, {imageBlob:action.imageBlob});
+    case USER_ADD_POINT:
+      const newPoint = Object.assign({}, action.point, {coverBlob:action.coverBlob});
       return [
         ...state,
         newPoint
       ];
-    case UPDATE_POINT:
-      console.log('FIXME: `UPDATE_POINT`');
+    case USER_UPDATE_POINT:
+      console.log('FIXME: `USER_UPDATE_POINT`');
       return state;
-    case RESCIND_POINT:
-      console.log('FIXME: `RESCIND_POINT`');
+    case USER_RESCIND_POINT:
+      console.log('FIXME: `USER_RESCIND_POINT`');
       return state;
-    case REPLICATE_POINT:
-      const index = findIndex(state, point => point._id === action.id)
-      if(action.deleted) {
-        return [
-          ...state.slice(0, index),
-          ...state.slice(index + 1, state.length)
-        ];
-      } else if(index === -1) { // Replicated point is new
+    case SYNC_RECEIVE_POINT:
+      const recIdx = findIndex(state, point => point._id === action.id);
+      if(recIdx === -1) { // Replicated point is new
         return [
           ...state,
           action.point
         ]
       } else { // Replicated point is an edit
         return [
-          ...state.slice(0, index),
+          ...state.slice(0, recIdx),
           action.point,
-          ...state.slice(index + 1, state.length)
+          ...state.slice(recIdx + 1, state.length)
         ];
       }
+    case SYNC_DELETE_POINT:
+      const delIdx = findIndex(state, point => point._id === action.id);
+      return [
+        ...state.slice(0, delIdx),
+        ...state.slice(delIdx + 1, state.length)
+      ];
     case RELOAD_POINTS:
-      console.log('FIXME: `RELOAD_POINTS`');
-      return state;
+      return action.points;
     default:
       return state;
   }
+}
+
+export function pointToDoc(point) {
+  let doc;
+  if(point.coverBlob) {
+    doc = attach(point, 'cover.png', 'image/png', point.coverBlob);
+  } else {
+    doc = point;
+  }
+
+  return omit(doc, 'coverBlob', 'coverUrl');
+}
+
+export function docToPoint(doc) {
+  let point;
+  if(has(doc, '_attachments') && has(doc['_attachments'], 'cover.png')) {
+    point = Object.assign({}, doc, {
+      coverBlob: doc['_attachments']['cover.png'].data
+    });
+  } else {
+    point = Object.assign({}, doc)
+  }
+
+  return point;
 }
