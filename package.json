@@ -5,7 +5,7 @@
   "scripts": {
     "postinstall": "npm run install:cordova",
     "install:cordova": "cordova platform add android browser & true",
-    "postinstall:cordova": "cordova plugin add cordova-plugin-geolocation & cordova plugin add https://github.com/apache/cordova-plugin-file & cordova plugin add cordova-plugin-network-information",
+    "postinstall:cordova": "cordova plugin add cordova-plugin-geolocation & cordova plugin add https://github.com/apache/cordova-plugin-file & cordova plugin add cordova-plugin-network-information & cordova plugin add cordova-plugin-device",
     "format": "jscs www/ -x -r inline; true",
     "doc": "esdoc -c .esdoc.json",
     "build": "browserify www/js/app.js -t babelify -o www/js/bundle.js",
