@@ -41,39 +41,6 @@ export class DeviceStorage extends Component {
       </div>
     )
   }
-
-  // TODO: Re-enable logic for downloaded vs free space bar
-
-  // render() {
-  //   return (
-  //     <div>
-  //       <div className="form-row">
-  //         {/*}<CardText style={{ fontSize:'2em', fontWeight:'bold' }}>
-  //           Storage
-  //         </CardText>*/}
-  //         <div>
-  //           <div>
-  //             <VisualBlock background='#3f51b5'/> Adventure Cycling
-  //             ({ (this.props.downloaded / 1024).toFixed(0) } MB)
-  //           </div>
-  //           <div>
-  //             <VisualBlock background='lightgray'/> Free Space
-  //             ({ (this.state.free / 1024).toFixed(0) } MB)
-  //           </div>
-  //         </div>
-  //       </div>
-  //       <div className="form-row">
-  //         <VisualBlock  background='#3f51b5'
-  //                       flex={this.props.downloaded}
-  //                       noRightMargin />
-  //
-  //         <VisualBlock  background='lightgray'
-  //                       flex={this.state.free}
-  //                       noLeftMargin />
-  //       </div>
-  //     </div>
-  //   );
-  // }
 }
 
 export class VisualBlock extends Component {

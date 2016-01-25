@@ -34,7 +34,7 @@ const deviceReady = new Promise(resolve => {
   document.addEventListener('deviceReady', resolve, false);
 });
 
-Promise.all([deviceReady, loadDb]).then( ([device, points, databasePath]) => {
+Promise.all([deviceReady, loadDb]).then( ([device, points]) => {
   const store = createAppStore({points});
 
   ReactDOM.render((
