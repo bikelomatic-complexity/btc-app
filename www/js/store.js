@@ -55,7 +55,7 @@ const persister = store => next => action => {
 const app = combineReducers({
   marker,
   points,
-  network
+  network,
   tracks,
   settings,
   mapState
