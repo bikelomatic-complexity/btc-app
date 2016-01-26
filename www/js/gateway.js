@@ -1,12 +1,18 @@
+
+import { bindAll, omit } from 'underscore'
 import PouchDB from 'pouchdb'
 
-// import library for handling image blobs
-import BlobUtil from 'blob-util'
+import { USER_ADD, pointToDoc, docToPoint } from './reducers/points'
 
-import { USER_ADD_POINT } from './actions/point-actions'
-import { pointToDoc, docToPoint } from './reducers/points'
-import { bindAll, omit } from 'underscore'
-
+/**
+ * The Gateway wraps the local PouchDB instance. It provides useful methods
+ * so that the client does not have to deal with PouchDB response objects.
+ *
+ * The Gateway also supplies middleware to copy entities into PouchDB as they
+ * are inserted into the store. TODO: Move this middleware out of the Gateway
+ * and into the points Duck. That way, we can use the gateway inside the
+ * points duck.
+ */
 export default class Gateway {
 
   constructor(db) {
@@ -19,6 +25,10 @@ export default class Gateway {
     return this.db;
   }
 
+  /**
+   * Retruns all docs in the database that have ids starting with the provided
+   * keyword.
+   */
   allDocsByClass(cls) {
     return this.db.allDocs({
       include_docs: true,
@@ -29,16 +39,23 @@ export default class Gateway {
     });
   }
 
+  /**
+   * Returns all points in the database
+   */
   getPoints() {
     return this.allDocsByClass('point').then(response => {
       return response.rows.map(row => docToPoint(row.doc));
     });
   }
 
+  /**
+   * Monitors store transactions. As actions are performed on points the
+   * middleware persists those actions in the database.
+   */
   getMiddleware() {
     return store => next => action => {
       switch(action.type) {
-        case USER_ADD_POINT:
+        case USER_ADD:
 
           const doc = pointToDoc(action.point);
 

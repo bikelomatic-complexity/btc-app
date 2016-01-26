@@ -8,7 +8,7 @@ import BlobUtil from 'blob-util';
 // import redux components
 import { connect } from 'react-redux';
 
-import { userAddPoint } from '../actions/point-actions';
+import { userAddPoint } from '../reducers/points';
 
 const defaultState = {
   pointType: 'service', // alert or service

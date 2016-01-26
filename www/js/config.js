@@ -1,8 +1,7 @@
 
 import path from 'path'
 
-// export const MBTILES_SERVER = '52.21.125.160:8080';
-export const MBTILES_SERVER = '129.21.158.2:8080';
+export const MBTILES_SERVER = '52.21.125.160:8080';
 export const MBTILES_SERVER_ROOT = 'mbtiles';
 
 // TODO: We should store mbtiles downloads in a subdirectory of the persistent

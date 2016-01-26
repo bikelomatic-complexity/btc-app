@@ -20,7 +20,7 @@ import Gateway from './gateway'
 import Sync from './sync'
 import { NetworkManager } from './reducers/network'
 
-import { reloadPoints } from './actions/point-actions'
+import { reloadPoints } from './reducers/points'
 
 /**
  * the App component fetches service data from the server and displays

@@ -1,6 +1,6 @@
 import PouchDB from 'pouchdb'
 import { bindAll, has } from 'underscore'
-import { syncRecievePoint, syncDeletePoint } from './actions/point-actions'
+import { syncRecievePoint, syncDeletePoint } from './reducers/points'
 
 import { COUCHDB_REMOTE_SERVER } from './config'
 

@@ -2,7 +2,7 @@
 import { bindAll, contains } from 'underscore'
 import Device from '../util/device'
 
-export const CONNECTION = 'pannier/network/CONNECTION'
+export const CONNECTION = 'pannier/network/CONNECTION';
 
 const initState = {
   online: false,
@@ -18,10 +18,19 @@ export default function reducer(state = initState, action) {
   }
 }
 
+/**
+ * Sets the network connection type with the provided status enum
+ */
 export function setConnection(status) {
   return { type: CONNECTION, status };
 }
 
+/**
+ * Monitors document connection events and dispatches actions to bring the
+ * the store up to date with the latest network information. The
+ * NetworkManager intelligently cleans connection information, since the
+ * cordova plugin has many quirks to work around.
+ */
 export class NetworkManager {
 
   constructor(store) {
