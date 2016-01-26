@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux'
 
 import { marker } from './marker'
-import { points } from './points'
+import points from './points'
 import network from './network'
 import tracks from './tracks'
 import settings from './settings'

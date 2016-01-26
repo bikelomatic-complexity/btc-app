@@ -1,6 +1,8 @@
 
 import { findIndex, omit, has } from 'underscore'
 import { createObjectURL } from 'blob-util'
+import toId from 'to-id'
+import ngeohash from 'ngeohash'
 
 import attach from '../util/attach'
 
@@ -45,12 +47,18 @@ export default function reducer(state = [], action) {
   }
 }
 
+function pointId(cls, name, location) {
+  const [ lat, lon ] = location;
+  return `point/${cls}/${toId(name)}/${ngeohash.encode(lat, lon)}`;
+}
+
 /*
  * Creates an action to add a new point on behalf of the user. If a cover
  * image for the point is provided as a blob, it will be converted to an
  * object url at this point.
  */
 export function userAddPoint(point, coverBlob) {
+  point._id = pointId(point.class, point.name, point.location);
   return {
     type: USER_ADD,
     point: withCover(point, coverBlob)
