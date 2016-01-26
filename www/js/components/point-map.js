@@ -5,12 +5,12 @@ import { keys, values } from 'underscore'
 
 import { divIcon } from 'leaflet'
 import * as Leaflet from 'react-leaflet'
-const { Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline } = Leaflet;
+const { Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline, setIconDefaultImagePath } = Leaflet;
 import MBTilesLayer from './mbtiles-layer';
 
 import { selectMarker, deselectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 
-Leaflet.setIconDefaultImagePath('img/icons');
+setIconDefaultImagePath('img/icons');
 
 const customIcon = divIcon({
   className:'adding-point',
