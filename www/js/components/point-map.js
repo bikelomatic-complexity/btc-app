@@ -75,7 +75,6 @@ class PointMap extends Component {
   render() {
     const { dispatch, tracks, settings, mapState } = this.props;
 
-    console.log(this.props);
     let markers = this.props.services.map((service) => {
       return (
         <Marker key={service._id} radius={10} position={service.location}
