@@ -57,7 +57,6 @@ class PointMap extends Component {
   }
 
   onMapMoved(leaflet) {
-    const { dispatch } = this.props;
     const { lat, lng } = leaflet.target.getCenter();
     const { _northEast, _southWest } = leaflet.target.getBounds();
     const diffLat = Math.abs(_northEast.lat - _southWest.lat);
@@ -71,21 +70,10 @@ class PointMap extends Component {
         _southWest.lat - diffLat,
         _southWest.lng - diffLng
       ]});
-    dispatch(setMapCenter(this.state.center));
-  }
 
-  filterRoutes(route) {
-    const { box, zoom } = this.state;
-    console.log(route)
-    return route.map(track=>{
-      return track.filter((point, index, array)=>{
-        if (((index == 0) || (array.length - 1 == index)) && (zoom < 15) ){
-          return true;
-        }
-        return (((box[0] > point[0])&&(box[2] < point[0]))
-          && ((box[1] > point[1])&&(box[3] < point[1])));
-      })
-    })
+      // this is slowing down the application
+      this.props.dispatch(setMapCenter(this.state.center));
+      // TODO: find async way to dispatch
   }
 
   render() {
@@ -119,7 +107,7 @@ class PointMap extends Component {
     const activeTracks = values(tracks).filter(track => track.active)
     const trackViews = activeTracks.map(track => {
         return (
-          <MultiPolyline key={track._id} polylines={this.filterRoutes(track.waypoints)}
+          <MultiPolyline key={track._id} polylines={track.waypoints}
             color="#f30" opacity="0.8" />
         )
       });

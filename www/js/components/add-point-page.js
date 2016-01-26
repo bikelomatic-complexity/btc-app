@@ -14,22 +14,12 @@ import { connect } from 'react-redux';
 // import leaflet components
 import { Marker, Map, TileLayer } from 'react-leaflet';
 
-const customIcon = divIcon({
-  className:'adding-point',
-  html:`<img src="img/icons/marker-shadow.png" class="leaflet-marker-shadow" style="margin-left: -17px; margin-top: -36px; width: 41px; height: 41px;">
-  <img src="img/icons/marker-icon.png" class="marker" tabindex="0" style="margin-left: -18px; margin-top: -31px; width: 25px; height: 41px;">`
-});
+const styleShadow = {marginLeft: '4px', marginTop: '18px', width: '25px', height: '41px'}
+const styleMarker = {marginLeft: '0px', marginTop: '18px', height: '41px'}
 
 export class AddPointPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {startCenter: [0,0], center: [0, 0]};
-  }
-
-  updateMarker(leafletMap){
-    const { lat, lng } = leafletMap.target.getCenter();
-    this.setState({center:[lat, lng]})
-    // console.log(lat, lng)
   }
 
   render() {
@@ -40,11 +30,12 @@ export class AddPointPage extends Component {
         <Header title="Choose a Location"/>
         <ACDrawer page="Add Point"/>
         <PointMap services={services}
-                  alerts={alerts}
-                  onLeafletMove={this.updateMarker.bind(this)}>
-          <Marker position={this.state.center} radius={10} icon={customIcon} />
-        </PointMap>
+                  alerts={alerts}/>
         <AddPointCard history={this.props.history} center={mapState.center}/>
+        <div className="adding-point" style={{position:'fixed', top:'50%', right:'calc(50% - 12.5px)'}}>
+          <img src="img/icons/marker-shadow.png" className="leaflet-marker-shadow" style={styleShadow}/>
+          <img src="img/icons/marker-icon.png" className="marker" style={styleMarker}/>
+        </div>
       </Layout>
     );
   }
