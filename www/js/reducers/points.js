@@ -1,5 +1,5 @@
 
-import { findIndex, omit, has } from 'underscore'
+import { findIndex, omit, values, has } from 'underscore'
 import { createObjectURL } from 'blob-util'
 import toId from 'to-id'
 import ngeohash from 'ngeohash'
@@ -36,7 +36,7 @@ export default function reducer(state = [], action) {
 
     case SYNC_DELETE:
       const delIdx = findIndex(state, point => point._id === action.id);
-      return omit(state, delIdx);
+      return values(omit(state, delIdx));
 
     case RELOAD:
       return action.points;

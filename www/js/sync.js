@@ -1,6 +1,6 @@
 import PouchDB from 'pouchdb'
 import { bindAll, has } from 'underscore'
-import { syncRecievePoint, syncDeletePoint } from './reducers/points'
+import { docToPoint, syncRecievePoint, syncDeletePoint } from './reducers/points'
 
 import { COUCHDB_REMOTE_SERVER } from './config'
 
@@ -45,16 +45,12 @@ export default class Sync {
       retry: false
     }).on('change', (info) => {
       if(info.direction === 'pull') {
-
         const [doc, ...others] = info.change.docs;
-        if(doc.class === 'service') {
 
-          const deleted = has(doc, '_deleted');
-          if(deleted) {
-            this.store.dispatch(syncDeletePoint(doc._id));
-          } else {
-            this.store.dispatch(syncRecievePoint(doc._id, doc));
-          }
+        if(has(doc, '_deleted')) {
+          this.store.dispatch(syncDeletePoint(doc._id));
+        } else if(doc.class === 'service') {
+          this.store.dispatch(syncRecievePoint(docToPoint(doc._id), doc));
         }
       }
     }).on('denied', (info) => {
