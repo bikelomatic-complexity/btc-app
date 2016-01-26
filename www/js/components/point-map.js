@@ -1,16 +1,14 @@
-import React, { Component } from 'react'
-import { Spinner, CardText } from 'react-mdl'
-import { connect } from 'react-redux'
-import { keys, values } from 'underscore'
+import React, { Component } from 'react';
+import { Spinner, CardText } from 'react-mdl';
+import { connect } from 'react-redux';
+import { keys, values } from 'underscore';
 
-import { divIcon } from 'leaflet'
-import * as Leaflet from 'react-leaflet'
+import { divIcon } from 'leaflet';
+import * as Leaflet from 'react-leaflet';
 const { Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline, setIconDefaultImagePath } = Leaflet;
 import MBTilesLayer from './mbtiles-layer';
 
 import { selectMarker, deselectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
-
-import { Spinner, CardText } from 'react-mdl';
 
 const noOps = function(){}; // function that does nothing
 
@@ -77,9 +75,13 @@ class PointMap extends Component {
   }
 
   filterRoutes(route) {
-    const { box } = this.state;
+    const { box, zoom } = this.state;
+    console.log(route)
     return route.map(track=>{
       return track.filter((point, index, array)=>{
+        if (((index == 0) || (array.length - 1 == index)) && (zoom < 15) ){
+          return true;
+        }
         return (((box[0] > point[0])&&(box[2] < point[0]))
           && ((box[1] > point[1])&&(box[3] < point[1])));
       })
@@ -117,7 +119,7 @@ class PointMap extends Component {
     const activeTracks = values(tracks).filter(track => track.active)
     const trackViews = activeTracks.map(track => {
         return (
-          <MultiPolyline key={track._id} polylines={track.waypoints}
+          <MultiPolyline key={track._id} polylines={this.filterRoutes(track.waypoints)}
             color="#f30" opacity="0.8" />
         )
       });
@@ -182,10 +184,6 @@ class PointMap extends Component {
 
           { markers }
           { alerts }
-
-          <MultiPolyline  polylines={this.filterRoutes(usbr20)}
-                          color="#f30"
-                          opacity="0.8"/>
 
           { trackViews }
           { children }
