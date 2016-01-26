@@ -38,7 +38,7 @@ body {
 }
 
 /* Get the bobbing motion for new markers */
-.adding-point > .marker{
+.adding-point > .marker {
     position: relative;
     top: 0px;
     -webkit-animation-name: adding;
@@ -46,8 +46,21 @@ body {
     -webkit-animation-iteration-count: infinite;
 }
 
+.adding-point > img {
+  /*position: fixed;
+  left: 50%;
+  top: 50%;*/
+}
+
+.adding-point > .leaflet-marker-shadow {
+  /*transform:inherit !important;*/
+}
+
+.adding-point > .marker {
+  /*transform:inherit !important;*/
+}
 /* if we want the shadow to move as well, uncomment this */
-/*.adding-point * > .leaflet-marker-shadow{
+/*.adding-point * > .leaflet-marker-shadow {
     position: relative;
     top: 0px;
     right: 0px;

@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 // import leaflet components
 import * as leaflet from 'react-leaflet';
 let { Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline } = leaflet;
-import { divIcon } from 'leaflet';
 import { usbr20 } from '../mock-route';
 
 leaflet.setIconDefaultImagePath('img/icons');
@@ -14,16 +13,12 @@ import { selectMarker, deselectMarker, setMapCenter, setGeoLocation, setMapZoom,
 
 import { Spinner, CardText } from 'react-mdl';
 
+const noOps = function(){}; // function that does nothing
+
 const usbr20_low = usbr20.map((track)=>{
   return track.filter((point, index)=>{
     return index % 100 == 0;
   });
-});
-
-const customIcon = divIcon({
-  className:'adding-point',
-  html:`<img src="img/icons/marker-shadow.png" class="leaflet-marker-shadow" style="margin-left: -12px; margin-top: -31px; width: 41px; height: 41px;">
-  <img src="img/icons/marker-icon.png" class="marker" tabindex="0" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px;">`
 });
 
 class PointMap extends Component {
@@ -33,7 +28,8 @@ class PointMap extends Component {
     this.state = {
       startCenter: mapState.center,
       center: mapState.center,
-      zoom: mapState.zoom
+      zoom: mapState.zoom,
+      box: [0,0,0,0]
     }
   }
 
@@ -67,21 +63,36 @@ class PointMap extends Component {
     dispatch(setMapCenter(this.state.center));
   }
 
-  onMapMove(leaflet) {
-    const { dispatch } = this.props;
-    const { lat, lng } = leaflet.target.getCenter();
-    this.setState({center:[lat, lng]});
-  }
-
   onMapMoved(leaflet) {
     const { dispatch } = this.props;
     const { lat, lng } = leaflet.target.getCenter();
-    this.setState({zoom:leaflet.target.getZoom(), center:[lat, lng]});
+    const { _northEast, _southWest } = leaflet.target.getBounds();
+    const diffLat = Math.abs(_northEast.lat - _southWest.lat);
+    const diffLng = Math.abs(_northEast.lat - _southWest.lng);
+    this.setState({
+      zoom:leaflet.target.getZoom(),
+      center:[lat, lng],
+      box:[
+        _northEast.lat + diffLat,
+        _northEast.lng + diffLng,
+        _southWest.lat - diffLat,
+        _southWest.lng - diffLng
+      ]});
     dispatch(setMapCenter(this.state.center));
   }
 
+  filterRoutes(route) {
+    const { box } = this.state;
+    return route.map(track=>{
+      return track.filter((point, index, array)=>{
+        return (((box[0] > point[0])&&(box[2] < point[0]))
+          && ((box[1] > point[1])&&(box[3] < point[1])));
+      })
+    })
+  }
+
   render() {
-    const { dispatch, mapState } = this.props;
+    const { dispatch, mapState, children } = this.props;
     let markers = this.props.services.map((service) => {
       return (
         <Marker key={service._id} radius={10} position={service.location}
@@ -112,25 +123,9 @@ class PointMap extends Component {
               OpenStreetMap</a>contributors`
     }
 
-    const { children } = this.props;
-
     let circleMarker = '';
     if (mapState.geolocation) {
       circleMarker = <CircleMarker center={mapState.geolocation} />
-    }
-
-    let addpoint = '';
-    if (this.props.addpoint) {
-      addpoint = <Marker  position={this.state.center}
-                          radius={10}
-                          icon={customIcon} />
-    }
-
-    let onLeafletMove = ()=>{};
-    if (this.props.watchOnMove) {
-      onLeafletMove = function(leafletMap){
-        this.onMapMove(leafletMap);
-      }.bind(this);
     }
 
     let view;
@@ -141,7 +136,7 @@ class PointMap extends Component {
     } else {
       view = (
         <Map  center={this.state.startCenter} zoom={this.state.zoom}
-              onLeafletMove={onLeafletMove}
+              onLeafletMove={this.props.onLeafletMove}
               onLeafletMoveEnd={(leafletMap)=>{
                 this.onMapMoved(leafletMap);
               }}
@@ -156,11 +151,11 @@ class PointMap extends Component {
           { markers }
           { alerts }
 
-          <MultiPolyline  polylines={usbr20_low}
+          <MultiPolyline  polylines={this.filterRoutes(usbr20)}
                           color="#f30"
                           opacity="0.8"/>
 
-          { addpoint }
+          { children }
 
         </Map>);
     }
@@ -174,5 +169,7 @@ function select(state) {
     mapState: state.mapState
   };
 }
+
+PointMap.defaultProps = { onLeafletMove: noOps };
 
 export default connect(select)(PointMap);
