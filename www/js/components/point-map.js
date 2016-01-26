@@ -75,11 +75,12 @@ class PointMap extends Component {
   render() {
     const { dispatch, tracks, settings, mapState } = this.props;
 
+    console.log(this.props);
     let markers = this.props.services.map((service) => {
       return (
         <Marker key={service._id} radius={10} position={service.location}
           onclick={() => {
-            if (!this.props.userAddPoint){
+            if (!this.props.addpoint){
               dispatch(selectMarker(service));
             }
           }}
@@ -91,7 +92,7 @@ class PointMap extends Component {
       return (
         <Marker key={alert._id} radius={10} position={alert.location}
           onclick={() => {
-            if (!this.props.userAddPoint){
+            if (!this.props.addpoint){
               dispatch(selectMarker(alert));
             }
           }}
@@ -146,9 +147,9 @@ class PointMap extends Component {
       circleMarker = <CircleMarker center={mapState.geolocation} />
     }
 
-    let userAddPoint = '';
-    if (this.props.userAddPoint) {
-      userAddPoint = <Marker  position={this.state.center}
+    let addpoint = '';
+    if (this.props.addpoint) {
+      addpoint = <Marker  position={this.state.center}
                           radius={10}
                           icon={customIcon} />
     }
@@ -186,7 +187,7 @@ class PointMap extends Component {
           { markers }
           { alerts }
           { trackViews }
-          { userAddPoint }
+          { addpoint }
 
         </Map>
       );

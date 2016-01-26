@@ -31,7 +31,7 @@ export default function reducer(state = [], action) {
       if(recIdx === -1) { // Replicated point is new
         return [ ...state, action.point ];
       } else { // Replicated point is an edit
-        return Object.assign({}, state, { [recIdx]: action.point });
+        return values(Object.assign({}, state, { [recIdx]: action.point }));
       }
 
     case SYNC_DELETE:
