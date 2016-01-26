@@ -1,89 +1,101 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { isFinite } from 'underscore'
 
-import { Layout, Header, Content, CardText, ProgressBar, Button } from 'react-mdl';
+import { Switch, Layout, Header, Card, CardActions, CardText, CardTitle, ProgressBar, Button } from 'react-mdl';
 import DeviceStorage from './device-storage';
 import ACDrawer from './ac-drawer';
-import { downloadableTracks } from '../mock-data';
+
+import {
+  fetchTrack,
+  clearTrack,
+  activateTrack,
+  deactivateTrack
+} from '../reducers/tracks'
 
 class DownloadTrackPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {'tracks':downloadableTracks}
   }
 
-  saveTrack(trackId) {
-    // mock saving
-    let modTracks = this.state.tracks;
-    modTracks[trackId].downloading = true;
-    let saving = setInterval(()=>{
-      if (modTracks[trackId].downloaded >= modTracks[trackId].downloadSize || (!modTracks[trackId].downloading)) {
-        modTracks[trackId].downloading = false;
-        this.setState({'tracks': modTracks});
-        clearInterval(saving);
-      } else {
-        modTracks[trackId].downloaded = modTracks[trackId].downloaded + (modTracks[trackId].downloadSize / 300);
-        modTracks[trackId].downloading = true;
-        this.setState({'tracks': modTracks});
-      }
-    }, 50);
+  onSaveTrack(id, pkg) {
+    this.props.dispatch(fetchTrack(id, pkg));
   }
 
-  cancelTrack(trackId) {
-    let tracks = this.state.tracks;
-    tracks[trackId].downloading = false;
-    this.setState(tracks);
-    this.removeTrack(trackId);
+  onCancelTrack(id) {
+    console.log('FIXME: `onCancelTrack`');
   }
 
-  removeTrack(trackId) {
-    let tracks = this.state.tracks;
-    tracks[trackId].downloaded = 0;
-    this.setState(tracks);
+  onRemoveTrack(id) {
+    this.props.dispatch(clearTrack(id));
   }
 
-  trackDownload(updateString, trackId) {
-    if (updateString == "Save") {
-      this.saveTrack(trackId);
-    }
-    else if (updateString == "Cancel") {
-      this.cancelTrack(trackId);
-    }
-    else if (updateString == "Remove") {
-      this.removeTrack(trackId);
-    }
+  onActivationTrack(id, val) {
+    const fn = val ? activateTrack : deactivateTrack;
+    this.props.dispatch(fn(id));
   }
 
   render() {
-    let downloaded = 0;
-    const tracks = Object.keys(this.state.tracks).map((trackId)=>{
-      let downloadButtonText = "Save";
-      let track = this.state.tracks[trackId];
-      downloaded += this.state.tracks[trackId].downloaded;
-      let progressBar = (
-        <ProgressBar progress={(track.downloaded/track.downloadSize) * 100}/>
-      )
-      if (track.downloading) {
-        downloadButtonText = "Cancel";
+    const { tracks } = this.props;
+
+    const downloaded = Object.keys(tracks).reduce((pre, cur) => {
+      return pre + (tracks[cur].status === 'fetched');
+    }, 0);
+
+    const rows = Object.keys(tracks).map(id => {
+      const track = tracks[id];
+
+      let progressBar;
+      if(track.isFetching === true) {
+        progressBar = (
+          <ProgressBar indeterminate={true} />
+        );
+      } else if(isFinite(track.isFetching)) {
+        progressBar = (
+          <ProgressBar progress={track.isFetching * 100} />
+        )
+      } else {
       }
-      if (track.downloaded >= track.downloadSize){
+
+      // TODO: Refactor this using O-O principles
+      let icon;
+      let downloadButtonText;
+      let isSave;
+      let action;
+      if(track.isFetching) {
+        downloadButtonText = 'Cancel';
+        isSave = false;
+        action = this.onCancelTrack.bind(this, id);
+        icon = 'cloud_download';
+      } else if(track.status === 'available') {
         downloadButtonText = "Remove";
+        isSave = false;
+        action = this.onRemoveTrack.bind(this, id);
+        icon = 'cloud_download';
+      } else {
+        downloadButtonText = "Save";
+        isSave = true;
+        action = this.onSaveTrack.bind(this, id, track.pkg);
+        icon = 'cloud_download';
       }
-      const isSave = downloadButtonText == "Save";
+
       return (
-        <div key={trackId}>
-          <div className="form-row">
-            <CardText> {track.name} </CardText>
-            <Button primary={isSave} accent={!isSave} raised
-                    onClick={
-                      this.trackDownload.bind(this,downloadButtonText,trackId)
-                    }>
-                {downloadButtonText} ({(track.downloadSize/1024).toFixed(0)} MB)
+        <Card key={id} className={'track-card'} shadow={3}>
+          <CardTitle>{track.name}</CardTitle>
+          <CardText>{track.description}</CardText>
+          <CardActions border={true}>
+            <Button primary={isSave} accent={!isSave} raised onClick={action}>
+              <span className='material-icons'>{icon}</span>
+              <span className='button-text'>{downloadButtonText}</span>
             </Button>
-          </div>
-          <div className="form-row">
-            { progressBar }
-          </div>
-        </div>
+            
+            <span className='size-text'>{`${track.sizeMiB} MiB`}</span>
+
+            <div>
+            <Switch id={id} ripple={true} checked={track.active} onChange={this.onActivationTrack.bind(this, id)}/>
+            </div>
+          </CardActions>
+        </Card>
       );
     });
 
@@ -93,11 +105,14 @@ class DownloadTrackPage extends Component {
         <ACDrawer page="Download Track"/>
         <div className="form-column">
           <DeviceStorage downloaded={downloaded}/>
-          { tracks }
+          { rows }
         </div>
       </Layout>
     );
   }
 }
 
-export default DownloadTrackPage;
+const select = state => {
+  return { tracks: state.tracks.toJS() }
+};
+export default connect(select)(DownloadTrackPage);
