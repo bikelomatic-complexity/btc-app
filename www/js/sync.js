@@ -50,7 +50,8 @@ export default class Sync {
         if(has(doc, '_deleted')) {
           this.store.dispatch(syncDeletePoint(doc._id));
         } else if(doc.class === 'service') {
-          this.store.dispatch(syncRecievePoint(docToPoint(doc._id), doc));
+          const point = docToPoint(doc);
+          this.store.dispatch(syncRecievePoint(doc._id, point));
         }
       }
     }).on('denied', (info) => {

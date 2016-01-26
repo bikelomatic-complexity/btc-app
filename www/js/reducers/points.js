@@ -91,11 +91,11 @@ export function userUpdatePoint(id, point) {
  * Creates an action on behalf of the database sync agent to insert a point
  * into the store that has just been recieved from a remote database.
  */
-export function syncRecievePoint(id, point, coverBlob) {
+export function syncRecievePoint(id, point) {
   return {
     type: SYNC_RECEIVE,
     id,
-    point: withCover(point, coverBlob),
+    point: withCover(point, point.coverBlob),
   };
 }
 
