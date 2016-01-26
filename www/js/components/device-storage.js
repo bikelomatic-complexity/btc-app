@@ -16,8 +16,6 @@ export class DeviceStorage extends Component {
     );
   }
 
-  // TODO: Refactor style logic into CSS
-
   render() {
     return (
       <div style={{'display': 'flex', 'flexDirection': 'row', 'alignItems': 'center', 'justifyContent': 'center'}}>
