@@ -76,6 +76,7 @@ class PointMap extends Component {
     const { dispatch, tracks, settings, mapState, filters } = this.props;
 
     let markers = this.props.services.filter((service)=>{
+      if (service.class == "alert" && filters.hideAlert) { return false }
       if (filters.activeFilters.length == 0){ return true; }
       return filters.activeFilters.includes(service.type);
     }).map((service) => {
@@ -91,19 +92,6 @@ class PointMap extends Component {
     });
 
     let alerts = '';
-    if (!filters.hideAlert) {
-      alerts = this.props.alerts.map((alert) => {
-        return (
-          <Marker key={alert._id} radius={10} position={alert.location}
-            onclick={() => {
-              if (!this.props.addpoint){
-                dispatch(selectMarker(alert));
-              }
-            }}
-          />
-        );
-      });
-    }
 
     // Display waypoints for active tracks
     const activeTracks = values(tracks).filter(track => track.active)
