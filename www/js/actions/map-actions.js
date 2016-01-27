@@ -9,6 +9,8 @@ export const SET_MAP_ZOOM = 'SET_MAP_ZOOM';
 export const SET_MAP_LOADING = 'SET_MAP_LOADING';
 export const SET_GEO_LOCATION = 'SET_GEO_LOCATION';
 
+export const SET_FILTERS = 'SET_FILTERS';
+
 /* Action Creators */
 export function selectMarker(marker) {
   return {
@@ -60,5 +62,12 @@ export function setGeoLocation(geolocation) {
   return {
     type: SET_GEO_LOCATION,
     geolocation
+  }
+}
+
+export function setFilters(filters) {
+  return {
+    type: SET_FILTERS,
+    filters
   }
 }

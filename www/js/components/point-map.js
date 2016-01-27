@@ -73,9 +73,12 @@ class PointMap extends Component {
   }
 
   render() {
-    const { dispatch, tracks, settings, mapState } = this.props;
+    const { dispatch, tracks, settings, mapState, filters } = this.props;
 
-    let markers = this.props.services.map((service) => {
+    let markers = this.props.services.filter((service)=>{
+      if (filters.activeFilters.length == 0){ return true; }
+      return filters.activeFilters.includes(service.type);
+    }).map((service) => {
       return (
         <Marker key={service._id} radius={10} position={service.location}
           onclick={() => {
@@ -87,17 +90,20 @@ class PointMap extends Component {
       );
     });
 
-    let alerts = this.props.alerts.map((alert) => {
-      return (
-        <Marker key={alert._id} radius={10} position={alert.location}
-          onclick={() => {
-            if (!this.props.addpoint){
-              dispatch(selectMarker(alert));
-            }
-          }}
-        />
-      );
-    });
+    let alerts = '';
+    if (!filters.hideAlert) {
+      alerts = this.props.alerts.map((alert) => {
+        return (
+          <Marker key={alert._id} radius={10} position={alert.location}
+            onclick={() => {
+              if (!this.props.addpoint){
+                dispatch(selectMarker(alert));
+              }
+            }}
+          />
+        );
+      });
+    }
 
     // Display waypoints for active tracks
     const activeTracks = values(tracks).filter(track => track.active)
@@ -200,7 +206,8 @@ function select(state) {
   return {
     tracks: state.tracks.toJS(),
     settings: state.settings.toJS(),
-    mapState: state.mapState
+    mapState: state.mapState,
+    filters: state.filters
   };
 }
 export default connect(select)(PointMap);

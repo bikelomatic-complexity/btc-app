@@ -2,12 +2,13 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import thunk from 'redux-thunk'
 import BlobUtil from 'blob-util'
 
-import {ADD_POINT} from './actions/point-actions'
-import {marker} from './reducers/marker'
-import {points} from './reducers/points'
-import tracks from './reducers/tracks'
-import settings from './reducers/settings'
+import {ADD_POINT} from './actions/point-actions';
+import {marker} from './reducers/marker';
+import {points} from './reducers/points';
+import tracks from './reducers/tracks';
+import settings from './reducers/settings';
 import { mapState } from './reducers/map';
+import { filters } from './reducers/filter';
 import {db, init} from './db'
 
 const persister = store => next => action => {
@@ -56,7 +57,8 @@ const app = combineReducers({
   points,
   tracks,
   settings,
-  mapState
+  mapState,
+  filters
 });
 
 const finalCreateStore = compose(
