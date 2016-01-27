@@ -20,6 +20,12 @@ const styleMarker = {marginLeft: '0px', marginTop: '18px', height: '41px'}
 export class AddPointPage extends Component {
   constructor(props) {
     super(props);
+    this.state = {center:[0,0]}
+  }
+
+  updateCenter(leafletMap){
+    const { lat, lng } = leafletMap.target.getCenter();
+    this.setState({center:[lat, lng]});
   }
 
   render() {
@@ -30,8 +36,9 @@ export class AddPointPage extends Component {
         <Header title="Choose a Location"/>
         <ACDrawer page="Add Point"/>
         <PointMap services={services}
-                  alerts={alerts}/>
-        <AddPointCard history={this.props.history} center={mapState.center}/>
+                  alerts={alerts}
+                  afterMoved={this.updateCenter.bind(this)}/>
+        <AddPointCard history={this.props.history} center={this.state.center}/>
         <div className="adding-point" style={{position:'fixed', top:'50%', right:'calc(50% - 12.5px)'}}>
           <img src="img/icons/marker-shadow.png" className="leaflet-marker-shadow" style={styleShadow}/>
           <img src="img/icons/marker-icon.png" className="marker" style={styleMarker}/>

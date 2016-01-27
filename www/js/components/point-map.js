@@ -71,9 +71,7 @@ class PointMap extends Component {
         _southWest.lng - diffLng
       ]});
 
-      // this is slowing down the application
-      this.props.dispatch(setMapCenter(this.state.center));
-      // TODO: find async way to dispatch
+      this.props.afterMoved(leaflet);
   }
 
   render() {
@@ -193,6 +191,6 @@ function select(state) {
   };
 }
 
-PointMap.defaultProps = { onLeafletMove: noOps };
+PointMap.defaultProps = { onLeafletMove: noOps, afterMoved: noOps };
 
 export default connect(select)(PointMap);
