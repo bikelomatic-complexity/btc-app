@@ -8,7 +8,7 @@ import BlobUtil from 'blob-util';
 // import redux components
 import { connect } from 'react-redux';
 
-import { addPoint } from '../actions/point-actions';
+import { userAddPoint } from '../reducers/points';
 
 const defaultState = {
   pointType: 'service', // alert or service
@@ -16,8 +16,8 @@ const defaultState = {
   name: '',
   description: '',      // description
   checkIn: false,       // mark if they were there or not
-  imgSrc: '',           // image url
-  imgBlob: '',          // image blob
+  coverUrl: '',           // image url
+  coverBlob: '',          // image blob
   fullscreen: false,    // should the card cover the map
   typeMenu: false,       // should the type menu be open
   addMessage: 'Add Point Here' // message to show on adding a point
@@ -55,7 +55,7 @@ export class AddPointCard extends Component {
 
   onSubmit() {
     const { center } = this.props;
-    this.props.dispatch(addPoint({
+    this.props.dispatch(userAddPoint({
       class: this.state.pointType,
       created_at: new Date().toISOString(),
       name: this.state.name,
@@ -70,7 +70,7 @@ export class AddPointCard extends Component {
       rating: 5,
       website: null,
       address: null
-    }, this.state.imgBlob));
+    }, this.state.coverBlob));
     this.props.history.pushState(null, '/');
   }
 
@@ -100,10 +100,10 @@ export class AddPointCard extends Component {
     // because of issue - Apache Cordova / CB-9852
     // https://issues.apache.org/jira/browse/CB-9852
     navigator.camera.getPicture(
-      imgSrc => {
-        this.setState({ imgSrc });
-        BlobUtil.imgSrcToBlob(this.state.imgSrc).then(blob => {
-          this.setState({'imgBlob':blob});
+      coverUrl => {
+        this.setState({ coverUrl });
+        BlobUtil.imgSrcToBlob(this.state.coverUrl).then(blob => {
+          this.setState({'coverBlob':blob});
         })
       },
       err => console.error( err ),
@@ -157,9 +157,9 @@ export class AddPointCard extends Component {
     }
 
     let imgView = <div />
-    if (this.state.imgSrc !== '') {
+    if (this.state.coverUrl !== '') {
       imgView = <div>
-        <img src={this.state.imgSrc} width="100%" />
+        <img src={this.state.coverUrl} width="100%" />
       </div>
     }
 
@@ -205,7 +205,7 @@ export class AddPointCard extends Component {
         </div>
         <div className="form-row">
           <Button onClick={this.onPhotoAdd.bind(this)}
-                  colored={this.state.imgSrc !== ''} raised>
+                  colored={this.state.coverUrl !== ''} raised>
                   Upload Photo
           </Button>
         </div>
