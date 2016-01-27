@@ -1,9 +1,11 @@
+import PouchDB from 'pouchdb'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
-import { createAppStore } from './store'
+import StoreBuilder, { createAppStore } from './store'
 
 import MapPage from './components/map-page'
 import AddPointPage from './components/add-point-page'
@@ -13,7 +15,12 @@ import DownloadTrackPage from './components/download-track-page'
 import FilterPage from './components/filter-page'
 import SettingsPage from './components/settings-page'
 
-import { loadDb } from './db'
+import Gateway from './gateway'
+
+import Sync from './sync'
+import { NetworkManager } from './reducers/network'
+
+import { reloadPoints } from './reducers/points'
 
 /**
  * the App component fetches service data from the server and displays
@@ -29,13 +36,24 @@ class App extends React.Component {
   }
 }
 
-/* Requires cordova.js to already be loaded via <script> */
-const deviceReady = new Promise(resolve => {
-  document.addEventListener('deviceReady', resolve, false);
-});
+const local = new PouchDB('stop-here-db');
+const gateway = new Gateway(local);
 
-Promise.all([deviceReady, loadDb]).then( ([device, points]) => {
-  const store = createAppStore({points});
+const storeBuilder = new StoreBuilder([ gateway.getMiddleware() ]);
+const store = storeBuilder.build();
+
+/* Requires cordova.js to already be loaded via <script> */
+document.addEventListener('deviceReady', () => {
+
+  const network = new NetworkManager(store);
+  network.monitor();
+
+  const sync = new Sync(local, store);
+  sync.start();
+
+  gateway.getPoints().then(points => {
+    store.dispatch(reloadPoints(points));
+  });
 
   ReactDOM.render((
     <Provider store={store}>
@@ -52,4 +70,4 @@ Promise.all([deviceReady, loadDb]).then( ([device, points]) => {
       </Router>
     </Provider>
   ), document.getElementById('main'));
-})
+});
