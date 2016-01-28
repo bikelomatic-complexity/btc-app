@@ -23,8 +23,7 @@ class PointMap extends Component {
     this.state = {
       startCenter: mapState.center,
       center: mapState.center,
-      zoom: mapState.zoom,
-      box: [0,0,0,0]
+      zoom: mapState.zoom
     }
     bindAll(this, 'onMapMoved');
   }
@@ -71,14 +70,9 @@ class PointMap extends Component {
     const diffLat = Math.abs(_northEast.lat - _southWest.lat);
     const diffLng = Math.abs(_northEast.lat - _southWest.lng);
     this.setState({
-      zoom:leaflet.target.getZoom(),
-      center:[lat, lng],
-      box:[
-        _northEast.lat + diffLat,
-        _northEast.lng + diffLng,
-        _southWest.lat - diffLat,
-        _southWest.lng - diffLng
-      ]},
+        zoom:leaflet.target.getZoom(),
+        center:[lat, lng]
+      },
       this.props.afterMoved.bind(this, leaflet)
     );
 
