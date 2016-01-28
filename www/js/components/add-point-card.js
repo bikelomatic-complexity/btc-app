@@ -54,12 +54,12 @@ export class AddPointCard extends Component {
   }
 
   onSubmit() {
-    const { mapState } = this.props;
+    const { location } = this.props;
     this.props.dispatch(userAddPoint({
       class: this.state.pointType,
       created_at: new Date().toISOString(),
       name: this.state.name,
-      location: mapState.center,
+      location,
       type: this.state.type,
       description: this.state.description,
       flag: false,
@@ -117,8 +117,8 @@ export class AddPointCard extends Component {
   }
 
   render() {
-    const { mapState } = this.props;
-    const [lat, lng] = mapState.center;
+    const { location } = this.props;
+    const [lat, lng] = location;
     const latLngString = `(${lat.toFixed(4)}, ${lng.toFixed(4)})`;
 
     const cardStyle = {
