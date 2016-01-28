@@ -10,6 +10,8 @@ import MBTilesLayer from './mbtiles-layer';
 
 import { selectMarker, deselectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 
+import { bindAll } from 'underscore';
+
 const noOps = function(){}; // function that does nothing
 
 setIconDefaultImagePath('img/icons');
@@ -24,6 +26,7 @@ class PointMap extends Component {
       zoom: mapState.zoom,
       box: [0,0,0,0]
     }
+    bindAll(this, 'onMapMoved');
   }
 
   componentDidMount() {
@@ -69,9 +72,10 @@ class PointMap extends Component {
         _northEast.lng + diffLng,
         _southWest.lat - diffLat,
         _southWest.lng - diffLng
-      ]});
+      ]},
+      this.props.afterMoved.bind(this, leaflet)
+    );
 
-      this.props.afterMoved(leaflet);
   }
 
   render() {
@@ -158,9 +162,7 @@ class PointMap extends Component {
         <Map  center={this.state.startCenter}
               zoom={this.state.zoom}
               onLeafletMove={this.props.onLeafletMove}
-              onLeafletMoveEnd={(leafletMap)=>{
-                this.onMapMoved(leafletMap);
-              }}
+              onLeafletMoveEnd={this.onMapMoved}
               onclick={() => {
                 dispatch(deselectMarker());
               }} >
