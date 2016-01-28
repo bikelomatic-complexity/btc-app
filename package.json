@@ -20,7 +20,7 @@
     "livereload": "livereload \"platforms/browser/www/\"",
     "dev": "parallelshell \"npm run watch\" \"npm run livereload\"",
     "prebuild:apk": "npm run build",
-    "build:apk": "cordova build android --release"
+    "build:apk": "cordova build android"
   },
   "repository": {
     "type": "git",
