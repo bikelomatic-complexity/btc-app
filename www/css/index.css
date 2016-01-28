@@ -38,7 +38,7 @@ body {
 }
 
 /* Get the bobbing motion for new markers */
-.adding-point > .marker{
+.adding-point > .marker {
     position: relative;
     top: 0px;
     -webkit-animation-name: adding;
@@ -46,29 +46,11 @@ body {
     -webkit-animation-iteration-count: infinite;
 }
 
-/* if we want the shadow to move as well, uncomment this */
-/*.adding-point * > .leaflet-marker-shadow{
-    position: relative;
-    top: 0px;
-    right: 0px;
-    -webkit-animation-name: adding_shadow;
-    -webkit-animation-duration: 2s;
-    -webkit-animation-iteration-count: infinite;
-  }
-}*/
-
 @-webkit-keyframes adding {
     0%   {top: 0px;}
     50%  {top: -15px;}
     100% {top: 0px;}
 }
-
-/* if we want the shadow to move as well, uncomment this */
-/*@-webkit-keyframes adding_shadow {
-    0%   {top: 0px; right: 0px;}
-    50%  {top: -10px; right: 5px;}
-    100% {top: 0px; right: 0px;}
-}*/
 
 .ac-drop-down {
   height: calc(100% - 55px);

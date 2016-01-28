@@ -1,22 +1,20 @@
-import React, { Component } from 'react'
-import { Spinner, CardText } from 'react-mdl'
-import { connect } from 'react-redux'
-import { keys, values } from 'underscore'
+import React, { Component } from 'react';
+import { Spinner, CardText } from 'react-mdl';
+import { connect } from 'react-redux';
+import { keys, values } from 'underscore';
 
-import { divIcon } from 'leaflet'
-import * as Leaflet from 'react-leaflet'
+import { divIcon } from 'leaflet';
+import * as Leaflet from 'react-leaflet';
 const { Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline, setIconDefaultImagePath } = Leaflet;
 import MBTilesLayer from './mbtiles-layer';
 
 import { selectMarker, deselectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 
-setIconDefaultImagePath('img/icons');
+import { bindAll } from 'underscore';
 
-const customIcon = divIcon({
-  className:'adding-point',
-  html:`<img src="img/icons/marker-shadow.png" class="leaflet-marker-shadow" style="margin-left: -12px; margin-top: -31px; width: 41px; height: 41px;">
-  <img src="img/icons/marker-icon.png" class="marker" tabindex="0" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px;">`
-});
+const noOps = function(){}; // function that does nothing
+
+setIconDefaultImagePath('img/icons');
 
 class PointMap extends Component {
   constructor(props) {
@@ -27,6 +25,7 @@ class PointMap extends Component {
       center: mapState.center,
       zoom: mapState.zoom
     }
+    bindAll(this, 'onMapMoved');
   }
 
   componentDidMount() {
@@ -59,21 +58,29 @@ class PointMap extends Component {
     dispatch(setMapCenter(this.state.center));
   }
 
-  onMapMove(leaflet) {
-    const { dispatch } = this.props;
-    const { lat, lng } = leaflet.target.getCenter();
-    this.setState({center:[lat, lng]});
+  shouldComponentUpdate(nextProps, nextState) {
+    return  (this.props.mapState.loading !== nextProps.mapState.loading) ||
+            (this.state.startCenter !== nextState.startCenter) ||
+            (this.props.services.length !== nextProps.services.length);
   }
 
   onMapMoved(leaflet) {
-    const { dispatch } = this.props;
     const { lat, lng } = leaflet.target.getCenter();
-    this.setState({zoom:leaflet.target.getZoom(), center:[lat, lng]});
-    dispatch(setMapCenter(this.state.center));
+    const { _northEast, _southWest } = leaflet.target.getBounds();
+    const diffLat = Math.abs(_northEast.lat - _southWest.lat);
+    const diffLng = Math.abs(_northEast.lat - _southWest.lng);
+    this.setState({
+        zoom:leaflet.target.getZoom(),
+        center:[lat, lng]
+      },
+      this.props.afterMoved.bind(this, leaflet)
+    );
+
   }
 
   render() {
-    const { dispatch, tracks, settings, mapState, filters } = this.props;
+
+    const { dispatch, tracks, settings, mapState, filters, children } = this.props;
 
     let markers = this.props.services.filter((service)=>{
       if (service.class == "alert" && filters.hideAlert) { return false }
@@ -133,25 +140,9 @@ class PointMap extends Component {
       );
     }
 
-    const { children } = this.props;
-
     let circleMarker = '';
     if (mapState.geolocation) {
       circleMarker = <CircleMarker center={mapState.geolocation} />
-    }
-
-    let addpoint = '';
-    if (this.props.addpoint) {
-      addpoint = <Marker  position={this.state.center}
-                          radius={10}
-                          icon={customIcon} />
-    }
-
-    let onLeafletMove = ()=>{};
-    if (this.props.watchOnMove) {
-      onLeafletMove = function(leafletMap){
-        this.onMapMove(leafletMap);
-      }.bind(this);
     }
 
     let view;
@@ -163,24 +154,23 @@ class PointMap extends Component {
       );
     } else {
       view = (
-        <Map
-          center={this.state.startCenter}
-          zoom={this.state.zoom}
-          onLeafletMove={onLeafletMove}
-          onLeafletMoveEnd={ leafletMap => {
-            this.onMapMoved(leafletMap);
-          }}
-          onclick={() => {
-            dispatch(deselectMarker());
-          }}>
+        <Map  center={this.state.startCenter}
+              zoom={this.state.zoom}
+              onLeafletMove={this.props.onLeafletMove}
+              onLeafletMoveEnd={this.onMapMoved}
+              onclick={() => {
+                dispatch(deselectMarker());
+              }} >
 
           { circleMarker }
           { tileLayer }
 
           { markers }
           { alerts }
+
           { trackViews }
-          { addpoint }
+          { children }
+
 
         </Map>
       );
@@ -198,4 +188,7 @@ function select(state) {
     filters: state.filters
   };
 }
+
+PointMap.defaultProps = { onLeafletMove: noOps, afterMoved: noOps };
+
 export default connect(select)(PointMap);
