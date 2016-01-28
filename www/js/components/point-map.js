@@ -59,6 +59,12 @@ class PointMap extends Component {
     dispatch(setMapCenter(this.state.center));
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return  (this.props.mapState.loading !== nextProps.mapState.loading) ||
+            (this.state.startCenter !== nextState.startCenter) ||
+            (this.props.services.length !== nextProps.services.length);
+  }
+
   onMapMoved(leaflet) {
     const { lat, lng } = leaflet.target.getCenter();
     const { _northEast, _southWest } = leaflet.target.getBounds();
