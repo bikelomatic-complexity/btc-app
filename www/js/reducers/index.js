@@ -7,7 +7,7 @@ import network from './network'
 import tracks from './tracks'
 import settings from './settings'
 import { mapState } from './map'
-import { filters } form './filters'
+import { filters } from './filter'
 
 export default combineReducers({
   marker,
