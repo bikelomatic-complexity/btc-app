@@ -14,8 +14,12 @@ import { types, displayType } from '../types';
 class FilterPage extends Component {
   constructor(props) {
     super(props);
-    const filters = types.slice(); // copy by value
-    const { activeFilters, openServices, hideAlert } = this.props.filters
+    const { activeFilters, openServices, hideAlert } = this.props.filters;
+
+    const filters = types.filter(type =>{
+      return !activeFilters.includes(type);
+    }); // copy by value
+
     this.state = {
       filters,
       activeFilters,
@@ -53,7 +57,7 @@ class FilterPage extends Component {
 
   removeFilter(index) {
     const { activeFilters, filters } = this.state;
-    const service = activeFilters.splice(index,1);
+    const service = activeFilters.splice(index,1)[0];
     filters.push(service);
     filters.sort();
     this.setState({activeFilters, filters});

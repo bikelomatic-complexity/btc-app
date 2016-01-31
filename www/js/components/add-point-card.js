@@ -153,7 +153,7 @@ export class AddPointCard extends Component {
     let dropDown = '';
     if (this.state.typeMenu) {
       dropDown = <DropDown  elements={serviceTypes}
-                            func={this.onTypeSelect.bind(this)}/>;
+                            onSelectFunction={this.onTypeSelect.bind(this)}/>;
     }
 
     let imgView = <div />

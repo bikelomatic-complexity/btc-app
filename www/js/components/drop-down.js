@@ -22,5 +22,5 @@ export class DropDown extends Component {
   }
 }
 
-DropDown.deafultProps = { textTransform: noOps };
+DropDown.defaultProps = { textTransform: noOps };
 export default DropDown;
