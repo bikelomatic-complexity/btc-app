@@ -5,7 +5,11 @@ export function filters(state = {
 }, action) {
   switch(action.type) {
     case SET_FILTERS:
-      return action.filters;
+      return Object.assign({}, state, {
+        activeFilters:[...action.filters.activeFilters],
+        openServices:action.filters.openServices,
+        hideAlert:action.filters.hideAlert
+      });
     default:
       return state;
   }

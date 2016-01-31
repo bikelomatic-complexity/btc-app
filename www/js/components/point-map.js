@@ -98,8 +98,6 @@ class PointMap extends Component {
       );
     });
 
-    let alerts = '';
-
     // Display waypoints for active tracks
     const activeTracks = values(tracks).filter(track => track.active)
     const trackViews = activeTracks.map(track => {
@@ -166,7 +164,6 @@ class PointMap extends Component {
           { tileLayer }
 
           { markers }
-          { alerts }
 
           { trackViews }
           { children }
