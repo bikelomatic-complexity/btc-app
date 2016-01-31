@@ -6,10 +6,10 @@ const noOps = function(text){return text}; // do nothing
 export class DropDown extends Component {
 
   render() {
-    const { elements, func, textTransform } = this.props;
+    const { elements, onSelectFunction, textTransform } = this.props;
     const options = elements.map((element)=> {
       return (
-        <MenuItem onClick={()=>{func(element)}} key={element}>
+        <MenuItem onClick={()=>{onSelectFunction(element)}} key={element}>
           {textTransform(element)}
         </MenuItem>
       );
