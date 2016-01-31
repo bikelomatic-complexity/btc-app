@@ -1,4 +1,8 @@
 
+branches:
+  only:
+    - master
+
 language: android
 android:
   components:
@@ -25,7 +29,7 @@ deploy:
   file: "bicycle-touring-companion.apk"
   on:
     repo: bikelomatic-complexity/app
-    branch: setup-travis
+    branch: master
     tags: true
 
 cache:
