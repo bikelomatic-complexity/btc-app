@@ -106,15 +106,15 @@ class FilterPage extends Component {
     );
     let dropDown = '';
     if (this.state.showOptions >= 0) {
-      let func = this.addFilter.bind(this);
+      let onSelectFunction = this.addFilter.bind(this);
       if (this.state.showOptions < this.state.activeFilters.length) {
-        func = this.updateFilter.bind(this,this.state.showOptions);
+        onSelectFunction = this.updateFilter.bind(this,this.state.showOptions);
       }
       dropDown = (
         <DropDown
           elements={this.state.filters}
           textTransform={displayType}
-          func={func}
+          onSelectFunction={onSelectFunction}
         />);
     }
 
