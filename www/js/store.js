@@ -7,18 +7,30 @@ import reducers from './reducers'
 
 const reqMiddleware = [ thunk ];
 
-const devTools = window.devToolsExtension ? window.devToolsExtension : f => f;
+const devTools = typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f;
 
 export default class StoreBuilder {
 
   constructor(extMiddleware) {
-    const allMiddleware = union(extMiddleware, reqMiddleware);
+    const all = [ ...reqMiddleware, ...extMiddleware ];
 
-    this.createStore = compose(applyMiddleware(...allMiddleware), devTools)(createStore);
+    if(process.env.NODE_ENV === 'development') {
+
+      this.finalCreateStore = compose(
+        applyMiddleware(...all),
+        devTools
+      )(createStore);
+
+    } else {
+
+      this.finalCreateStore = compose(
+        applyMiddleware(...all)
+      )(createStore);
+    }
   }
 
   build(initState = {}) {
-    return this.createStore(reducers, initState);
+    return this.finalCreateStore(reducers, initState);
   }
 
 }
