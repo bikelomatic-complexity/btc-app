@@ -5,6 +5,8 @@ www/js/bundle.js
 test/bundle.js
 doc/
 
+*.apk
+
 # Logs
 logs
 *.log
