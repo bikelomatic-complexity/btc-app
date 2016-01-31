@@ -9,17 +9,12 @@ import FilterDropDown from './filter-drop-down';
 
 import { setFilters } from '../actions/map-actions';
 
+import { types, displayType } from '../types';
+
 class FilterPage extends Component {
   constructor(props) {
     super(props);
-    const filters = [
-      'bar', 'bed & breakfast', 'bike shop', 'campground',
-      'convenience store', 'cyclists camping', 'cyclists lodging',
-      'grocery', 'hostel', 'hotel/motel', 'library', 'rest area',
-      'restroom', 'restaurant', 'state park', 'museum', 'information',
-      'airport', 'scenic area', 'hot spring', 'outdoor store',
-      'cabin', 'other'
-    ].sort();
+    const filters = types.slice(); // copy by value
     const { activeFilters, openServices, hideAlert } = this.props.filters
     this.state = {
       filters,
@@ -65,14 +60,7 @@ class FilterPage extends Component {
   }
 
   clearFilters() {
-    const filters = [
-      'bar', 'bed & breakfast', 'bike shop', 'campground',
-      'convenience store', 'cyclists camping', 'cyclists lodging',
-      'grocery', 'hostel', 'hotel/motel', 'library', 'rest area',
-      'restroom', 'restaurant', 'state park', 'museum', 'information',
-      'airport', 'scenic area', 'hot spring', 'outdoor store',
-      'cabin', 'other'
-    ].sort();
+    const filters = types;
     this.setState({
       filters,
       activeFilters:[],
@@ -122,7 +110,12 @@ class FilterPage extends Component {
       if (this.state.showOptions < this.state.activeFilters.length) {
         func = this.updateFilter.bind(this,this.state.showOptions);
       }
-      dropDown = (<DropDown elements={this.state.filters} func={func}/>);
+      dropDown = (
+        <DropDown
+          elements={this.state.filters}
+          textTransform={displayType}
+          func={func}
+        />);
     }
 
     return (
@@ -146,7 +139,7 @@ class FilterPage extends Component {
           { dropDown }
 
           <div className="form-row">
-            <Checkbox label="Display Open Services?"
+            <Checkbox label="Only Show Open Services"
                       onChange={this.toggleOpenServices.bind(this)}
                       checked={this.state.openServices}/>
           </div>

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import { Button } from 'react-mdl';
+import { displayType } from '../types';
 
 class FilterDropDown extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class FilterDropDown extends Component {
       <div>
         <div className="form-row">
           <Button style={{flex:5}} raised onClick={updateFunction}>
-            {this.state.activeFilter}
+            {displayType(this.state.activeFilter)}
           </Button>
           <Button raised accent onClick={removeFunction}> X </Button>
         </div>
