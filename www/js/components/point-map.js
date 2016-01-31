@@ -79,26 +79,19 @@ class PointMap extends Component {
   }
 
   render() {
-    const { dispatch, tracks, settings, mapState, children } = this.props;
 
-    let markers = this.props.services.map((service) => {
+    const { dispatch, tracks, settings, mapState, filters, children } = this.props;
+
+    let markers = this.props.services.filter((service)=>{
+      if (service.class == "alert" && filters.hideAlert) { return false }
+      if (filters.activeFilters.length == 0){ return true; }
+      return filters.activeFilters.includes(service.type);
+    }).map((service) => {
       return (
         <Marker key={service._id} radius={10} position={service.location}
           onclick={() => {
             if (!this.props.addpoint){
               dispatch(selectMarker(service));
-            }
-          }}
-        />
-      );
-    });
-
-    let alerts = this.props.alerts.map((alert) => {
-      return (
-        <Marker key={alert._id} radius={10} position={alert.location}
-          onclick={() => {
-            if (!this.props.addpoint){
-              dispatch(selectMarker(alert));
             }
           }}
         />
@@ -171,7 +164,6 @@ class PointMap extends Component {
           { tileLayer }
 
           { markers }
-          { alerts }
 
           { trackViews }
           { children }
@@ -189,7 +181,8 @@ function select(state) {
   return {
     tracks: state.tracks.toJS(),
     settings: state.settings.toJS(),
-    mapState: state.mapState
+    mapState: state.mapState,
+    filters: state.filters
   };
 }
 
