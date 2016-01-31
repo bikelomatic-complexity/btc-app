@@ -1,6 +1,6 @@
 {
-  "name": "btdc",
-  "version": "1.0.0",
+  "name": "bicycle-touring-companion",
+  "version": "0.1.0",
   "description": "Bicycle touring digital companion",
   "scripts": {
     "postinstall": "npm run install:cordova",
@@ -9,7 +9,6 @@
     "format": "jscs www/ -x -r inline; true",
     "doc": "esdoc -c .esdoc.json",
     "build": "browserify www/js/app.js -t babelify -o www/js/bundle.js",
-    "postbuild": "npm run doc",
     "prestart:browser":"npm run build",
     "prestart:android":"npm run build",
     "start:browser": "cordova serve 8000",
@@ -20,7 +19,11 @@
     "livereload": "livereload \"platforms/browser/www/\"",
     "dev": "parallelshell \"npm run watch\" \"npm run livereload\"",
     "prebuild:apk": "npm run build",
-    "build:apk": "cordova build android"
+    "build:apk": "cordova build android",
+
+    "release:android": "cordova build android --release",
+    "postrelease:android": "scripts/postrelease-android.js"
+
   },
   "repository": {
     "type": "git",
