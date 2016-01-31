@@ -1,6 +1,6 @@
 {
   "name": "bicycle-touring-companion",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Bicycle touring digital companion",
   "scripts": {
     "postinstall": "npm run install:cordova",
