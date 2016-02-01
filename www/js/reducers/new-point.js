@@ -1,4 +1,18 @@
-export function newPoint(state = {
+import {  SET_POINT_NAME,
+          SET_POINT_LOCATION,
+          SET_POINT_TYPE,
+          SET_POINT_DESCRIPTION,
+          SET_POINT_ADDRESS,
+          SET_POINT_IMAGE,
+          SET_POINT_WEBSITE,
+          SET_POINT_PHONE,
+          ADD_POINT_HOURS,
+          REMOVE_POINT_HOURS,
+          ADD_POINT_AMENITIES,
+          REMOVE_POINT_AMENITIES
+        } from '../actions/new-point-actions';
+
+export default function newPoint(state = {
   name:'',
   location:[],
   type:0,
@@ -10,30 +24,31 @@ export function newPoint(state = {
   hours:[],
   amenities:[]
 }, action) {
+  let newState;
   switch (action.type) {
     case SET_POINT_NAME:
-      const newState = Object.assign(state, {name:action.name})
+      newState = Object.assign(state, {name:action.name})
       return newState;
     case SET_POINT_LOCATION:
-      const newState = Object.assign(state, {location:action.location})
+      newState = Object.assign(state, {location:action.location})
       return newState;
     case SET_POINT_TYPE:
-      const newState = Object.assign(state, {type:action.pointType})
+      newState = Object.assign(state, {type:action.pointType})
       return newState;
     case SET_POINT_DESCRIPTION:
-      const newState = Object.assign(state, {description:action.description})
+      newState = Object.assign(state, {description:action.description})
       return newState;
     case SET_POINT_ADDRESS:
-      const newState = Object.assign(state, {address:action.address})
+      newState = Object.assign(state, {address:action.address})
       return newState;
     case SET_POINT_IMAGE:
-      const newState = Object.assign(state, {imageSrc:action.imageSrc})
+      newState = Object.assign(state, {imageSrc:action.imageSrc})
       return newState;
     case SET_POINT_WEBSITE:
-      const newState = Object.assign(state, {website:action.website})
+      newState = Object.assign(state, {website:action.website})
       return newState;
     case SET_POINT_PHONE:
-      const newState = Object.assign(state, {phoneNumber:action.phoneNumber})
+      newState = Object.assign(state, {phoneNumber:action.phoneNumber})
       return newState;
     case ADD_POINT_HOURS:
       state.hours.push(action.newHours);

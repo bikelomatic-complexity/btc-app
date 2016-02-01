@@ -1,6 +1,6 @@
 import { SET_FILTERS } from '../actions/map-actions';
 
-export function filters(state = {
+export default function filters(state = {
   activeFilters:[], openServices:false, hideAlert:false
 }, action) {
   switch(action.type) {
