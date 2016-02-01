@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Card, CardTitle, CardActions, IconButton,
           CardText, CardMenu, Button } from 'react-mdl';
 import HoursTable from './hours-table';
+import { displayType } from '../types'
 
 // import redux components
 import { connect } from 'react-redux';
@@ -70,20 +71,26 @@ export class PointCard extends Component {
       zIndex:'8'
     }
 
+    let cardActionStyle = {
+      padding: '0px',
+      background: 'white'
+    }
+
     let cardTitleStyle = {
       color: '#fff',
       height: titleHeight,
-      background: backgroundStyle
+      background: backgroundStyle,
+      margin: '0px !important'
     }
 
     let seeButton = (
-      <Button colored onClick={() => {
+      <Button raised colored onClick={() => {
         dispatch(fullscreenMarker());
       }}>See More</Button>
     );
     if (this.props.show=='full') {
       seeButton = (
-        <Button colored onClick={() => {
+        <Button raised colored onClick={() => {
           dispatch(peekMarker());
         }}>See Less</Button>
       );
@@ -143,7 +150,7 @@ export class PointCard extends Component {
           <div id="point-details">
             <CardText> {point.description} {timeDetails}</CardText>
             <CardText>
-              {point.type} <br/>
+              {displayType(point.type)} <br/>
               <span className="amenities"> {point.amenities.join(", ")} </span>
             </CardText>
 
@@ -159,18 +166,18 @@ export class PointCard extends Component {
     }
 
     return (
-      <Card id="mdl-map-card" shadow={5} style={cardStyle}>
-        <CardTitle style={cardTitleStyle}>{this.props.point.name}</CardTitle>
+      <Card id="mdl-map-card" className="form-column" shadow={5} style={cardStyle}>
+        <CardTitle  className="form-row"
+                    style={cardTitleStyle}>
+            {this.props.point.name}
+        </CardTitle>
         { cardDetails }
-        <CardActions border className="view-button">
+        <CardActions border className="view-buttons form-row" style={cardActionStyle}>
           { seeButton }
-          <Button colored onClick={() => {
+          <Button raised onClick={() => {
             dispatch(deselectMarker());
           }}>Close</Button>
         </CardActions>
-        <CardMenu style={{color: '#fff'}}>
-            <IconButton name="share" />
-        </CardMenu>
       </Card>
     );
   }
