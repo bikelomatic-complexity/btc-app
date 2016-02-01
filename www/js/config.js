@@ -12,7 +12,7 @@ export const MBTILES_SERVER_ROOT = 'mbtiles';
 // may encounter errors doing that
 export const MBTILES_LOCAL_ROOT = 'cdvfile://localhost/temporary';
 
-export const COUCHDB_REMOTE_SERVER = 'http://52.6.107.65:5984/points';
+export const COUCHDB_REMOTE_SERVER = 'http://52.3.58.165:5984/points';
 
 /*
  * Returns a promise that resolves with an absolute path that can be used
