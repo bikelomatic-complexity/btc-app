@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
 import { Layout, Header, Checkbox, Button } from 'react-mdl';
 
@@ -6,24 +7,32 @@ import ACDrawer from './ac-drawer';
 import DropDown from './drop-down';
 import FilterDropDown from './filter-drop-down';
 
+import { setFilters } from '../actions/map-actions';
+
+import { types, displayType } from '../types';
+
 class FilterPage extends Component {
   constructor(props) {
     super(props);
-    const filters = [
-      'bar', 'bed & breakfast', 'bike shop', 'campground',
-      'convenience store', 'cyclists camping', 'cyclists lodging',
-      'grocery', 'hostel', 'hotel/motel', 'library', 'rest area',
-      'restroom', 'restaurant', 'state park', 'museum', 'information',
-      'airport', 'scenic area', 'hot spring', 'outdoor store',
-      'cabin', 'other'
-    ].sort();
+    const { activeFilters, openServices, hideAlert } = this.props.filters;
+
+    const filters = types.filter(type =>{
+      return !activeFilters.includes(type);
+    }); // copy by value
+
     this.state = {
       filters,
-      activeFilters:[],
-      openServices:false,
-      alert:false,
+      activeFilters,
+      openServices,
+      hideAlert,
       showOptions: -1
     };
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    const { activeFilters, openServices, hideAlert } = this.state;
+    dispatch(setFilters({activeFilters, openServices, hideAlert}));
   }
 
   addFilter(service) {
@@ -48,21 +57,14 @@ class FilterPage extends Component {
 
   removeFilter(index) {
     const { activeFilters, filters } = this.state;
-    const service = activeFilters.splice(index,1);
+    const service = activeFilters.splice(index,1)[0];
     filters.push(service);
     filters.sort();
     this.setState({activeFilters, filters});
   }
 
   clearFilters() {
-    const filters = [
-      'bar', 'bed & breakfast', 'bike shop', 'campground',
-      'convenience store', 'cyclists camping', 'cyclists lodging',
-      'grocery', 'hostel', 'hotel/motel', 'library', 'rest area',
-      'restroom', 'restaurant', 'state park', 'museum', 'information',
-      'airport', 'scenic area', 'hot spring', 'outdoor store',
-      'cabin', 'other'
-    ].sort();
+    const filters = types;
     this.setState({
       filters,
       activeFilters:[],
@@ -85,7 +87,13 @@ class FilterPage extends Component {
   }
 
   toggleAlert() {
-    this.setState({alert:(!this.state.alert)})
+    this.setState({hideAlert:(!this.state.hideAlert)})
+  }
+
+  onFilter(e) {
+    e.preventDefault();
+
+    this.props.history.pushState(null, '/');
   }
 
   render() {
@@ -102,11 +110,16 @@ class FilterPage extends Component {
     );
     let dropDown = '';
     if (this.state.showOptions >= 0) {
-      let func = this.addFilter.bind(this);
+      let onSelectFunction = this.addFilter.bind(this);
       if (this.state.showOptions < this.state.activeFilters.length) {
-        func = this.updateFilter.bind(this,this.state.showOptions);
+        onSelectFunction = this.updateFilter.bind(this,this.state.showOptions);
       }
-      dropDown = (<DropDown elements={this.state.filters} func={func}/>);
+      dropDown = (
+        <DropDown
+          elements={this.state.filters}
+          textTransform={displayType}
+          onSelectFunction={onSelectFunction}
+        />);
     }
 
     return (
@@ -130,7 +143,7 @@ class FilterPage extends Component {
           { dropDown }
 
           <div className="form-row">
-            <Checkbox label="Display Open Services?"
+            <Checkbox label="Only Show Open Services"
                       onChange={this.toggleOpenServices.bind(this)}
                       checked={this.state.openServices}/>
           </div>
@@ -138,14 +151,16 @@ class FilterPage extends Component {
           <div className="form-row">
             <Checkbox label="Hide Alerts"
                       onChange={this.toggleAlert.bind(this)}
-                      checked={this.state.alert}/>
+                      checked={this.state.hideAlert}/>
           </div>
 
           <div className="form-row">
             <Button raised onClick={this.clearFilters.bind(this)}>
               Clear
             </Button>
-            <Button raised colored> Filter </Button>
+            <Button raised onClick={this.onFilter.bind(this)} colored>
+              Filter
+            </Button>
           </div>
 
         </div>
@@ -154,4 +169,9 @@ class FilterPage extends Component {
   }
 }
 
-export default FilterPage;
+function select(state) {
+  return {
+    filters: state.filters
+  };
+}
+export default connect(select)(FilterPage);

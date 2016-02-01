@@ -20,7 +20,9 @@ const styleMarker = {marginLeft: '0px', marginTop: '18px', height: '41px'}
 export class AddPointPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {location:[0,0]}
+    this.state = {
+      location:[0,0]
+    }
   }
 
   updateLocation(leaflet){
@@ -33,8 +35,40 @@ export class AddPointPage extends Component {
 
     return (
       <Layout fixedHeader>
-        <Header title="Choose a Location"/>
+        <Header title="Add New Point"/>
         <ACDrawer page="Add Point"/>
+        <div className="flex-row">
+          <Button raised accent ripple
+            onClick={()=>{this.props.history.push('/add-point');}}>
+            Location
+          </Button>
+          <Button raised accent ripple
+            onClick={()=>{this.props.history.push('/add-point/name');}}>
+            Name
+          </Button>
+          <Button raised accent ripple
+            onClick={()=>{this.props.history.push('/add-point/description');}}>
+            Description
+          </Button>
+          <Button raised accent ripple
+            onClick={()=>{this.props.history.push('/add-point/information');}}>
+            Information
+          </Button>
+          <Button raised accent ripple
+            onClick={()=>{this.props.history.push('/add-point/hours');}}>
+            Hours
+          </Button>
+          <Button raised accent ripple
+            onClick={()=>{this.props.history.push('/add-point/amenities');}}>
+            Amenities
+          </Button>
+        </div>
+
+        <div>
+          {this.props.children}
+        </div>
+
+        {/*
         <PointMap services={services}
                   alerts={alerts}
                   afterMoved={this.updateLocation.bind(this)}/>
@@ -42,7 +76,7 @@ export class AddPointPage extends Component {
         <div className="adding-point" style={{position:'fixed', top:'50%', right:'calc(50% - 12.5px)'}}>
           <img src="img/icons/marker-shadow.png" className="leaflet-marker-shadow" style={styleShadow}/>
           <img src="img/icons/marker-icon.png" className="marker" style={styleMarker}/>
-        </div>
+        </div> */}
       </Layout>
     );
   }

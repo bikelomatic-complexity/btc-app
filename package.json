@@ -1,17 +1,13 @@
 {
-  "name": "btdc",
-  "version": "1.0.0",
+  "name": "bicycle-touring-companion",
+  "version": "0.1.0",
   "description": "Bicycle touring digital companion",
   "scripts": {
-    "postinstall": "npm run install:cordova",
-    "install:cordova": "cordova platform add android browser & true",
-    "postinstall:cordova": "cordova plugin add cordova-plugin-geolocation & cordova plugin add https://github.com/apache/cordova-plugin-file & cordova plugin add cordova-plugin-camera & cordova plugin add cordova-plugin-file-transfer & cordova plugin add https://github.com/hypery2k/cordova-sqlite-plugin & cordova plugin add cordova-plugin-network-information & cordova plugin add cordova-plugin-device",
     "format": "jscs www/ -x -r inline; true",
     "doc": "esdoc -c .esdoc.json",
-    "build": "browserify www/js/app.js -t babelify -o www/js/bundle.js",
-    "postbuild": "npm run doc",
-    "prestart:browser":"npm run build",
-    "prestart:android":"npm run build",
+    "build": "browserify www/js/app.js -t babelify -t envify -o www/js/bundle.js",
+    "prestart:browser": "npm run build",
+    "prestart:android": "npm run build",
     "start:browser": "cordova serve 8000",
     "start:android": "cordova run android",
     "start": "npm run start:android",
@@ -20,7 +16,9 @@
     "livereload": "livereload \"platforms/browser/www/\"",
     "dev": "parallelshell \"npm run watch\" \"npm run livereload\"",
     "prebuild:apk": "npm run build",
-    "build:apk": "cordova build android"
+    "build:apk": "cordova build android",
+    "release:android": "cordova build android --release",
+    "postrelease:android": "scripts/postrelease-android.js"
   },
   "repository": {
     "type": "git",
@@ -57,6 +55,7 @@
     "browserify": "^11.2.0",
     "chai": "^3.4.1",
     "cordova": "^5.3.3",
+    "envify": "^3.4.0",
     "esdoc": "^0.4.1",
     "jscs": "^2.3.4",
     "livereload": "^0.4.0",
