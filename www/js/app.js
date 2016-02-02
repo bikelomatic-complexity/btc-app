@@ -13,7 +13,6 @@ import AddPointPage from './components/add-point-page';
 import AddPointLocation from './components/add-point-location';
 import AddPointName from './components/add-point-name';
 import AddPointDescription from './components/add-point-description';
-import AddPointInformation from './components/add-point-information';
 import AddPointHours from './components/add-point-hours';
 import AddPointAmenities from './components/add-point-amenities';
 
@@ -75,7 +74,6 @@ document.addEventListener('deviceReady', () => {
             <IndexRoute component={AddPointLocation} />
             <Route path="name" component={AddPointName} />
             <Route path="description" component={AddPointDescription} />
-            <Route path="information" component={AddPointInformation} />
             <Route path="hours" component={AddPointHours} />
             <Route path="amenities" component={AddPointAmenities} />
           </Route>

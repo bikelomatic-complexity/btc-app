@@ -31,10 +31,6 @@ export class AddPointPage extends Component {
             Description
           </Button>
           <Button raised accent ripple
-            onClick={()=>{this.props.history.push('/add-point/information');}}>
-            Information
-          </Button>
-          <Button raised accent ripple
             onClick={()=>{this.props.history.push('/add-point/hours');}}>
             Hours
           </Button>

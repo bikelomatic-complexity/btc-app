@@ -188,16 +188,6 @@ export class AddPointCard extends Component {
         </div>
         { dropDown }
         <div className="form-row">
-          <Textfield  label="Name"
-                      onChange={this.onNameUpdate.bind(this)}
-                      value={this.state.name} />
-        </div>
-        <div className="form-row">
-          <Textfield  rows={3} label="Description"
-                      onChange={this.onDescriptionUpdate.bind(this)}
-                      value={this.state.description} />
-        </div>
-        <div className="form-row">
           <Button colored={this.state.checkIn}
                   raised onClick={this.onCheckIn.bind(this)}>
             {this.state.checkIn ? "Checked In" : "Check In"}

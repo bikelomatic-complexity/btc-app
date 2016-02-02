@@ -36,7 +36,7 @@ export default function newPoint(state = {
       newState = Object.assign(state, {type:action.pointType})
       return newState;
     case SET_POINT_DESCRIPTION:
-      newState = Object.assign(state, {description:action.description})
+      newState = Object.assign({}, state, {description:action.description});
       return newState;
     case SET_POINT_ADDRESS:
       newState = Object.assign(state, {address:action.address})

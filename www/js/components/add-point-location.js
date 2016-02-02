@@ -4,7 +4,7 @@ import PointMap from './point-map';
 import AddPointCard from './add-point-card';
 
 import { setPointLocation } from '../actions/new-point-actions';
-import { Button } from 'react-mdl';
+import { Layout, Button } from 'react-mdl';
 
 // import redux components
 import { connect } from 'react-redux';
@@ -37,7 +37,7 @@ export class AddPointLocation extends Component {
       text = 'Set New Location'
     }
     return (
-      <div>
+      <Layout fixedHeader>
         <PointMap services={services}
                   alerts={alerts}
                   afterMoved={this.updateLocation.bind(this)}/>
@@ -48,7 +48,7 @@ export class AddPointLocation extends Component {
         <Button colored onClick={this.onLocationSelect.bind(this)}>
           { text }
         </Button>
-      </div>
+      </Layout>
     )
   }
 }
