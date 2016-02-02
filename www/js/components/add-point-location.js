@@ -22,6 +22,11 @@ export class AddPointLocation extends Component {
     this.forceUpdate();
   }
 
+  updateLocationCoords(coords){
+    dispatch(setPointLocation(coords));
+    this.forceUpdate();
+  }
+
   onLocationSelect() {
     // switch the page
   }
@@ -40,6 +45,7 @@ export class AddPointLocation extends Component {
            style={layoutStyle}>
         <PointMap services={services}
                   alerts={alerts}
+                  getCenterOnLoad={this.updateLocationCoords.bind(this)}
                   afterMoved={this.updateLocation.bind(this)}/>
         <div className="adding-point" style={{position:'fixed', top:'calc(50% + 55px)', right:'calc(50% - 12.5px)'}}>
           <img src="img/icons/marker-shadow.png" className="leaflet-marker-shadow" style={styleShadow}/>
