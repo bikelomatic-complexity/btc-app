@@ -1,6 +1,8 @@
 import PouchDB from 'pouchdb'
 import { bindAll, has } from 'underscore'
-import { docToPoint, syncRecievePoint, syncDeletePoint } from './reducers/points'
+import docuri from 'docuri'
+
+import { docToPoint, syncRecievePointHack, syncDeletePoint } from './reducers/points'
 
 import { COUCHDB_REMOTE_SERVER } from './config'
 
@@ -13,6 +15,10 @@ export default class Sync {
     this.filter = (doc) => true;
 
     this.syncing = false;
+
+    const route = 'point/:class/:name/:geohash';
+    this.point = docuri.route(route);
+    this.comment = docuri.route(route + '/comment/:uuid');
 
     bindAll(this, 'update');
   }
@@ -37,6 +43,10 @@ export default class Sync {
     }
   }
 
+  /**
+   * TODO: find out why PouchDB is sending along an incorrect blob with
+   * change notifications involving attachments.
+   */
   sync() {
     this.syncing = true;
 
@@ -45,14 +55,22 @@ export default class Sync {
       retry: false
     }).on('change', (info) => {
       if(info.direction === 'pull') {
-        const [doc, ...others] = info.change.docs;
+        info.change.docs.forEach(doc => {
+          const id = doc._id;
 
-        if(has(doc, '_deleted')) {
-          this.store.dispatch(syncDeletePoint(doc._id));
-        } else if(doc.class === 'service') {
-          const point = docToPoint(doc);
-          this.store.dispatch(syncRecievePoint(doc._id, point));
-        }
+          let parts = this.point(id); // First, see if the id matches a point
+          if(parts) {
+            if(has(doc, '_deleted')) {
+              this.store.dispatch(syncDeletePoint(id));
+            } else {
+              this.store.dispatch(syncRecievePointHack(id, docToPoint(doc)));
+            }
+          }
+          parts = this.comment(id);
+          if(parts) {
+            // TODO: handle incoming comments
+          }
+        });
       }
     }).on('denied', (info) => {
       console.log('SYNC: `denied`: ' + info);

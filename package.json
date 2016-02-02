@@ -32,6 +32,7 @@
   "homepage": "https://github.com/bikelomatic-complexity/app#readme",
   "dependencies": {
     "blob-util": "^1.2.0",
+    "docuri": "^4.2.1",
     "immutable": "^3.7.6",
     "leaflet": "^0.7.7",
     "ngeohash": "^0.6.0",
