@@ -20,7 +20,6 @@ export class AddPointHours extends Component {
   addHours(){
     const { dispatch } = this.props;
     const { day, opens, closes } = this.state;
-    console.log(day,opens,closes);
     dispatch(addPointHours({day, opens, closes}));
     this.forceUpdate();
   }
