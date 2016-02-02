@@ -22,11 +22,13 @@ body {
 
 #point-details {
     overflow-y: auto;
+    height: 100%;
+    padding-bottom: 72px;
 }
 
-.view-button {
-    margin: 8px;
-    padding: 0px !important;
+.view-buttons {
+    position: absolute;
+    bottom: 0px;
 }
 
 .amenities {
