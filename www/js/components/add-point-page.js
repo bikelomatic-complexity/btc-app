@@ -24,7 +24,7 @@ export class AddPointPage extends Component {
   onSubmit() {
     const {
       address, amenities, description, hours,
-      imageSrc, location, name, phoneNumber, type, website } = this.props;
+      location, name, phoneNumber, type, website } = this.props.newPoint;
 
     this.props.dispatch(userAddPoint({
       class: 'service',
@@ -37,7 +37,7 @@ export class AddPointPage extends Component {
       flag: false,
       amenities,
       seasonal: false,
-      schedule: null,
+      schedule: [{days:hours}],
       phone: phoneNumber,
       rating: 5,
       website,
@@ -117,10 +117,7 @@ export class AddPointPage extends Component {
 
 function select(state) {
   return {
-    marker: state.marker,
-    services: state.points,
-    alerts: [],
-    mapState: state.mapState
+    newPoint: state.newPoint
   };
 }
 
