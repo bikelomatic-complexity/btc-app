@@ -3,6 +3,7 @@ import { findIndex, omit, values, has } from 'underscore'
 import { createObjectURL } from 'blob-util'
 import toId from 'to-id'
 import ngeohash from 'ngeohash'
+import PouchDB from 'pouchdb'
 
 import attach from '../util/attach'
 
@@ -88,9 +89,34 @@ export function userUpdatePoint(id, point) {
 }
 
 /*
+ * Create a PouchDB instance for the local database. This is a hack for now
+ * so we can get attachments in syncRecieve point. PouchDB isn't returning
+ * a blob along with change notifications in sync.js
+ *
+ * TODO: figure that out
+ */
+const db = new PouchDB('stop-here-db');
+
+/*
  * Creates an action on behalf of the database sync agent to insert a point
  * into the store that has just been recieved from a remote database.
  */
+export function syncRecievePointHack(id, point) {
+  if(point.coverBlob) {
+    return dispatch => {
+      return db.getAttachment(id, 'cover.png').then(blob => {
+        point.coverBlob = blob;
+        dispatch(syncRecievePoint(id, point));
+      }).catch(err => {
+        point.coverBlob = undefined;
+        dispatch(syncRecievePoint(id, point));
+      });
+    };
+  } else {
+    return syncRecievePoint(id, point);
+  }
+}
+
 export function syncRecievePoint(id, point) {
   return {
     type: SYNC_RECEIVE,
