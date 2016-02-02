@@ -16,11 +16,11 @@
     "livereload": "livereload \"platforms/browser/www/\"",
     "dev": "parallelshell \"npm run watch\" \"npm run livereload\"",
     "clean:apk": "cordova platform rm android && cordova platform add android",
-    "prebuild:apk": "npm run clean:apk && npm run build",
-    "build:apk": "cordova build android",
-    "postbuild:apk": "scripts/postdebug-android.js",
+    "predebug:android": "npm run clean:apk && npm run build",
+    "debug:android": "cordova build android",
+    "postdebug:android": "node scripts/postdebug-android.js",
     "release:android": "cordova build android --release",
-    "postrelease:android": "scripts/postrelease-android.js"
+    "postrelease:android": "node scripts/postrelease-android.js"
   },
   "repository": {
     "type": "git",
