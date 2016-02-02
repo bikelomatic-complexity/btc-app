@@ -2,6 +2,7 @@
 branches:
   only:
     - master
+    - /^v[0-9]/ # Build tags too! (Travis checks for tags as branch names)
 
 language: android
 android:
