@@ -47,8 +47,11 @@ class PointMap extends Component {
         (err) => {
           console.error(err);
           dispatch(setMapLoading(false));
+        },
+        {
+          timeout: 5000
         }
-      )
+      );
     }
   }
 
