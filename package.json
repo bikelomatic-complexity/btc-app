@@ -15,8 +15,10 @@
     "watch": "nodemon -e js,html,css --watch \"www\" --ignore \"www/js/bundle.js\" --exec \"npm run start:browser\"",
     "livereload": "livereload \"platforms/browser/www/\"",
     "dev": "parallelshell \"npm run watch\" \"npm run livereload\"",
-    "prebuild:apk": "npm run build",
+    "clean:apk": "cordova platform rm android && cordova platform add android",
+    "prebuild:apk": "npm run clean:apk && npm run build",
     "build:apk": "cordova build android",
+    "postbuild:apk": "scripts/postdebug-android.js",
     "release:android": "cordova build android --release",
     "postrelease:android": "scripts/postrelease-android.js"
   },
