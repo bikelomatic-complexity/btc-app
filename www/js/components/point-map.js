@@ -29,7 +29,7 @@ class PointMap extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, mapState } = this.props;
+    const { dispatch, mapState, getCenterOnLoad } = this.props;
     if (mapState.loading) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -43,6 +43,7 @@ class PointMap extends Component {
             center:coords,
             zoom:13
           });
+          getCenterOnLoad(coords);
         },
         (err) => {
           console.error(err);
@@ -189,6 +190,6 @@ function select(state) {
   };
 }
 
-PointMap.defaultProps = { onLeafletMove: noOps, afterMoved: noOps };
+PointMap.defaultProps = { onLeafletMove: noOps, afterMoved: noOps, getCenterOnLoad: noOps };
 
 export default connect(select)(PointMap);

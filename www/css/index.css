@@ -52,6 +52,10 @@ body {
     100% {top: 0px;}
 }
 
+.hideZoomControl * > .leaflet-control-zoom {
+  visibility: hidden;
+}
+
 .ac-drop-down {
   height: calc(100% - 55px);
   display: block;

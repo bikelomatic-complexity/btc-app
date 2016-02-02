@@ -5,43 +5,110 @@ import { divIcon } from 'leaflet';
 
 import { Layout, Header, Content, Button } from 'react-mdl';
 import ACDrawer from './ac-drawer';
-import PointMap from './point-map';
-import AddPointCard from './add-point-card';
+
+import AddPointLocation from './add-point-location';
+import AddPointName from './add-point-name';
+import AddPointDescription from './add-point-description';
+import AddPointHours from './add-point-hours';
+import AddPointAmenities from './add-point-amenities';
+
+import { userAddPoint } from '../reducers/points';
+
+import BlobUtil from 'blob-util';
 
 // import redux components
 import { connect } from 'react-redux';
 
-// import leaflet components
-import { Marker, Map, TileLayer } from 'react-leaflet';
-
-const styleShadow = {marginLeft: '4px', marginTop: '18px', width: '25px', height: '41px'}
-const styleMarker = {marginLeft: '0px', marginTop: '18px', height: '41px'}
-
 export class AddPointPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {location:[0,0]}
-  }
 
-  updateLocation(leaflet){
-    const { lat, lng } = leaflet.target.getCenter();
-    this.setState({location:[lat, lng]});
+  onSubmit() {
+    const {
+      address, amenities, description, hours,
+      location, name, phoneNumber, type, website } = this.props.newPoint;
+
+    this.props.dispatch(userAddPoint({
+      class: 'service',
+      created_at: new Date().toISOString(),
+      address,
+      name,
+      location,
+      type,
+      description,
+      flag: false,
+      amenities,
+      seasonal: false,
+      schedule: [{days:hours}],
+      phone: phoneNumber,
+      rating: 5,
+      website,
+    }, undefined));
+    this.props.history.push('/');
+
+    // BlobUtil.imgSrcToBlob(imageSrc).then(blob => {
+    //
+    // });
   }
 
   render() {
-    const { marker, services, alerts, mapState } = this.props;
+    const { dispatch } = this.props;
+    // determine next page, based on current page
+    const currentPage = this.props.children.type;
+    let onNext = ()=>{};
+    switch (currentPage) {
+      case AddPointLocation:
+        onNext = ()=> {this.props.history.push('/add-point/name');}
+        break;
+      case AddPointName:
+        onNext = ()=> {this.props.history.push('/add-point/description');}
+        break;
+      case AddPointDescription:
+        onNext = ()=> {this.props.history.push('/add-point/hours');}
+        break;
+      case AddPointHours:
+        onNext = ()=> {this.props.history.push('/add-point/amenities');}
+        break;
+      case AddPointAmenities:
+        onNext = this.onSubmit;
+        break;
+    }
 
     return (
       <Layout fixedHeader>
-        <Header title="Choose a Location"/>
+        <Header title="Add New Point"/>
         <ACDrawer page="Add Point"/>
-        <PointMap services={services}
-                  alerts={alerts}
-                  afterMoved={this.updateLocation.bind(this)}/>
-        <AddPointCard history={this.props.history} location={this.state.location}/>
-        <div className="adding-point" style={{position:'fixed', top:'50%', right:'calc(50% - 12.5px)'}}>
-          <img src="img/icons/marker-shadow.png" className="leaflet-marker-shadow" style={styleShadow}/>
-          <img src="img/icons/marker-icon.png" className="marker" style={styleMarker}/>
+        <div className="form-column">
+          <div className="form-row">
+            <Button raised ripple colored={currentPage===AddPointLocation}
+              onClick={()=>{this.props.history.push('/add-point');}}>
+              Location
+            </Button>
+            <Button raised ripple colored={currentPage===AddPointName}
+              onClick={()=>{this.props.history.push('/add-point/name');}}>
+              Name
+            </Button>
+            <Button raised ripple colored={currentPage===AddPointDescription}
+              onClick={()=>{this.props.history.push('/add-point/description');}}>
+              Description
+            </Button>
+            <Button raised ripple colored={currentPage===AddPointHours}
+              onClick={()=>{this.props.history.push('/add-point/hours');}}>
+              Hours
+            </Button>
+            <Button raised ripple colored={currentPage===AddPointAmenities}
+              onClick={()=>{this.props.history.push('/add-point/amenities');}}>
+              Amenities
+            </Button>
+          </div>
+
+          <div>
+            {this.props.children}
+          </div>
+
+          <div className="form-row">
+            <Button raised colored ripple onClick={onNext.bind(this)}>
+              Next
+            </Button>
+          </div>
         </div>
       </Layout>
     );
@@ -50,10 +117,7 @@ export class AddPointPage extends Component {
 
 function select(state) {
   return {
-    marker: state.marker,
-    services: state.points,
-    alerts: [],
-    mapState: state.mapState
+    newPoint: state.newPoint
   };
 }
 
