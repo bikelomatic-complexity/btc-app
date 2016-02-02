@@ -52,7 +52,7 @@ document.addEventListener('deviceReady', () => {
   const network = new NetworkManager(store);
   network.monitor();
 
-  const sync = new Sync(local, store);
+  const sync = new Sync(local, gateway, store);
   sync.start();
 
   gateway.getPoints().then(points => {

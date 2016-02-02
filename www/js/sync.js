@@ -2,15 +2,16 @@ import PouchDB from 'pouchdb'
 import { bindAll, has } from 'underscore'
 import docuri from 'docuri'
 
-import { docToPoint, syncRecievePointHack, syncDeletePoint } from './reducers/points'
+import { docToPoint, syncRecievePointHack, reloadPoints, syncDeletePoint } from './reducers/points'
 
 import { COUCHDB_REMOTE_SERVER } from './config'
 
 export default class Sync {
 
-  constructor(local, store, filter) {
+  constructor(local, gateway, store, filter) {
     this.local = local;
     this.remote = new PouchDB(COUCHDB_REMOTE_SERVER);
+    this.gateway = gateway;
     this.store = store;
     this.filter = (doc) => true;
 
@@ -55,6 +56,12 @@ export default class Sync {
       retry: false
     }).on('change', (info) => {
       if(info.direction === 'pull') {
+        if(info.change.docs.length > 2) {
+          this.gateway.getPoints().then(points => {
+            this.store.dispatch(reloadPoints(points));
+          });
+          return;
+        }
         info.change.docs.forEach(doc => {
           const id = doc._id;
 
