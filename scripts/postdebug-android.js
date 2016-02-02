@@ -9,4 +9,4 @@ var outputs = './platforms/android/build/outputs/apk/';
 var apk = 'android-debug.apk';
 var path = path.join(outputs, apk);
 
-fs.createReadStream(path).pipe(fs.createWriteStream(name + '.apk'));
+fs.createReadStream(path).pipe(fs.createWriteStream(name + '-debug.apk'));
