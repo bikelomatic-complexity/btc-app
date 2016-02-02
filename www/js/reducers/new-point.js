@@ -15,7 +15,7 @@ import {  SET_POINT_NAME,
 export default function newPoint(state = {
   name:'',
   location:[],
-  type:0,
+  type:'',
   description:'',
   address:'',
   imageSrc:'',

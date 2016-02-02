@@ -4,7 +4,7 @@ import PointMap from './point-map';
 import AddPointCard from './add-point-card';
 
 import { setPointLocation } from '../actions/new-point-actions';
-import { Layout, Button } from 'react-mdl';
+import { Layout } from 'react-mdl';
 
 // import redux components
 import { connect } from 'react-redux';
@@ -32,10 +32,6 @@ export class AddPointLocation extends Component {
     const styleShadow = {marginLeft: '4px', marginTop: '18px', width: '25px', height: '41px'}
     const styleMarker = {marginLeft: '0px', marginTop: '18px', height: '41px'}
 
-    let text = 'Add Point Here';
-    if (location.length !== 0) {
-      text = 'Set New Location'
-    }
     return (
       <Layout fixedHeader>
         <PointMap services={services}
@@ -45,9 +41,6 @@ export class AddPointLocation extends Component {
           <img src="img/icons/marker-shadow.png" className="leaflet-marker-shadow" style={styleShadow}/>
           <img src="img/icons/marker-icon.png" className="marker" style={styleMarker}/>
         </div>
-        <Button colored onClick={this.onLocationSelect.bind(this)}>
-          { text }
-        </Button>
       </Layout>
     )
   }
