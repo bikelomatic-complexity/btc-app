@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { CardText, Button } from 'react-mdl';
+import { CardText, Button, Icon } from 'react-mdl';
 
 // import redux components
 import { connect } from 'react-redux';
@@ -45,7 +45,7 @@ export class AddPointAmenities extends Component {
         Add Amenity
       </Button>
     );
-    if (this.props.newPoint.amenities.includes(this.state.amenity)) {
+    if (this.props.newPoint.amenities && this.props.newPoint.amenities.includes(this.state.amenity)) {
       addAmenityButton = (
         <Button disabled colored> Add Amenity </Button>
       );
@@ -58,12 +58,14 @@ export class AddPointAmenities extends Component {
           return (
             <div key={amenity} className="form-row">
               <CardText style={{flex:'5'}}>{displayType(amenity)}</CardText>
-              <Button raised accent onClick={this.removeAmenity.bind(this, index)}> X </Button>
+              <Button raised accent onClick={this.removeAmenity.bind(this, index)}>
+                <Icon name="clear" />
+              </Button>
             </div>
           )
         })}
         <div className="form-row">
-          <select onChange={this.selectAmenity.bind(this)}>
+          <select className="mdl-button mdl-button--raised" onChange={this.selectAmenity.bind(this)}>
             { amenityOptions }
           </select>
           { addAmenityButton }

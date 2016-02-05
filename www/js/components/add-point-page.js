@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import * as leaflet from 'react-leaflet';
 import { divIcon } from 'leaflet';
 
-import { Layout, Header, Content, Button } from 'react-mdl';
+import { Layout, Header, Content, Button, Icon } from 'react-mdl';
 import ACDrawer from './ac-drawer';
 
 import AddPointLocation from './add-point-location';
@@ -72,31 +72,44 @@ export class AddPointPage extends Component {
         break;
     }
 
+    const paddingStyle={padding:'5px 0px'}
+    const buttonStyle={width:'20%'}
+
     return (
       <Layout fixedHeader>
         <Header title="Add New Point"/>
         <ACDrawer page="Add Point"/>
         <div className="form-column">
-          <div className="form-row">
-            <Button raised ripple colored={currentPage===AddPointLocation}
+          <div style={paddingStyle}>
+            <Button raised ripple
+              colored={currentPage===AddPointLocation}
+              style={buttonStyle}
               onClick={()=>{this.props.history.push('/add-point');}}>
-              Location
+              <Icon name="place" />
             </Button>
-            <Button raised ripple colored={currentPage===AddPointName}
+            <Button raised ripple
+              colored={currentPage===AddPointName}
+              style={buttonStyle}
               onClick={()=>{this.props.history.push('/add-point/name');}}>
-              Name
+              <Icon name="mode_edit"/>
             </Button>
-            <Button raised ripple colored={currentPage===AddPointDescription}
+            <Button raised ripple
+              colored={currentPage===AddPointDescription}
+              style={buttonStyle}
               onClick={()=>{this.props.history.push('/add-point/description');}}>
-              Description
+              <Icon name="format_align_left"/>
             </Button>
-            <Button raised ripple colored={currentPage===AddPointHours}
+            <Button raised ripple
+              colored={currentPage===AddPointHours}
+              style={buttonStyle}
               onClick={()=>{this.props.history.push('/add-point/hours');}}>
-              Hours
+              <Icon name="schedule" />
             </Button>
-            <Button raised ripple colored={currentPage===AddPointAmenities}
+            <Button raised ripple
+              colored={currentPage===AddPointAmenities}
+              style={buttonStyle}
               onClick={()=>{this.props.history.push('/add-point/amenities');}}>
-              Amenities
+              <Icon name="local_bar" />
             </Button>
           </div>
 

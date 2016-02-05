@@ -17,7 +17,7 @@
 
 .form-row > * {
   flex: 1;
-  margin: 10px !important;
+  margin: 5px !important;
 }
 
 .form-item {

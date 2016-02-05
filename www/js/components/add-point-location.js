@@ -13,17 +13,14 @@ export class AddPointLocation extends Component {
 
   constructor(props) {
     super(props);
+    const { dispatch , mapState } = this.props;
+    dispatch(setPointLocation(mapState.center));
   }
 
   updateLocation(leaflet){
     const { dispatch } = this.props;
     const { lat, lng } = leaflet.target.getCenter();
     dispatch(setPointLocation([lat, lng]));
-    this.forceUpdate();
-  }
-
-  updateLocationCoords(coords){
-    dispatch(setPointLocation(coords));
     this.forceUpdate();
   }
 
@@ -45,9 +42,8 @@ export class AddPointLocation extends Component {
            style={layoutStyle}>
         <PointMap services={services}
                   alerts={alerts}
-                  getCenterOnLoad={this.updateLocationCoords.bind(this)}
                   afterMoved={this.updateLocation.bind(this)}/>
-        <div className="adding-point" style={{position:'fixed', top:'calc(50% + 55px)', right:'calc(50% - 12.5px)'}}>
+        <div className="adding-point" style={{position:'fixed', top:'calc(50% + 45px)', right:'calc(50% - 12.5px)'}}>
           <img src="img/icons/marker-shadow.png" className="leaflet-marker-shadow" style={styleShadow}/>
           <img src="img/icons/marker-icon.png" className="marker" style={styleMarker}/>
         </div>
