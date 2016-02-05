@@ -5,6 +5,8 @@ import DropDown from './drop-down';
 
 import { connect } from 'react-redux';
 
+import { types, displayType } from '../types';
+
 import {
   setPointName,
   setPointType
@@ -51,19 +53,10 @@ export class AddPointName extends Component {
       latLngString = `(${lat.toFixed(4)}, ${lng.toFixed(4)})`;
     }
 
-    const serviceTypes = [
-      'bar', 'bed & breakfast', 'bike shop', 'campground',
-      'convenience store', 'cyclists camping', 'cyclists lodging',
-      'grocery', 'hostel', 'hotel/motel', 'library', 'rest area',
-      'restroom', 'restaurant', 'state park', 'museum', 'information',
-      'airport', 'scenic area', 'hot spring', 'outdoor store',
-      'cabin'
-    ].sort();
-    serviceTypes.push('other'); // other should be last
-
     let dropDown = '';
     if (this.state.typeMenu) {
-      dropDown = <DropDown  elements={serviceTypes}
+      dropDown = <DropDown  elements={types}
+                            textTransform={displayType}
                             onSelectFunction={this.onTypeSelect.bind(this)}/>;
     }
 
@@ -81,7 +74,7 @@ export class AddPointName extends Component {
         <div className="form-row">
           <Button raised id="menu-button"
                   onClick={this.openTypeMenu.bind(this)}>
-            {(this.state.type) ? this.state.type : "Type"}
+            {displayType(this.state.type) || "Type"}
           </Button>
         </div>
         { dropDown }

@@ -24,7 +24,8 @@ export class AddPointPage extends Component {
   onSubmit() {
     const {
       address, amenities, description, hours,
-      location, name, phoneNumber, type, website } = this.props.newPoint;
+      location, name, phoneNumber, type, website
+    } = this.props.newPoint;
 
     this.props.dispatch(userAddPoint({
       class: 'service',
@@ -50,9 +51,15 @@ export class AddPointPage extends Component {
   }
 
   render() {
-    const { dispatch } = this.props;
+    const { dispatch, newPoint } = this.props;
+    const {
+      address, amenities, description, hours,
+      location, name, phoneNumber, type, website
+    } = newPoint;
     // determine next page, based on current page
     const currentPage = this.props.children.type;
+    const disabled = !((name) && (type));
+    let nextText = "Next";
     let onNext = ()=>{};
     switch (currentPage) {
       case AddPointLocation:
@@ -63,12 +70,19 @@ export class AddPointPage extends Component {
         break;
       case AddPointDescription:
         onNext = ()=> {this.props.history.push('/add-point/hours');}
+        if (!((description) || (phoneNumber) || (address) || (website))) {
+          nextText = "Skip";
+        }
         break;
       case AddPointHours:
         onNext = ()=> {this.props.history.push('/add-point/amenities');}
+        if (hours.length == 0) {
+          nextText = "Skip";
+        }
         break;
       case AddPointAmenities:
         onNext = this.onSubmit;
+        nextText = "Submit";
         break;
     }
 
@@ -82,33 +96,36 @@ export class AddPointPage extends Component {
         <div className="form-column">
           <div style={paddingStyle}>
             <Button raised ripple
-              colored={currentPage===AddPointLocation}
-              style={buttonStyle}
-              onClick={()=>{this.props.history.push('/add-point');}}>
+                    colored={currentPage===AddPointLocation}
+                    style={buttonStyle}
+                    onClick={()=>{this.props.history.push('/add-point');}}>
               <Icon name="place" />
             </Button>
             <Button raised ripple
-              colored={currentPage===AddPointName}
-              style={buttonStyle}
-              onClick={()=>{this.props.history.push('/add-point/name');}}>
+                    colored={currentPage===AddPointName}
+                    style={buttonStyle}
+                    onClick={()=>{this.props.history.push('/add-point/name');}}>
               <Icon name="mode_edit"/>
             </Button>
             <Button raised ripple
-              colored={currentPage===AddPointDescription}
-              style={buttonStyle}
-              onClick={()=>{this.props.history.push('/add-point/description');}}>
+                    disabled={disabled}
+                    colored={currentPage===AddPointDescription}
+                    style={buttonStyle}
+                    onClick={()=>{this.props.history.push('/add-point/description');}}>
               <Icon name="format_align_left"/>
             </Button>
             <Button raised ripple
-              colored={currentPage===AddPointHours}
-              style={buttonStyle}
-              onClick={()=>{this.props.history.push('/add-point/hours');}}>
+                    disabled={disabled}
+                    colored={currentPage===AddPointHours}
+                    style={buttonStyle}
+                    onClick={()=>{this.props.history.push('/add-point/hours');}}>
               <Icon name="schedule" />
             </Button>
             <Button raised ripple
-              colored={currentPage===AddPointAmenities}
-              style={buttonStyle}
-              onClick={()=>{this.props.history.push('/add-point/amenities');}}>
+                    disabled={disabled}
+                    colored={currentPage===AddPointAmenities}
+                    style={buttonStyle}
+                    onClick={()=>{this.props.history.push('/add-point/amenities');}}>
               <Icon name="local_bar" />
             </Button>
           </div>
@@ -118,8 +135,10 @@ export class AddPointPage extends Component {
           </div>
 
           <div className="form-row">
-            <Button raised colored ripple onClick={onNext.bind(this)}>
-              Next
+            <Button raised colored ripple
+                    disabled={disabled && (currentPage!==AddPointLocation)}
+                    onClick={onNext.bind(this)}>
+              {nextText}
             </Button>
           </div>
         </div>
