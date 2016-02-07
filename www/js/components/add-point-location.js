@@ -23,12 +23,14 @@ export class AddPointLocation extends Component {
   }
 
   updateLocationCoords(coords){
+    const { dispatch } = this.props;
     dispatch(setPointLocation(coords));
     this.forceUpdate();
   }
 
-  onLocationSelect() {
-    // switch the page
+  componentDidMount() {
+    const { dispatch, mapState } = this.props;
+    dispatch(setPointLocation(mapState.center))
   }
 
   render() {
