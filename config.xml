@@ -36,5 +36,5 @@
     <plugin name="cordova-plugin-network-information" spec="~1.2.0" />
     <plugin name="cordova-plugin-sqlite" spec="https://github.com/hypery2k/cordova-sqlite-plugin" />
     <engine name="browser" spec="~4.0.0" />
-    <engine name="android" spec="~5.0.0" />
+    <engine name="android" spec="~4.1.1" />
 </widget>
