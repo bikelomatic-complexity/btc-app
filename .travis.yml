@@ -18,7 +18,7 @@ install:
 before_script:
 - npm run build
 script:
-- npm run test
+- npm run cover
 
 before_deploy:
 - npm run debug:android
