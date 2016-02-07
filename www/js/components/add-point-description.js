@@ -52,6 +52,7 @@ export class AddPointDescription extends Component {
   }
 
   onPhotoAdd() {
+    const { dispatch } = this.props;
     // This logic will not work on the browser
     // because of issue - Apache Cordova / CB-9852
     // https://issues.apache.org/jira/browse/CB-9852
@@ -62,8 +63,8 @@ export class AddPointDescription extends Component {
       },
       err => console.error( err ),
       { sourceType:navigator.camera.PictureSourceType.PHOTOLIBRARY,
-        targetWidth:626,
-        targetHeight:352,
+        // targetWidth:626,
+        // targetHeight:352,
         destinationType:navigator.camera.DestinationType.FILE_URI,
         encodingType:navigator.camera.EncodingType.PNG
       }
@@ -71,6 +72,13 @@ export class AddPointDescription extends Component {
   }
 
   render() {
+    let imgView = <div />
+    if (this.state.imageSrc !== '') {
+      imgView = <div>
+        <img src={this.state.imageSrc} width="100%" />
+      </div>
+    }
+
     return (
       <div className="form-column">
         <div className="form-row">
@@ -92,6 +100,9 @@ export class AddPointDescription extends Component {
           <Textfield  label="Website"
                       onChange={this.onWebsiteUpdate.bind(this)}
                       value={this.state.website} />
+        </div>
+        <div className="form-row">
+          { imgView }
         </div>
         <div className="form-row">
           <Button onClick={this.onPhotoAdd.bind(this)}
