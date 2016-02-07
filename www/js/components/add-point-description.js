@@ -6,7 +6,8 @@ import {
   setPointAddress,
   setPointWebsite,
   setPointPhone,
-  setPointImage
+  setPointImage,
+  clearPointProps
  } from '../actions/new-point-actions';
 
 // import redux components
@@ -63,8 +64,6 @@ export class AddPointDescription extends Component {
       },
       err => console.error( err ),
       { sourceType:navigator.camera.PictureSourceType.PHOTOLIBRARY,
-        // targetWidth:626,
-        // targetHeight:352,
         destinationType:navigator.camera.DestinationType.FILE_URI,
         encodingType:navigator.camera.EncodingType.PNG
       }
@@ -105,8 +104,7 @@ export class AddPointDescription extends Component {
           { imgView }
         </div>
         <div className="form-row">
-          <Button onClick={this.onPhotoAdd.bind(this)}
-                  colored={this.state.imageSrc !== ''} raised>
+          <Button onClick={this.onPhotoAdd.bind(this)} raised>
                   Upload Photo
           </Button>
         </div>
