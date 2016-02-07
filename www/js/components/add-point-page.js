@@ -26,27 +26,25 @@ export class AddPointPage extends Component {
       address, amenities, description, hours,
       location, name, phoneNumber, type, website } = this.props.newPoint;
 
-    this.props.dispatch(userAddPoint({
-      class: 'service',
-      created_at: new Date().toISOString(),
-      address,
-      name,
-      location,
-      type,
-      description,
-      flag: false,
-      amenities,
-      seasonal: false,
-      schedule: [{days:hours}],
-      phone: phoneNumber,
-      rating: 5,
-      website,
-    }, undefined));
-    this.props.history.push('/');
-
-    // BlobUtil.imgSrcToBlob(imageSrc).then(blob => {
-    //
-    // });
+    BlobUtil.imgSrcToBlob(imageSrc).then(blob => {
+      this.props.dispatch(userAddPoint({
+        class: 'service',
+        created_at: new Date().toISOString(),
+        address,
+        name,
+        location,
+        type,
+        description,
+        flag: false,
+        amenities,
+        seasonal: false,
+        schedule: [{days:hours}],
+        phone: phoneNumber,
+        rating: 5,
+        website,
+      }, blob));
+      this.props.history.push('/');
+    });
   }
 
   render() {

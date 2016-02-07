@@ -5,7 +5,8 @@ import {
   setPointDescription,
   setPointAddress,
   setPointWebsite,
-  setPointPhone
+  setPointPhone,
+  setPointImage
  } from '../actions/new-point-actions';
 
 // import redux components
@@ -15,12 +16,14 @@ export class AddPointDescription extends Component {
   constructor(props) {
     super(props);
 
-    const { description, phoneNumber, address, website} = this.props.newPoint;
+    const { description, phoneNumber, address,
+            website, imageSrc } = this.props.newPoint;
     this.state = {
       description,
       phoneNumber,
       address,
-      website
+      website,
+      imageSrc
     };
   }
 
@@ -48,6 +51,25 @@ export class AddPointDescription extends Component {
     dispatch(setPointAddress(newText));
   }
 
+  onPhotoAdd() {
+    // This logic will not work on the browser
+    // because of issue - Apache Cordova / CB-9852
+    // https://issues.apache.org/jira/browse/CB-9852
+    navigator.camera.getPicture(
+      imageSrc => {
+        this.setState({ imageSrc });
+        dispatch(setPointImage(imageSrc));
+      },
+      err => console.error( err ),
+      { sourceType:navigator.camera.PictureSourceType.PHOTOLIBRARY,
+        targetWidth:626,
+        targetHeight:352,
+        destinationType:navigator.camera.DestinationType.FILE_URI,
+        encodingType:navigator.camera.EncodingType.PNG
+      }
+    )
+  }
+
   render() {
     return (
       <div className="form-column">
@@ -70,6 +92,12 @@ export class AddPointDescription extends Component {
           <Textfield  label="Website"
                       onChange={this.onWebsiteUpdate.bind(this)}
                       value={this.state.website} />
+        </div>
+        <div className="form-row">
+          <Button onClick={this.onPhotoAdd.bind(this)}
+                  colored={this.state.imageSrc !== ''} raised>
+                  Upload Photo
+          </Button>
         </div>
       </div>
     )
