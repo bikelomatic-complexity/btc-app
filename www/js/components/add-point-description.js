@@ -58,6 +58,7 @@ export class AddPointDescription extends Component {
         </div>
         <div className="form-row">
           <Textfield  label="Phone Number"
+                      type="tel"
                       onChange={this.onPhoneUpdate.bind(this)}
                       value={this.state.phoneNumber} />
         </div>
@@ -68,6 +69,7 @@ export class AddPointDescription extends Component {
         </div>
         <div className="form-row">
           <Textfield  label="Website"
+                      type="url"
                       onChange={this.onWebsiteUpdate.bind(this)}
                       value={this.state.website} />
         </div>
