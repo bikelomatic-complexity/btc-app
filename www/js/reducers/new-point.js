@@ -29,6 +29,9 @@ const cleanState = {
 const initialState = Object.assign({},cleanState);
 
 export default function newPoint(state=initialState, action) {
+  let hours;
+  let amenities;
+
   switch (action.type) {
     case SET_POINT_NAME:
       return Object.assign({}, state, {name:action.name});
@@ -47,17 +50,19 @@ export default function newPoint(state=initialState, action) {
     case SET_POINT_PHONE:
       return Object.assign({}, state, {phoneNumber:action.phoneNumber});
     case ADD_POINT_HOURS:
-      state.hours.push(action.newHours);
-      return Object.assign({}, state);
+      hours = [...state.hours, action.newHours];
+      return Object.assign({}, state, {hours});
     case REMOVE_POINT_HOURS:
-      state.hours.splice(action.hourIndex, 1);
-      return Object.assign({}, state);;
+      hours = [...state.hours];
+      hours.splice(action.hourIndex, 1);
+      return Object.assign({}, state, {hours});;
     case ADD_POINT_AMENITIES:
-      state.amenities.push(action.newAmenity);
-      return Object.assign({}, state);;
+      amenities = [...state.amenities, action.newAmenity];
+      return Object.assign({}, state, {amenities});
     case REMOVE_POINT_AMENITIES:
-      state.amenities.splice(action.amenityIndex, 1);
-      return Object.assign({}, state);;
+      amenities = [...state.amenities];
+      amenities.splice(action.amenityIndex, 1);
+      return Object.assign({}, state, {amenities});;
     case CLEAR_POINT_PROPS:
       console.log(initialState);
       console.log(cleanState);

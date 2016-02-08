@@ -22,32 +22,41 @@ import { connect } from 'react-redux';
 
 export class AddPointPage extends Component {
 
+  addPoint(blob=undefined) {
+    const { dispatch } = this.props;
+    const { address, amenities, description, hours, location,
+            name, phoneNumber, type, website } = this.props.newPoint;
+
+    dispatch(userAddPoint({
+      class: 'service',
+      created_at: new Date().toISOString(),
+      address,
+      name,
+      location,
+      type,
+      description,
+      flag: false,
+      amenities,
+      seasonal: false,
+      schedule: [{days:hours}],
+      phone: phoneNumber,
+      rating: 5,
+      website,
+    }, blob));
+    dispatch(clearPointProps());
+    this.props.history.push('/');
+  }
+
   onSubmit() {
     const { dispatch } = this.props;
-    const {
-      address, amenities, description, hours, imageSrc,
-      location, name, phoneNumber, type, website } = this.props.newPoint;
-
-    BlobUtil.imgSrcToBlob(imageSrc).then(blob => {
-      dispatch(userAddPoint({
-        class: 'service',
-        created_at: new Date().toISOString(),
-        address,
-        name,
-        location,
-        type,
-        description,
-        flag: false,
-        amenities,
-        seasonal: false,
-        schedule: [{days:hours}],
-        phone: phoneNumber,
-        rating: 5,
-        website,
-      }, blob));
-      dispatch(clearPointProps());
-      this.props.history.push('/');
-    });
+    const { imageSrc } = this.props.newPoint;
+    if (imageSrc === '') {
+      this.addPoint();
+    } else {
+      BlobUtil.imgSrcToBlob(imageSrc).then(blob => {
+        this.addPoint(blob);
+      });
+    }
   }
 
   render() {
