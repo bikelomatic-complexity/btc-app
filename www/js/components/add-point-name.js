@@ -19,8 +19,7 @@ export class AddPointName extends Component {
     const { name, type } = this.props.newPoint;
     this.state = {
       name,
-      type,
-      typeMenu: false
+      type
     }
   }
 
@@ -28,36 +27,21 @@ export class AddPointName extends Component {
     const { dispatch } = this.props;
     this.setState({name});
     dispatch(setPointName(name));
+    this.forceUpdate();
   }
 
   onTypeSelect(type) {
     const { dispatch } = this.props;
     this.setState({type});
     dispatch(setPointType(type));
-    this.closeTypeMenu();
-  }
-
-  openTypeMenu() {
-    this.setState({'typeMenu': true});
-  }
-
-  closeTypeMenu() {
-    this.setState({'typeMenu': false});
+    this.forceUpdate();
   }
 
   render() {
-
     let latLngString = '';
     if (this.props.newPoint.location.length !== 0) {
       const [lat, lng] = this.props.newPoint.location;
       latLngString = `(${lat.toFixed(4)}, ${lng.toFixed(4)})`;
-    }
-
-    let dropDown = '';
-    if (this.state.typeMenu) {
-      dropDown = <DropDown  elements={types}
-                            textTransform={displayType}
-                            onSelectFunction={this.onTypeSelect.bind(this)}/>;
     }
 
     return (
@@ -71,13 +55,12 @@ export class AddPointName extends Component {
           <Textfield  label="Location" disabled={true}
                       value={latLngString} />
         </div>
-        <div className="form-row">
-          <Button raised id="menu-button"
-                  onClick={this.openTypeMenu.bind(this)}>
-            {displayType(this.state.type) || "Type"}
-          </Button>
-        </div>
-        { dropDown }
+        <DropDown className="form-row"
+          raised
+          text={displayType(this.props.newPoint.type) || "Select Type"}
+          options={types}
+          textTransform={displayType}
+          onSelectFunction={this.onTypeSelect.bind(this)}/>;
       </div>
     )
   }

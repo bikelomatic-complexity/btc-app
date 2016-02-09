@@ -69,17 +69,8 @@ class FilterPage extends Component {
       filters,
       activeFilters:[],
       openServices:false,
-      alert:false,
-      showOptions: -1
+      alert:false
     });
-  }
-
-  toggleOptions({index=-1}) {
-    // do not toggle options if there are no options left
-    if (this.state.filters.length < 1) {
-      index = -1;
-    }
-    this.setState({showOptions:index});
   }
 
   toggleOpenServices() {
@@ -108,19 +99,6 @@ class FilterPage extends Component {
         );
       }
     );
-    let dropDown = '';
-    if (this.state.showOptions >= 0) {
-      let onSelectFunction = this.addFilter.bind(this);
-      if (this.state.showOptions < this.state.activeFilters.length) {
-        onSelectFunction = this.updateFilter.bind(this,this.state.showOptions);
-      }
-      dropDown = (
-        <DropDown
-          elements={this.state.filters}
-          textTransform={displayType}
-          onSelectFunction={onSelectFunction}
-        />);
-    }
 
     return (
       <Layout fixedHeader>
@@ -130,17 +108,11 @@ class FilterPage extends Component {
 
           { filtersDropDowns }
 
-          <div className="form-row">
-            <Button colored raised
-                    onClick={this.toggleOptions.bind(this,
-                        {index:this.state.activeFilters.length}
-                    )}
-                    disabled={this.state.filters.length < 1}>
-              Add Filter
-            </Button>
-          </div>
-
-          { dropDown }
+          <DropDown className="form-row"
+            raised text="Filter"
+            options={this.state.filters}
+            textTransform={displayType}
+            onSelectFunction={this.addFilter.bind(this)}/>
 
           <div className="form-row">
             <Checkbox label="Only Show Open Services"
