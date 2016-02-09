@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CardText, Button, Icon } from 'react-mdl';
-
+import DropDown from './drop-down';
 // import redux components
 import { connect } from 'react-redux';
 
@@ -47,16 +47,16 @@ export class AddPointHours extends Component {
     this.forceUpdate();
   }
 
-  selectDay(event){
-    this.setState({day:event.target.value});
+  selectDay(day){
+    this.setState({day});
   }
 
-  selectOpens(event){
-    this.setState({opens:event.target.value});
+  selectOpens(opens){
+    this.setState({opens});
   }
 
-  selectCloses(event){
-    this.setState({closes:event.target.value});
+  selectCloses(closes){
+    this.setState({closes});
   }
 
   render() {
@@ -70,10 +70,6 @@ export class AddPointHours extends Component {
       '7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM','10:00 PM',
       '10:30 PM','11:00 PM','11:30 PM'
     ];
-
-    const hourOptions = hours.map((time)=>{
-      return <option key={time} value={time}>{time}</option>
-    });
 
     let addHoursButton = (
       <Button colored
@@ -102,24 +98,18 @@ export class AddPointHours extends Component {
           )
         })}
         <div className="form-row">
-          <select style={{flex:3}}
-                  value={this.state.day}
-                  className="mdl-button mdl-button--raised"
-                  onChange={this.selectDay.bind(this)}>
-            {weekDays.map((day)=>{
-              return (<option key={day} value={day}>{day}</option>);
-            })}
-          </select>
-          <select style={{flex:2}} className="mdl-button mdl-button--raised"
-                  value={this.state.opens}
-                  onChange={this.selectOpens.bind(this)}>
-            { hourOptions }
-          </select>
-          <select style={{flex:2}} className="mdl-button mdl-button--raised"
-                  value={this.state.closes}
-                  onChange={this.selectCloses.bind(this)}>
-            { hourOptions }
-          </select>
+          <DropDown style={{flex:3}} raised
+                  text={this.state.day}
+                  onSelectFunction={this.selectDay.bind(this)}
+                  options={weekDays}/>
+          <DropDown style={{flex:2}} raised
+                  text={this.state.opens}
+                  onSelectFunction={this.selectOpens.bind(this)}
+                  options={hours}/>
+          <DropDown style={{flex:2}} raised
+                  text={this.state.closes}
+                  onSelectFunction={this.selectCloses.bind(this)}
+                  options={hours}/>
           { addHoursButton }
         </div>
       </div>

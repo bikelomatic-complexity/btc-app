@@ -41,7 +41,6 @@ class FilterPage extends Component {
     activeFilters.push(service);
     filters.splice(filters.indexOf(service),1);
     this.setState({activeFilters, filters});
-    this.toggleOptions(-1);
   }
 
   updateFilter(index, service) {
@@ -52,7 +51,6 @@ class FilterPage extends Component {
     filters.push(oldFilter);
     filters.sort();
     this.setState({activeFilters});
-    this.toggleOptions(-1);
   }
 
   removeFilter(index) {
@@ -94,7 +92,6 @@ class FilterPage extends Component {
           <FilterDropDown key={filterService}
                         index={index} filters={this.state.filters}
                         filterService={filterService}
-                        updateFunction={this.toggleOptions.bind(this, {index})}
                         removeFunction={this.removeFilter.bind(this, index)}/>
         );
       }

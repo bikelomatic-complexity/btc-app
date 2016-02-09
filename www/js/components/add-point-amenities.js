@@ -3,6 +3,7 @@ import { CardText, Button, Icon } from 'react-mdl';
 
 // import redux components
 import { connect } from 'react-redux';
+import DropDown from './drop-down';
 import { types, displayType } from '../types'
 import { addPointAmenity, removePointAmenity } from '../actions/new-point-actions';
 
@@ -26,10 +27,8 @@ export class AddPointAmenities extends Component {
     this.forceUpdate();
   }
 
-  selectAmenity(event){
-    this.setState({
-      amenity:event.target.value
-    });
+  selectAmenity(amenity){
+    this.setState({amenity});
   }
 
   render() {
@@ -65,9 +64,10 @@ export class AddPointAmenities extends Component {
           )
         })}
         <div className="form-row">
-          <select className="mdl-button mdl-button--raised" onChange={this.selectAmenity.bind(this)}>
-            { amenityOptions }
-          </select>
+          <DropDown raised options={types}
+                    text={displayType(this.state.amenity)}
+                    textTransform={displayType}
+                    onSelectFunction={this.selectAmenity.bind(this)}/>
           { addAmenityButton }
         </div>
       </div>
