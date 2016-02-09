@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
 import PointMap from './point-map';
-import AddPointCard from './add-point-card';
 
 import { setPointLocation } from '../actions/new-point-actions';
 import { Layout } from 'react-mdl';

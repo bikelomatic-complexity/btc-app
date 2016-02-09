@@ -9,10 +9,11 @@ import {  SET_POINT_NAME,
           ADD_POINT_HOURS,
           REMOVE_POINT_HOURS,
           ADD_POINT_AMENITIES,
-          REMOVE_POINT_AMENITIES
+          REMOVE_POINT_AMENITIES,
+          CLEAR_POINT_PROPS
         } from '../actions/new-point-actions';
 
-export default function newPoint(state = {
+const cleanState = {
   name:'',
   location:[],
   type:'',
@@ -23,45 +24,49 @@ export default function newPoint(state = {
   phoneNumber:'',
   hours:[],
   amenities:[]
-}, action) {
-  let newState;
+}
+
+const initialState = Object.assign({},cleanState);
+
+export default function newPoint(state=initialState, action) {
+  let hours;
+  let amenities;
+
   switch (action.type) {
     case SET_POINT_NAME:
-      newState = Object.assign(state, {name:action.name})
-      return newState;
+      return Object.assign({}, state, {name:action.name});
     case SET_POINT_LOCATION:
-      newState = Object.assign(state, {location:action.location})
-      return newState;
+      return Object.assign({}, state, {location:action.location});
     case SET_POINT_TYPE:
-      newState = Object.assign(state, {type:action.pointType})
-      return newState;
+      return Object.assign({}, state, {type:action.pointType});
     case SET_POINT_DESCRIPTION:
-      newState = Object.assign({}, state, {description:action.description});
-      return newState;
+      return Object.assign({}, state, {description:action.description});
     case SET_POINT_ADDRESS:
-      newState = Object.assign(state, {address:action.address})
-      return newState;
+      return Object.assign({}, state, {address:action.address});
     case SET_POINT_IMAGE:
-      newState = Object.assign(state, {imageSrc:action.imageSrc})
-      return newState;
+      return Object.assign({}, state, {imageSrc:action.imageSrc});
     case SET_POINT_WEBSITE:
-      newState = Object.assign(state, {website:action.website})
-      return newState;
+      return Object.assign({}, state, {website:action.website});
     case SET_POINT_PHONE:
-      newState = Object.assign(state, {phoneNumber:action.phoneNumber})
-      return newState;
+      return Object.assign({}, state, {phoneNumber:action.phoneNumber});
     case ADD_POINT_HOURS:
-      state.hours.push(action.newHours);
-      return state;
+      hours = [...state.hours, action.newHours];
+      return Object.assign({}, state, {hours});
     case REMOVE_POINT_HOURS:
-      state.hours.splice(action.hourIndex, 1);
-      return state;
+      hours = [...state.hours];
+      hours.splice(action.hourIndex, 1);
+      return Object.assign({}, state, {hours});;
     case ADD_POINT_AMENITIES:
-      state.amenities.push(action.newAmenity);
-      return state;
+      amenities = [...state.amenities, action.newAmenity];
+      return Object.assign({}, state, {amenities});
     case REMOVE_POINT_AMENITIES:
-      state.amenities.splice(action.amenityIndex, 1);
-      return state;
+      amenities = [...state.amenities];
+      amenities.splice(action.amenityIndex, 1);
+      return Object.assign({}, state, {amenities});;
+    case CLEAR_POINT_PROPS:
+      console.log(initialState);
+      console.log(cleanState);
+      return Object.assign({},cleanState);
     default:
       return state;
   }

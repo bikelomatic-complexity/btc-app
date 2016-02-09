@@ -13,6 +13,7 @@ import AddPointHours from './add-point-hours';
 import AddPointAmenities from './add-point-amenities';
 
 import { userAddPoint } from '../reducers/points';
+import { clearPointProps } from '../actions/new-point-actions';
 
 import BlobUtil from 'blob-util';
 
@@ -21,12 +22,12 @@ import { connect } from 'react-redux';
 
 export class AddPointPage extends Component {
 
-  onSubmit() {
-    const {
-      address, amenities, description, hours,
-      location, name, phoneNumber, type, website } = this.props.newPoint;
+  addPoint(blob=undefined) {
+    const { dispatch } = this.props;
+    const { address, amenities, description, hours, location,
+            name, phoneNumber, type, website } = this.props.newPoint;
 
-    this.props.dispatch(userAddPoint({
+    dispatch(userAddPoint({
       class: 'service',
       created_at: new Date().toISOString(),
       address,
@@ -41,12 +42,21 @@ export class AddPointPage extends Component {
       phone: phoneNumber,
       rating: 5,
       website,
-    }, undefined));
+    }, blob));
+    dispatch(clearPointProps());
     this.props.history.push('/');
+  }
 
-    // BlobUtil.imgSrcToBlob(imageSrc).then(blob => {
-    //
-    // });
+  onSubmit() {
+    const { dispatch } = this.props;
+    const { imageSrc } = this.props.newPoint;
+    if (imageSrc === '') {
+      this.addPoint();
+    } else {
+      BlobUtil.imgSrcToBlob(imageSrc).then(blob => {
+        this.addPoint(blob);
+      });
+    }
   }
 
   render() {

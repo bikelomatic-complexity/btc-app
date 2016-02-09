@@ -14,6 +14,8 @@ export const REMOVE_POINT_HOURS = 'REMOVE_POINT_HOURS';
 export const ADD_POINT_AMENITIES = 'ADD_POINT_AMENITIES';
 export const REMOVE_POINT_AMENITIES = 'REMOVE_POINT_AMENITIES';
 
+export const CLEAR_POINT_PROPS = 'CLEAR_POINT_PROPS';
+
 /* Action Creators */
 export function setPointName(name) {
   return {
@@ -96,5 +98,11 @@ export function removePointAmenity(amenityIndex) {
   return {
     type: REMOVE_POINT_AMENITIES,
     amenityIndex
+  }
+}
+
+export function clearPointProps() {
+  return {
+    type: CLEAR_POINT_PROPS
   }
 }

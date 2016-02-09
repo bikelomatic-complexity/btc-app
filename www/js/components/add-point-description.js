@@ -5,7 +5,9 @@ import {
   setPointDescription,
   setPointAddress,
   setPointWebsite,
-  setPointPhone
+  setPointPhone,
+  setPointImage,
+  clearPointProps
  } from '../actions/new-point-actions';
 
 // import redux components
@@ -15,12 +17,14 @@ export class AddPointDescription extends Component {
   constructor(props) {
     super(props);
 
-    const { description, phoneNumber, address, website} = this.props.newPoint;
+    const { description, phoneNumber, address,
+            website, imageSrc } = this.props.newPoint;
     this.state = {
       description,
       phoneNumber,
       address,
-      website
+      website,
+      imageSrc
     };
   }
 
@@ -48,7 +52,32 @@ export class AddPointDescription extends Component {
     dispatch(setPointAddress(newText));
   }
 
+  onPhotoAdd() {
+    const { dispatch } = this.props;
+    // This logic will not work on the browser
+    // because of issue - Apache Cordova / CB-9852
+    // https://issues.apache.org/jira/browse/CB-9852
+    navigator.camera.getPicture(
+      imageSrc => {
+        this.setState({ imageSrc });
+        dispatch(setPointImage(imageSrc));
+      },
+      err => console.error( err ),
+      { sourceType:navigator.camera.PictureSourceType.PHOTOLIBRARY,
+        destinationType:navigator.camera.DestinationType.FILE_URI,
+        encodingType:navigator.camera.EncodingType.PNG
+      }
+    )
+  }
+
   render() {
+    let imgView = <div />
+    if (this.state.imageSrc !== '') {
+      imgView = <div>
+        <img src={this.state.imageSrc} width="100%" />
+      </div>
+    }
+
     return (
       <div className="form-column">
         <div className="form-row">
@@ -72,6 +101,14 @@ export class AddPointDescription extends Component {
                       type="url"
                       onChange={this.onWebsiteUpdate.bind(this)}
                       value={this.state.website} />
+        </div>
+        <div className="form-row">
+          { imgView }
+        </div>
+        <div className="form-row">
+          <Button onClick={this.onPhotoAdd.bind(this)} raised>
+                  Upload Photo
+          </Button>
         </div>
       </div>
     )
