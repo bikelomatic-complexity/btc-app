@@ -8,10 +8,10 @@ import React from 'react';
 import sd from 'skin-deep';
 
 // import the component we'll be testing
-import { PointCard } from '../www/js/components/point-card';
+import { PointCard } from '../../www/js/components/point-card';
 
 // import sample data for tests
-import { SamplePoints } from './mock-data';
+import { SamplePoints } from '../mock-data/points';
 
 // vdom is the rendered page
 // instance is the react component
