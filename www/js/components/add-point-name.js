@@ -27,14 +27,12 @@ export class AddPointName extends Component {
     const { dispatch } = this.props;
     this.setState({name});
     dispatch(setPointName(name));
-    this.forceUpdate();
   }
 
   onTypeSelect(type) {
     const { dispatch } = this.props;
     this.setState({type});
     dispatch(setPointType(type));
-    this.forceUpdate();
   }
 
   render() {

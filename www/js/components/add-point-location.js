@@ -13,7 +13,6 @@ export class AddPointLocation extends Component {
   constructor(props) {
     super(props);
     const { dispatch , mapState } = this.props;
-    dispatch(setPointLocation(mapState.center));
   }
 
   updateLocation(leaflet){
@@ -22,7 +21,6 @@ export class AddPointLocation extends Component {
     dispatch(setPointLocation([lat, lng]));
     this.forceUpdate();
   }
-
 
   updateLocationCoords(coords){
     const { dispatch } = this.props;

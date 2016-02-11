@@ -62,7 +62,7 @@ export class AddPointPage extends Component {
   render() {
     const { dispatch, newPoint } = this.props;
     const {
-      address, amenities, description, hours,
+      address, amenities, description, hours, imageSrc,
       location, name, phoneNumber, type, website
     } = newPoint;
     // determine next page, based on current page
@@ -79,7 +79,8 @@ export class AddPointPage extends Component {
         break;
       case AddPointDescription:
         onNext = ()=> {this.props.history.push('/add-point/hours');}
-        if (!((description) || (phoneNumber) || (address) || (website))) {
+        if (!((description) || (phoneNumber) ||
+              (address) || (website) || (imageSrc))) {
           nextText = "Skip";
         }
         break;
