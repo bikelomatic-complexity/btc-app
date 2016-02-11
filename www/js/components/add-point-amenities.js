@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import { CardText, Button } from 'react-mdl';
+import { CardText, Button, Icon } from 'react-mdl';
 
 // import redux components
 import { connect } from 'react-redux';
+import DropDown from './drop-down';
 import { types, displayType } from '../types'
 import { addPointAmenity, removePointAmenity } from '../actions/new-point-actions';
 
@@ -26,10 +27,8 @@ export class AddPointAmenities extends Component {
     this.forceUpdate();
   }
 
-  selectAmenity(event){
-    this.setState({
-      amenity:event.target.value
-    });
+  selectAmenity(amenity){
+    this.setState({amenity});
   }
 
   render() {
@@ -45,7 +44,7 @@ export class AddPointAmenities extends Component {
         Add Amenity
       </Button>
     );
-    if (this.props.newPoint.amenities.includes(this.state.amenity)) {
+    if (this.props.newPoint.amenities && this.props.newPoint.amenities.includes(this.state.amenity)) {
       addAmenityButton = (
         <Button disabled colored> Add Amenity </Button>
       );
@@ -58,14 +57,17 @@ export class AddPointAmenities extends Component {
           return (
             <div key={amenity} className="form-row">
               <CardText style={{flex:'5'}}>{displayType(amenity)}</CardText>
-              <Button raised accent onClick={this.removeAmenity.bind(this, index)}> X </Button>
+              <Button raised accent onClick={this.removeAmenity.bind(this, index)}>
+                <Icon name="clear" />
+              </Button>
             </div>
           )
         })}
         <div className="form-row">
-          <select onChange={this.selectAmenity.bind(this)}>
-            { amenityOptions }
-          </select>
+          <DropDown raised options={types}
+                    text={displayType(this.state.amenity)}
+                    textTransform={displayType}
+                    onSelectFunction={this.selectAmenity.bind(this)}/>
           { addAmenityButton }
         </div>
       </div>

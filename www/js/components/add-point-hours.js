@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import { CardText, Button } from 'react-mdl';
-
+import { CardText, Button, Icon } from 'react-mdl';
+import DropDown from './drop-down';
 // import redux components
 import { connect } from 'react-redux';
 
 import { addPointHours, removePointHours } from '../actions/new-point-actions';
+
+const weekDays = [
+  "Weekdays", "Weekends", "Monday", "Tuesday",
+  "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+];
 
 export class AddPointHours extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      day:'Monday',
+      day:'Weekdays',
       opens:'8:00 AM',
       closes:'5:00 PM'
     }
@@ -20,7 +25,19 @@ export class AddPointHours extends Component {
   addHours(){
     const { dispatch } = this.props;
     const { day, opens, closes } = this.state;
-    dispatch(addPointHours({day, opens, closes}));
+
+    let days = [];
+    if ( day == 'Weekdays') {
+      days = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
+    } else if ( day == 'Weekends' ) {
+      days = ["Saturday","Sunday"];
+    } else {
+      days = [day];
+    }
+    days.forEach((day)=>{
+      dispatch(addPointHours({day, opens, closes}));
+    });
+    this.setState({day:weekDays[(weekDays.indexOf(day)+1) % weekDays.length]})
     this.forceUpdate();
   }
 
@@ -30,16 +47,16 @@ export class AddPointHours extends Component {
     this.forceUpdate();
   }
 
-  selectDay(event){
-    this.setState({day:event.target.value});
+  selectDay(day){
+    this.setState({day});
   }
 
-  selectOpens(event){
-    this.setState({opens:event.target.value});
+  selectOpens(opens){
+    this.setState({opens});
   }
 
-  selectCloses(event){
-    this.setState({closes:event.target.value});
+  selectCloses(closes){
+    this.setState({closes});
   }
 
   render() {
@@ -54,41 +71,46 @@ export class AddPointHours extends Component {
       '10:30 PM','11:00 PM','11:30 PM'
     ];
 
-    const hourOptions = hours.map((time)=>{
-      return <option key={time} value={time}>{time}</option>
-    });
+    let addHoursButton = (
+      <Button colored
+              onClick={this.addHours.bind(this)}>
+        Add
+      </Button>
+    );
+    if (this.props.newPoint.hours && this.props.newPoint.amenities.includes(this.state.amenity)) {
+      addHoursButton = (
+        <Button disabled colored> Add </Button>
+      );
+    }
 
     return (
       <div className="form-column">
-        {this.props.newPoint.hours.map((day, index)=>{
+        {this.props.newPoint.hours.sort((dayA, dayB)=>{
+          return weekDays.indexOf(dayA.day) > weekDays.indexOf(dayB.day)
+        }).map((day, index)=>{
           return (
             <div key={day.day+day.opens+day.closes} className="form-row">
               <CardText style={{flex:'5'}}>{day.day}: {day.opens} - {day.closes}</CardText>
-              <Button raised accent onClick={this.removeHours.bind(this, index)}> X </Button>
+              <Button raised accent onClick={this.removeHours.bind(this, index)}>
+                <Icon name="clear"/>
+              </Button>
             </div>
           )
         })}
         <div className="form-row">
-          <select onChange={this.selectDay.bind(this)}>
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-            <option value="Saturday">Saturday</option>
-            <option value="Sunday">Sunday</option>
-          </select>
-          <select value={this.state.opens}
-                  onChange={this.selectOpens.bind(this)}>
-            { hourOptions }
-          </select>
-          <select value={this.state.closes}
-                  onChange={this.selectCloses.bind(this)}>
-            { hourOptions }
-          </select>
-          <Button colored onClick={this.addHours.bind(this)}>
-            Add Hours
-          </Button>
+          <DropDown style={{flex:3}} raised
+                  text={this.state.day}
+                  onSelectFunction={this.selectDay.bind(this)}
+                  options={weekDays}/>
+          <DropDown style={{flex:2}} raised
+                  text={this.state.opens}
+                  onSelectFunction={this.selectOpens.bind(this)}
+                  options={hours}/>
+          <DropDown style={{flex:2}} raised
+                  text={this.state.closes}
+                  onSelectFunction={this.selectCloses.bind(this)}
+                  options={hours}/>
+          { addHoursButton }
         </div>
       </div>
     )

@@ -59,15 +59,17 @@ body {
 }
 
 .ac-drop-down {
-  height: calc(100% - 55px);
+  height: calc(100% - 95px);
   display: block;
   overflow-y: scroll;
   position: fixed;
-  width: 100%;
-  bottom: 0px;
+  width: calc(100% - 40px);
+  left: 20px;
+  bottom: 20px;
   transition: all 300ms ease;
   background: white;
   z-index: 2;
+  border: 2px solid lightgray;
 }
 
 .ac-drop-down > li {

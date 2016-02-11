@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import * as leaflet from 'react-leaflet';
 import { divIcon } from 'leaflet';
 
-import { Layout, Header, Content, Button } from 'react-mdl';
+import { Layout, Header, Content, Button, Icon } from 'react-mdl';
 import ACDrawer from './ac-drawer';
 
 import AddPointLocation from './add-point-location';
@@ -60,9 +60,15 @@ export class AddPointPage extends Component {
   }
 
   render() {
-    const { dispatch } = this.props;
+    const { dispatch, newPoint } = this.props;
+    const {
+      address, amenities, description, hours, imageSrc,
+      location, name, phoneNumber, type, website
+    } = newPoint;
     // determine next page, based on current page
     const currentPage = this.props.children.type;
+    const disabled = !((name) && (type));
+    let nextText = "Next";
     let onNext = ()=>{};
     switch (currentPage) {
       case AddPointLocation:
@@ -73,40 +79,64 @@ export class AddPointPage extends Component {
         break;
       case AddPointDescription:
         onNext = ()=> {this.props.history.push('/add-point/hours');}
+        if (!((description) || (phoneNumber) ||
+              (address) || (website) || (imageSrc))) {
+          nextText = "Skip";
+        }
         break;
       case AddPointHours:
         onNext = ()=> {this.props.history.push('/add-point/amenities');}
+        if (hours.length == 0) {
+          nextText = "Skip";
+        }
         break;
       case AddPointAmenities:
         onNext = this.onSubmit;
+        nextText = "Submit";
         break;
     }
+
+    const paddingStyle={padding:'5px 0px'}
+    const buttonStyle={width:'20%'}
 
     return (
       <Layout fixedHeader>
         <Header title="Add New Point"/>
         <ACDrawer page="Add Point"/>
         <div className="form-column">
-          <div className="form-row">
-            <Button raised ripple colored={currentPage===AddPointLocation}
-              onClick={()=>{this.props.history.push('/add-point');}}>
-              Location
+          <div style={paddingStyle}>
+            <Button raised ripple
+                    colored={currentPage===AddPointLocation}
+                    style={buttonStyle}
+                    onClick={()=>{this.props.history.push('/add-point');}}>
+              <Icon name="place" />
             </Button>
-            <Button raised ripple colored={currentPage===AddPointName}
-              onClick={()=>{this.props.history.push('/add-point/name');}}>
-              Name
+            <Button raised ripple
+                    colored={currentPage===AddPointName}
+                    style={buttonStyle}
+                    onClick={()=>{this.props.history.push('/add-point/name');}}>
+              <Icon name="mode_edit"/>
             </Button>
-            <Button raised ripple colored={currentPage===AddPointDescription}
-              onClick={()=>{this.props.history.push('/add-point/description');}}>
-              Description
+            <Button raised ripple
+                    disabled={disabled}
+                    colored={currentPage===AddPointDescription}
+                    style={buttonStyle}
+                    onClick={()=>{this.props.history.push('/add-point/description');}}>
+              <Icon name="format_align_left"/>
             </Button>
-            <Button raised ripple colored={currentPage===AddPointHours}
-              onClick={()=>{this.props.history.push('/add-point/hours');}}>
-              Hours
+            <Button raised ripple
+                    disabled={disabled}
+                    colored={currentPage===AddPointHours}
+                    style={buttonStyle}
+                    onClick={()=>{this.props.history.push('/add-point/hours');}}>
+              <Icon name="schedule" />
             </Button>
-            <Button raised ripple colored={currentPage===AddPointAmenities}
-              onClick={()=>{this.props.history.push('/add-point/amenities');}}>
-              Amenities
+            <Button raised ripple
+                    disabled={disabled}
+                    colored={currentPage===AddPointAmenities}
+                    style={buttonStyle}
+                    onClick={()=>{this.props.history.push('/add-point/amenities');}}>
+              <Icon name="local_bar" />
             </Button>
           </div>
 
@@ -115,8 +145,10 @@ export class AddPointPage extends Component {
           </div>
 
           <div className="form-row">
-            <Button raised colored ripple onClick={onNext.bind(this)}>
-              Next
+            <Button raised colored ripple
+                    disabled={disabled && (currentPage!==AddPointLocation)}
+                    onClick={onNext.bind(this)}>
+              {nextText}
             </Button>
           </div>
         </div>
