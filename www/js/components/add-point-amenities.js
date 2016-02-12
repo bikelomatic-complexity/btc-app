@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { CardText, Button, Icon } from 'react-mdl';
+import { CardText, Icon } from 'react-mdl';
+import { RaisedButton } from 'material-ui';
 
 // import redux components
 import { connect } from 'react-redux';
@@ -39,14 +40,14 @@ export class AddPointAmenities extends Component {
     });
 
     let addAmenityButton = (
-      <Button colored
+      <RaisedButton secondary
               onClick={this.addAmenity.bind(this)}>
         Add Amenity
-      </Button>
+      </RaisedButton>
     );
     if (this.props.newPoint.amenities && this.props.newPoint.amenities.includes(this.state.amenity)) {
       addAmenityButton = (
-        <Button disabled colored> Add Amenity </Button>
+        <RaisedButton secondary disabled> Add Amenity </RaisedButton>
       );
     }
 
@@ -57,15 +58,15 @@ export class AddPointAmenities extends Component {
           return (
             <div key={amenity} className="form-row">
               <CardText style={{flex:'5'}}>{displayType(amenity)}</CardText>
-              <Button raised accent onClick={this.removeAmenity.bind(this, index)}>
+              <RaisedButton primary onClick={this.removeAmenity.bind(this, index)}>
                 <Icon name="clear" />
-              </Button>
+              </RaisedButton>
             </div>
           )
         })}
         <div className="form-row">
-          <DropDown raised options={types}
-                    text={displayType(this.state.amenity)}
+          <DropDown options={types}
+                    text={"Amenity"}
                     textTransform={displayType}
                     onSelectFunction={this.selectAmenity.bind(this)}/>
           { addAmenityButton }

@@ -29,6 +29,10 @@ import { NetworkManager } from './reducers/network';
 
 import { reloadPoints } from './reducers/points';
 
+// this is needed for material-ui
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 /**
  * the App component fetches service data from the server and displays
  * a map with points for each service. Fetching hapens upon mount.

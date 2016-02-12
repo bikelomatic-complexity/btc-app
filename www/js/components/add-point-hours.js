@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { CardText, Button, Icon } from 'react-mdl';
+import { CardText, Icon } from 'react-mdl';
 import DropDown from './drop-down';
 // import redux components
 import { connect } from 'react-redux';
+import { RaisedButton } from 'material-ui';
 
 import { addPointHours, removePointHours } from '../actions/new-point-actions';
 
@@ -72,14 +73,14 @@ export class AddPointHours extends Component {
     ];
 
     let addHoursButton = (
-      <Button colored
+      <RaisedButton secondary
               onClick={this.addHours.bind(this)}>
         Add
-      </Button>
+      </RaisedButton>
     );
     if (this.props.newPoint.hours && this.props.newPoint.amenities.includes(this.state.amenity)) {
       addHoursButton = (
-        <Button disabled colored> Add </Button>
+        <RaisedButton disabled secondary> Add </RaisedButton>
       );
     }
 
@@ -91,23 +92,20 @@ export class AddPointHours extends Component {
           return (
             <div key={day.day+day.opens+day.closes} className="form-row">
               <CardText style={{flex:'5'}}>{day.day}: {day.opens} - {day.closes}</CardText>
-              <Button raised accent onClick={this.removeHours.bind(this, index)}>
+              <RaisedButton primary onClick={this.removeHours.bind(this, index)}>
                 <Icon name="clear"/>
-              </Button>
+              </RaisedButton>
             </div>
           )
         })}
         <div className="form-row">
-          <DropDown style={{flex:3}} raised
-                  text={this.state.day}
+          <DropDown text={"Day(s)"}
                   onSelectFunction={this.selectDay.bind(this)}
                   options={weekDays}/>
-          <DropDown style={{flex:2}} raised
-                  text={this.state.opens}
+          <DropDown text="Opens"
                   onSelectFunction={this.selectOpens.bind(this)}
                   options={hours}/>
-          <DropDown style={{flex:2}} raised
-                  text={this.state.closes}
+          <DropDown text="Closes"
                   onSelectFunction={this.selectCloses.bind(this)}
                   options={hours}/>
           { addHoursButton }

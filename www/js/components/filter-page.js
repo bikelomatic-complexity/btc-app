@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
-import { Layout, Header, Checkbox, Button } from 'react-mdl';
+import { Layout, Header, Checkbox } from 'react-mdl';
+import { RaisedButton } from 'material-ui';
 
 import ACDrawer from './ac-drawer';
 import DropDown from './drop-down';
@@ -105,8 +106,9 @@ class FilterPage extends Component {
 
           { filtersDropDowns }
 
-          <DropDown className="form-row"
-            raised text="Filter"
+          <DropDown
+            className="form-row"
+            text="Filter"
             options={this.state.filters}
             textTransform={displayType}
             onSelectFunction={this.addFilter.bind(this)}/>
@@ -124,12 +126,12 @@ class FilterPage extends Component {
           </div>
 
           <div className="form-row">
-            <Button raised onClick={this.clearFilters.bind(this)}>
+            <RaisedButton onClick={this.clearFilters.bind(this)}>
               Clear
-            </Button>
-            <Button raised onClick={this.onFilter.bind(this)} colored>
+            </RaisedButton>
+            <RaisedButton onClick={this.onFilter.bind(this)} secondary>
               Filter
-            </Button>
+            </RaisedButton>
           </div>
 
         </div>

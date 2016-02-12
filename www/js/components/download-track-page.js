@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { isFinite } from 'underscore'
 
-import { Switch, Layout, Header, Card, CardActions, CardText, CardTitle, ProgressBar, Button } from 'react-mdl';
+import { Switch, Layout, Header, Card, CardActions, CardText, CardTitle, ProgressBar } from 'react-mdl';
+import { RaisedButton, FontIcon } from 'material-ui';
+
 import DeviceStorage from './device-storage';
 import ACDrawer from './ac-drawer';
 
@@ -84,11 +86,13 @@ class DownloadTrackPage extends Component {
           <CardTitle>{track.name}</CardTitle>
           <CardText>{track.description}</CardText>
           <CardActions border={true}>
-            <Button primary={isSave} accent={!isSave} raised onClick={action}>
-              <span className='material-icons'>{icon}</span>
-              <span className='button-text'>{downloadButtonText}</span>
-            </Button>
-            
+            <RaisedButton
+              secondary={isSave}
+              primary={!isSave}
+              onClick={action}
+              label={downloadButtonText}
+              icon={<FontIcon className="material-icons">cloud_download</FontIcon>}
+            />
             <span className='size-text'>{`${track.sizeMiB} MiB`}</span>
 
             <div>

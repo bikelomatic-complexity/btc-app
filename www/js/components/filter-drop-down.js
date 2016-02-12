@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
-import { Button, CardText, Icon } from 'react-mdl';
+import { CardText, Icon } from 'react-mdl';
+import { RaisedButton, FontIcon } from 'material-ui';
 import { displayType } from '../types';
 
 class FilterDropDown extends Component {
@@ -18,9 +19,8 @@ class FilterDropDown extends Component {
           <CardText style={{flex:5}}>
             {displayType(this.state.activeFilter)}
           </CardText>
-          <Button raised accent onClick={removeFunction}>
-            <Icon name="clear"/>
-          </Button>
+          <RaisedButton primary onClick={removeFunction}
+            icon={<FontIcon className="material-icons">clear</FontIcon>}/>
         </div>
       </div>
     );

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Textfield, Button } from 'react-mdl';
+import { Textfield } from 'react-mdl';
+import { RaisedButton } from 'material-ui';
 
 import {
   setPointDescription,
@@ -106,9 +107,9 @@ export class AddPointDescription extends Component {
           { imgView }
         </div>
         <div className="form-row">
-          <Button onClick={this.onPhotoAdd.bind(this)} raised>
+          <RaisedButton secondary onClick={this.onPhotoAdd.bind(this)}>
                   Upload Photo
-          </Button>
+          </RaisedButton>
         </div>
       </div>
     )

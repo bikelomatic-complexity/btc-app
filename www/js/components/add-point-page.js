@@ -3,7 +3,9 @@ import React, {Component} from 'react';
 import * as leaflet from 'react-leaflet';
 import { divIcon } from 'leaflet';
 
-import { Layout, Header, Content, Button, Icon } from 'react-mdl';
+import { Layout, Header, Content, Icon } from 'react-mdl';
+import { RaisedButton, Tabs, Tab, FontIcon } from 'material-ui';
+
 import ACDrawer from './ac-drawer';
 
 import AddPointLocation from './add-point-location';
@@ -96,60 +98,39 @@ export class AddPointPage extends Component {
         break;
     }
 
-    const paddingStyle={padding:'5px 0px'}
-    const buttonStyle={width:'20%'}
-
     return (
       <Layout fixedHeader>
         <Header title="Add New Point"/>
         <ACDrawer page="Add Point"/>
         <div className="form-column">
-          <div style={paddingStyle}>
-            <Button raised ripple
-                    colored={currentPage===AddPointLocation}
-                    style={buttonStyle}
-                    onClick={()=>{this.props.history.push('/add-point');}}>
-              <Icon name="place" />
-            </Button>
-            <Button raised ripple
-                    colored={currentPage===AddPointName}
-                    style={buttonStyle}
-                    onClick={()=>{this.props.history.push('/add-point/name');}}>
-              <Icon name="mode_edit"/>
-            </Button>
-            <Button raised ripple
-                    disabled={disabled}
-                    colored={currentPage===AddPointDescription}
-                    style={buttonStyle}
-                    onClick={()=>{this.props.history.push('/add-point/description');}}>
-              <Icon name="format_align_left"/>
-            </Button>
-            <Button raised ripple
-                    disabled={disabled}
-                    colored={currentPage===AddPointHours}
-                    style={buttonStyle}
-                    onClick={()=>{this.props.history.push('/add-point/hours');}}>
-              <Icon name="schedule" />
-            </Button>
-            <Button raised ripple
-                    disabled={disabled}
-                    colored={currentPage===AddPointAmenities}
-                    style={buttonStyle}
-                    onClick={()=>{this.props.history.push('/add-point/amenities');}}>
-              <Icon name="local_bar" />
-            </Button>
-          </div>
+          <Tabs value={currentPage}>
+            <Tab  value={AddPointLocation}
+                  onClick={()=>{this.props.history.push('/add-point');}}
+                  icon={<FontIcon className="material-icons">place</FontIcon>}/>
+            <Tab  value={AddPointName}
+                  onClick={()=>{this.props.history.push('/add-point/name');}}
+                  icon={<FontIcon className="material-icons">mode_edit</FontIcon>}/>
+            <Tab  value={AddPointDescription}
+                  onClick={()=>{this.props.history.push('/add-point/description');}}
+                  icon={<FontIcon className="material-icons">format_align_left</FontIcon>}/>
+            <Tab  value={AddPointHours}
+                  onClick={()=>{this.props.history.push('/add-point/hours');}}
+                  icon={<FontIcon className="material-icons">schedule</FontIcon>}/>
+            <Tab  value={AddPointAmenities}
+                  onClick={()=>{this.props.history.push('/add-point/amenities');}}
+                  icon={<FontIcon className="material-icons">local_bar</FontIcon>}/>
+          </Tabs>
 
           <div>
             {this.props.children}
           </div>
 
           <div className="form-row">
-            <Button raised colored ripple
+            <RaisedButton secondary
                     disabled={disabled && (currentPage!==AddPointLocation)}
                     onClick={onNext.bind(this)}>
               {nextText}
-            </Button>
+            </RaisedButton>
           </div>
         </div>
       </Layout>

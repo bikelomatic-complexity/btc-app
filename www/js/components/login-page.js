@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
-import { Layout, Header, CardText, Textfield, Button } from 'react-mdl';
+import { Layout, Header, CardText, Textfield } from 'react-mdl';
+import { RaisedButton } from 'material-ui';
 import { Link } from 'react-router';
 import ACDrawer from './ac-drawer';
 
@@ -32,7 +33,7 @@ class LoginPage extends Component {
               <Textfield type="password" label="Password"/>
             </div>
             <div className="form-row">
-              <Button raised colored> Log In </Button>
+              <RaisedButton secondary> Log In </RaisedButton>
             </div>
             <div className="form-row">
               <div style={centerText}>

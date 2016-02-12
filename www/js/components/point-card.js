@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Card, CardTitle, CardActions, IconButton,
-          CardText, CardMenu, Button } from 'react-mdl';
+          CardText, CardMenu } from 'react-mdl';
+import { RaisedButton } from 'material-ui';
 import HoursTable from './hours-table';
 import { displayType } from '../types'
 
@@ -84,15 +85,15 @@ export class PointCard extends Component {
     }
 
     let seeButton = (
-      <Button raised colored onClick={() => {
+      <RaisedButton secondary onClick={() => {
         dispatch(fullscreenMarker());
-      }}>See More</Button>
+      }}>See More</RaisedButton>
     );
     if (this.props.show=='full') {
       seeButton = (
-        <Button raised colored onClick={() => {
+        <RaisedButton secondary onClick={() => {
           dispatch(peekMarker());
-        }}>See Less</Button>
+        }}>See Less</RaisedButton>
       );
     }
 
@@ -174,9 +175,9 @@ export class PointCard extends Component {
         { cardDetails }
         <CardActions border className="view-buttons form-row" style={cardActionStyle}>
           { seeButton }
-          <Button raised onClick={() => {
+          <RaisedButton onClick={() => {
             dispatch(deselectMarker());
-          }}>Close</Button>
+          }}>Close</RaisedButton>
         </CardActions>
       </Card>
     );

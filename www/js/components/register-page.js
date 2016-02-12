@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
-import { Layout, Header, CardText, Textfield, Button } from 'react-mdl';
+import { Layout, Header, CardText, Textfield } from 'react-mdl';
+import { RaisedButton } from 'material-ui';
 import ACDrawer from './ac-drawer';
 
 class RegisterPage extends Component {
@@ -39,10 +40,10 @@ class RegisterPage extends Component {
             <Textfield type="password" label="Confirm Password"/>
           </div>
           <div className="form-row">
-            <Button raised onClick={this.onCancel.bind(this)}>
+            <RaisedButton onClick={this.onCancel.bind(this)}>
               Cancel
-            </Button>
-            <Button colored raised>Submit</Button>
+            </RaisedButton>
+            <RaisedButton secondary>Submit</RaisedButton>
           </div>
         </div>
       </Layout>

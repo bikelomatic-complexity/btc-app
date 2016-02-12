@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Layout, Header, CardText, Button } from 'react-mdl';
+import { Layout, Header, CardText } from 'react-mdl';
+import { RaisedButton } from 'material-ui';
 
 import ACDrawer from './ac-drawer';
 import SettingSwitch from './setting-switch';
@@ -53,7 +54,7 @@ export class SettingsPage extends Component {
             </SettingSwitch>
           </div>
           <div className="form-row">
-            <Button raised colored>Sync Edits Now</Button>
+            <RaisedButton secondary>Sync Edits Now</RaisedButton>
           </div>
           <div className="form-row">
             <div>

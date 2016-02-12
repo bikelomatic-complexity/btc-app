@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { Button, Textfield } from 'react-mdl';
+import { Textfield } from 'react-mdl';
 import DropDown from './drop-down';
 
 import { connect } from 'react-redux';
@@ -53,9 +53,9 @@ export class AddPointName extends Component {
           <Textfield  label="Location" disabled={true}
                       value={latLngString} />
         </div>
-        <DropDown className="form-row"
-          raised
-          text={displayType(this.props.newPoint.type) || "Select Type"}
+        <DropDown
+          className="form-row"
+          text="Select Type"
           options={types}
           textTransform={displayType}
           onSelectFunction={this.onTypeSelect.bind(this)}/>;
