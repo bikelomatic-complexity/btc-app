@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { Textfield } from 'react-mdl';
+import { TextField } from 'material-ui';
 import DropDown from './drop-down';
 
 import { connect } from 'react-redux';
@@ -23,8 +23,9 @@ export class AddPointName extends Component {
     }
   }
 
-  onNameUpdate(name) {
+  onNameUpdate(event) {
     const { dispatch } = this.props;
+    const name = event.target.value;
     this.setState({name});
     dispatch(setPointName(name));
   }
@@ -45,12 +46,12 @@ export class AddPointName extends Component {
     return (
       <div className="form-column">
         <div className="form-row">
-          <Textfield  label="Name"
+          <TextField  hintText="Name"
                       onChange={this.onNameUpdate.bind(this)}
                       value={this.state.name} />
         </div>
         <div className="form-row">
-          <Textfield  label="Location" disabled={true}
+          <TextField  floatingLabelText="Location" disabled={true}
                       value={latLngString} />
         </div>
         <DropDown

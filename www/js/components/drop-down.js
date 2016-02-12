@@ -18,7 +18,7 @@ export class DropDown extends Component {
   }
 
   render() {
-    const { options, onSelectFunction, textTransform, text } = this.props;
+    const { options, onSelectFunction, textTransform, text, value } = this.props;
     const optionItems = options.map((option, index)=> {
       return (
         <MenuItem key={option} primaryText={textTransform(option)} value={option}/>
@@ -26,7 +26,7 @@ export class DropDown extends Component {
     });
     return (
       <SelectField  floatingLabelText={text}
-                    value={this.state.value}
+                    value={value || this.state.value}
                     onChange={this.handleChange.bind(this)}>
         { optionItems }
       </SelectField>

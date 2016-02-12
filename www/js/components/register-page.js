@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
-import { Layout, Header, CardText, Textfield } from 'react-mdl';
-import { RaisedButton } from 'material-ui';
+import { Layout, Header, CardText } from 'react-mdl';
+import { RaisedButton, TextField } from 'material-ui';
 import ACDrawer from './ac-drawer';
 
 class RegisterPage extends Component {
@@ -22,22 +22,22 @@ class RegisterPage extends Component {
         <ACDrawer page="Login"/>
         <div className="form-column">
           <div className="form-row">
-            <Textfield label="Email..."/>
+            <TextField floatingLabelText="Email..."/>
           </div>
           <div className="form-row">
-            <Textfield label="First Name"/>
+            <TextField floatingLabelText="First Name"/>
           </div>
           <div className="form-row">
-            <Textfield label="Last Name"/>
+            <TextField floatingLabelText="Last Name"/>
           </div>
           <div className="form-row">
-          <Textfield label="Username"/>
+          <TextField floatingLabelText="Username"/>
           </div>
           <div className="form-row">
-            <Textfield type="password" label="Password"/>
+            <TextField type="password" floatingLabelText="Password"/>
           </div>
           <div className="form-row">
-            <Textfield type="password" label="Confirm Password"/>
+            <TextField type="password" floatingLabelText="Confirm Password"/>
           </div>
           <div className="form-row">
             <RaisedButton onClick={this.onCancel.bind(this)}>

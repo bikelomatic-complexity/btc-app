@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { Textfield } from 'react-mdl';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, TextField } from 'material-ui';
 
 import {
   setPointDescription,
@@ -29,28 +28,32 @@ export class AddPointDescription extends Component {
     };
   }
 
-  onDescriptionUpdate(newText) {
+  onDescriptionUpdate(event) {
     const { dispatch } = this.props;
-    this.setState({description:newText});
-    dispatch(setPointDescription(newText));
+    const description = event.target.value;
+    this.setState({description});
+    dispatch(setPointDescription(description));
   }
 
-  onPhoneUpdate(newText) {
+  onPhoneUpdate(event) {
     const { dispatch } = this.props;
-    this.setState({phoneNumber:newText});
-    dispatch(setPointPhone(newText));
+    const phoneNumber = event.target.value;
+    this.setState({phoneNumber});
+    dispatch(setPointPhone(phoneNumber));
   }
 
-  onWebsiteUpdate(newText) {
+  onWebsiteUpdate(event) {
     const { dispatch } = this.props;
-    this.setState({website:newText});
-    dispatch(setPointWebsite(newText));
+    const website = event.target.value;
+    this.setState({website});
+    dispatch(setPointWebsite(website));
   }
 
-  onAddressUpdate(newText) {
+  onAddressUpdate(event) {
     const { dispatch } = this.props;
-    this.setState({address:newText});
-    dispatch(setPointAddress(newText));
+    const address = event.target.value;
+    this.setState({address});
+    dispatch(setPointAddress(address));
   }
 
   onPhotoAdd() {
@@ -82,23 +85,23 @@ export class AddPointDescription extends Component {
     return (
       <div className="form-column">
         <div className="form-row">
-          <Textfield  rows={3} label="Description"
+          <TextField  rows={3} floatingLabelText="Description"
                       onChange={this.onDescriptionUpdate.bind(this)}
                       value={this.state.description} />
         </div>
         <div className="form-row">
-          <Textfield  label="Phone Number"
+          <TextField  floatingLabelText="Phone Number"
                       type="tel"
                       onChange={this.onPhoneUpdate.bind(this)}
                       value={this.state.phoneNumber} />
         </div>
         <div className="form-row">
-          <Textfield  label="Address"
+          <TextField  floatingLabelText="Address"
                       onChange={this.onAddressUpdate.bind(this)}
                       value={this.state.address} />
         </div>
         <div className="form-row">
-          <Textfield  label="Website"
+          <TextField  floatingLabelText="Website"
                       type="url"
                       onChange={this.onWebsiteUpdate.bind(this)}
                       value={this.state.website} />

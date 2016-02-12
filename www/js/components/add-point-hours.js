@@ -17,9 +17,9 @@ export class AddPointHours extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      day:'Weekdays',
-      opens:'8:00 AM',
-      closes:'5:00 PM'
+      day:null,
+      opens:null,
+      closes:null
     }
   }
 
@@ -72,17 +72,15 @@ export class AddPointHours extends Component {
       '10:30 PM','11:00 PM','11:30 PM'
     ];
 
-    let addHoursButton = (
+
+    const { day, opens, closes } = this.state;
+    const addHoursButton = (
       <RaisedButton secondary
+              disabled={ !(day && opens && closes) }
               onClick={this.addHours.bind(this)}>
         Add
       </RaisedButton>
     );
-    if (this.props.newPoint.hours && this.props.newPoint.amenities.includes(this.state.amenity)) {
-      addHoursButton = (
-        <RaisedButton disabled secondary> Add </RaisedButton>
-      );
-    }
 
     return (
       <div className="form-column">
@@ -99,7 +97,7 @@ export class AddPointHours extends Component {
           )
         })}
         <div className="form-row">
-          <DropDown text={"Day(s)"}
+          <DropDown text={"Day(s)"} value={this.state.day}
                   onSelectFunction={this.selectDay.bind(this)}
                   options={weekDays}/>
           <DropDown text="Opens"

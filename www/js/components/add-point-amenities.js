@@ -12,7 +12,7 @@ export class AddPointAmenities extends Component {
   constructor(props){
     super(props);
     this.state = {
-      amenity:'airport'
+      amenity:null
     };
   }
 
@@ -41,6 +41,7 @@ export class AddPointAmenities extends Component {
 
     let addAmenityButton = (
       <RaisedButton secondary
+              disabled={!(this.state.amenity || this.props.newPoint.amenities.includes(this.state.amenity))}
               onClick={this.addAmenity.bind(this)}>
         Add Amenity
       </RaisedButton>
