@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { Layout, Header, CardText } from 'react-mdl';
+import { Layout, CardText } from 'react-mdl';
 import { RaisedButton, TextField } from 'material-ui';
 import ACDrawer from './ac-drawer';
 
@@ -18,8 +18,7 @@ class RegisterPage extends Component {
   render() {
     return (
       <Layout fixedHeader>
-        <Header title="Register New Account"/>
-        <ACDrawer page="Login"/>
+        <ACDrawer history={this.props.history} page="Login"/>
         <div className="form-column">
           <div className="form-row">
             <TextField floatingLabelText="Email..."/>

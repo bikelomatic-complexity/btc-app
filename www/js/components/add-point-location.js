@@ -30,7 +30,7 @@ export class AddPointLocation extends Component {
 
   componentDidMount() {
     const { dispatch, mapState } = this.props;
-    dispatch(setPointLocation(mapState.center))
+    dispatch(setPointLocation(mapState.center));
   }
 
   render() {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
-import { Layout, Header, Checkbox } from 'react-mdl';
+import { Layout, Checkbox } from 'react-mdl';
 import { RaisedButton } from 'material-ui';
 
 import ACDrawer from './ac-drawer';
@@ -100,8 +100,7 @@ class FilterPage extends Component {
 
     return (
       <Layout fixedHeader>
-        <Header title="Filter Points"/>
-        <ACDrawer page="Filter"/>
+        <ACDrawer history={this.props.history} page="Filter"/>
         <div className="form-column">
 
           { filtersDropDowns }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { Layout, Header, CardText } from 'react-mdl';
+import { Layout, CardText } from 'react-mdl';
 import { RaisedButton, TextField } from 'material-ui';
 import { Link } from 'react-router';
 import ACDrawer from './ac-drawer';
@@ -21,8 +21,7 @@ class LoginPage extends Component {
     }
     return (
       <Layout fixedHeader>
-        <Header title="Login"/>
-        <ACDrawer page="Login"/>
+        <ACDrawer history={this.props.history} page="Login"/>
         <div className="form-column">
           <img style={imgStyle} src="./img/advc.png"/>
           <div>

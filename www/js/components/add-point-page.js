@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import * as leaflet from 'react-leaflet';
 import { divIcon } from 'leaflet';
 
-import { Layout, Header, Content, Icon } from 'react-mdl';
+import { Layout, Content, Icon } from 'react-mdl';
 import { RaisedButton, Tabs, Tab, FontIcon } from 'material-ui';
 
 import ACDrawer from './ac-drawer';
@@ -100,8 +100,7 @@ export class AddPointPage extends Component {
 
     return (
       <Layout fixedHeader>
-        <Header title="Add New Point"/>
-        <ACDrawer page="Add Point"/>
+        <ACDrawer history={this.props.history} page="Add Point"/>
         <div className="form-column">
           <Tabs value={currentPage}>
             <Tab  value={AddPointLocation}

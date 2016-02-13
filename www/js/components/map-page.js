@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { Layout, Header, Content } from 'react-mdl';
+import { Layout, Content } from 'react-mdl';
 import ACDrawer from './ac-drawer';
 import PointMap from './point-map';
 
@@ -35,8 +35,7 @@ class MapPage extends Component {
 
     return (
       <Layout fixedHeader>
-        <Header title="Adventure Cycling" />
-        <ACDrawer page="Map"/>
+        <ACDrawer history={this.props.history} page="Map"/>
         <PointMap services={services} alerts={alerts} />
         {pointCard}
       </Layout>

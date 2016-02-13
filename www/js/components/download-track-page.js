@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { isFinite } from 'underscore'
 
-import { Switch, Layout, Header, Card, CardActions, CardText, CardTitle, ProgressBar } from 'react-mdl';
+import { Switch, Layout, Card, CardActions, CardText, CardTitle, ProgressBar } from 'react-mdl';
 import { RaisedButton, FontIcon } from 'material-ui';
 
 import DeviceStorage from './device-storage';
@@ -105,8 +105,7 @@ class DownloadTrackPage extends Component {
 
     return (
       <Layout fixedHeader>
-        <Header title="Save Track to Phone"/>
-        <ACDrawer page="Download Track"/>
+        <ACDrawer history={this.props.history} page="Download Track"/>
         <div className="form-column">
           <DeviceStorage downloaded={downloaded}/>
           { rows }

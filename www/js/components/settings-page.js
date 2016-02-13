@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Layout, Header, CardText } from 'react-mdl';
+import { Layout, CardText } from 'react-mdl';
 import { RaisedButton } from 'material-ui';
 
 import ACDrawer from './ac-drawer';
@@ -14,8 +14,7 @@ export class SettingsPage extends Component {
     const {dispatch, settings} = this.props;
     return (
       <Layout fixedHeader>
-        <Header title="Settings"/>
-        <ACDrawer page="Settings"/>
+        <ACDrawer history={this.props.history} page="Settings"/>
         <div className="form-column">
           <div className="form-row">
             <div>
