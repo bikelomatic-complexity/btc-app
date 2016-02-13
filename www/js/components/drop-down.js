@@ -12,7 +12,6 @@ export class DropDown extends Component {
   }
 
   handleChange(event, index, value){
-    console.log(arguments)
     this.setState({value})
     this.props.onSelectFunction(value);
   }

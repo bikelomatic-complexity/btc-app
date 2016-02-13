@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
-import { Layout, CardText } from 'react-mdl';
-import { RaisedButton, TextField } from 'material-ui';
+import { Layout } from 'react-mdl';
+import { RaisedButton, TextField, CardText } from 'material-ui';
 import { Link } from 'react-router';
 import ACDrawer from './ac-drawer';
 

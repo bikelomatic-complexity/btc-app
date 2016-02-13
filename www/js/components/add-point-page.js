@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import * as leaflet from 'react-leaflet';
 import { divIcon } from 'leaflet';
 
-import { Layout, Content, Icon } from 'react-mdl';
+import { Layout } from 'react-mdl';
 import { RaisedButton, Tabs, Tab, FontIcon } from 'material-ui';
 
 import ACDrawer from './ac-drawer';
@@ -109,13 +109,13 @@ export class AddPointPage extends Component {
             <Tab  value={AddPointName}
                   onClick={()=>{this.props.history.push('/add-point/name');}}
                   icon={<FontIcon className="material-icons">mode_edit</FontIcon>}/>
-            <Tab  value={AddPointDescription}
+            <Tab  value={AddPointDescription} disabled={disabled}
                   onClick={()=>{this.props.history.push('/add-point/description');}}
                   icon={<FontIcon className="material-icons">format_align_left</FontIcon>}/>
-            <Tab  value={AddPointHours}
+            <Tab  value={AddPointHours} disabled={disabled}
                   onClick={()=>{this.props.history.push('/add-point/hours');}}
                   icon={<FontIcon className="material-icons">schedule</FontIcon>}/>
-            <Tab  value={AddPointAmenities}
+            <Tab  value={AddPointAmenities} disabled={disabled}
                   onClick={()=>{this.props.history.push('/add-point/amenities');}}
                   icon={<FontIcon className="material-icons">local_bar</FontIcon>}/>
           </Tabs>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { Layout, Content } from 'react-mdl';
+import { Layout } from 'react-mdl';
 import ACDrawer from './ac-drawer';
 import PointMap from './point-map';
 

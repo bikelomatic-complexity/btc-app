@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { isFinite } from 'underscore'
 
-import { Switch, Layout, Card, CardActions, CardText, CardTitle, ProgressBar } from 'react-mdl';
-import { RaisedButton, FontIcon } from 'material-ui';
+import { Layout } from 'react-mdl';
+import { RaisedButton, FontIcon, Card, CardMedia, CardTitle, CardActions, CardText, LinearProgress } from 'material-ui';
 
 import DeviceStorage from './device-storage';
 import ACDrawer from './ac-drawer';
@@ -50,11 +50,11 @@ class DownloadTrackPage extends Component {
       let progressBar;
       if(track.isFetching === true) {
         progressBar = (
-          <ProgressBar indeterminate={true} />
+          <LinearProgress indeterminate={true} />
         );
       } else if(isFinite(track.isFetching)) {
         progressBar = (
-          <ProgressBar progress={track.isFetching * 100} />
+          <LinearProgress progress={track.isFetching * 100} />
         )
       } else {
       }
@@ -82,8 +82,12 @@ class DownloadTrackPage extends Component {
       }
 
       return (
-        <Card key={id} className={'track-card'} shadow={3}>
-          <CardTitle>{track.name}</CardTitle>
+        <Card key={id}>
+        <CardMedia overlay={
+          <CardTitle title={track.name} subtitle={`${track.sizeMiB} MiB`} />
+        }>
+          <img src="../img/usbr20.png" />
+        </CardMedia>
           <CardText>{track.description}</CardText>
           <CardActions border={true}>
             <RaisedButton
@@ -93,11 +97,13 @@ class DownloadTrackPage extends Component {
               label={downloadButtonText}
               icon={<FontIcon className="material-icons">cloud_download</FontIcon>}
             />
-            <span className='size-text'>{`${track.sizeMiB} MiB`}</span>
-
-            <div>
-            <Switch id={id} ripple={true} checked={track.active} onChange={this.onActivationTrack.bind(this, id)}/>
-            </div>
+            <RaisedButton
+              id={id}
+              secondary={track.active}
+              onClick={this.onActivationTrack.bind(this, id, !track.active)}
+              icon={
+              <FontIcon className="material-icons">visibility</FontIcon>
+            }/>
           </CardActions>
         </Card>
       );

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
-import { CardText, Icon } from 'react-mdl';
-import { RaisedButton, FontIcon } from 'material-ui';
+import { RaisedButton, FontIcon, CardText } from 'material-ui';
 import { displayType } from '../types';
 
 class FilterDropDown extends Component {
