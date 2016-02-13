@@ -82,14 +82,14 @@ class DownloadTrackPage extends Component {
       }
 
       return (
-        <Card key={id}>
-        <CardMedia overlay={
-          <CardTitle title={track.name} subtitle={`${track.sizeMiB} MiB`} />
-        }>
-          <img src="../img/usbr20.png" />
-        </CardMedia>
+        <Card key={id} style={{margin:16}}>
+          <CardMedia overlay={
+            <CardTitle title={track.name} subtitle={`${track.sizeMiB} MiB`} />
+          }>
+            <img src="./img/usbr20.png" />
+          </CardMedia>
           <CardText>{track.description}</CardText>
-          <CardActions border={true}>
+          <CardActions>
             <RaisedButton
               secondary={isSave}
               primary={!isSave}
@@ -99,6 +99,7 @@ class DownloadTrackPage extends Component {
             />
             <RaisedButton
               id={id}
+              label="Show Track"
               secondary={track.active}
               onClick={this.onActivationTrack.bind(this, id, !track.active)}
               icon={
@@ -112,7 +113,7 @@ class DownloadTrackPage extends Component {
     return (
       <Layout fixedHeader>
         <ACDrawer history={this.props.history} page="Download Track"/>
-        <div className="form-column">
+        <div>
           <DeviceStorage downloaded={downloaded}/>
           { rows }
         </div>
