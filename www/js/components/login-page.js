@@ -20,33 +20,30 @@ class LoginPage extends Component {
       textAlign: 'center'
     }
     return (
-      <Layout fixedHeader>
-        <ACDrawer history={this.props.history} page="Login"/>
-        <div className="form-column">
-          <img style={imgStyle} src="./img/advc.png"/>
-          <div>
-            <div className="form-row">
-              <TextField floatingLabelText="Email..."/>
-            </div>
-            <div className="form-row">
-              <TextField type="password" floatingLabelText="Password"/>
-            </div>
-            <div className="form-row">
-              <RaisedButton secondary> Log In </RaisedButton>
-            </div>
-            <div className="form-row">
-              <div style={centerText}>
-                <CardText>
-                  <Link to="register">Sign Up</Link> for Adventure Cycling
-                </CardText>
-                <CardText>
-                  <a>Forgot Password?</a>
-                </CardText>
-              </div>
+      <div className="form-column page-content">
+        <img style={imgStyle} src="./img/advc.png"/>
+        <div>
+          <div className="form-row">
+            <TextField floatingLabelText="Email..."/>
+          </div>
+          <div className="form-row">
+            <TextField type="password" floatingLabelText="Password"/>
+          </div>
+          <div className="form-row">
+            <RaisedButton secondary> Log In </RaisedButton>
+          </div>
+          <div className="form-row">
+            <div style={centerText}>
+              <CardText>
+                <Link to="register">Sign Up</Link> for Adventure Cycling
+              </CardText>
+              <CardText>
+                <a>Forgot Password?</a>
+              </CardText>
             </div>
           </div>
         </div>
-      </Layout>
+      </div>
     );
   }
 }

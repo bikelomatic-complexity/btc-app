@@ -17,35 +17,32 @@ class RegisterPage extends Component {
 
   render() {
     return (
-      <Layout fixedHeader>
-        <ACDrawer history={this.props.history} page="Login"/>
-        <div className="form-column">
-          <div className="form-row">
-            <TextField floatingLabelText="Email..."/>
-          </div>
-          <div className="form-row">
-            <TextField floatingLabelText="First Name"/>
-          </div>
-          <div className="form-row">
-            <TextField floatingLabelText="Last Name"/>
-          </div>
-          <div className="form-row">
-          <TextField floatingLabelText="Username"/>
-          </div>
-          <div className="form-row">
-            <TextField type="password" floatingLabelText="Password"/>
-          </div>
-          <div className="form-row">
-            <TextField type="password" floatingLabelText="Confirm Password"/>
-          </div>
-          <div className="form-row">
-            <RaisedButton onClick={this.onCancel.bind(this)}>
-              Cancel
-            </RaisedButton>
-            <RaisedButton secondary>Submit</RaisedButton>
-          </div>
+      <div className="form-column page-content">
+        <div className="form-row">
+          <TextField floatingLabelText="Email..."/>
         </div>
-      </Layout>
+        <div className="form-row">
+          <TextField floatingLabelText="First Name"/>
+        </div>
+        <div className="form-row">
+          <TextField floatingLabelText="Last Name"/>
+        </div>
+        <div className="form-row">
+        <TextField floatingLabelText="Username"/>
+        </div>
+        <div className="form-row">
+          <TextField type="password" floatingLabelText="Password"/>
+        </div>
+        <div className="form-row">
+          <TextField type="password" floatingLabelText="Confirm Password"/>
+        </div>
+        <div className="form-row">
+          <RaisedButton onClick={this.onCancel.bind(this)}>
+            Cancel
+          </RaisedButton>
+          <RaisedButton secondary>Submit</RaisedButton>
+        </div>
+      </div>
     );
   }
 }

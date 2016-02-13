@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 
-import { Layout, Content } from 'react-mdl';
-import ACDrawer from './ac-drawer';
 import PointMap from './point-map';
+import { Paper } from 'material-ui';
 
 // import redux components
 import { connect } from 'react-redux';
@@ -34,11 +33,10 @@ class MapPage extends Component {
     }
 
     return (
-      <Layout fixedHeader>
-        <ACDrawer history={this.props.history} page="Map"/>
+      <div className="page-content">
         <PointMap services={services} alerts={alerts} />
         {pointCard}
-      </Layout>
+      </div>
     );
   }
 }

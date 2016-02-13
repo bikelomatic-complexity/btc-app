@@ -7,6 +7,9 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import StoreBuilder, { createAppStore } from './store';
 
+import ACDrawer from './components/ac-drawer';
+import { Paper } from 'material-ui';
+
 import MapPage from './components/map-page';
 
 import AddPointPage from './components/add-point-page';
@@ -40,9 +43,12 @@ injectTapEventPlugin();
 class App extends React.Component {
   render() {
     return (
-      <div>
-        {this.props.children}
-      </div>
+      <Paper style={{height:'100%'}}>
+        <ACDrawer history={this.props.history} page="Map"/>
+        <Paper style={{height:'calc(100% - 64px)'}}>
+          {this.props.children}
+        </Paper>
+      </Paper>
     );
   }
 }

@@ -99,42 +99,39 @@ class FilterPage extends Component {
     );
 
     return (
-      <Layout fixedHeader>
-        <ACDrawer history={this.props.history} page="Filter"/>
-        <div className="form-column">
+      <div className="form-column page-content">
 
-          { filtersDropDowns }
+        { filtersDropDowns }
 
-          <DropDown
-            className="form-row"
-            text="Filter"
-            options={this.state.filters}
-            textTransform={displayType}
-            onSelectFunction={this.addFilter.bind(this)}/>
+        <DropDown
+          className="form-row"
+          text="Filter"
+          options={this.state.filters}
+          textTransform={displayType}
+          onSelectFunction={this.addFilter.bind(this)}/>
 
-          <div className="form-row">
-            <Checkbox label="Only Show Open Services"
-                      onChange={this.toggleOpenServices.bind(this)}
-                      checked={this.state.openServices}/>
-          </div>
-
-          <div className="form-row">
-            <Checkbox label="Hide Alerts"
-                      onChange={this.toggleAlert.bind(this)}
-                      checked={this.state.hideAlert}/>
-          </div>
-
-          <div className="form-row">
-            <RaisedButton onClick={this.clearFilters.bind(this)}>
-              Clear
-            </RaisedButton>
-            <RaisedButton onClick={this.onFilter.bind(this)} secondary>
-              Filter
-            </RaisedButton>
-          </div>
-
+        <div className="form-row">
+          <Checkbox label="Only Show Open Services"
+                    onChange={this.toggleOpenServices.bind(this)}
+                    checked={this.state.openServices}/>
         </div>
-      </Layout>
+
+        <div className="form-row">
+          <Checkbox label="Hide Alerts"
+                    onChange={this.toggleAlert.bind(this)}
+                    checked={this.state.hideAlert}/>
+        </div>
+
+        <div className="form-row">
+          <RaisedButton onClick={this.clearFilters.bind(this)}>
+            Clear
+          </RaisedButton>
+          <RaisedButton onClick={this.onFilter.bind(this)} secondary>
+            Filter
+          </RaisedButton>
+        </div>
+
+      </div>
     );
   }
 }

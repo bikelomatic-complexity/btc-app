@@ -99,40 +99,37 @@ export class AddPointPage extends Component {
     }
 
     return (
-      <Layout fixedHeader>
-        <ACDrawer history={this.props.history} page="Add Point"/>
-        <div className="form-column">
-          <Tabs value={currentPage}>
-            <Tab  value={AddPointLocation}
-                  onClick={()=>{this.props.history.push('/add-point');}}
-                  icon={<FontIcon className="material-icons">place</FontIcon>}/>
-            <Tab  value={AddPointName}
-                  onClick={()=>{this.props.history.push('/add-point/name');}}
-                  icon={<FontIcon className="material-icons">mode_edit</FontIcon>}/>
-            <Tab  value={AddPointDescription}
-                  onClick={()=>{this.props.history.push('/add-point/description');}}
-                  icon={<FontIcon className="material-icons">format_align_left</FontIcon>}/>
-            <Tab  value={AddPointHours}
-                  onClick={()=>{this.props.history.push('/add-point/hours');}}
-                  icon={<FontIcon className="material-icons">schedule</FontIcon>}/>
-            <Tab  value={AddPointAmenities}
-                  onClick={()=>{this.props.history.push('/add-point/amenities');}}
-                  icon={<FontIcon className="material-icons">local_bar</FontIcon>}/>
-          </Tabs>
+      <div className="form-column page-content">
+        <Tabs value={currentPage}>
+          <Tab  value={AddPointLocation}
+                onClick={()=>{this.props.history.push('/add-point');}}
+                icon={<FontIcon className="material-icons">place</FontIcon>}/>
+          <Tab  value={AddPointName}
+                onClick={()=>{this.props.history.push('/add-point/name');}}
+                icon={<FontIcon className="material-icons">mode_edit</FontIcon>}/>
+          <Tab  value={AddPointDescription}
+                onClick={()=>{this.props.history.push('/add-point/description');}}
+                icon={<FontIcon className="material-icons">format_align_left</FontIcon>}/>
+          <Tab  value={AddPointHours}
+                onClick={()=>{this.props.history.push('/add-point/hours');}}
+                icon={<FontIcon className="material-icons">schedule</FontIcon>}/>
+          <Tab  value={AddPointAmenities}
+                onClick={()=>{this.props.history.push('/add-point/amenities');}}
+                icon={<FontIcon className="material-icons">local_bar</FontIcon>}/>
+        </Tabs>
 
-          <div>
-            {this.props.children}
-          </div>
-
-          <div className="form-row">
-            <RaisedButton secondary
-                    disabled={disabled && (currentPage!==AddPointLocation)}
-                    onClick={onNext.bind(this)}>
-              {nextText}
-            </RaisedButton>
-          </div>
+        <div>
+          {this.props.children}
         </div>
-      </Layout>
+
+        <div className="form-row">
+          <RaisedButton secondary
+                  disabled={disabled && (currentPage!==AddPointLocation)}
+                  onClick={onNext.bind(this)}>
+            {nextText}
+          </RaisedButton>
+        </div>
+      </div>
     );
   }
 }

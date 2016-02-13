@@ -104,13 +104,10 @@ class DownloadTrackPage extends Component {
     });
 
     return (
-      <Layout fixedHeader>
-        <ACDrawer history={this.props.history} page="Download Track"/>
-        <div className="form-column">
-          <DeviceStorage downloaded={downloaded}/>
-          { rows }
-        </div>
-      </Layout>
+      <div className="form-column page-content">
+        <DeviceStorage downloaded={downloaded}/>
+        { rows }
+      </div>
     );
   }
 }
