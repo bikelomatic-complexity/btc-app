@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { CardText, Switch } from 'react-mdl';
+import { CardText, Toggle } from 'material-ui';
 
 export class SettingSwitch extends Component {
 
@@ -10,23 +10,18 @@ export class SettingSwitch extends Component {
       paddingBottom: '8px'
     }
 
-    const textStyle = {
-      flex: 5,
-      padding: '12px',
-      paddingTop: '0px'
-    }
     return (
       <div className={this.props.className}>
         <CardText style={titleStyle}>
           { this.props.title }
         </CardText>
-        <div className="form-row">
-          <CardText style={textStyle}>
-            { this.props.children }
-          </CardText>
-          <Switch id={this.props.id} onChange={this.props.onChange}
-          checked={this.props.checked}/>
-        </div>
+        <Toggle
+          id={this.props.id}
+          label={this.props.children}
+          style={{marginBottom:16}}
+          onToggle={this.props.onChange}
+          toggled={this.props.checked}
+        />
       </div>
     )
   }

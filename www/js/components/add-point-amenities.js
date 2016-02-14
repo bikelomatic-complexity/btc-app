@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { CardText, Icon } from 'react-mdl';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, CardText, FontIcon } from 'material-ui';
 
 import DropDown from './drop-down';
 import { types, displayType } from '../types'
@@ -60,7 +59,7 @@ export class AddPointAmenities extends Component {
             <div key={amenity} className="form-row">
               <CardText style={{flex:'5'}}>{displayType(amenity)}</CardText>
               <RaisedButton primary onClick={this.removeAmenity.bind(this, index)}>
-                <Icon name="clear" />
+                <FontIcon className="material-icons">clear</FontIcon>
               </RaisedButton>
             </div>
           )

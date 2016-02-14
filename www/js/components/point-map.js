@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Spinner, CardText } from 'react-mdl';
+import { CircularProgress } from 'material-ui';
 import { keys, values } from 'underscore';
 
 import { divIcon } from 'leaflet';
@@ -149,7 +149,7 @@ class PointMap extends Component {
     if (mapState.loading) {
       view = (
         <div style={{margin:'auto'}}>
-          <Spinner singleColor />
+          <CircularProgress size={2} />
         </div>
       );
     } else {

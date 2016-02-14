@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
-import { Layout, Checkbox } from 'react-mdl';
-import { RaisedButton } from 'material-ui';
+import { Layout } from 'react-mdl';
+import { RaisedButton, Checkbox } from 'material-ui';
 
 import DropDown from '../components/drop-down';
 import FilterDropDown from '../components/filter-drop-down';
@@ -115,15 +115,21 @@ class FilterPage extends Component {
           onSelectFunction={this.addFilter.bind(this)}/>
 
         <div className="form-row">
-          <Checkbox label="Only Show Open Services"
-                    onChange={this.toggleOpenServices.bind(this)}
-                    checked={this.state.openServices}/>
+          <Checkbox
+            label="Only Show Open Services"
+            onCheck={this.toggleOpenServices.bind(this)}
+            style={{marginBotton:16}}
+            checked={this.state.openServices}
+          />
         </div>
 
         <div className="form-row">
-          <Checkbox label="Hide Alerts"
-                    onChange={this.toggleAlert.bind(this)}
-                    checked={this.state.hideAlert}/>
+          <Checkbox
+            label="Hide Alerts"
+            onCheck={this.toggleAlert.bind(this)}
+            style={{marginBotton:16}}
+            checked={this.state.hideAlert}
+          />
         </div>
 
         <div className="form-row">

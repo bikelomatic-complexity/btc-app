@@ -80,37 +80,6 @@ body {
   opacity: inherit;
 }
 
-.track-card.mdl-card {
-  margin: 10px;
-  width: auto;
-  background: #FAFAFA;
-}
-.track-card > .mdl-card__title {
-  color: #fff;
-  height: 75px;
-  background: url('../img/usbr20.png') center / cover;
-}
-.track-card > .mdl-card__menu {
-  color: #fff;
-}
-.track-card > .mdl-card__actions {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-.track-card .mdl-button {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-right: 10px;
-}
-.track-card .size-text {
-  flex-grow: 1
-}
-.track-card .mdl-switch {
-  margin-right: 8px;
-}
 .button-text {
   margin-left: 8px;
 }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { CardText, Icon } from 'react-mdl';
 import DropDown from './drop-down';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, CardText, FontIcon } from 'material-ui';
 
 const weekDays = [
   "Weekdays", "Weekends", "Monday", "Tuesday",
@@ -92,7 +91,7 @@ export class AddPointHours extends Component {
             <div key={day.day+day.opens+day.closes} className="form-row">
               <CardText style={{flex:'5'}}>{day.day}: {day.opens} - {day.closes}</CardText>
               <RaisedButton primary onClick={this.removeHours.bind(this, index)}>
-                <Icon name="clear"/>
+                <FontIcon className="material-icons">clear</FontIcon>
               </RaisedButton>
             </div>
           )

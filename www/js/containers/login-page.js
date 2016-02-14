@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
-import { Layout, CardText } from 'react-mdl';
-import { RaisedButton, TextField } from 'material-ui';
+import { RaisedButton, TextField, CardText } from 'material-ui';
 import { Link } from 'react-router';
 
 class LoginPage extends Component {
