@@ -5,23 +5,11 @@ import { RaisedButton } from 'material-ui';
 import HoursTable from './hours-table';
 import { displayType } from '../types'
 
-// import redux components
-import { connect } from 'react-redux';
-import {  peekMarker,
-          fullscreenMarker,
-          deselectMarker } from '../actions/map-actions';
-
 const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
                 'Thursday', 'Friday', 'Saturday'];
 
 // export class for testing (use default export in application)
 export class PointCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: ''
-    };
-  }
 
   getDays(seasons) {
     let seasonDays = seasons[0].days;
@@ -40,7 +28,7 @@ export class PointCard extends Component {
   }
 
   render() {
-    const { dispatch } = this.props;
+    const { fullscreenMarker, peekMarker, deselectMarker } = this.props;
 
     // if we have an image, use that
     // otherwise, use an mdl-blue for the title,
@@ -60,7 +48,7 @@ export class PointCard extends Component {
       smallHeight = 224 - this.props.heightOffset;
     }
 
-    const headerHeight = Math.max(55,  55 + this.props.heightOffset);
+    const headerHeight = Math.max(64,  64 + this.props.heightOffset);
     const headerHeightCSS = `calc(100% - ${headerHeight}px)`;
     const smallHeightCSS = `${smallHeight}px`;
     let cardStyle = {
@@ -86,13 +74,13 @@ export class PointCard extends Component {
 
     let seeButton = (
       <RaisedButton secondary onClick={() => {
-        dispatch(fullscreenMarker());
+        fullscreenMarker();
       }}>See More</RaisedButton>
     );
     if (this.props.show=='full') {
       seeButton = (
         <RaisedButton secondary onClick={() => {
-          dispatch(peekMarker());
+          peekMarker();
         }}>See Less</RaisedButton>
       );
     }
@@ -176,7 +164,7 @@ export class PointCard extends Component {
         <CardActions border className="view-buttons form-row" style={cardActionStyle}>
           { seeButton }
           <RaisedButton onClick={() => {
-            dispatch(deselectMarker());
+            deselectMarker();
           }}>Close</RaisedButton>
         </CardActions>
       </Card>
@@ -184,4 +172,4 @@ export class PointCard extends Component {
   }
 }
 
-export default connect()(PointCard);
+export default PointCard;

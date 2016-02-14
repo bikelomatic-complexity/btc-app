@@ -81,7 +81,7 @@ const LMBTilesLayer = LTileLayer.extend({
 /*
  * A react-leaflet component to display an MBTiles database as a tile layer
  */
-export default class MBTilesLayer extends TileLayer {
+export class MBTilesLayer extends TileLayer {
   componentWillMount() {
     super.componentWillMount();
 
@@ -95,3 +95,5 @@ export default class MBTilesLayer extends TileLayer {
     this.leafletElement = new LMBTilesLayer(url, options, db);
   }
 }
+
+export default MBTilesLayer;

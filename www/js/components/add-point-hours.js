@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { CardText, Icon } from 'react-mdl';
 import DropDown from './drop-down';
-// import redux components
-import { connect } from 'react-redux';
 import { RaisedButton } from 'material-ui';
-
-import { addPointHours, removePointHours } from '../actions/new-point-actions';
 
 const weekDays = [
   "Weekdays", "Weekends", "Monday", "Tuesday",
@@ -23,8 +19,13 @@ export class AddPointHours extends Component {
     }
   }
 
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Add Hours');
+  }
+
   addHours(){
-    const { dispatch } = this.props;
+    const { addPointHours } = this.props;
     const { day, opens, closes } = this.state;
 
     let days = [];
@@ -36,15 +37,15 @@ export class AddPointHours extends Component {
       days = [day];
     }
     days.forEach((day)=>{
-      dispatch(addPointHours({day, opens, closes}));
+      addPointHours({day, opens, closes});
     });
     this.setState({day:weekDays[(weekDays.indexOf(day)+1) % weekDays.length]})
     this.forceUpdate();
   }
 
   removeHours(index){
-    const { dispatch } = this.props;
-    dispatch(removePointHours(index));
+    const { removePointHours } = this.props;
+    removePointHours(index);
     this.forceUpdate();
   }
 
@@ -113,10 +114,4 @@ export class AddPointHours extends Component {
   }
 }
 
-function select(state) {
-  return {
-    newPoint: state.newPoint
-  };
-}
-
-export default connect(select)(AddPointHours);
+export default AddPointHours;

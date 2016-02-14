@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 
 import { Layout, CardText } from 'react-mdl';
 import { RaisedButton, TextField } from 'material-ui';
-import ACDrawer from './ac-drawer';
+import { setDrawer } from '../reducers/drawer';
 
 class RegisterPage extends Component {
-  constructor(props) {
-    super(props);
+
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Register');
   }
 
   onCancel(e) {

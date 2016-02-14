@@ -3,14 +3,7 @@ import React, {Component} from 'react';
 import { TextField } from 'material-ui';
 import DropDown from './drop-down';
 
-import { connect } from 'react-redux';
-
 import { types, displayType } from '../types';
-
-import {
-  setPointName,
-  setPointType
- } from '../actions/new-point-actions';
 
 export class AddPointName extends Component {
 
@@ -23,17 +16,22 @@ export class AddPointName extends Component {
     }
   }
 
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Enter Information');
+  }
+
   onNameUpdate(event) {
-    const { dispatch } = this.props;
+    const { setPointName } = this.props;
     const name = event.target.value;
     this.setState({name});
-    dispatch(setPointName(name));
+    setPointName(name);
   }
 
   onTypeSelect(type) {
-    const { dispatch } = this.props;
+    const { setPointType } = this.props;
     this.setState({type});
-    dispatch(setPointType(type));
+    setPointType(type);
   }
 
   render() {
@@ -65,10 +63,4 @@ export class AddPointName extends Component {
   }
 }
 
-function select(state) {
-  return {
-    newPoint: state.newPoint
-  };
-}
-
-export default connect(select)(AddPointName);
+export default AddPointName;

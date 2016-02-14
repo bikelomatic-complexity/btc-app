@@ -4,9 +4,8 @@ import { connect } from 'react-redux'
 import { Layout, Checkbox } from 'react-mdl';
 import { RaisedButton } from 'material-ui';
 
-import ACDrawer from './ac-drawer';
-import DropDown from './drop-down';
-import FilterDropDown from './filter-drop-down';
+import DropDown from '../components/drop-down';
+import FilterDropDown from '../components/filter-drop-down';
 
 import { setFilters } from '../actions/map-actions';
 
@@ -28,6 +27,11 @@ class FilterPage extends Component {
       hideAlert,
       showOptions: -1
     };
+  }
+
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Filter');
   }
 
   componentWillUnmount() {

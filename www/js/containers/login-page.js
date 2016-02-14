@@ -3,11 +3,12 @@ import React, {Component} from 'react';
 import { Layout, CardText } from 'react-mdl';
 import { RaisedButton, TextField } from 'material-ui';
 import { Link } from 'react-router';
-import ACDrawer from './ac-drawer';
 
 class LoginPage extends Component {
-  constructor(props) {
-    super(props);
+
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Login');
   }
 
   render() {

@@ -3,10 +3,7 @@ import { render } from 'react-dom';
 
 import { DataTable } from 'react-mdl';
 
-export default class HoursTable extends Component {
-  constructor(props) {
-    super(props);
-  }
+export class HoursTable extends Component {
   render() {
     const columns = [
       {name: 'day', label: ''},
@@ -27,3 +24,5 @@ export default class HoursTable extends Component {
     );
   }
 }
+
+export default HoursTable;

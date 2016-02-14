@@ -5,8 +5,7 @@ import { isFinite } from 'underscore'
 import { Switch, Layout, Card, CardActions, CardText, CardTitle, ProgressBar } from 'react-mdl';
 import { RaisedButton, FontIcon } from 'material-ui';
 
-import DeviceStorage from './device-storage';
-import ACDrawer from './ac-drawer';
+import DeviceStorage from '../components/device-storage';
 
 import {
   fetchTrack,
@@ -16,8 +15,10 @@ import {
 } from '../reducers/tracks'
 
 class DownloadTrackPage extends Component {
-  constructor(props) {
-    super(props);
+
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Download Track');
   }
 
   onSaveTrack(id, pkg) {

@@ -6,16 +6,22 @@ import { divIcon } from 'leaflet';
 import { Layout, Content, Icon } from 'react-mdl';
 import { RaisedButton, Tabs, Tab, FontIcon } from 'material-ui';
 
-import ACDrawer from './ac-drawer';
-
-import AddPointLocation from './add-point-location';
-import AddPointName from './add-point-name';
-import AddPointDescription from './add-point-description';
-import AddPointHours from './add-point-hours';
-import AddPointAmenities from './add-point-amenities';
+import AddPointLocation from '../components/add-point-location';
+import AddPointName from '../components/add-point-name';
+import AddPointDescription from '../components/add-point-description';
+import AddPointHours from '../components/add-point-hours';
+import AddPointAmenities from '../components/add-point-amenities';
 
 import { userAddPoint } from '../reducers/points';
-import { clearPointProps } from '../actions/new-point-actions';
+import { setPointName, setPointLocation, setPointType,
+  setPointDescription, setPointAddress, setPointImage,
+  setPointWebsite, setPointPhone, addPointHours, removePointHours,
+  addPointAmenities, removePointAmenity, clearPointProps
+} from '../actions/new-point-actions';
+
+import {  fullscreenMarker, peekMarker, deselectMarker,
+  selectMarker, setMapCenter, setGeoLocation,
+  setMapZoom, setMapLoading } from '../actions/map-actions';
 
 import BlobUtil from 'blob-util';
 
@@ -62,11 +68,74 @@ export class AddPointPage extends Component {
   }
 
   render() {
-    const { dispatch, newPoint } = this.props;
+    const { dispatch, setDrawer, newPoint, tracks, settings, filters,
+      marker, services, alerts, mapState } = this.props;
     const {
       address, amenities, description, hours, imageSrc,
       location, name, phoneNumber, type, website
     } = newPoint;
+
+    // add props and actions so the component can dispatch actions
+    const newPointChildren = React.Children.map(this.props.children, child => {
+      return React.cloneElement(child, {
+        setDrawer, newPoint, marker, services, filters,
+        alerts, mapState, tracks, settings,
+        setPointName: newName => {
+          dispatch(setPointName(newName));
+        },
+        setPointLocation: newLocation => {
+          dispatch(setPointLocation(newLocation));
+        },
+        setPointType: newType => {
+          dispatch(setPointType(newType));
+        },
+        setPointDescription: newDescription => {
+          dispatch(setPointDescription(newDescription));
+        },
+        setPointAddress: newAddress => {
+          dispatch(setPointAddress(newAddress));
+        },
+        setPointImage: newImage => {
+          dispatch(setPointImage(newImage));
+        },
+        setPointWebsite: newWebsite => {
+          dispatch(setPointWebsite(newWebsite));
+        },
+        setPointPhone: newPhone => {
+          dispatch(setPointPhone(newPhone));
+        },
+        addPointHours: (day, opens, closes) => {
+          dispatch(addPointHours({day, opens, closes}));
+        },
+        removePointHours: index => {
+          dispatch(removePointHours(index));
+        },
+        addPointAmenities: newAmenity => {
+          dispatch(addPointAmenities(newAmenity));
+        },
+        removePointAmenity: index => {
+          dispatch(removePointAmenity(newName));
+        },
+        clearPointProps: () => {
+          dispatch(clearPointProps());
+        },
+
+        setMapCenter: coords => {
+          dispatch(setMapCenter(coords));
+        },
+        setGeoLocation: coords => {
+          dispatch(setGeoLocation(coords));
+        },
+        setMapZoom: zoom => {
+          dispatch(setMapZoom(zoom));
+        },
+        setMapLoading: isLoading => {
+          dispatch(setMapLoading(isLoading));
+        }
+
+      })
+    });
+
     // determine next page, based on current page
     const currentPage = this.props.children.type;
     const disabled = !((name) && (type));
@@ -119,7 +188,7 @@ export class AddPointPage extends Component {
         </Tabs>
 
         <div>
-          {this.props.children}
+          {newPointChildren}
         </div>
 
         <div className="form-row">
@@ -136,7 +205,14 @@ export class AddPointPage extends Component {
 
 function select(state) {
   return {
-    newPoint: state.newPoint
+    newPoint: state.newPoint,
+    marker: state.marker,
+    services: state.points,
+    alerts: [],
+    mapState: state.mapState,
+    tracks: state.tracks.toJS(),
+    filters: state.filters,
+    settings: state.settings.toJS(),
   };
 }
 

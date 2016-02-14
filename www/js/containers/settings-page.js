@@ -2,13 +2,17 @@ import React, {Component} from 'react';
 import { Layout, CardText } from 'react-mdl';
 import { RaisedButton } from 'material-ui';
 
-import ACDrawer from './ac-drawer';
-import SettingSwitch from './setting-switch';
+import SettingSwitch from '../components/setting-switch';
 
 import {setOnlineMode} from '../reducers/settings'
 import {connect} from 'react-redux'
 
 export class SettingsPage extends Component {
+
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Settings');
+  }
 
   render() {
     const {dispatch, settings} = this.props;
