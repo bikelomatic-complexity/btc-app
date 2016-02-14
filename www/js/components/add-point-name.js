@@ -55,6 +55,7 @@ export class AddPointName extends Component {
         <DropDown
           className="form-row"
           text="Select Type"
+          value={this.props.newPoint.type}
           options={types}
           textTransform={displayType}
           onSelectFunction={this.onTypeSelect.bind(this)}/>;

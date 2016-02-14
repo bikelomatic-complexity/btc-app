@@ -15,7 +15,7 @@ import { userAddPoint } from '../reducers/points';
 import { setPointName, setPointLocation, setPointType,
   setPointDescription, setPointAddress, setPointImage,
   setPointWebsite, setPointPhone, addPointHours, removePointHours,
-  addPointAmenities, removePointAmenity, clearPointProps
+  addPointAmenity, removePointAmenity, clearPointProps
 } from '../actions/new-point-actions';
 
 import {  fullscreenMarker, peekMarker, deselectMarker,
@@ -103,17 +103,17 @@ export class AddPointPage extends Component {
         setPointPhone: newPhone => {
           dispatch(setPointPhone(newPhone));
         },
-        addPointHours: (day, opens, closes) => {
+        addPointHours: ({day, opens, closes}) => {
           dispatch(addPointHours({day, opens, closes}));
         },
         removePointHours: index => {
           dispatch(removePointHours(index));
         },
-        addPointAmenities: newAmenity => {
-          dispatch(addPointAmenities(newAmenity));
+        addPointAmenity: newAmenity => {
+          dispatch(addPointAmenity(newAmenity));
         },
         removePointAmenity: index => {
-          dispatch(removePointAmenity(newName));
+          dispatch(removePointAmenity(index));
         },
         clearPointProps: () => {
           dispatch(clearPointProps());

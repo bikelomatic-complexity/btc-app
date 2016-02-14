@@ -56,12 +56,13 @@ export class AddPointAmenities extends Component {
       <div className="form-column">
         {this.props.newPoint.amenities.map((amenity, index)=>{
           return (
-            <div key={amenity} className="form-row">
-              <CardText style={{flex:'5'}}>{displayType(amenity)}</CardText>
-              <RaisedButton primary onClick={this.removeAmenity.bind(this, index)}>
-                <FontIcon className="material-icons">clear</FontIcon>
-              </RaisedButton>
-            </div>
+            <RaisedButton
+              key={amenity}
+              style={{margin:8}}
+              onClick={this.removeAmenity.bind(this, amenity)}
+              label={displayType(amenity)}
+              labelPosition="before"
+              icon={<FontIcon className="material-icons">clear</FontIcon>}/>
           )
         })}
         <div className="form-row">

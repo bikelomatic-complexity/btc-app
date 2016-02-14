@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
 import { Layout } from 'react-mdl';
-import { RaisedButton, Checkbox } from 'material-ui';
+import { RaisedButton, Checkbox, FontIcon } from 'material-ui';
 
 import DropDown from '../components/drop-down';
-import FilterDropDown from '../components/filter-drop-down';
 
 import { setFilters } from '../actions/map-actions';
 
@@ -24,8 +23,7 @@ class FilterPage extends Component {
       filters,
       activeFilters,
       openServices,
-      hideAlert,
-      showOptions: -1
+      hideAlert
     };
   }
 
@@ -67,12 +65,13 @@ class FilterPage extends Component {
   }
 
   clearFilters() {
-    const filters = types;
+    const filters = types.filter(type => type); // copy by value
+
     this.setState({
       filters,
       activeFilters:[],
       openServices:false,
-      alert:false
+      hideAlert:false
     });
   }
 
@@ -94,25 +93,30 @@ class FilterPage extends Component {
     const filtersDropDowns = this.state.activeFilters.map(
       (filterService, index) => {
         return (
-          <FilterDropDown key={filterService}
-                        index={index} filters={this.state.filters}
-                        filterService={filterService}
-                        removeFunction={this.removeFilter.bind(this, index)}/>
+          <RaisedButton
+            key={filterService}
+            style={{margin:8}}
+            onClick={this.removeFilter.bind(this, index)}
+            label={displayType(filterService)}
+            labelPosition="before"
+            icon={<FontIcon className="material-icons">clear</FontIcon>}/>
         );
       }
     );
 
     return (
-      <div className="form-column page-content">
+      <div className="page-content">
 
         { filtersDropDowns }
 
-        <DropDown
-          className="form-row"
-          text="Filter"
-          options={this.state.filters}
-          textTransform={displayType}
-          onSelectFunction={this.addFilter.bind(this)}/>
+        <div>
+          <DropDown
+            className="form-row"
+            text="Filter"
+            options={this.state.filters}
+            textTransform={displayType}
+            onSelectFunction={this.addFilter.bind(this)}/>
+        </div>
 
         <div className="form-row">
           <Checkbox
@@ -133,12 +137,14 @@ class FilterPage extends Component {
         </div>
 
         <div className="form-row">
-          <RaisedButton onClick={this.clearFilters.bind(this)}>
-            Clear
-          </RaisedButton>
-          <RaisedButton onClick={this.onFilter.bind(this)} secondary>
-            Filter
-          </RaisedButton>
+          <RaisedButton
+            onClick={this.clearFilters.bind(this)}
+            label="Clear"/>
+
+          <RaisedButton
+            onClick={this.onFilter.bind(this)}
+            secondary
+            label="Filter"/>
         </div>
 
       </div>

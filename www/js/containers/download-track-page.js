@@ -112,7 +112,7 @@ class DownloadTrackPage extends Component {
     });
 
     return (
-      <div className="form-column page-content">
+      <div className="page-content">
         <DeviceStorage downloaded={downloaded}/>
         { rows }
       </div>

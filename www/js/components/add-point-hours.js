@@ -85,14 +85,22 @@ export class AddPointHours extends Component {
     return (
       <div className="form-column">
         {this.props.newPoint.hours.sort((dayA, dayB)=>{
-          return weekDays.indexOf(dayA.day) > weekDays.indexOf(dayB.day)
+          if (dayA.day !== dayB.day){
+            return weekDays.indexOf(dayA.day) > weekDays.indexOf(dayB.day);
+          } else if (dayA.opens !== dayB.opens) {
+            return hours.indexOf(dayA.opens) > hours.indexOf(dayB.opens);
+          } else {
+            return hours.indexOf(dayA.closes) > hours.indexOf(dayB.closes);
+          }
         }).map((day, index)=>{
           return (
             <div key={day.day+day.opens+day.closes} className="form-row">
-              <CardText style={{flex:'5'}}>{day.day}: {day.opens} - {day.closes}</CardText>
-              <RaisedButton primary onClick={this.removeHours.bind(this, index)}>
-                <FontIcon className="material-icons">clear</FontIcon>
-              </RaisedButton>
+              <RaisedButton
+                onClick={this.removeHours.bind(this, index)}
+                label={`${day.day}: ${day.opens} - ${day.closes}`}
+                labelPosition="before"
+                icon={<FontIcon className="material-icons">clear</FontIcon>}
+              />
             </div>
           )
         })}
