@@ -25,13 +25,10 @@ body {
 }
 
 #point-details {
-    overflow-y: auto;
-    height: 100%;
-    padding-bottom: 72px;
 }
 
 .view-buttons {
-    position: absolute;
+    position: fixed;
     bottom: 0px;
 }
 

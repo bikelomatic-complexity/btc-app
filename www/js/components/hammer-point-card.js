@@ -15,6 +15,8 @@ export class HammerPointCard extends Component {
   }
 
   handleSwipe(e) {
+    console.log(e.target.classList.contains("hammer-grab"));
+    console.log(e.target.classList)
     const { fullscreenMarker, peekMarker, deselectMarker } = this.props;
     const pointDetails = document.getElementById('point-details');
     /* if we are at the top of the card, pulling down should shrink the card */
@@ -31,8 +33,7 @@ export class HammerPointCard extends Component {
         // at the top of the details
         this.setState({heightOffset: e.deltaY});
       }
-      if (e.target.classList.contains("mdl-card__title") ||
-          e.target.classList.contains("mdl-card__title-text")) {
+      if (e.target.classList.contains("hammer-grab")) {
         // at the top of the details
         this.setState({heightOffset: e.deltaY});
         this.setState({changeScreen: true});

@@ -52,22 +52,10 @@ export class PointCard extends Component {
     let cardStyle = {
       width: '100%',
       position: 'fixed',
-      bottom: ( (this.props.show=='hide') ? '-300px' : '0px'),
+      bottom: ( (this.props.show=='hide') ? '-460px' : '0px'),
       height: ( (this.props.show=='full') ? headerHeightCSS : smallHeightCSS),
       transition: (this.props.heightOffset == 0 ? 'all 300ms ease' : ''),
       zIndex:'8'
-    }
-
-    let cardActionStyle = {
-      padding: '0px',
-      background: 'white'
-    }
-
-    let cardTitleStyle = {
-      color: '#fff',
-      height: titleHeight,
-      background: backgroundStyle,
-      margin: '0px !important'
     }
 
     let seeButton = (
@@ -161,14 +149,14 @@ export class PointCard extends Component {
     }
 
     return (
-      <Card id="mdl-map-card" style={cardStyle}>
-        <CardMedia overlay={
-          <CardTitle title={this.props.point.name}/>
+      <Card id="mdl-map-card" className="form-column" style={cardStyle}>
+        <CardMedia className="hammer-grab" overlay={
+          <CardTitle className="hammer-grab" title={this.props.point.name}/>
         }>
-          <img src={this.props.point.coverUrl} />
+          <img className="hammer-grab" src={this.props.point.coverUrl || 'http://lorempixel.com/600/140/nature/'} style={{height:'140px'}}/>
         </CardMedia>
         { cardDetails }
-        <CardActions border className="view-buttons form-row" style={cardActionStyle}>
+        <CardActions className="form-row">
           { seeButton }
           <RaisedButton
             onClick={() => {
