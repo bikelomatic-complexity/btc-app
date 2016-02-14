@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 
 import PointMap from './point-map';
 
-import { Layout } from 'react-mdl';
-
 export class AddPointLocation extends Component {
 
   updateLocation(leaflet){

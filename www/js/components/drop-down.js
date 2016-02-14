@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import { Icon } from 'react-mdl';
 import { SelectField, MenuItem } from 'material-ui';
 
 const noOps = function(text){return text}; // do nothing

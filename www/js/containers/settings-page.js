@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { Layout, CardText } from 'react-mdl';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, CardText } from 'material-ui';
 
 import SettingSwitch from '../components/setting-switch';
 

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { isFinite } from 'underscore'
 
-import { Layout } from 'react-mdl';
 import { RaisedButton, FontIcon, Card, CardMedia, CardTitle, CardActions, CardText, LinearProgress } from 'material-ui';
 
 import DeviceStorage from '../components/device-storage';

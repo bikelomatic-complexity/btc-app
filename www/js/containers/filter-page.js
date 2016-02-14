@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
-import { Layout } from 'react-mdl';
 import { RaisedButton, Checkbox, FontIcon } from 'material-ui';
 
 import DropDown from '../components/drop-down';
