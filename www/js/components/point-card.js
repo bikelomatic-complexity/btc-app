@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import { Card, CardTitle, CardActions, IconButton,
-          CardText, CardMenu } from 'react-mdl';
-import { RaisedButton } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardActions, CardText, RaisedButton } from 'material-ui';
 import HoursTable from './hours-table';
 import { displayType } from '../types'
 
@@ -73,15 +71,23 @@ export class PointCard extends Component {
     }
 
     let seeButton = (
-      <RaisedButton secondary onClick={() => {
-        fullscreenMarker();
-      }}>See More</RaisedButton>
+      <RaisedButton
+        secondary
+        onClick={() => {
+          fullscreenMarker();
+        }}
+        label="See More"
+      />
     );
     if (this.props.show=='full') {
       seeButton = (
-        <RaisedButton secondary onClick={() => {
-          peekMarker();
-        }}>See Less</RaisedButton>
+        <RaisedButton
+          secondary
+          label="See Less"
+          onClick={() => {
+            peekMarker();
+          }}
+        />
       );
     }
 
@@ -155,17 +161,21 @@ export class PointCard extends Component {
     }
 
     return (
-      <Card id="mdl-map-card" className="form-column" shadow={5} style={cardStyle}>
-        <CardTitle  className="form-row"
-                    style={cardTitleStyle}>
-            {this.props.point.name}
-        </CardTitle>
+      <Card id="mdl-map-card" style={cardStyle}>
+        <CardMedia overlay={
+          <CardTitle title={this.props.point.name}/>
+        }>
+          <img src={this.props.point.coverUrl} />
+        </CardMedia>
         { cardDetails }
         <CardActions border className="view-buttons form-row" style={cardActionStyle}>
           { seeButton }
-          <RaisedButton onClick={() => {
-            deselectMarker();
-          }}>Close</RaisedButton>
+          <RaisedButton
+            onClick={() => {
+              deselectMarker();
+            }}
+            label="Close"
+          />
         </CardActions>
       </Card>
     );
