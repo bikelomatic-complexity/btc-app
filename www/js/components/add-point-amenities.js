@@ -67,7 +67,7 @@ export class AddPointAmenities extends Component {
         })}
         <div className="form-row">
           <DropDown options={types}
-                    text={"Amenity"}
+                    text="Amenity"
                     textTransform={displayType}
                     onSelectFunction={this.selectAmenity.bind(this)}/>
           { addAmenityButton }
