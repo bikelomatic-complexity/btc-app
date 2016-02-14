@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { CircularProgress } from 'material-ui';
-import { connect } from 'react-redux';
 import { keys, values } from 'underscore';
 
 import { divIcon } from 'leaflet';
 import * as Leaflet from 'react-leaflet';
 const { Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline, setIconDefaultImagePath } = Leaflet;
 import MBTilesLayer from './mbtiles-layer';
-
-import { selectMarker, deselectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 
 import { bindAll } from 'underscore';
 
@@ -29,15 +26,16 @@ class PointMap extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, mapState } = this.props;
+    const { mapState, setGeoLocation,
+      setMapCenter, setMapLoading } = this.props;
     if (mapState.loading) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const {latitude, longitude} = pos.coords;
           const coords = [latitude, longitude];
-          dispatch(setGeoLocation(coords));
-          dispatch(setMapCenter(coords));
-          dispatch(setMapLoading(false));
+          setGeoLocation(coords);
+          setMapCenter(coords);
+          setMapLoading(false);
           this.setState({
             startCenter: coords,
             center:coords,
@@ -46,7 +44,7 @@ class PointMap extends Component {
         },
         (err) => {
           console.error(err);
-          dispatch(setMapLoading(false));
+          setMapLoading(false);
         },
         {
           timeout: 5000
@@ -56,9 +54,9 @@ class PointMap extends Component {
   }
 
   componentWillUnmount() {
-    const { dispatch } = this.props;
-    dispatch(setMapZoom(this.state.zoom));
-    dispatch(setMapCenter(this.state.center));
+    const { setMapZoom, setMapCenter } = this.props;
+    setMapZoom(this.state.zoom);
+    setMapCenter(this.state.center);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -83,7 +81,8 @@ class PointMap extends Component {
 
   render() {
 
-    const { dispatch, tracks, settings, mapState, filters, children } = this.props;
+    const { tracks, settings, mapState, deselectMarker,
+      selectMarker, filters, children } = this.props;
 
     let markers = this.props.services.filter((service)=>{
       if (service.class == "alert" && filters.hideAlert) { return false }
@@ -94,7 +93,7 @@ class PointMap extends Component {
         <Marker key={service._id} radius={10} position={service.location}
           onclick={() => {
             if (!this.props.addpoint){
-              dispatch(selectMarker(service));
+              selectMarker(service);
             }
           }}
         />
@@ -159,9 +158,7 @@ class PointMap extends Component {
               zoom={this.state.zoom}
               onLeafletMove={this.props.onLeafletMove}
               onLeafletMoveEnd={this.onMapMoved}
-              onclick={() => {
-                dispatch(deselectMarker());
-              }} >
+              onclick={() => {deselectMarker()}} >
 
           { circleMarker }
           { tileLayer }
@@ -176,19 +173,10 @@ class PointMap extends Component {
       );
     }
 
-    return <div>{view}</div>;
+    return view;
   }
-}
-
-function select(state) {
-  return {
-    tracks: state.tracks.toJS(),
-    settings: state.settings.toJS(),
-    mapState: state.mapState,
-    filters: state.filters
-  };
 }
 
 PointMap.defaultProps = { onLeafletMove: noOps, afterMoved: noOps };
 
-export default connect(select)(PointMap);
+export default PointMap;

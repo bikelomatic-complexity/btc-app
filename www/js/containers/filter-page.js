@@ -4,9 +4,8 @@ import { connect } from 'react-redux'
 import { Layout } from 'react-mdl';
 import { RaisedButton, Checkbox } from 'material-ui';
 
-import ACDrawer from './ac-drawer';
-import DropDown from './drop-down';
-import FilterDropDown from './filter-drop-down';
+import DropDown from '../components/drop-down';
+import FilterDropDown from '../components/filter-drop-down';
 
 import { setFilters } from '../actions/map-actions';
 
@@ -28,6 +27,11 @@ class FilterPage extends Component {
       hideAlert,
       showOptions: -1
     };
+  }
+
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Filter');
   }
 
   componentWillUnmount() {
@@ -99,48 +103,45 @@ class FilterPage extends Component {
     );
 
     return (
-      <Layout fixedHeader>
-        <ACDrawer history={this.props.history} page="Filter"/>
-        <div className="form-column">
+      <div className="form-column page-content">
 
-          { filtersDropDowns }
+        { filtersDropDowns }
 
-          <DropDown
-            className="form-row"
-            text="Filter"
-            options={this.state.filters}
-            textTransform={displayType}
-            onSelectFunction={this.addFilter.bind(this)}/>
+        <DropDown
+          className="form-row"
+          text="Filter"
+          options={this.state.filters}
+          textTransform={displayType}
+          onSelectFunction={this.addFilter.bind(this)}/>
 
-          <div className="form-row">
-            <Checkbox
-              label="Only Show Open Services"
-              onCheck={this.toggleOpenServices.bind(this)}
-              style={{marginBotton:16}}
-              checked={this.state.openServices}
-            />
-          </div>
-
-          <div className="form-row">
-            <Checkbox
-              label="Hide Alerts"
-              onCheck={this.toggleAlert.bind(this)}
-              style={{marginBotton:16}}
-              checked={this.state.hideAlert}
-            />
-          </div>
-
-          <div className="form-row">
-            <RaisedButton onClick={this.clearFilters.bind(this)}>
-              Clear
-            </RaisedButton>
-            <RaisedButton onClick={this.onFilter.bind(this)} secondary>
-              Filter
-            </RaisedButton>
-          </div>
-
+        <div className="form-row">
+          <Checkbox
+            label="Only Show Open Services"
+            onCheck={this.toggleOpenServices.bind(this)}
+            style={{marginBotton:16}}
+            checked={this.state.openServices}
+          />
         </div>
-      </Layout>
+
+        <div className="form-row">
+          <Checkbox
+            label="Hide Alerts"
+            onCheck={this.toggleAlert.bind(this)}
+            style={{marginBotton:16}}
+            checked={this.state.hideAlert}
+          />
+        </div>
+
+        <div className="form-row">
+          <RaisedButton onClick={this.clearFilters.bind(this)}>
+            Clear
+          </RaisedButton>
+          <RaisedButton onClick={this.onFilter.bind(this)} secondary>
+            Filter
+          </RaisedButton>
+        </div>
+
+      </div>
     );
   }
 }

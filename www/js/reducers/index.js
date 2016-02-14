@@ -9,6 +9,7 @@ import settings from './settings';
 import mapState from './map';
 import filters from './filter';
 import newPoint from './new-point';
+import drawer from './drawer';
 
 export default combineReducers({
   marker,
@@ -18,5 +19,6 @@ export default combineReducers({
   settings,
   mapState,
   filters,
-  newPoint
+  newPoint,
+  drawer
 });

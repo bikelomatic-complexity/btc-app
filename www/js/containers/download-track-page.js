@@ -5,8 +5,7 @@ import { isFinite } from 'underscore'
 import { Layout } from 'react-mdl';
 import { RaisedButton, FontIcon, Card, CardMedia, CardTitle, CardActions, CardText, LinearProgress } from 'material-ui';
 
-import DeviceStorage from './device-storage';
-import ACDrawer from './ac-drawer';
+import DeviceStorage from '../components/device-storage';
 
 import {
   fetchTrack,
@@ -16,8 +15,10 @@ import {
 } from '../reducers/tracks'
 
 class DownloadTrackPage extends Component {
-  constructor(props) {
-    super(props);
+
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Download Track');
   }
 
   onSaveTrack(id, pkg) {
@@ -111,13 +112,10 @@ class DownloadTrackPage extends Component {
     });
 
     return (
-      <Layout fixedHeader>
-        <ACDrawer history={this.props.history} page="Download Track"/>
-        <div>
-          <DeviceStorage downloaded={downloaded}/>
-          { rows }
-        </div>
-      </Layout>
+      <div className="form-column page-content">
+        <DeviceStorage downloaded={downloaded}/>
+        { rows }
+      </div>
     );
   }
 }

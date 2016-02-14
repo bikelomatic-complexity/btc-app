@@ -16,6 +16,10 @@ body {
     height: inherit;
 }
 
+.page-content {
+  height: 100%
+}
+
 .open-until {
     color: rgb(76,175,80);
 }

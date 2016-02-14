@@ -1,18 +1,6 @@
 import React, {Component} from 'react';
 import { RaisedButton, TextField } from 'material-ui';
 
-import {
-  setPointDescription,
-  setPointAddress,
-  setPointWebsite,
-  setPointPhone,
-  setPointImage,
-  clearPointProps
- } from '../actions/new-point-actions';
-
-// import redux components
-import { connect } from 'react-redux';
-
 export class AddPointDescription extends Component {
   constructor(props) {
     super(props);
@@ -28,43 +16,48 @@ export class AddPointDescription extends Component {
     };
   }
 
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Add Details');
+  }
+
   onDescriptionUpdate(event) {
-    const { dispatch } = this.props;
+    const { setPointDescription } = this.props;
     const description = event.target.value;
     this.setState({description});
-    dispatch(setPointDescription(description));
+    setPointDescription(description);
   }
 
   onPhoneUpdate(event) {
-    const { dispatch } = this.props;
+    const { setPointPhone } = this.props;
     const phoneNumber = event.target.value;
     this.setState({phoneNumber});
-    dispatch(setPointPhone(phoneNumber));
+    setPointPhone(phoneNumber);
   }
 
   onWebsiteUpdate(event) {
-    const { dispatch } = this.props;
+    const { setPointWebsite } = this.props;
     const website = event.target.value;
     this.setState({website});
-    dispatch(setPointWebsite(website));
+    setPointWebsite(website);
   }
 
   onAddressUpdate(event) {
-    const { dispatch } = this.props;
+    const { setPointAddress } = this.props;
     const address = event.target.value;
     this.setState({address});
-    dispatch(setPointAddress(address));
+    setPointAddress(address);
   }
 
   onPhotoAdd() {
-    const { dispatch } = this.props;
+    const { setPointImage } = this.props;
     // This logic will not work on the browser
     // because of issue - Apache Cordova / CB-9852
     // https://issues.apache.org/jira/browse/CB-9852
     navigator.camera.getPicture(
       imageSrc => {
         this.setState({ imageSrc });
-        dispatch(setPointImage(imageSrc));
+        setPointImage(imageSrc);
       },
       err => console.error( err ),
       { sourceType:navigator.camera.PictureSourceType.PHOTOLIBRARY,
@@ -119,10 +112,4 @@ export class AddPointDescription extends Component {
   }
 }
 
-function select(state) {
-  return {
-    newPoint: state.newPoint
-  };
-}
-
-export default connect(select)(AddPointDescription);
+export default AddPointDescription;

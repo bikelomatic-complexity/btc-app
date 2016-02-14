@@ -18,7 +18,7 @@ class FilterDropDown extends Component {
           <CardText style={{flex:5}}>
             {displayType(this.state.activeFilter)}
           </CardText>
-          <RaisedButton primary onClick={removeFunction}
+          <RaisedButton primary onClick={removeFunction} label=""
             icon={<FontIcon className="material-icons">clear</FontIcon>}/>
         </div>
       </div>

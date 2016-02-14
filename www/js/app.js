@@ -7,20 +7,23 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import StoreBuilder, { createAppStore } from './store';
 
-import MapPage from './components/map-page';
+import App from './containers/app';
 
-import AddPointPage from './components/add-point-page';
+import MapPage from './containers/map-page';
+import AddPointPage from './containers/add-point-page';
+import RegisterPage from './containers/register-page';
+import LoginPage from './containers/login-page';
+import DownloadTrackPage from './containers/download-track-page';
+import FilterPage from './containers/filter-page';
+import SettingsPage from './containers/settings-page';
+
 import AddPointLocation from './components/add-point-location';
 import AddPointName from './components/add-point-name';
 import AddPointDescription from './components/add-point-description';
 import AddPointHours from './components/add-point-hours';
 import AddPointAmenities from './components/add-point-amenities';
 
-import RegisterPage from './components/register-page';
-import LoginPage from './components/login-page';
-import DownloadTrackPage from './components/download-track-page';
-import FilterPage from './components/filter-page';
-import SettingsPage from './components/settings-page';
+
 
 import Gateway from './gateway';
 
@@ -32,20 +35,6 @@ import { reloadPoints } from './reducers/points';
 // this is needed for material-ui
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-
-/**
- * the App component fetches service data from the server and displays
- * a map with points for each service. Fetching hapens upon mount.
- */
-class App extends React.Component {
-  render() {
-    return (
-      <div>
-        {this.props.children}
-      </div>
-    );
-  }
-}
 
 if(process.env.NODE_ENV === 'development') {
   window.PouchDB = PouchDB;

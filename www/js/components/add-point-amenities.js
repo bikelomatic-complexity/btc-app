@@ -1,11 +1,8 @@
 import React, {Component} from 'react';
 import { RaisedButton, CardText, FontIcon } from 'material-ui';
 
-// import redux components
-import { connect } from 'react-redux';
 import DropDown from './drop-down';
 import { types, displayType } from '../types'
-import { addPointAmenity, removePointAmenity } from '../actions/new-point-actions';
 
 export class AddPointAmenities extends Component {
   constructor(props){
@@ -15,16 +12,19 @@ export class AddPointAmenities extends Component {
     };
   }
 
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Add Amenities');
+  }
+
   addAmenity(){
-    const { dispatch } = this.props;
-    dispatch(addPointAmenity(this.state.amenity));
-    this.forceUpdate();
+    const { addPointAmenity } = this.props;
+    addPointAmenity(this.state.amenity);
   }
 
   removeAmenity(index){
-    const { dispatch } = this.props;
-    dispatch(removePointAmenity(index));
-    this.forceUpdate();
+    const { removePointAmenity } = this.props;
+    removePointAmenity(index);
   }
 
   selectAmenity(amenity){
@@ -76,10 +76,4 @@ export class AddPointAmenities extends Component {
   }
 }
 
-function select(state) {
-  return {
-    newPoint: state.newPoint
-  };
-}
-
-export default connect(select)(AddPointAmenities);
+export default AddPointAmenities;
