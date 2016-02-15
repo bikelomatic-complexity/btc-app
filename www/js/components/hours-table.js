@@ -5,11 +5,6 @@ import { Table, TableBody, TableHeader, TableRow, TableHeaderColumn, TableRowCol
 
 export class HoursTable extends Component {
   render() {
-    const columns = [
-      {name: 'day', label: ''},
-      {name: 'hours', label: 'Open Hours'},
-    ];
-
     const hoursData = this.props.hours.map((day) => {
       return (
         <TableRow>
@@ -17,22 +12,11 @@ export class HoursTable extends Component {
           <TableRowColumn>{day.opens} - {day.closes}</TableRowColumn>
         </TableRow>
       );
-      return {
-        'day':day.day,
-        'hours':day.opens + " - " + day.closes
-      }
     });
 
     return (
         <Table>
-          <TableHeader>
-            <TableRow>
-              {columns.map((col)=>{
-                return (<TableHeaderColumn>{col.label}</TableHeaderColumn>);
-              })}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+          <TableBody displayRowCheckbox={false} adjustForCheckbox={false}>
             {hoursData}
           </TableBody>
         </Table>
