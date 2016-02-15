@@ -1,17 +1,5 @@
 import React, {Component} from 'react';
-import { Textfield, Button } from 'react-mdl';
-
-import {
-  setPointDescription,
-  setPointAddress,
-  setPointWebsite,
-  setPointPhone,
-  setPointImage,
-  clearPointProps
- } from '../actions/new-point-actions';
-
-// import redux components
-import { connect } from 'react-redux';
+import { RaisedButton, TextField } from 'material-ui';
 
 export class AddPointDescription extends Component {
   constructor(props) {
@@ -28,39 +16,48 @@ export class AddPointDescription extends Component {
     };
   }
 
-  onDescriptionUpdate(newText) {
-    const { dispatch } = this.props;
-    this.setState({description:newText});
-    dispatch(setPointDescription(newText));
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Add Details');
   }
 
-  onPhoneUpdate(newText) {
-    const { dispatch } = this.props;
-    this.setState({phoneNumber:newText});
-    dispatch(setPointPhone(newText));
+  onDescriptionUpdate(event) {
+    const { setPointDescription } = this.props;
+    const description = event.target.value;
+    this.setState({description});
+    setPointDescription(description);
   }
 
-  onWebsiteUpdate(newText) {
-    const { dispatch } = this.props;
-    this.setState({website:newText});
-    dispatch(setPointWebsite(newText));
+  onPhoneUpdate(event) {
+    const { setPointPhone } = this.props;
+    const phoneNumber = event.target.value;
+    this.setState({phoneNumber});
+    setPointPhone(phoneNumber);
   }
 
-  onAddressUpdate(newText) {
-    const { dispatch } = this.props;
-    this.setState({address:newText});
-    dispatch(setPointAddress(newText));
+  onWebsiteUpdate(event) {
+    const { setPointWebsite } = this.props;
+    const website = event.target.value;
+    this.setState({website});
+    setPointWebsite(website);
+  }
+
+  onAddressUpdate(event) {
+    const { setPointAddress } = this.props;
+    const address = event.target.value;
+    this.setState({address});
+    setPointAddress(address);
   }
 
   onPhotoAdd() {
-    const { dispatch } = this.props;
+    const { setPointImage } = this.props;
     // This logic will not work on the browser
     // because of issue - Apache Cordova / CB-9852
     // https://issues.apache.org/jira/browse/CB-9852
     navigator.camera.getPicture(
       imageSrc => {
         this.setState({ imageSrc });
-        dispatch(setPointImage(imageSrc));
+        setPointImage(imageSrc);
       },
       err => console.error( err ),
       { sourceType:navigator.camera.PictureSourceType.PHOTOLIBRARY,
@@ -81,23 +78,23 @@ export class AddPointDescription extends Component {
     return (
       <div className="form-column">
         <div className="form-row">
-          <Textfield  rows={3} label="Description"
+          <TextField  rows={3} floatingLabelText="Description"
                       onChange={this.onDescriptionUpdate.bind(this)}
                       value={this.state.description} />
         </div>
         <div className="form-row">
-          <Textfield  label="Phone Number"
+          <TextField  floatingLabelText="Phone Number"
                       type="tel"
                       onChange={this.onPhoneUpdate.bind(this)}
                       value={this.state.phoneNumber} />
         </div>
         <div className="form-row">
-          <Textfield  label="Address"
+          <TextField  floatingLabelText="Address"
                       onChange={this.onAddressUpdate.bind(this)}
                       value={this.state.address} />
         </div>
         <div className="form-row">
-          <Textfield  label="Website"
+          <TextField  floatingLabelText="Website"
                       type="url"
                       onChange={this.onWebsiteUpdate.bind(this)}
                       value={this.state.website} />
@@ -106,19 +103,13 @@ export class AddPointDescription extends Component {
           { imgView }
         </div>
         <div className="form-row">
-          <Button onClick={this.onPhotoAdd.bind(this)} raised>
+          <RaisedButton secondary onClick={this.onPhotoAdd.bind(this)}>
                   Upload Photo
-          </Button>
+          </RaisedButton>
         </div>
       </div>
     )
   }
 }
 
-function select(state) {
-  return {
-    newPoint: state.newPoint
-  };
-}
-
-export default connect(select)(AddPointDescription);
+export default AddPointDescription;

@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { CardText, Button, Icon } from 'react-mdl';
 import DropDown from './drop-down';
-// import redux components
-import { connect } from 'react-redux';
-
-import { addPointHours, removePointHours } from '../actions/new-point-actions';
+import { RaisedButton, CardText, FontIcon } from 'material-ui';
 
 const weekDays = [
   "Weekdays", "Weekends", "Monday", "Tuesday",
@@ -16,14 +12,19 @@ export class AddPointHours extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      day:'Weekdays',
-      opens:'8:00 AM',
-      closes:'5:00 PM'
+      day:null,
+      opens:null,
+      closes:null
     }
   }
 
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Add Hours');
+  }
+
   addHours(){
-    const { dispatch } = this.props;
+    const { addPointHours } = this.props;
     const { day, opens, closes } = this.state;
 
     let days = [];
@@ -35,15 +36,15 @@ export class AddPointHours extends Component {
       days = [day];
     }
     days.forEach((day)=>{
-      dispatch(addPointHours({day, opens, closes}));
+      addPointHours({day, opens, closes});
     });
     this.setState({day:weekDays[(weekDays.indexOf(day)+1) % weekDays.length]})
     this.forceUpdate();
   }
 
   removeHours(index){
-    const { dispatch } = this.props;
-    dispatch(removePointHours(index));
+    const { removePointHours } = this.props;
+    removePointHours(index);
     this.forceUpdate();
   }
 
@@ -71,43 +72,46 @@ export class AddPointHours extends Component {
       '10:30 PM','11:00 PM','11:30 PM'
     ];
 
-    let addHoursButton = (
-      <Button colored
+
+    const { day, opens, closes } = this.state;
+    const addHoursButton = (
+      <RaisedButton secondary
+              disabled={ !(day && opens && closes) }
               onClick={this.addHours.bind(this)}>
         Add
-      </Button>
+      </RaisedButton>
     );
-    if (this.props.newPoint.hours && this.props.newPoint.amenities.includes(this.state.amenity)) {
-      addHoursButton = (
-        <Button disabled colored> Add </Button>
-      );
-    }
 
     return (
       <div className="form-column">
         {this.props.newPoint.hours.sort((dayA, dayB)=>{
-          return weekDays.indexOf(dayA.day) > weekDays.indexOf(dayB.day)
+          if (dayA.day !== dayB.day){
+            return weekDays.indexOf(dayA.day) > weekDays.indexOf(dayB.day);
+          } else if (dayA.opens !== dayB.opens) {
+            return hours.indexOf(dayA.opens) > hours.indexOf(dayB.opens);
+          } else {
+            return hours.indexOf(dayA.closes) > hours.indexOf(dayB.closes);
+          }
         }).map((day, index)=>{
           return (
             <div key={day.day+day.opens+day.closes} className="form-row">
-              <CardText style={{flex:'5'}}>{day.day}: {day.opens} - {day.closes}</CardText>
-              <Button raised accent onClick={this.removeHours.bind(this, index)}>
-                <Icon name="clear"/>
-              </Button>
+              <RaisedButton
+                onClick={this.removeHours.bind(this, index)}
+                label={`${day.day}: ${day.opens} - ${day.closes}`}
+                labelPosition="before"
+                icon={<FontIcon className="material-icons">clear</FontIcon>}
+              />
             </div>
           )
         })}
         <div className="form-row">
-          <DropDown style={{flex:3}} raised
-                  text={this.state.day}
+          <DropDown text={"Day(s)"} value={this.state.day}
                   onSelectFunction={this.selectDay.bind(this)}
                   options={weekDays}/>
-          <DropDown style={{flex:2}} raised
-                  text={this.state.opens}
+          <DropDown text="Opens"
                   onSelectFunction={this.selectOpens.bind(this)}
                   options={hours}/>
-          <DropDown style={{flex:2}} raised
-                  text={this.state.closes}
+          <DropDown text="Closes"
                   onSelectFunction={this.selectCloses.bind(this)}
                   options={hours}/>
           { addHoursButton }
@@ -117,10 +121,4 @@ export class AddPointHours extends Component {
   }
 }
 
-function select(state) {
-  return {
-    newPoint: state.newPoint
-  };
-}
-
-export default connect(select)(AddPointHours);
+export default AddPointHours;

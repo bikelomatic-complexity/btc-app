@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
 import { render } from 'react-dom';
 
-import { DataTable } from 'react-mdl';
+import { Table, TableBody, TableHeader, TableRow, TableHeaderColumn, TableRowColumn } from 'material-ui';
 
-export default class HoursTable extends Component {
-  constructor(props) {
-    super(props);
-  }
+export class HoursTable extends Component {
   render() {
     const columns = [
       {name: 'day', label: ''},
@@ -14,6 +11,12 @@ export default class HoursTable extends Component {
     ];
 
     const hoursData = this.props.hours.map((day) => {
+      return (
+        <TableRow>
+          <TableRowColumn>{day.day}</TableRowColumn>
+          <TableRowColumn>{day.opens} - {day.closes}</TableRowColumn>
+        </TableRow>
+      );
       return {
         'day':day.day,
         'hours':day.opens + " - " + day.closes
@@ -21,9 +24,20 @@ export default class HoursTable extends Component {
     });
 
     return (
-        <div>
-            <DataTable columns={columns} data={hoursData} />
-        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {columns.map((col)=>{
+                return (<TableHeaderColumn>{col.label}</TableHeaderColumn>);
+              })}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {hoursData}
+          </TableBody>
+        </Table>
     );
   }
 }
+
+export default HoursTable;

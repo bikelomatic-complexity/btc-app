@@ -1,12 +1,23 @@
 import React, {Component} from 'react';
 
-import { Drawer, Navigation } from 'react-mdl';
+import { AppBar, MenuItem, LeftNav } from 'material-ui';
 import { Link } from 'react-router';
 
 export class ACDrawer extends Component {
   constructor(props) {
     super(props);
+    this.state = {open: false}
   }
+
+  toggleNav(){
+    this.setState({open:!(this.state.open)})
+  }
+
+  onMenuItemTap(page){
+    this.props.history.pushState(null, page.link);
+    this.toggleNav();
+  }
+
   render() {
     let pages = [
       {link: "/", title: "Map"},
@@ -18,23 +29,23 @@ export class ACDrawer extends Component {
     ];
 
     let navs = pages.map((page) => {
-      let classNames = "";
-      if (this.props.page == page.title) {
-        classNames = "selected-page";
-      }
-      return (<Link key={page.title}
-                    className={classNames}
-                    to={page.link}>
+      return (<MenuItem key={page.title}
+                    onTouchTap={this.onMenuItemTap.bind(this,page)}>
                 {page.title}
-              </Link>);
+              </MenuItem>);
     });
 
     return (
-      <Drawer title="Menu">
-        <Navigation>
+      <AppBar
+        onLeftIconButtonTouchTap={this.toggleNav.bind(this)}
+        title={this.props.page}>
+        <LeftNav
+          docked={false}
+          onRequestChange={this.toggleNav.bind(this)}
+          open={this.state.open}>
           { navs }
-        </Navigation>
-      </Drawer>
+        </LeftNav>
+      </AppBar>
     );
   }
 }
