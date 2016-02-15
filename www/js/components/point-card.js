@@ -58,6 +58,13 @@ export class PointCard extends Component {
       zIndex:'8'
     }
 
+    let cardTitleStyle = {
+      color: '#fff',
+      height: titleHeight,
+      background: backgroundStyle,
+      margin: '0px !important'
+    }
+
     let seeButton = (
       <RaisedButton
         secondary
@@ -153,7 +160,7 @@ export class PointCard extends Component {
         <CardMedia className="hammer-grab" overlay={
           <CardTitle className="hammer-grab" title={this.props.point.name}/>
         }>
-          <img className="hammer-grab" src={this.props.point.coverUrl || 'http://lorempixel.com/600/140/nature/'} style={{height:'140px'}}/>
+          <div style={cardTitleStyle} />
         </CardMedia>
         { cardDetails }
         <CardActions className="form-row">

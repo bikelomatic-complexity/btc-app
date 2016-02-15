@@ -15,8 +15,6 @@ export class HammerPointCard extends Component {
   }
 
   handleSwipe(e) {
-    console.log(e.target.classList.contains("hammer-grab"));
-    console.log(e.target.classList)
     const { fullscreenMarker, peekMarker, deselectMarker } = this.props;
     const pointDetails = document.getElementById('point-details');
     /* if we are at the top of the card, pulling down should shrink the card */
