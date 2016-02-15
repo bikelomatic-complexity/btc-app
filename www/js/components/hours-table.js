@@ -7,7 +7,7 @@ export class HoursTable extends Component {
   render() {
     const hoursData = this.props.hours.map((day) => {
       return (
-        <TableRow>
+        <TableRow key={day.day + day.opens + day.closes}>
           <TableRowColumn>{day.day}</TableRowColumn>
           <TableRowColumn>{day.opens} - {day.closes}</TableRowColumn>
         </TableRow>
