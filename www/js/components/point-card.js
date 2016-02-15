@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Card, CardMedia, CardTitle, CardActions, CardText, RaisedButton } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardActions, CardText, RaisedButton, Paper } from 'material-ui';
 import HoursTable from './hours-table';
 import { displayType } from '../types'
 
@@ -162,8 +162,10 @@ export class PointCard extends Component {
         }>
           <div style={cardTitleStyle} />
         </CardMedia>
-        { cardDetails }
-        <CardActions className="form-row">
+        <Paper style={{margin:8}}>
+          { cardDetails }
+        </Paper>
+        <CardActions className="form-row view-buttons">
           { seeButton }
           <RaisedButton
             onClick={() => {

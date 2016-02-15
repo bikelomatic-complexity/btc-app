@@ -25,11 +25,15 @@ body {
 }
 
 #point-details {
+  overflow-y: auto;
 }
 
 .view-buttons {
-    position: fixed;
+    position: fixed !important;
     bottom: 0px;
+    width: 100%;
+    box-sizing: border-box;
+    background: white;
 }
 
 .amenities {

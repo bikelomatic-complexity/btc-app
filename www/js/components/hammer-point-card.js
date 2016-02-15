@@ -31,7 +31,7 @@ export class HammerPointCard extends Component {
         // at the top of the details
         this.setState({heightOffset: e.deltaY});
       }
-      if (e.target.classList.contains("hammer-grab")) {
+      if (!e.target.id == "point-details") {
         // at the top of the details
         this.setState({heightOffset: e.deltaY});
         this.setState({changeScreen: true});
@@ -62,8 +62,7 @@ export class HammerPointCard extends Component {
     const { fullscreenMarker, peekMarker, deselectMarker } = this.props;
 
     return (
-      <Hammer vertical={true} onPanStart={this.handleSwipe.bind(this)}
-                              onPan={this.handleSwipe.bind(this)}>
+      <Hammer>
         <PointCard
           point={this.props.point}
           show={this.props.show}
