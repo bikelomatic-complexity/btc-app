@@ -55,7 +55,8 @@ export class PointCard extends Component {
       bottom: ( (this.props.show=='hide') ? '-460px' : '0px'),
       height: ( (this.props.show=='full') ? headerHeightCSS : smallHeightCSS),
       transition: (this.props.heightOffset == 0 ? 'all 300ms ease' : ''),
-      zIndex:'8'
+      zIndex:'8',
+      overflowY:'auto'
     }
 
     let cardTitleStyle = {
@@ -162,9 +163,9 @@ export class PointCard extends Component {
         }>
           <div style={cardTitleStyle} />
         </CardMedia>
-        <Paper style={{margin:8}}>
+        <div style={{margin:'8px', marginBottom:'64px'}}>
           { cardDetails }
-        </Paper>
+        </div>
         <CardActions className="form-row view-buttons">
           { seeButton }
           <RaisedButton
