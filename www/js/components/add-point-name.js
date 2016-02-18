@@ -7,15 +7,6 @@ import { types, displayType } from '../types';
 
 export class AddPointName extends Component {
 
-  constructor(props) {
-    super(props);
-    const { name, type } = this.props.newPoint;
-    this.state = {
-      name,
-      type
-    }
-  }
-
   componentDidMount() {
     const { setDrawer } = this.props;
     setDrawer('Enter Information');
@@ -24,13 +15,11 @@ export class AddPointName extends Component {
   onNameUpdate(event) {
     const { setPointName } = this.props;
     const name = event.target.value;
-    this.setState({name});
     setPointName(name);
   }
 
   onTypeSelect(type) {
     const { setPointType } = this.props;
-    this.setState({type});
     setPointType(type);
   }
 
@@ -45,8 +34,8 @@ export class AddPointName extends Component {
       <div className="form-column">
         <div className="form-row">
           <TextField  hintText="Name"
-                      onChange={this.onNameUpdate.bind(this)}
-                      value={this.state.name} />
+                      onBlur={this.onNameUpdate.bind(this)}
+                      defaultValue={this.props.newPoint.name} />
         </div>
         <div className="form-row">
           <TextField  floatingLabelText="Location" disabled={true}
