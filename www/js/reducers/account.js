@@ -6,6 +6,8 @@ import { APP_SERVER_URL as baseUrl } from '../config';
 const REQUEST_LOGIN = 'btc-app/account/REQUEST_LOGIN';
 const RECEIVE_LOGIN = 'btc-app/account/RECEIVE_LOGIN';
 const LOGOUT = 'btc-app/account/LOGOUT';
+const REQUEST_REGISTRATION = 'btc-app/account/REQUEST_REGISTRATION';
+const RECEIVE_REGISTRATION = 'btc-app/account/RECEIVE_REGISTRATION';
 
 const initState = {
   loggedIn: false,
@@ -31,6 +33,12 @@ export default function reducer( state = initState, action ) {
     } );
   case LOGOUT:
     return Object.assign( {}, initState );
+  case REQUEST_REGISTRATION:
+    return state;
+  case RECEIVE_REGISTRATION:
+    return Object.assign( {}, state, {
+      registrationError: action.error
+    } );
   default:
     return state;
   }
@@ -109,8 +117,48 @@ function recieveLogin( token, error ) {
 }
 
 /*
- * Notify the store to log out the user 
+ * Notify the store to log out the user
  */
 export function logout() {
   return { type: LOGOUT };
+}
+
+export function register( email, password, username, first, last ) {
+  return dispatch => {
+    dispatch( requestRegistration( email, password ) );
+
+    const promise = new Promise( ( resolve, reject ) => {
+      server.post(
+        '/register'
+        , { body: { email, password, username, first, last } }
+        , ( error, response, body ) => {
+          switch ( response.statusCode ) {
+          case 200:
+            resolve();
+            break;
+          case 400:
+          default:
+            reject( body.error );
+            break;
+          }
+        }
+      );
+    } );
+
+    promise.then( auth_token => {
+      dispatch( receiveRegistration( ) );
+    }, error => {
+      dispatch( receiveRegistration( error ) );
+    } );
+
+    return promise;
+  };
+}
+
+function requestRegistration() {
+  return { type: REQUEST_REGISTRATION };
+}
+
+function receiveRegistration(error) {
+  return { type: RECEIVE_REGISTRATION, error };
 }

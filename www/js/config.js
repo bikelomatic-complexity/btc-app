@@ -1,9 +1,10 @@
 /*global resolveLocalFileSystemURL*/
 import path from 'path';
 
-export const APP_SERVER = 'btc-app-server-1559933658.us-east-1.elb.amazonaws.com';
+//export const APP_SERVER = 'btc-app-server-1559933658.us-east-1.elb.amazonaws.com';
+export const APP_SERVER = 'localhost';
 export const APP_SERVER_PROTOCOL = 'http';
-export const APP_SERVER_URL = `${APP_SERVER_PROTOCOL}://${APP_SERVER}`;
+export const APP_SERVER_URL = `${APP_SERVER_PROTOCOL}://${APP_SERVER}:8080`;
 
 export const MBTILES_SERVER = 's3.amazonaws.com/track-tile-packages';
 export const MBTILES_SERVER_ROOT = 'mbtiles';
