@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Card, CardMedia, CardTitle, CardActions, CardText, RaisedButton, Paper } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardActions, CardText, RaisedButton, Paper, IconMenu, MenuItem, IconButton } from 'material-ui';
+import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import HoursTable from './hours-table';
 import { displayType } from '../types'
 
@@ -160,8 +161,17 @@ export class PointCard extends Component {
       <Card id="mdl-map-card" className="form-column" style={cardStyle}>
         <CardMedia className="hammer-grab" overlay={
           <CardTitle className="hammer-grab" title={this.props.point.name}/>
-        }>
-          <div style={cardTitleStyle} />
+          }>
+          <div style={cardTitleStyle}>
+            <IconMenu
+              style={{zIndex:1, float:"right", background: "rgba(0,0,0,0.6)", borderRadius: "100%"}}
+              iconButtonElement={<IconButton><MoreVertIcon color="white"/></IconButton>}
+              anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+              targetOrigin={{horizontal: 'right', vertical: 'top'}}
+            >
+              <MenuItem primaryText="Edit Information" />
+            </IconMenu>
+          </div>
         </CardMedia>
         <div style={{margin:'8px', marginBottom:'64px'}}>
           { cardDetails }
