@@ -4,32 +4,33 @@
 module.exports = function(config) {
   config.set({
     autoWatch: false,
-	babelPreprocessor: {
-	  options: {
-		presets: ['es2015', 'react'],
-        sourceMap: 'inline'		
-	  },
-	  filename: function (file){
-		return file.originalPath.replace(/\.js$/, '.es5.js');  
-	  },
-	  sourceFileName: function (file) {
-	    return file.originalPath;
-	  }
-	},
 	browserNoActivityTimeout: 120000,
+	browserify:{
+	  transform:[ 
+	    ['babelify', {'presets': ['react', 'es2015']}]
+	  ]
+	},
 	browsers: ['PhantomJS'],
 	captureTimeout: 30000,
 	files: [
-	  { pattern: './www/js/**/*.js', watched: false, included: true, served: true },
-	  { pattern: './test/**/*.js', watched: false, included: true, served: true },
-	  { pattern: './node_modules/babel-polyfill/dist/polyfill.js', watched: false, included: true, served: true }
+	  { 
+	    pattern: './www/js/bundle.js', 
+		watched: false, 
+		included: true, 
+		served: true 
+	  },
+	  { 
+	    pattern: './test/**/*.js', 
+	    watched: false, 
+		included: true, 
+		served: true
+	  }
 	],
-	frameworks: ['mocha'],
+	frameworks: ['browserify', 'mocha'],
 	port: 8001,
-	preprocessors: {
-	  './www/js/**/*.js' : ['babel'],
-	  './test/**/*.js' : ['babel']
-    },
+	preprocessors:{
+	  './test/**/*.js': ['browserify']
+	},
 	// TODO: add the coverage reporter in
 	//reporters:
 	retryLimit: 1,
