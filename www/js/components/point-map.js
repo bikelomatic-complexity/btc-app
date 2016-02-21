@@ -87,7 +87,15 @@ class PointMap extends Component {
     let markers = this.props.services.filter((service)=>{
       if (service.class == "alert" && filters.hideAlert) { return false }
       if (filters.activeFilters.length == 0){ return true; }
-      return filters.activeFilters.includes(service.type);
+
+
+      return filters.activeFilters.some( filterElement => {
+        // join the service amenities with the service type
+        let serviceTypes = service.amenities.concat(service.type);
+        if (serviceTypes.indexOf(filterElement) !== -1) {
+          return true;
+        }
+      });
     }).map((service) => {
       return (
         <Marker key={service._id} radius={10} position={service.location}
