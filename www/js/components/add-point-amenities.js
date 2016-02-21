@@ -40,12 +40,12 @@ export class AddPointAmenities extends Component {
 
     let addAmenityButton = (
       <RaisedButton secondary
-              disabled={!(this.state.amenity || this.props.newPoint.amenities.includes(this.state.amenity))}
+              disabled={!(this.state.amenity || this.props.newPoint.amenities.indexOf(this.state.amenity)!==-1)}
               onClick={this.addAmenity.bind(this)}>
         Add Amenity
       </RaisedButton>
     );
-    if (this.props.newPoint.amenities && this.props.newPoint.amenities.includes(this.state.amenity)) {
+    if (this.props.newPoint.amenities && this.props.newPoint.amenities.indexOf(this.state.amenity)!==-1) {
       addAmenityButton = (
         <RaisedButton secondary disabled> Add Amenity </RaisedButton>
       );
