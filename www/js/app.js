@@ -7,7 +7,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import StoreBuilder, { createAppStore } from './store';
 
-import App from './containers/app';
+import Main from './containers/main';
 
 import MapPage from './containers/map-page';
 import AddPointPage from './containers/add-point-page';
@@ -62,7 +62,7 @@ document.addEventListener('deviceReady', () => {
   ReactDOM.render((
     <Provider store={store}>
       <Router history={browserHistory}>
-        <Route path="/" component={App}>
+        <Route path="/" component={Main}>
           <IndexRoute component={MapPage}/>
           <Route path="/settings" component={SettingsPage}/>
           <Route path="/login" component={LoginPage}/>
