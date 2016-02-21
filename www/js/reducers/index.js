@@ -10,6 +10,7 @@ import mapState from './map';
 import filters from './filter';
 import newPoint from './new-point';
 import drawer from './drawer';
+import dialog from './dialog';
 
 export default combineReducers({
   marker,
@@ -20,5 +21,6 @@ export default combineReducers({
   mapState,
   filters,
   newPoint,
-  drawer
+  drawer,
+  dialog
 });

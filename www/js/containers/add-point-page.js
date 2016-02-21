@@ -67,7 +67,7 @@ export class AddPointPage extends Component {
   }
 
   render() {
-    const { dispatch, setDrawer, newPoint, tracks, settings, filters,
+    const { dispatch, setDrawer, setDialog, newPoint, tracks, settings, filters,
       marker, services, alerts, mapState } = this.props;
     const {
       address, amenities, description, hours, imageSrc,
@@ -77,7 +77,7 @@ export class AddPointPage extends Component {
     // add props and actions so the component can dispatch actions
     const newPointChildren = React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
-        setDrawer, newPoint, marker, services, filters,
+        setDrawer, setDialog, newPoint, marker, services, filters,
         alerts, mapState, tracks, settings,
         setPointName: newName => {
           dispatch(setPointName(newName));
