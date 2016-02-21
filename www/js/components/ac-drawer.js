@@ -9,13 +9,17 @@ export class ACDrawer extends Component {
     this.state = {open: false}
   }
 
-  toggleNav(){
-    this.setState({open:!(this.state.open)})
+  hideNav(){
+    this.setState({open:false});
+  }
+
+  showNav(){
+    this.setState({open:true});
   }
 
   onMenuItemTap(page){
     this.props.history.pushState(null, page.link);
-    this.toggleNav();
+    this.hideNav();
   }
 
   render() {
@@ -37,11 +41,11 @@ export class ACDrawer extends Component {
 
     return (
       <AppBar
-        onLeftIconButtonTouchTap={this.toggleNav.bind(this)}
+        onLeftIconButtonTouchTap={this.showNav.bind(this)}
         title={this.props.page}>
         <LeftNav
           docked={false}
-          onRequestChange={this.toggleNav.bind(this)}
+          onRequestChange={this.hideNav.bind(this)}
           open={this.state.open}>
           { navs }
         </LeftNav>
