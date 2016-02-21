@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { CardText } from 'react-mdl';
+import { CardText } from 'material-ui';
 
 export class DeviceStorage extends Component {
   constructor(props) {

@@ -1,38 +1,26 @@
 import React, {Component} from 'react';
 
-import { Button, Textfield } from 'react-mdl';
+import { TextField } from 'material-ui';
 import DropDown from './drop-down';
-
-import { connect } from 'react-redux';
 
 import { types, displayType } from '../types';
 
-import {
-  setPointName,
-  setPointType
- } from '../actions/new-point-actions';
-
 export class AddPointName extends Component {
 
-  constructor(props) {
-    super(props);
-    const { name, type } = this.props.newPoint;
-    this.state = {
-      name,
-      type
-    }
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Enter Information');
   }
 
-  onNameUpdate(name) {
-    const { dispatch } = this.props;
-    this.setState({name});
-    dispatch(setPointName(name));
+  onNameUpdate(event) {
+    const { setPointName } = this.props;
+    const name = event.target.value;
+    setPointName(name);
   }
 
   onTypeSelect(type) {
-    const { dispatch } = this.props;
-    this.setState({type});
-    dispatch(setPointType(type));
+    const { setPointType } = this.props;
+    setPointType(type);
   }
 
   render() {
@@ -45,17 +33,18 @@ export class AddPointName extends Component {
     return (
       <div className="form-column">
         <div className="form-row">
-          <Textfield  label="Name"
-                      onChange={this.onNameUpdate.bind(this)}
-                      value={this.state.name} />
+          <TextField  hintText="Name"
+                      onBlur={this.onNameUpdate.bind(this)}
+                      defaultValue={this.props.newPoint.name} />
         </div>
         <div className="form-row">
-          <Textfield  label="Location" disabled={true}
+          <TextField  floatingLabelText="Location" disabled={true}
                       value={latLngString} />
         </div>
-        <DropDown className="form-row"
-          raised
-          text={displayType(this.props.newPoint.type) || "Select Type"}
+        <DropDown
+          className="form-row"
+          text="Select Type"
+          value={this.props.newPoint.type}
           options={types}
           textTransform={displayType}
           onSelectFunction={this.onTypeSelect.bind(this)}/>;
@@ -64,10 +53,4 @@ export class AddPointName extends Component {
   }
 }
 
-function select(state) {
-  return {
-    newPoint: state.newPoint
-  };
-}
-
-export default connect(select)(AddPointName);
+export default AddPointName;

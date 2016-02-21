@@ -1,30 +1,30 @@
 import React, {Component} from 'react';
-import { CardText, Button, Icon } from 'react-mdl';
+import { RaisedButton, CardText, FontIcon } from 'material-ui';
 
-// import redux components
-import { connect } from 'react-redux';
 import DropDown from './drop-down';
 import { types, displayType } from '../types'
-import { addPointAmenity, removePointAmenity } from '../actions/new-point-actions';
 
 export class AddPointAmenities extends Component {
   constructor(props){
     super(props);
     this.state = {
-      amenity:'airport'
+      amenity:null
     };
   }
 
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Add Amenities');
+  }
+
   addAmenity(){
-    const { dispatch } = this.props;
-    dispatch(addPointAmenity(this.state.amenity));
-    this.forceUpdate();
+    const { addPointAmenity } = this.props;
+    addPointAmenity(this.state.amenity);
   }
 
   removeAmenity(index){
-    const { dispatch } = this.props;
-    dispatch(removePointAmenity(index));
-    this.forceUpdate();
+    const { removePointAmenity } = this.props;
+    removePointAmenity(index);
   }
 
   selectAmenity(amenity){
@@ -39,14 +39,15 @@ export class AddPointAmenities extends Component {
     });
 
     let addAmenityButton = (
-      <Button colored
+      <RaisedButton secondary
+              disabled={!(this.state.amenity || this.props.newPoint.amenities.indexOf(this.state.amenity)!==-1)}
               onClick={this.addAmenity.bind(this)}>
         Add Amenity
-      </Button>
+      </RaisedButton>
     );
-    if (this.props.newPoint.amenities && this.props.newPoint.amenities.includes(this.state.amenity)) {
+    if (this.props.newPoint.amenities && this.props.newPoint.amenities.indexOf(this.state.amenity)!==-1) {
       addAmenityButton = (
-        <Button disabled colored> Add Amenity </Button>
+        <RaisedButton secondary disabled> Add Amenity </RaisedButton>
       );
     }
 
@@ -55,17 +56,18 @@ export class AddPointAmenities extends Component {
       <div className="form-column">
         {this.props.newPoint.amenities.map((amenity, index)=>{
           return (
-            <div key={amenity} className="form-row">
-              <CardText style={{flex:'5'}}>{displayType(amenity)}</CardText>
-              <Button raised accent onClick={this.removeAmenity.bind(this, index)}>
-                <Icon name="clear" />
-              </Button>
-            </div>
+            <RaisedButton
+              key={amenity}
+              style={{margin:8}}
+              onClick={this.removeAmenity.bind(this, amenity)}
+              label={displayType(amenity)}
+              labelPosition="before"
+              icon={<FontIcon className="material-icons">clear</FontIcon>}/>
           )
         })}
         <div className="form-row">
-          <DropDown raised options={types}
-                    text={displayType(this.state.amenity)}
+          <DropDown options={types}
+                    text="Amenity"
                     textTransform={displayType}
                     onSelectFunction={this.selectAmenity.bind(this)}/>
           { addAmenityButton }
@@ -75,10 +77,4 @@ export class AddPointAmenities extends Component {
   }
 }
 
-function select(state) {
-  return {
-    newPoint: state.newPoint
-  };
-}
-
-export default connect(select)(AddPointAmenities);
+export default AddPointAmenities;
