@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
-import { Card, CardMedia, CardTitle, CardActions, CardText, RaisedButton, Paper } from 'material-ui';
+import { Card, CardMedia, CardTitle, CardActions, CardText, RaisedButton } from 'material-ui';
 import HoursTable from './hours-table';
 import { displayType } from '../types'
 
 const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
                 'Thursday', 'Friday', 'Saturday'];
 
-// export class for testing (use default export in application)
-export class PointCard extends Component {
+export class ViewPointCard extends Component {
 
   getDays(seasons) {
     let seasonDays = seasons[0].days;
@@ -26,7 +25,7 @@ export class PointCard extends Component {
   }
 
   render() {
-    const { fullscreenMarker, peekMarker, deselectMarker } = this.props;
+    const { fullscreenMarker, peekMarker, deselectMarker, point } = this.props;
 
     // if we have an image, use that
     // otherwise, use an mdl-blue for the title,
@@ -35,8 +34,8 @@ export class PointCard extends Component {
     let titleHeight;
     let smallHeight;
 
-    if (this.props.point.coverUrl) {
-      backgroundStyle = `url(${this.props.point.coverUrl}) center / cover`;
+    if (point.coverUrl) {
+      backgroundStyle = `url(${point.coverUrl}) center / cover`;
       titleHeight = '176px';
       smallHeight = 300 - this.props.heightOffset;
     }
@@ -52,8 +51,8 @@ export class PointCard extends Component {
     let cardStyle = {
       width: '100%',
       position: 'fixed',
-      bottom: ( (this.props.show=='hide') ? '-460px' : '0px'),
-      height: ( (this.props.show=='full') ? headerHeightCSS : smallHeightCSS),
+      bottom: '0px',
+      height: headerHeightCSS,
       transition: (this.props.heightOffset == 0 ? 'all 300ms ease' : ''),
       zIndex:'8',
       overflowY:'auto'
@@ -69,27 +68,15 @@ export class PointCard extends Component {
     let seeButton = (
       <RaisedButton
         secondary
+        label="See Less"
         onClick={() => {
-          fullscreenMarker();
+          peekMarker();
         }}
-        label="See More"
       />
     );
-    if (this.props.show=='full') {
-      seeButton = (
-        <RaisedButton
-          secondary
-          label="See Less"
-          onClick={() => {
-            peekMarker();
-          }}
-        />
-      );
-    }
 
     // this logic is for points with hour / schedule information
     // TODO: consider revising logic placement
-    let point = this.props.point;
     let seasonalDetails = <br/>;
     let timeDetails = "";
     let hoursDetails = "";
@@ -106,60 +93,51 @@ export class PointCard extends Component {
           <span className="open-until"> Not Open Today </span>
         }</span>);
 
-        // is this point seasonal?
-        if (point.seasonal) {
-          seasonalDetails = (
-            <CardText>
-              These hours are seasonal.
-              Call or check online for more information.
-            </CardText>
-          )
-        }
+      // is this point seasonal?
+      if (point.seasonal) {
+        seasonalDetails = (
+          <CardText>
+            These hours are seasonal.
+            Call or check online for more information.
+          </CardText>
+        )
+      }
 
-        // hours for service
-        hoursDetails = <HoursTable hours={this.getDays(point.schedule)}/>
+      // hours for service
+      hoursDetails = <HoursTable hours={this.getDays(point.schedule)}/>
     }
 
-    // small screen details
-    let cardDetails = (
-      <CardText>
-        {point.description}
-        {timeDetails}
-      </CardText>
-    );
-
+    let cardDetails;
     // large screen details
-    if (this.props.show=='full') {
-      if (point.type === 'alert') {
-        cardDetails = (
-          <div id="point-details">
-            <CardText> {point.description} </CardText>
-          </div>
-        );
-      } else {
-        cardDetails = (
-          <div id="point-details">
-            <CardText> {point.description} {timeDetails}</CardText>
-            <CardText>
-              {displayType(point.type)} <br/>
-              <span className="amenities"> {point.amenities.join(", ")} </span>
-            </CardText>
+    if (point.type === 'alert') {
+      cardDetails = (
+        <div id="point-details">
+          <CardText> {point.description} </CardText>
+        </div>
+      );
+    } else {
+      cardDetails = (
+        <div id="point-details">
+          <CardText> {point.description} {timeDetails}</CardText>
+          <CardText>
+            {displayType(point.type)} <br/>
+            <span className="amenities"> {point.amenities.join(", ")} </span>
+          </CardText>
 
-            <CardText> {point.phone} </CardText>
-            <CardText>
-              Visit <a href={point.website}>{point.website}</a> for more details
-            </CardText>
-            { hoursDetails }
-            { seasonalDetails }
-          </div>
-        );
-      }
+          <CardText> {point.phone} </CardText>
+          <CardText>
+            Visit <a href={point.website}>{point.website}</a> for more details
+          </CardText>
+          { hoursDetails }
+          { seasonalDetails }
+        </div>
+      );
     }
 
     return (
       <Card id="mdl-map-card" className="form-column" style={cardStyle}>
         <CardMedia className="hammer-grab" overlay={
-          <CardTitle className="hammer-grab" title={this.props.point.name}/>
+          <CardTitle className="hammer-grab" title={point.name}/>
         }>
           <div style={cardTitleStyle} />
         </CardMedia>
@@ -180,4 +158,4 @@ export class PointCard extends Component {
   }
 }
 
-export default PointCard;
+export default ViewPointCard;

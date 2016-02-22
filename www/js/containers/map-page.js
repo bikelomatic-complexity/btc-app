@@ -15,8 +15,14 @@ import HammerPointCard from '../components/hammer-point-card';
 class MapPage extends Component {
 
   componentDidMount() {
-    const { setDrawer } = this.props;
+    // set the drawer title
+    const { setDrawer, marker } = this.props;
     setDrawer('Map');
+
+    // set the current point (if we got it from a URL param)
+    // const { dispatch } = this.props;
+    // const { pointId } = this.props.params;
+    // dispatch(selectMarker(pointId));
   }
 
   render() {
@@ -32,30 +38,46 @@ class MapPage extends Component {
       selectedPoint = { };
     }
 
-    let pointCard;
-    if(selectedPoint) {
-      pointCard = (
-        <HammerPointCard point={selectedPoint} show={marker.showPointCard}
-          fullscreenMarker={() => {dispatch(fullscreenMarker())}}
-          peekMarker={() => {dispatch(peekMarker())}}
-          deselectMarker={() => {dispatch(deselectMarker())}}
-        />
-      );
-    }
+    // add props and actions so the component can dispatch actions
+    const pointChildren = React.Children.map(this.props.children, child => {
+      return React.cloneElement(child, {
+        point: selectedPoint,
+        show: marker.showPointCard,
+        heightOffset: 0,
+        fullscreenMarker: () => {
+          // dispatch(fullscreenMarker());
+          this.props.history.push('/view-point');
+        },
+        peekMarker: () => {
+          // dispatch(peekMarker());
+          this.props.history.push('/peek-point');
+        },
+        deselectMarker: () => {
+          // dispatch(deselectMarker());
+          this.props.history.push('/');
+        },
+      });
+    });
 
     return (
       <div className="page-content">
         <PointMap services={services} alerts={alerts}
                   tracks={tracks} settings={settings}
                   mapState={mapState} filters={filters}
-          selectMarker={point => {dispatch(selectMarker(point))}}
-          deselectMarker={() => {dispatch(deselectMarker())}}
+          selectMarker={point => {
+            dispatch(selectMarker(point));
+            this.props.history.push('/peek-point');
+          }}
+          deselectMarker={() => {
+            // dispatch(deselectMarker());
+            this.props.history.push('/');
+          }}
           setMapCenter={coords => {dispatch(setMapCenter(coords))}}
           setGeoLocation={coords => {dispatch(setGeoLocation(coords))}}
           setMapZoom={zoom => {dispatch(setMapZoom(zoom))}}
           setMapLoading={isLoading => {dispatch(setMapLoading(isLoading))}}
         />
-        {pointCard}
+        {pointChildren}
       </div>
     );
   }

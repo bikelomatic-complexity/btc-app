@@ -23,7 +23,8 @@ import AddPointDescription from './components/add-point-description';
 import AddPointHours from './components/add-point-hours';
 import AddPointAmenities from './components/add-point-amenities';
 
-
+import PeekPointCard from './components/peek-point-card';
+import ViewPointCard from './components/view-point-card';
 
 import Gateway from './gateway';
 
@@ -63,19 +64,23 @@ document.addEventListener('deviceReady', () => {
     <Provider store={store}>
       <Router history={browserHistory}>
         <Route path="/" component={Main}>
-          <IndexRoute component={MapPage}/>
-          <Route path="/settings" component={SettingsPage}/>
-          <Route path="/login" component={LoginPage}/>
-          <Route path="/register" component={RegisterPage}/>
-          <Route path="/add-point" component={AddPointPage}>
+          <Route component={MapPage}>
+            <IndexRoute />
+            <Route path="peek-point" component={PeekPointCard} />
+            <Route path="view-point" component={ViewPointCard} />
+          </Route>
+          <Route path="settings" component={SettingsPage} />
+          <Route path="login" component={LoginPage} />
+          <Route path="register" component={RegisterPage} />
+          <Route path="add-point" component={AddPointPage}>
             <IndexRoute component={AddPointLocation} />
             <Route path="name" component={AddPointName} />
             <Route path="description" component={AddPointDescription} />
             <Route path="hours" component={AddPointHours} />
             <Route path="amenities" component={AddPointAmenities} />
           </Route>
-          <Route path="/download-track" component={DownloadTrackPage}/>
-          <Route path="/filter" component={FilterPage}/>
+          <Route path="download-track" component={DownloadTrackPage} />
+          <Route path="filter" component={FilterPage} />
         </Route>
       </Router>
     </Provider>
