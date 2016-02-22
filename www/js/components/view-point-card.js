@@ -53,7 +53,7 @@ export class ViewPointCard extends Component {
       position: 'fixed',
       bottom: '0px',
       height: headerHeightCSS,
-      transition: (this.props.heightOffset == 0 ? 'all 300ms ease' : ''),
+      transition: 'all 300ms ease' ,
       zIndex:'8',
       overflowY:'auto'
     }

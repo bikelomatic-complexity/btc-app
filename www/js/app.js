@@ -25,6 +25,7 @@ import AddPointAmenities from './components/add-point-amenities';
 
 import PeekPointCard from './components/peek-point-card';
 import ViewPointCard from './components/view-point-card';
+import RatingPointCard from './components/rating-point-card';
 
 import Gateway from './gateway';
 
@@ -68,6 +69,7 @@ document.addEventListener('deviceReady', () => {
             <IndexRoute />
             <Route path="peek-point/:pointId" component={PeekPointCard} />
             <Route path="view-point/:pointId" component={ViewPointCard} />
+            <Route path="rate-point/:pointId" component={RatingPointCard} />
           </Route>
           <Route path="settings" component={SettingsPage} />
           <Route path="login" component={LoginPage} />
