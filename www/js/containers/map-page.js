@@ -5,6 +5,8 @@ import { Paper } from 'material-ui';
 // import redux components
 import { connect } from 'react-redux';
 
+import { findIndex } from 'underscore'
+
 import { selectMarker, setMapCenter, setGeoLocation,
   setMapZoom, setMapLoading } from '../actions/map-actions';
 
@@ -12,15 +14,34 @@ import PointMap from '../components/point-map';
 
 class MapPage extends Component {
 
+  loadMarker(props) {
+    // set the current point (if we got it from a URL param)
+    const { dispatch, services, marker } = props;
+    const { pointId } = props.params;
+    if ((marker._id === undefined)
+        && (pointId !== undefined)
+        && (services.length > 0)) {
+      const markerIndex = findIndex(services, point => {
+        return point._id === pointId;
+      });
+      const newMarker = services[markerIndex];
+      dispatch(selectMarker(newMarker));
+
+      // if you selected a marker, we're going to point the map there
+      dispatch(setMapCenter(newMarker.location));
+    }
+  }
+
   componentDidMount() {
     // set the drawer title
-    const { setDrawer, marker } = this.props;
+    const { setDrawer } = this.props;
     setDrawer('Map');
 
-    // set the current point (if we got it from a URL param)
-    // const { dispatch } = this.props;
-    // const { pointId } = this.props.params;
-    // dispatch(selectMarker(pointId));
+    this.loadMarker(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.loadMarker(nextProps);
   }
 
   render() {
@@ -33,15 +54,16 @@ class MapPage extends Component {
         point: marker,
         heightOffset: 0,
         fullscreenMarker: () => {
-          // dispatch(fullscreenMarker());
-          this.props.history.push('/view-point');
+          const id = this.props.marker._id;
+          const urlId = encodeURIComponent(id);
+          this.props.history.push(`/view-point/${urlId}`);
         },
         peekMarker: () => {
-          // dispatch(peekMarker());
-          this.props.history.push('/peek-point');
+          const id = this.props.marker._id;
+          const urlId = encodeURIComponent(id);
+          this.props.history.push(`/peek-point/${urlId}`);
         },
         deselectMarker: () => {
-          // dispatch(deselectMarker());
           this.props.history.push('/');
         },
       });
@@ -54,10 +76,11 @@ class MapPage extends Component {
                   mapState={mapState} filters={filters}
           selectMarker={point => {
             dispatch(selectMarker(point));
-            this.props.history.push('/peek-point');
+            const id = this.props.marker._id;
+            const urlId = encodeURIComponent(id);
+            this.props.history.push(`/peek-point/${urlId}`);
           }}
           deselectMarker={() => {
-            // dispatch(deselectMarker());
             this.props.history.push('/');
           }}
           setMapCenter={coords => {dispatch(setMapCenter(coords))}}

@@ -23,7 +23,7 @@ export class PeekPointCard extends Component {
   }
 
   render() {
-    const { fullscreenMarker, peekMarker, deselectMarker, point } = this.props;
+    const { fullscreenMarker, deselectMarker, point } = this.props;
 
     // if we have an image, use that
     // otherwise, use an mdl-blue for the title,

@@ -64,8 +64,6 @@ export default function newPoint(state=initialState, action) {
       amenities.splice(action.amenityIndex, 1);
       return Object.assign({}, state, {amenities});;
     case CLEAR_POINT_PROPS:
-      console.log(initialState);
-      console.log(cleanState);
       return Object.assign({},cleanState);
     default:
       return state;

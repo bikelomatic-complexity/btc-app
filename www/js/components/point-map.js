@@ -59,9 +59,17 @@ class PointMap extends Component {
     setMapCenter(this.state.center);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const {mapState} = nextProps;
+    this.setState({
+      startCenter: mapState.center,
+    });
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return  (this.props.mapState.loading !== nextProps.mapState.loading) ||
             (this.state.startCenter !== nextState.startCenter) ||
+            (this.state.startCenter !== nextProps.mapState.center) ||
             (this.props.services.length !== nextProps.services.length);
   }
 
@@ -76,7 +84,6 @@ class PointMap extends Component {
       },
       this.props.afterMoved.bind(this, leaflet)
     );
-
   }
 
   render() {

@@ -66,8 +66,8 @@ document.addEventListener('deviceReady', () => {
         <Route path="/" component={Main}>
           <Route component={MapPage}>
             <IndexRoute />
-            <Route path="peek-point" component={PeekPointCard} />
-            <Route path="view-point" component={ViewPointCard} />
+            <Route path="peek-point/:pointId" component={PeekPointCard} />
+            <Route path="view-point/:pointId" component={ViewPointCard} />
           </Route>
           <Route path="settings" component={SettingsPage} />
           <Route path="login" component={LoginPage} />

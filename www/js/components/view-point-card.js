@@ -25,7 +25,7 @@ export class ViewPointCard extends Component {
   }
 
   render() {
-    const { fullscreenMarker, peekMarker, deselectMarker, point } = this.props;
+    const { peekMarker, deselectMarker, point } = this.props;
 
     // if we have an image, use that
     // otherwise, use an mdl-blue for the title,
@@ -116,12 +116,16 @@ export class ViewPointCard extends Component {
         </div>
       );
     } else {
+      let pointAmenities = '';
+      if (point.amenities !== undefined) {
+        pointAmenities = point.amenities.join(", ");
+      }
       cardDetails = (
         <div id="point-details">
           <CardText> {point.description} {timeDetails}</CardText>
           <CardText>
             {displayType(point.type)} <br/>
-            <span className="amenities"> {point.amenities.join(", ")} </span>
+            <span className="amenities"> {pointAmenities} </span>
           </CardText>
 
           <CardText> {point.phone} </CardText>
