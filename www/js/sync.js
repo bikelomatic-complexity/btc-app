@@ -1,16 +1,18 @@
-import PouchDB from 'pouchdb'
-import { bindAll, has } from 'underscore'
-import docuri from 'docuri'
+import PouchDB from 'pouchdb';
+import { bindAll, has } from 'underscore';
+import docuri from 'docuri';
+import config from 'config';
 
 import { docToPoint, syncRecievePointHack, reloadPoints, syncDeletePoint } from './reducers/points'
 
-import { COUCHDB_REMOTE_SERVER } from './config'
+const { protocol, domain, port } = config.get('Client.couch');
+const url = `${protocol}://${domain}:${port}/points`;
 
 export default class Sync {
 
   constructor(local, gateway, store, filter) {
     this.local = local;
-    this.remote = new PouchDB(COUCHDB_REMOTE_SERVER);
+    this.remote = new PouchDB(url);
     this.gateway = gateway;
     this.store = store;
     this.filter = (doc) => true;

@@ -1,0 +1,9 @@
+Client:
+  couch:
+    protocol: http
+    domain: btc-app-server-1559933658.us-east-1.elb.amazonaws.com
+    port: 5984
+  server:
+    protocol: http
+    domain: localhost
+    port: 8080

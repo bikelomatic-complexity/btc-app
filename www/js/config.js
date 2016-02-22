@@ -1,10 +1,6 @@
 /*global resolveLocalFileSystemURL*/
 import path from 'path';
 
-export const APP_SERVER = 'btc-app-server-1559933658.us-east-1.elb.amazonaws.com';
-export const APP_SERVER_PROTOCOL = 'http';
-export const APP_SERVER_URL = `${APP_SERVER_PROTOCOL}://${APP_SERVER}`;
-
 export const MBTILES_SERVER = 's3.amazonaws.com/track-tile-packages';
 export const MBTILES_SERVER_ROOT = 'mbtiles';
 
@@ -15,9 +11,6 @@ export const MBTILES_SERVER_ROOT = 'mbtiles';
 // TODO: We need to store mbtiles packages in localhost/persistent, but we
 // may encounter errors doing that
 export const MBTILES_LOCAL_ROOT = 'cdvfile://localhost/temporary';
-
-const BALANCER = 'OpsWorks-database-1500749100.us-east-1.elb.amazonaws.com';
-export const COUCHDB_REMOTE_SERVER = `http://${BALANCER}:5984/points`;
 
 /*
  * Returns a promise that resolves with an absolute path that can be used

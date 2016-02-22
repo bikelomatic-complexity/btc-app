@@ -1,7 +1,9 @@
 
 import request from 'request';
+import config from 'config';
 
-import { APP_SERVER_URL as baseUrl } from '../config';
+const { protocol, domain, port } = config.get( 'Client.server' );
+const baseUrl = `${protocol}://${domain}:${port}`;
 
 const REQUEST_LOGIN = 'btc-app/account/REQUEST_LOGIN';
 const RECEIVE_LOGIN = 'btc-app/account/RECEIVE_LOGIN';
