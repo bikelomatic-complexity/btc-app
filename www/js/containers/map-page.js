@@ -5,12 +5,10 @@ import { Paper } from 'material-ui';
 // import redux components
 import { connect } from 'react-redux';
 
-import {  fullscreenMarker, peekMarker, deselectMarker,
-  selectMarker, setMapCenter, setGeoLocation,
+import { selectMarker, setMapCenter, setGeoLocation,
   setMapZoom, setMapLoading } from '../actions/map-actions';
 
 import PointMap from '../components/point-map';
-import HammerPointCard from '../components/hammer-point-card';
 
 class MapPage extends Component {
 
@@ -29,20 +27,10 @@ class MapPage extends Component {
     const { dispatch, marker, services, alerts,
             tracks, settings, mapState, filters} = this.props;
 
-    let selectedPoint;
-    if(marker.selectedMarker) {
-      selectedPoint = marker.selectedMarker;
-    } else if(services.length > 0) {
-      selectedPoint = services[0];
-    } else {
-      selectedPoint = { };
-    }
-
     // add props and actions so the component can dispatch actions
     const pointChildren = React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
-        point: selectedPoint,
-        show: marker.showPointCard,
+        point: marker,
         heightOffset: 0,
         fullscreenMarker: () => {
           // dispatch(fullscreenMarker());
