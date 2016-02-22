@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { isFinite } from 'underscore'
 
-import { Switch, Layout, Header, Card, CardActions, CardText, CardTitle, ProgressBar, Button } from 'react-mdl';
-import DeviceStorage from './device-storage';
-import ACDrawer from './ac-drawer';
+import { RaisedButton, FontIcon, Card, CardMedia, CardTitle, CardActions, CardText, LinearProgress } from 'material-ui';
+
+import DeviceStorage from '../components/device-storage';
 
 import {
   fetchTrack,
@@ -14,8 +14,10 @@ import {
 } from '../reducers/tracks'
 
 class DownloadTrackPage extends Component {
-  constructor(props) {
-    super(props);
+
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Download Track');
   }
 
   onSaveTrack(id, pkg) {
@@ -48,11 +50,11 @@ class DownloadTrackPage extends Component {
       let progressBar;
       if(track.isFetching === true) {
         progressBar = (
-          <ProgressBar indeterminate={true} />
+          <LinearProgress indeterminate={true} />
         );
       } else if(isFinite(track.isFetching)) {
         progressBar = (
-          <ProgressBar progress={track.isFetching * 100} />
+          <LinearProgress progress={track.isFetching * 100} />
         )
       } else {
       }
@@ -80,34 +82,39 @@ class DownloadTrackPage extends Component {
       }
 
       return (
-        <Card key={id} className={'track-card'} shadow={3}>
-          <CardTitle>{track.name}</CardTitle>
+        <Card key={id} style={{margin:16}}>
+          <CardMedia overlay={
+            <CardTitle title={track.name} subtitle={`${track.sizeMiB} MiB`} />
+          }>
+            <img src="./img/usbr20.png" />
+          </CardMedia>
           <CardText>{track.description}</CardText>
-          <CardActions border={true}>
-            <Button primary={isSave} accent={!isSave} raised onClick={action}>
-              <span className='material-icons'>{icon}</span>
-              <span className='button-text'>{downloadButtonText}</span>
-            </Button>
-            
-            <span className='size-text'>{`${track.sizeMiB} MiB`}</span>
-
-            <div>
-            <Switch id={id} ripple={true} checked={track.active} onChange={this.onActivationTrack.bind(this, id)}/>
-            </div>
+          <CardActions>
+            <RaisedButton
+              secondary={isSave}
+              primary={!isSave}
+              onClick={action}
+              label={downloadButtonText}
+              icon={<FontIcon className="material-icons">cloud_download</FontIcon>}
+            />
+            <RaisedButton
+              id={id}
+              label="Show Track"
+              secondary={track.active}
+              onClick={this.onActivationTrack.bind(this, id, !track.active)}
+              icon={
+              <FontIcon className="material-icons">visibility</FontIcon>
+            }/>
           </CardActions>
         </Card>
       );
     });
 
     return (
-      <Layout fixedHeader>
-        <Header title="Save Track to Phone"/>
-        <ACDrawer page="Download Track"/>
-        <div className="form-column">
-          <DeviceStorage downloaded={downloaded}/>
-          { rows }
-        </div>
-      </Layout>
+      <div className="page-content">
+        <DeviceStorage downloaded={downloaded}/>
+        { rows }
+      </div>
     );
   }
 }

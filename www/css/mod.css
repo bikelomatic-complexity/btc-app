@@ -26,3 +26,8 @@
 .mdl-js-data-table {
   width: 100%;
 }
+
+/* This makes the login and register boxes look right. We'll fix this later */
+p {
+    margin-bottom: 0px !important;
+}

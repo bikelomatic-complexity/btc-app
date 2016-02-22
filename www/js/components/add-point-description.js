@@ -1,66 +1,45 @@
 import React, {Component} from 'react';
-import { Textfield, Button } from 'react-mdl';
-
-import {
-  setPointDescription,
-  setPointAddress,
-  setPointWebsite,
-  setPointPhone,
-  setPointImage,
-  clearPointProps
- } from '../actions/new-point-actions';
-
-// import redux components
-import { connect } from 'react-redux';
+import { RaisedButton, TextField } from 'material-ui';
 
 export class AddPointDescription extends Component {
-  constructor(props) {
-    super(props);
 
-    const { description, phoneNumber, address,
-            website, imageSrc } = this.props.newPoint;
-    this.state = {
-      description,
-      phoneNumber,
-      address,
-      website,
-      imageSrc
-    };
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Add Details');
   }
 
-  onDescriptionUpdate(newText) {
-    const { dispatch } = this.props;
-    this.setState({description:newText});
-    dispatch(setPointDescription(newText));
+  onDescriptionUpdate(event) {
+    const { setPointDescription } = this.props;
+    const description = event.target.value;
+    setPointDescription(description);
   }
 
-  onPhoneUpdate(newText) {
-    const { dispatch } = this.props;
-    this.setState({phoneNumber:newText});
-    dispatch(setPointPhone(newText));
+  onPhoneUpdate(event) {
+    const { setPointPhone } = this.props;
+    const phoneNumber = event.target.value;
+    setPointPhone(phoneNumber);
   }
 
-  onWebsiteUpdate(newText) {
-    const { dispatch } = this.props;
-    this.setState({website:newText});
-    dispatch(setPointWebsite(newText));
+  onWebsiteUpdate(event) {
+    const { setPointWebsite } = this.props;
+    const website = event.target.value;
+    setPointWebsite(website);
   }
 
-  onAddressUpdate(newText) {
-    const { dispatch } = this.props;
-    this.setState({address:newText});
-    dispatch(setPointAddress(newText));
+  onAddressUpdate(event) {
+    const { setPointAddress } = this.props;
+    const address = event.target.value;
+    setPointAddress(address);
   }
 
   onPhotoAdd() {
-    const { dispatch } = this.props;
+    const { setPointImage } = this.props;
     // This logic will not work on the browser
     // because of issue - Apache Cordova / CB-9852
     // https://issues.apache.org/jira/browse/CB-9852
     navigator.camera.getPicture(
       imageSrc => {
-        this.setState({ imageSrc });
-        dispatch(setPointImage(imageSrc));
+        setPointImage(imageSrc);
       },
       err => console.error( err ),
       { sourceType:navigator.camera.PictureSourceType.PHOTOLIBRARY,
@@ -71,54 +50,51 @@ export class AddPointDescription extends Component {
   }
 
   render() {
+    const { description, phoneNumber,
+      address, website, imageSrc } = this.props.newPoint;
+      
     let imgView = <div />
-    if (this.state.imageSrc !== '') {
+    if (imageSrc !== '') {
       imgView = <div>
-        <img src={this.state.imageSrc} width="100%" />
+        <img src={imageSrc} width="100%" />
       </div>
     }
 
     return (
       <div className="form-column">
         <div className="form-row">
-          <Textfield  rows={3} label="Description"
-                      onChange={this.onDescriptionUpdate.bind(this)}
-                      value={this.state.description} />
+          <TextField  rows={3} floatingLabelText="Description"
+                      onBlur={this.onDescriptionUpdate.bind(this)}
+                      defaultValue={description} />
         </div>
         <div className="form-row">
-          <Textfield  label="Phone Number"
+          <TextField  floatingLabelText="Phone Number"
                       type="tel"
-                      onChange={this.onPhoneUpdate.bind(this)}
-                      value={this.state.phoneNumber} />
+                      onBlur={this.onPhoneUpdate.bind(this)}
+                      defaultValue={phoneNumber} />
         </div>
         <div className="form-row">
-          <Textfield  label="Address"
-                      onChange={this.onAddressUpdate.bind(this)}
-                      value={this.state.address} />
+          <TextField  floatingLabelText="Address"
+                      onBlur={this.onAddressUpdate.bind(this)}
+                      defaultValue={address} />
         </div>
         <div className="form-row">
-          <Textfield  label="Website"
+          <TextField  floatingLabelText="Website"
                       type="url"
-                      onChange={this.onWebsiteUpdate.bind(this)}
-                      value={this.state.website} />
+                      onBlur={this.onWebsiteUpdate.bind(this)}
+                      defaultValue={website} />
         </div>
         <div className="form-row">
           { imgView }
         </div>
         <div className="form-row">
-          <Button onClick={this.onPhotoAdd.bind(this)} raised>
+          <RaisedButton secondary onClick={this.onPhotoAdd.bind(this)}>
                   Upload Photo
-          </Button>
+          </RaisedButton>
         </div>
       </div>
     )
   }
 }
 
-function select(state) {
-  return {
-    newPoint: state.newPoint
-  };
-}
-
-export default connect(select)(AddPointDescription);
+export default AddPointDescription;

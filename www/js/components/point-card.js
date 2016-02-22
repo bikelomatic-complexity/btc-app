@@ -1,26 +1,13 @@
 import React, {Component} from 'react';
-import { Card, CardTitle, CardActions, IconButton,
-          CardText, CardMenu, Button } from 'react-mdl';
+import { Card, CardMedia, CardTitle, CardActions, CardText, RaisedButton, Paper } from 'material-ui';
 import HoursTable from './hours-table';
 import { displayType } from '../types'
-
-// import redux components
-import { connect } from 'react-redux';
-import {  peekMarker,
-          fullscreenMarker,
-          deselectMarker } from '../actions/map-actions';
 
 const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
                 'Thursday', 'Friday', 'Saturday'];
 
 // export class for testing (use default export in application)
 export class PointCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: ''
-    };
-  }
 
   getDays(seasons) {
     let seasonDays = seasons[0].days;
@@ -39,7 +26,7 @@ export class PointCard extends Component {
   }
 
   render() {
-    const { dispatch } = this.props;
+    const { fullscreenMarker, peekMarker, deselectMarker } = this.props;
 
     // if we have an image, use that
     // otherwise, use an mdl-blue for the title,
@@ -59,21 +46,17 @@ export class PointCard extends Component {
       smallHeight = 224 - this.props.heightOffset;
     }
 
-    const headerHeight = Math.max(55,  55 + this.props.heightOffset);
+    const headerHeight = Math.max(64,  64 + this.props.heightOffset);
     const headerHeightCSS = `calc(100% - ${headerHeight}px)`;
     const smallHeightCSS = `${smallHeight}px`;
     let cardStyle = {
       width: '100%',
       position: 'fixed',
-      bottom: ( (this.props.show=='hide') ? '-300px' : '0px'),
+      bottom: ( (this.props.show=='hide') ? '-460px' : '0px'),
       height: ( (this.props.show=='full') ? headerHeightCSS : smallHeightCSS),
       transition: (this.props.heightOffset == 0 ? 'all 300ms ease' : ''),
-      zIndex:'8'
-    }
-
-    let cardActionStyle = {
-      padding: '0px',
-      background: 'white'
+      zIndex:'8',
+      overflowY:'auto'
     }
 
     let cardTitleStyle = {
@@ -84,15 +67,23 @@ export class PointCard extends Component {
     }
 
     let seeButton = (
-      <Button raised colored onClick={() => {
-        dispatch(fullscreenMarker());
-      }}>See More</Button>
+      <RaisedButton
+        secondary
+        onClick={() => {
+          fullscreenMarker();
+        }}
+        label="See More"
+      />
     );
     if (this.props.show=='full') {
       seeButton = (
-        <Button raised colored onClick={() => {
-          dispatch(peekMarker());
-        }}>See Less</Button>
+        <RaisedButton
+          secondary
+          label="See Less"
+          onClick={() => {
+            peekMarker();
+          }}
+        />
       );
     }
 
@@ -166,21 +157,27 @@ export class PointCard extends Component {
     }
 
     return (
-      <Card id="mdl-map-card" className="form-column" shadow={5} style={cardStyle}>
-        <CardTitle  className="form-row"
-                    style={cardTitleStyle}>
-            {this.props.point.name}
-        </CardTitle>
-        { cardDetails }
-        <CardActions border className="view-buttons form-row" style={cardActionStyle}>
+      <Card id="mdl-map-card" className="form-column" style={cardStyle}>
+        <CardMedia className="hammer-grab" overlay={
+          <CardTitle className="hammer-grab" title={this.props.point.name}/>
+        }>
+          <div style={cardTitleStyle} />
+        </CardMedia>
+        <div style={{margin:'8px', marginBottom:'64px'}}>
+          { cardDetails }
+        </div>
+        <CardActions className="form-row view-buttons">
           { seeButton }
-          <Button raised onClick={() => {
-            dispatch(deselectMarker());
-          }}>Close</Button>
+          <RaisedButton
+            onClick={() => {
+              deselectMarker();
+            }}
+            label="Close"
+          />
         </CardActions>
       </Card>
     );
   }
 }
 
-export default connect()(PointCard);
+export default PointCard;

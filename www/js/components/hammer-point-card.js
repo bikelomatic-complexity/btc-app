@@ -1,12 +1,6 @@
 import React, {Component} from 'react';
 import Hammer from 'react-hammerjs';
 
-// import redux components
-import { connect } from 'react-redux';
-import {  fullscreenMarker,
-          peekMarker,
-          deselectMarker } from '../actions/map-actions';
-
 // import the PointCard
 import PointCard from './point-card';
 
@@ -21,7 +15,7 @@ export class HammerPointCard extends Component {
   }
 
   handleSwipe(e) {
-    const { dispatch } = this.props;
+    const { fullscreenMarker, peekMarker, deselectMarker } = this.props;
     const pointDetails = document.getElementById('point-details');
     /* if we are at the top of the card, pulling down should shrink the card */
     if (this.props.show == "full") {
@@ -29,7 +23,7 @@ export class HammerPointCard extends Component {
 
       // because hammer onPanStart doesn't work,
       // just check if that time of the action was within 0.15s
-      if ((pointDetails.scrollTop == 0) && (e.isFirst || e.deltaTime < 150)) {
+      if ((pointDetails.scrollTop == 0) && (e.isFirst || e.deltaTime < 15)) {
         // you can change the screen state since you're at the top
         this.setState({changeScreen: true});
       }
@@ -37,8 +31,7 @@ export class HammerPointCard extends Component {
         // at the top of the details
         this.setState({heightOffset: e.deltaY});
       }
-      if (e.target.classList.contains("mdl-card__title") ||
-          e.target.classList.contains("mdl-card__title-text")) {
+      if (!e.target.id == "point-details") {
         // at the top of the details
         this.setState({heightOffset: e.deltaY});
         this.setState({changeScreen: true});
@@ -53,12 +46,12 @@ export class HammerPointCard extends Component {
     if (e.isFinal && this.state.changeScreen) {
       this.setState({heightOffset: 0, changeScreen: false});
       if (e.deltaY < -120) {
-        dispatch(fullscreenMarker())
+        fullscreenMarker();
       } else if (e.deltaY > 120){
         if (this.props.show == "full") {
-          dispatch(peekMarker())
+          peekMarker();
         } else {
-          dispatch(deselectMarker());
+          deselectMarker();
         }
       }
     }
@@ -66,19 +59,22 @@ export class HammerPointCard extends Component {
   }
 
   render() {
+    const { fullscreenMarker, peekMarker, deselectMarker } = this.props;
 
     return (
-      <Hammer vertical={true} onPanStart={this.handleSwipe.bind(this)}
-                              onPan={this.handleSwipe.bind(this)}>
+      <Hammer>
         <PointCard
           point={this.props.point}
           show={this.props.show}
           heightOffset={this.state.heightOffset}
           changeScreen={this.state.changeScreen}
+          deselectMarker={deselectMarker}
+          peekMarker={peekMarker}
+          fullscreenMarker={fullscreenMarker}
         />
       </Hammer>
     );
   }
 }
 
-export default connect()(HammerPointCard);
+export default HammerPointCard;

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
-import { Layout, Header, Checkbox, Button } from 'react-mdl';
+import { RaisedButton, Checkbox, FontIcon } from 'material-ui';
 
-import ACDrawer from './ac-drawer';
-import DropDown from './drop-down';
-import FilterDropDown from './filter-drop-down';
+import DropDown from '../components/drop-down';
 
 import { setFilters } from '../actions/map-actions';
 
@@ -24,9 +22,13 @@ class FilterPage extends Component {
       filters,
       activeFilters,
       openServices,
-      hideAlert,
-      showOptions: -1
+      hideAlert
     };
+  }
+
+  componentDidMount() {
+    const { setDrawer } = this.props;
+    setDrawer('Filter');
   }
 
   componentWillUnmount() {
@@ -62,12 +64,13 @@ class FilterPage extends Component {
   }
 
   clearFilters() {
-    const filters = types;
+    const filters = types.filter(type => type); // copy by value
+
     this.setState({
       filters,
       activeFilters:[],
       openServices:false,
-      alert:false
+      hideAlert:false
     });
   }
 
@@ -89,51 +92,61 @@ class FilterPage extends Component {
     const filtersDropDowns = this.state.activeFilters.map(
       (filterService, index) => {
         return (
-          <FilterDropDown key={filterService}
-                        index={index} filters={this.state.filters}
-                        filterService={filterService}
-                        removeFunction={this.removeFilter.bind(this, index)}/>
+          <RaisedButton
+            key={filterService}
+            style={{margin:8}}
+            onClick={this.removeFilter.bind(this, index)}
+            label={displayType(filterService)}
+            labelPosition="before"
+            icon={<FontIcon className="material-icons">clear</FontIcon>}/>
         );
       }
     );
 
     return (
-      <Layout fixedHeader>
-        <Header title="Filter Points"/>
-        <ACDrawer page="Filter"/>
-        <div className="form-column">
+      <div className="page-content">
 
-          { filtersDropDowns }
+        { filtersDropDowns }
 
-          <DropDown className="form-row"
-            raised text="Filter"
+        <div>
+          <DropDown
+            className="form-row"
+            text="Filter"
             options={this.state.filters}
             textTransform={displayType}
             onSelectFunction={this.addFilter.bind(this)}/>
-
-          <div className="form-row">
-            <Checkbox label="Only Show Open Services"
-                      onChange={this.toggleOpenServices.bind(this)}
-                      checked={this.state.openServices}/>
-          </div>
-
-          <div className="form-row">
-            <Checkbox label="Hide Alerts"
-                      onChange={this.toggleAlert.bind(this)}
-                      checked={this.state.hideAlert}/>
-          </div>
-
-          <div className="form-row">
-            <Button raised onClick={this.clearFilters.bind(this)}>
-              Clear
-            </Button>
-            <Button raised onClick={this.onFilter.bind(this)} colored>
-              Filter
-            </Button>
-          </div>
-
         </div>
-      </Layout>
+
+        <div className="form-row">
+          <Checkbox
+            label="Only Show Open Services"
+            onCheck={this.toggleOpenServices.bind(this)}
+            style={{marginBotton:16}}
+            checked={this.state.openServices}
+          />
+        </div>
+
+        <div className="form-row">
+          <Checkbox
+            label="Hide Alerts"
+            onCheck={this.toggleAlert.bind(this)}
+            style={{marginBotton:16}}
+            checked={this.state.hideAlert}
+          />
+        </div>
+
+        <div className="form-row">
+          <RaisedButton
+            onClick={this.clearFilters.bind(this)}
+            label="Clear"/>
+
+          <RaisedButton
+            onClick={this.onFilter.bind(this)}
+            secondary
+            label="Filter"/>
+        </div>
+
+      </div>
     );
   }
 }
