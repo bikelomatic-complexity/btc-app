@@ -19,9 +19,9 @@
     "watch": "nodemon -e js,html,css --watch \"www\" --ignore \"www/js/bundle.js\" --exec \"npm run start:browser\"",
     "livereload": "livereload \"platforms/browser/www/\"",
     "dev": "shell-exec --colored-output \"npm run watch\" \"npm run livereload\"",
-    "debug:android": "NODE_ENV=production cordova build android",
+    "debug:android": "cordova build android",
     "postdebug:android": "node scripts/postdebug-android.js",
-    "release:android": "NODE_ENV=production cordova build android --release",
+    "release:android": "cordova build android --release",
     "postrelease:android": "node scripts/postrelease-android.js"
   },
   "browserify": {
