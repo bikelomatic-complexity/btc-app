@@ -10,6 +10,10 @@ export class DropDown extends Component {
     this.state = {value:null}
   }
 
+  getSelected(){
+    return this.state.value;
+  }
+
   handleChange(event, index, value){
     this.setState({value})
     this.props.onSelectFunction(value);
@@ -23,14 +27,15 @@ export class DropDown extends Component {
       );
     });
     return (
-      <SelectField  floatingLabelText={text}
-                    value={value || this.state.value}
-                    onChange={this.handleChange.bind(this)}>
+      <SelectField
+        floatingLabelText={text}
+        value={value || this.state.value}
+        onChange={this.handleChange.bind(this)}>
         { optionItems }
       </SelectField>
     )
   }
 }
 
-DropDown.defaultProps = { textTransform: noOps, text: 'select' };
+DropDown.defaultProps = { onSelectFunction: noOps, textTransform: noOps, text: 'select' };
 export default DropDown;
