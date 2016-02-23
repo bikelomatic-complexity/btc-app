@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Card, CardMedia, CardTitle, CardActions,
   FontIcon, CardText, RaisedButton, Paper } from 'material-ui';
+import RatingSelector from './rating-selector';
 
 export class RatingPointCard extends Component {
 
@@ -68,28 +69,19 @@ export class RatingPointCard extends Component {
       },
       {
         user:'Ned',
-        rating:4,
+        rating:4.5,
         text:"Fantasticarino!"
       },
       {
         user:'Homer',
-        rating:2,
+        rating:2.5,
         text:"Needs more donuts..."
       }
     ]
 
     const comments = mockComments.map( comment => {
-      const stars = [1,2,3,4,5].map( star => {
-        let starIcon = (<FontIcon key={star} className="material-icons">
-          star_border
-        </FontIcon>);
-        if (comment.rating >= star) {
-          starIcon = (<FontIcon key={star} className="material-icons">
-            star
-          </FontIcon>);
-        }
-        return starIcon;
-      });
+      const stars = <RatingSelector rating={comment.rating} />
+
       return (<Paper key={comment.user}>
         <CardText style={{fontSize:'27px'}}>
           {comment.user} {stars}
@@ -99,6 +91,10 @@ export class RatingPointCard extends Component {
         </CardText>
       </Paper>);
     });
+
+    const newComment = (<div>
+
+    </div>);
 
     return (
       <Card id="mdl-map-card" className="form-column" style={cardStyle}>
