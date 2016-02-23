@@ -38,10 +38,8 @@ class RegisterPage extends Component {
           <TextField type="password" floatingLabelText="Confirm Password"/>
         </div>
         <div className="form-row">
-          <RaisedButton onClick={this.onCancel.bind(this)}>
-            Cancel
-          </RaisedButton>
-          <RaisedButton secondary>Submit</RaisedButton>
+          <RaisedButton onClick={this.onCancel.bind(this)} label="Cancel"/>
+          <RaisedButton secondary label="Submit"/>
         </div>
       </div>
     );

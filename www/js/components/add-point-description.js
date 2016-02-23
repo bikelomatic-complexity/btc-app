@@ -52,7 +52,7 @@ export class AddPointDescription extends Component {
   render() {
     const { description, phoneNumber,
       address, website, imageSrc } = this.props.newPoint;
-      
+
     let imgView = <div />
     if (imageSrc !== '') {
       imgView = <div>
@@ -88,9 +88,10 @@ export class AddPointDescription extends Component {
           { imgView }
         </div>
         <div className="form-row">
-          <RaisedButton secondary onClick={this.onPhotoAdd.bind(this)}>
-                  Upload Photo
-          </RaisedButton>
+          <RaisedButton
+            secondary
+            onClick={this.onPhotoAdd.bind(this)}
+            label="Upload Photo"/>
         </div>
       </div>
     )

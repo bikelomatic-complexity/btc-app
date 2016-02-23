@@ -46,7 +46,7 @@ export class AddPointAmenities extends Component {
     );
     if (this.props.newPoint.amenities && this.props.newPoint.amenities.indexOf(this.state.amenity)!==-1) {
       addAmenityButton = (
-        <RaisedButton secondary disabled> Add Amenity </RaisedButton>
+        <RaisedButton secondary disabled label="Add Amenity"/>
       );
     }
 

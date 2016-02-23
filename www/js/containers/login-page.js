@@ -30,7 +30,7 @@ class LoginPage extends Component {
             <TextField type="password" floatingLabelText="Password"/>
           </div>
           <div className="form-row">
-            <RaisedButton secondary> Log In </RaisedButton>
+            <RaisedButton secondary label="Log In"/>
           </div>
           <div className="form-row">
             <div style={centerText}>
