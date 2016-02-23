@@ -92,9 +92,8 @@ class LoginPage extends React.Component {
               type="password" />
             <RaisedButton style={ styles.login }
               secondary
-              onClick={ this.onLogin }>
-              Log In
-            </RaisedButton>
+              onClick={ this.onLogin }
+              label="Log In"/>
             <div style={ styles.options }>
               <p style={ styles.p }>
                 <Link to="register">

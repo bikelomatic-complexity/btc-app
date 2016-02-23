@@ -154,9 +154,8 @@ class RegisterPage extends React.Component {
           { fields }
           <RaisedButton style={ styles.login }
             secondary
-            onClick={ this.onRegister }>
-            Sign up
-          </RaisedButton>
+            onClick={ this.onRegister }
+            label="Sign Up"/>
         </Paper>
       );
     }
