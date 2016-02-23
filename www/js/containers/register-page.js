@@ -47,6 +47,9 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     color: '#B3B3B3'
+  },
+  p: {
+    marginBottom: 0
   }
 };
 
@@ -83,7 +86,7 @@ class RegisterPage extends React.Component {
     if ( account.received && !account.registrationError ) {
       content = (
         <Paper style={ styles.block } zDepth={ 2 }>
-          <p>
+          <p style={ styles.p }>
             { "Check your inbox for our verification email" }
           </p>
         </Paper>
@@ -91,10 +94,10 @@ class RegisterPage extends React.Component {
     } else if ( account.received && account.registrationError ) {
       content = (
         <Paper style={ styles.block } zDepth={ 2 }>
-          <p>
+          <p style={ styles.p }>
             { "There were some issues creating your account" }
           </p>
-          <p>
+          <p style={ styles.p }>
             { account.registrationError }
           </p>
         </Paper>
@@ -102,7 +105,8 @@ class RegisterPage extends React.Component {
     } else {
       const fields = [ {
         hint: 'Email',
-        field: 'email'
+        field: 'email',
+        type: 'email'
       }, {
         hint: 'Password',
         field: 'password',
@@ -144,7 +148,7 @@ class RegisterPage extends React.Component {
       } );
       content = (
         <Paper style={ styles.block } zDepth={ 2 }>
-          <p>
+          <p style={ styles.p }>
             { "Sign up for a Bicycle Touring Companion account" }
           </p>
           { fields }

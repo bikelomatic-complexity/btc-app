@@ -19,9 +19,9 @@
     "watch": "nodemon -e js,html,css --watch \"www\" --ignore \"www/js/bundle.js\" --exec \"npm run start:browser\"",
     "livereload": "livereload \"platforms/browser/www/\"",
     "dev": "shell-exec --colored-output \"npm run watch\" \"npm run livereload\"",
-    "debug:android": "cordova build android",
+    "debug:android": "NODE_ENV=production cordova build android",
     "postdebug:android": "node scripts/postdebug-android.js",
-    "release:android": "cordova build android --release",
+    "release:android": "NODE_ENV=production cordova build android --release",
     "postrelease:android": "node scripts/postrelease-android.js"
   },
   "browserify": {
@@ -46,7 +46,6 @@
     "btc-models": "git+https://github.com/bikelomatic-complexity/btc-models.git",
     "docuri": "^4.2.1",
     "immutable": "^3.7.6",
-    "jquery": "^2.2.1",
     "leaflet": "^0.7.7",
     "material-ui": "^0.14.4",
     "ngeohash": "^0.6.0",
@@ -62,6 +61,8 @@
     "redux-thunk": "^1.0.3",
     "request": "^2.69.0",
     "rest": "^1.3.1",
+    "superagent": "^1.7.2",
+    "superagent-defaults": "^0.1.14",
     "to-id": "^1.0.5",
     "underscore": "^1.8.3"
   },
@@ -81,7 +82,7 @@
     "eslint": "^2.0.0",
     "eslint-plugin-react": "^3.16.1",
     "istanbul": "^0.4.2",
-    "jquery": "^2.2.1",
+    "js-yaml": "^3.5.3",
     "livereload": "^0.4.0",
     "mocha": "^2.3.4",
     "nodemon": "^1.8.1",

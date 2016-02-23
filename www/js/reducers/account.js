@@ -1,5 +1,4 @@
-
-import request from 'request';
+import defaults from 'superagent-defaults';
 import config from 'config';
 import { has } from 'underscore';
 
@@ -61,15 +60,9 @@ export default function reducer( state = initState, action ) {
   }
 }
 
-// Default request configuration to query the app server api
-const server = request.defaults( {
-  baseUrl,
-  json: true,
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  }
-} );
+const server = defaults()
+  .set( 'Accept', 'application/json' )
+  .set( 'Content-Type', 'application/json' );
 
 // Asyncronous action creator that will ask the app server for an api
 // token, given the user's email and password.
@@ -81,21 +74,19 @@ export function login( email, password ) {
     dispatch( requestLogin( email, password ) );
 
     const promise = new Promise( ( resolve, reject ) => {
-      server.post(
-        '/authenticate'
-        , { body: { email, password } }
-        , ( error, response, body ) => {
+      server.post( baseUrl + '/authenticate' )
+        .send( { email, password } )
+        .end( ( error, response ) => {
           switch ( response.statusCode ) {
           case 200:
-            resolve( body.auth_token );
+            resolve( response.body.auth_token );
             break;
           case 400:
           default:
-            reject( body.unauthorized );
+            reject( response.body.unauthorized );
             break;
           }
-        }
-      );
+        } );
     } );
 
     promise.then( auth_token => {
@@ -145,21 +136,19 @@ export function register( email, password, username, first, last ) {
     dispatch( requestRegistration( attrs ) );
 
     const promise = new Promise( ( resolve, reject ) => {
-      server.post(
-        '/register'
-        , { body: attrs }
-        , ( error, response, body ) => {
+      server.post( baseUrl + '/register' )
+        .send( attrs )
+        .end( ( error, response ) => {
           switch ( response.statusCode ) {
           case 200:
             resolve();
             break;
           case 400:
           default:
-            reject( body.error );
+            reject( response.body.error );
             break;
           }
-        }
-      );
+        } );
     } );
 
     promise.then( ( ) => {

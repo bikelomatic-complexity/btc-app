@@ -48,6 +48,9 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     color: '#B3B3B3'
+  },
+  p: {
+    marginBottom: 0
   }
 };
 
@@ -80,6 +83,7 @@ class LoginPage extends React.Component {
             <TextField hintText="Email"
               underlineShow={ true }
               fullWidth={ true }
+              type="email"
               ref="email" />
             <TextField hintText="Password"
               underlineShow={ true }
@@ -92,12 +96,14 @@ class LoginPage extends React.Component {
               Log In
             </RaisedButton>
             <div style={ styles.options }>
-              <p>
-                <Link to="register"> Sign Up
-                </Link> for Adventure Cycling
+              <p style={ styles.p }>
+                <Link to="register">
+                { "Sign Up" }
+                </Link>
+                { " for Adventure Cycling" }
               </p>
-              <p>
-                Forgot password?
+              <p style={ styles.p }>
+                { "Forgot password?" }
               </p>
             </div>
           </Paper>
