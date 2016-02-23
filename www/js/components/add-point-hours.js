@@ -25,11 +25,12 @@ export class AddPointHours extends Component {
 
   addHours(){
     const { addPointHours } = this.props;
-    const { formatTime } = this.refs.openPicker;
+    const { openPicker, closePicker, dayDropDown } = this.refs;
+    const { formatTime } = openPicker;
 
-    const day = this.refs.dayDropDown.getSelected();
-    const opens = formatTime(this.refs.openPicker.getTime());
-    const closes = formatTime(this.refs.closePicker.getTime());
+    const day = dayDropDown.getSelected();
+    const opens = formatTime(openPicker.getTime());
+    const closes = formatTime(closePicker.getTime());
 
     let days = [];
     if ( day == 'Weekdays') {
@@ -42,14 +43,12 @@ export class AddPointHours extends Component {
     days.forEach((day)=>{
       addPointHours({day, opens, closes});
     });
-    this.setState({day:weekDays[(weekDays.indexOf(day)+1) % weekDays.length]})
-    this.forceUpdate();
+    dayDropDown.setSelected(weekDays[(weekDays.indexOf(day)+1) % weekDays.length])
   }
 
   removeHours(index){
     const { removePointHours } = this.props;
     removePointHours(index);
-    this.forceUpdate();
   }
 
   render() {
