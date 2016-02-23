@@ -25,7 +25,11 @@
     "postrelease:android": "node scripts/postrelease-android.js"
   },
   "browserify": {
-    "transform": ["babelify", "envify", "config-browserify"]
+    "transform": [
+      "babelify",
+      "envify",
+      "config-browserify"
+    ]
   },
   "repository": {
     "type": "git",
@@ -39,8 +43,10 @@
   "homepage": "https://github.com/bikelomatic-complexity/app#readme",
   "dependencies": {
     "blob-util": "^1.2.0",
+    "btc-models": "git+https://github.com/bikelomatic-complexity/btc-models.git",
     "docuri": "^4.2.1",
     "immutable": "^3.7.6",
+    "jquery": "^2.2.1",
     "leaflet": "^0.7.7",
     "material-ui": "^0.14.4",
     "ngeohash": "^0.6.0",
@@ -75,6 +81,7 @@
     "eslint": "^2.0.0",
     "eslint-plugin-react": "^3.16.1",
     "istanbul": "^0.4.2",
+    "jquery": "^2.2.1",
     "livereload": "^0.4.0",
     "mocha": "^2.3.4",
     "nodemon": "^1.8.1",

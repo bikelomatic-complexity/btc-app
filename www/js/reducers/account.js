@@ -1,8 +1,11 @@
 
 import request from 'request';
 import config from 'config';
+import { has } from 'underscore';
 
-const { protocol, domain, port } = config.get( 'Client.server' );
+import { User } from 'btc-models';
+
+const {protocol, domain, port} = config.get( 'Client.server' );
 const baseUrl = `${protocol}://${domain}:${port}`;
 
 const REQUEST_LOGIN = 'btc-app/account/REQUEST_LOGIN';
@@ -10,10 +13,13 @@ const RECEIVE_LOGIN = 'btc-app/account/RECEIVE_LOGIN';
 const LOGOUT = 'btc-app/account/LOGOUT';
 const REQUEST_REGISTRATION = 'btc-app/account/REQUEST_REGISTRATION';
 const RECEIVE_REGISTRATION = 'btc-app/account/RECEIVE_REGISTRATION';
+const ERROR_IN_REGISTRATION = 'btc-app/account/ERROR_IN_REGISTRATION';
 
 const initState = {
   loggedIn: false,
-  fetching: false
+  fetchingLogin: false, // False until login response arrives
+  fetchingRegistration: false, // False until registration response arrives
+  received: false // True when a request has completed
 };
 
 export default function reducer( state = initState, action ) {
@@ -22,7 +28,7 @@ export default function reducer( state = initState, action ) {
     return Object.assign( {}, state, {
       email: action.email,
       password: action.password,
-      fetching: true,
+      fetchingLogin: true,
       loggedIn: false
     } );
   case RECEIVE_LOGIN:
@@ -30,25 +36,32 @@ export default function reducer( state = initState, action ) {
       token: action.token,
       roles: action.roles,
       error: action.error,
-      fetching: false,
+      fetchingLogin: false,
       loggedIn: action.loggedIn
     } );
   case LOGOUT:
     return Object.assign( {}, initState );
+  case ERROR_IN_REGISTRATION:
+    return Object.assign( {}, state, {
+      fetchingRegistration: false,
+      registrationError: action.error
+    } );
   case REQUEST_REGISTRATION:
-    return state;
+    return Object.assign( {}, state, {
+      fetchingRegistration: true
+    } );
   case RECEIVE_REGISTRATION:
     return Object.assign( {}, state, {
-      registrationError: action.error
+      received: true,
+      registrationError: action.error,
+      fetchingRegistration: false
     } );
   default:
     return state;
   }
 }
 
-/*
- * Default request configuration to query the app server api
- */
+// Default request configuration to query the app server api
 const server = request.defaults( {
   baseUrl,
   json: true,
@@ -58,13 +71,11 @@ const server = request.defaults( {
   }
 } );
 
-/*
- * Asyncronous action creator that will ask the app server for an api
- * token, given the user's email and password.
- *
- * When dispatched, the dispatch function will return a promise that
- * resolves if login is successful and rejects otherwise.
- */
+// Asyncronous action creator that will ask the app server for an api
+// token, given the user's email and password.
+//
+// When dispatched, the dispatch function will return a promise that
+// resolves if login is successful and rejects otherwise.
 export function login( email, password ) {
   return dispatch => {
     dispatch( requestLogin( email, password ) );
@@ -97,17 +108,13 @@ export function login( email, password ) {
   };
 }
 
-/*
- * Notify the store that a login request has begun
- */
+// Notify the store that a login request has begun
 function requestLogin( email, password ) {
   return { type: REQUEST_LOGIN, email, password };
 }
 
-/*
- * Notify the store that a login request has completed, and pass in
- * either the new credentials or the error message
- */
+// Notify the store that a login request has completed, and pass in
+// either the new credentials or the error message
 function recieveLogin( token, error ) {
   const action = { type: RECEIVE_LOGIN, token, error };
   if ( error ) {
@@ -118,21 +125,29 @@ function recieveLogin( token, error ) {
   return action;
 }
 
-/*
- * Notify the store to log out the user
- */
+// Notify the store to log out the user
 export function logout() {
   return { type: LOGOUT };
 }
 
+// This action validates User attributes then sends a registration request
+// to the api server.
 export function register( email, password, username, first, last ) {
+  const attrs = { email, password, username, first, last };
+
+  // Short-circuit the request if there is a client side validation error
+  const user = new User( attrs, { validate: true } );
+  if ( user.validationError ) {
+    return errorInRegistration( user.validationError );
+  }
+
   return dispatch => {
-    dispatch( requestRegistration( email, password ) );
+    dispatch( requestRegistration( attrs ) );
 
     const promise = new Promise( ( resolve, reject ) => {
       server.post(
         '/register'
-        , { body: { email, password, username, first, last } }
+        , { body: attrs }
         , ( error, response, body ) => {
           switch ( response.statusCode ) {
           case 200:
@@ -147,8 +162,8 @@ export function register( email, password, username, first, last ) {
       );
     } );
 
-    promise.then( auth_token => {
-      dispatch( receiveRegistration( ) );
+    promise.then( ( ) => {
+      dispatch( receiveRegistration() );
     }, error => {
       dispatch( receiveRegistration( error ) );
     } );
@@ -157,10 +172,17 @@ export function register( email, password, username, first, last ) {
   };
 }
 
+// The action to create when there are client-side validation errors
+function errorInRegistration( error ) {
+  return { type: ERROR_IN_REGISTRATION, error };
+}
+
+// The action to create when we send the registration request to the server
 function requestRegistration() {
   return { type: REQUEST_REGISTRATION };
 }
 
-function receiveRegistration(error) {
+// The action to create when there is a server error during registration
+function receiveRegistration( error ) {
   return { type: RECEIVE_REGISTRATION, error };
 }
