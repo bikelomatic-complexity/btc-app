@@ -1,0 +1,9 @@
+Client:
+  couch:
+    protocol: http
+    domain: opsworks-database-1500749100.us-east-1.elb.amazonaws.com
+    port: 5984
+  server:
+    protocol: http
+    domain: btc-app-server-1559933658.us-east-1.elb.amazonaws.com
+    port: 80

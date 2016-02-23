@@ -1,0 +1,7 @@
+Client:
+  couch:
+    domain: SERVER_COUCH_DOMAIN
+    port: SERVER_COUCH_PORT
+  server:
+    domain: SERVER_DOMAIN
+    port: SERVER_PORT
