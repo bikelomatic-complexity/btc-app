@@ -9,6 +9,7 @@ import { findIndex } from 'underscore'
 
 import { selectMarker, setMapCenter, setGeoLocation,
   setMapZoom, setMapLoading } from '../actions/map-actions';
+import { setRating } from '../reducers/new-rating';
 
 import PointMap from '../components/point-map';
 
@@ -45,7 +46,7 @@ class MapPage extends Component {
   }
 
   render() {
-    const { dispatch, marker, services, alerts,
+    const { dispatch, marker, services, alerts, newRating,
             tracks, settings, mapState, filters} = this.props;
 
     // add props and actions so the component can dispatch actions
@@ -53,6 +54,10 @@ class MapPage extends Component {
       return React.cloneElement(child, {
         point: marker,
         heightOffset: 0,
+        newRating: newRating,
+        setRating: (rating) => {
+          dispatch(setRating(rating));
+        },
         fullscreenMarker: () => {
           const id = this.props.marker._id;
           const urlId = encodeURIComponent(id);
@@ -102,7 +107,8 @@ function select(state) {
     tracks: state.tracks.toJS(),
     settings: state.settings.toJS(),
     mapState: state.mapState,
-    filters: state.filters
+    filters: state.filters,
+    newRating: state.newRating
   };
 }
 

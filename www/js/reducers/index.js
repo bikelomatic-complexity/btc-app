@@ -11,6 +11,7 @@ import filters from './filter';
 import newPoint from './new-point';
 import drawer from './drawer';
 import dialog from './dialog';
+import newRating from './new-rating';
 
 export default combineReducers({
   marker,
@@ -22,5 +23,6 @@ export default combineReducers({
   filters,
   newPoint,
   drawer,
-  dialog
+  dialog,
+  newRating
 });

@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import { Card, CardMedia, CardTitle, CardActions,
-  FontIcon, CardText, RaisedButton, Paper } from 'material-ui';
+  FontIcon, CardText, RaisedButton, Paper, TextField } from 'material-ui';
 import RatingSelector from './rating-selector';
 
 export class RatingPointCard extends Component {
 
   render() {
-    const { peekMarker, deselectMarker, point } = this.props;
+    const { peekMarker, deselectMarker, point,
+      setRating, newRating } = this.props;
 
     // if we have an image, use that
     // otherwise, use an mdl-blue for the title,
@@ -80,7 +81,8 @@ export class RatingPointCard extends Component {
     ]
 
     const comments = mockComments.map( comment => {
-      const stars = <RatingSelector rating={comment.rating} />
+      const stars = <RatingSelector disabled={true}
+                                    rating={comment.rating} />
 
       return (<Paper key={comment.user}>
         <CardText style={{fontSize:'27px'}}>
@@ -92,9 +94,19 @@ export class RatingPointCard extends Component {
       </Paper>);
     });
 
-    const newComment = (<div>
-
-    </div>);
+    const newComment = (<Paper>
+      <div style={{padding:'16px'}}>
+      <div>
+        <RatingSelector setRating={setRating.bind(this)}
+          rating={newRating.rating}
+          style={{fontSize:'40px'}} />
+      </div>
+      <div>
+        <TextField  multiLine={true} rows={2} rowsMax={4}
+                    floatingLabelText="New Comment" />
+      </div>
+      </div>
+    </Paper>);
 
     return (
       <Card id="mdl-map-card" className="form-column" style={cardStyle}>
@@ -105,6 +117,7 @@ export class RatingPointCard extends Component {
         </CardMedia>
         <div style={{margin:'8px', marginBottom:'64px'}}>
           { comments }
+          { newComment }
         </div>
         <CardActions className="form-row view-buttons">
           { seeButton }
