@@ -40,7 +40,7 @@ if(process.env.NODE_ENV === 'development') {
   window.PouchDB = PouchDB;
 }
 
-const local = new PouchDB('stop-here-db');
+const local = new PouchDB('stop-here-db2');
 const gateway = new Gateway(local);
 
 const storeBuilder = new StoreBuilder([ gateway.getMiddleware() ]);
