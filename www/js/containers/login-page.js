@@ -2,6 +2,7 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { Snackbar } from 'material-ui';
 import { LetterheadPage } from '../components/page';
 import { FormBlock, Block, BlockFooter, errorProps } from '../components/block';
 /*eslint-enable no-unused-vars*/
@@ -10,6 +11,7 @@ import { connect } from 'react-redux';
 import bindAll from 'lodash/bindAll';
 
 import { login } from '../reducers/account';
+import { setSnackbar } from '../reducers/notifications';
 
 const fields = [ {
   name: 'email',
@@ -38,7 +40,10 @@ class LoginPage extends Component {
 
   onLogin( values ) {
     const {dispatch, history} = this.props;
-    dispatch( login( values, ( ) => history.push( '/' ) ) );
+    dispatch( login( values, ( ) => {
+      history.push( '/' );
+      dispatch( setSnackbar( { message: 'You have logged in!' }, 500 ) );
+    } ) );
   }
 
   render() {

@@ -1,31 +1,35 @@
-export const SET_DIALOG = 'SET_DIALOG';
-export const CLOSE_DIALOG = 'CLOSE_DIALOG';
+export const SET_DIALOG = 'btc-app/dialog/SET_DIALOG';
+export const CLOSE_DIALOG = 'btc-app/dialog/CLOSE_DIALOG';
 
+const initialState = {
+  title: "",
+  description: "",
+  modal: false,
+  actions: [],
+  open: false
+}
 
-export function setDialog(dialog) {
+export default function dialog( state = initialState, action ) {
+  switch ( action.type ) {
+  case SET_DIALOG:
+    return Object.assign( state, action.dialog, { open: true } );
+  case CLOSE_DIALOG:
+    return { title: "", description: "", modal: false, actions: [], open: false };
+  default:
+    return state;
+  }
+}
+
+export function setDialog( dialog ) {
   return {
     type: SET_DIALOG,
-    dialog
-  };
+  dialog };
 }
 
 export function closeDialog() {
   return {
     type: CLOSE_DIALOG
   };
-}
-
-const initialState = {title:"", description:"", modal:false, actions:[],open:false}
-
-export default function dialog(state=initialState, action) {
-  switch (action.type) {
-    case SET_DIALOG:
-      return Object.assign(state,action.dialog,{open:true});
-    case CLOSE_DIALOG:
-      return {title:"", description:"", modal:false, actions:[],open:false};
-    default:
-      return state;
-  }
 }
 
 /*

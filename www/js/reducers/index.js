@@ -11,7 +11,7 @@ import filters from './filter';
 import newPoint from './new-point';
 import account from './account';
 import drawer from './drawer';
-import dialog from './dialog';
+import notifications from './notifications';
 
 const reducers = {
   marker: marker,
@@ -24,7 +24,7 @@ const reducers = {
   newPoint: newPoint,
   account: account,
   drawer: drawer,
-  dialog: dialog
+  notifications: notifications
 };
 
 export default combineReducers( reducers );

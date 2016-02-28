@@ -14,6 +14,7 @@ import Main from './containers/main';
 import MapPage from './containers/map-page';
 import AddPointPage from './containers/add-point-page';
 import LoginPage from './containers/login-page';
+import LogoutPage from './containers/logout-page';
 import RegisterPage from './containers/register-page';
 import ThanksPage from './containers/thanks-page';
 import DownloadTrackPage from './containers/download-track-page';
@@ -66,6 +67,7 @@ document.addEventListener( 'deviceReady', ( ) => {
           <IndexRoute component={ MapPage } />
           <Route path="/settings" component={ SettingsPage } />
           <Route path="/login" component={ LoginPage } />
+          <Route path="/logout" component={ LogoutPage } />
           <Route path="/register" component={ RegisterPage } />
           <Route path="/thanks" component={ ThanksPage } />
           <Route path="/add-point" component={ AddPointPage }>
