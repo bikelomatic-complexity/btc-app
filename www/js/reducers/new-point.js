@@ -67,10 +67,12 @@ export default function newPoint(state=initialState, action) {
     case CLEAR_POINT_PROPS:
       return Object.assign({},cleanState);
     case SET_POINT_PROPS:
+      let transData = {};
       if (action.point.schedule) {
-        action.point.hours = action.point.schedule[0].days;
+        transData.hours = action.point.schedule[0].days;
       }
-      return Object.assign({}, state, action.point);
+      transData.coverUrl = action.point.imageSrc;
+      return Object.assign({}, state, transData, action.point);
     default:
       return state;
   }

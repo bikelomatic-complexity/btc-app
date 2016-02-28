@@ -168,37 +168,6 @@ export class AddPointPage extends Component {
       })
     });
 
-    // determine next page, based on current page
-    const currentPage = this.props.children.type;
-    const disabled = !((name) && (type));
-    let nextText = "Next";
-    let onNext = ()=>{};
-    switch (currentPage) {
-      case AddPointLocation:
-        onNext = ()=> {this.props.history.push('/add-point/name');}
-        break;
-      case AddPointName:
-        onNext = ()=> {this.props.history.push('/add-point/description');}
-        break;
-      case AddPointDescription:
-        onNext = ()=> {this.props.history.push('/add-point/hours');}
-        if (!((description) || (phoneNumber) ||
-              (address) || (website) || (imageSrc))) {
-          nextText = "Skip";
-        }
-        break;
-      case AddPointHours:
-        onNext = ()=> {this.props.history.push('/add-point/amenities');}
-        if (hours.length == 0) {
-          nextText = "Skip";
-        }
-        break;
-      case AddPointAmenities:
-        onNext = this.onSubmit;
-        nextText = "Submit";
-        break;
-    }
-
     const addTabs = [
       {
         value:AddPointLocation, icon: "place",
@@ -238,6 +207,43 @@ export class AddPointPage extends Component {
         onClick:()=>{this.props.history.push(`/update-point/${urlId}/amenities`);},
       }
     ];
+
+    // determine next page, based on current page
+    const currentPage = this.props.children.type;
+    const disabled = !((name) && (type));
+    let nextText = "Next";
+    let onNext = ()=>{};
+    switch (currentPage) {
+      case AddPointLocation:
+        onNext = ()=> {this.props.history.push('/add-point/name');}
+        break;
+      case AddPointName:
+        onNext = ()=> {this.props.history.push('/add-point/description');}
+        break;
+      case AddPointDescription:
+        onNext = ()=> {this.props.history.push('/add-point/hours');}
+        if (newPoint._id) {
+          onNext = ()=> {this.props.history.push('/update-point/${urlId}/hours');}
+        }
+        if (!((description) || (phoneNumber) ||
+              (address) || (website) || (imageSrc))) {
+          nextText = "Skip";
+        }
+        break;
+      case AddPointHours:
+        onNext = ()=> {this.props.history.push('/add-point/amenities');}
+        if (newPoint._id) {
+          onNext = ()=> {this.props.history.push('/update-point/${urlId}/amenities');}
+        }
+        if (hours.length == 0) {
+          nextText = "Skip";
+        }
+        break;
+      case AddPointAmenities:
+        onNext = this.onSubmit;
+        nextText = "Submit";
+        break;
+    }
 
     const tabs = newPoint._id ? updateTabs : addTabs;
 

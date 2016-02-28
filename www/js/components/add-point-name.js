@@ -48,7 +48,7 @@ export class AddPointName extends Component {
           value={this.props.newPoint.type}
           options={types}
           textTransform={displayType}
-          onSelectFunction={this.onTypeSelect.bind(this)}/>;
+          onSelectFunction={this.onTypeSelect.bind(this)}/>
       </div>
     )
   }
