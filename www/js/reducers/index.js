@@ -1,5 +1,5 @@
 
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 
 import marker from './marker';
 import points from './points';
@@ -9,20 +9,24 @@ import settings from './settings';
 import mapState from './map';
 import filters from './filter';
 import newPoint from './new-point';
+import account from './account';
 import drawer from './drawer';
 import dialog from './dialog';
 import newRating from './new-rating';
 
-export default combineReducers({
-  marker,
-  points,
-  network,
-  tracks,
-  settings,
-  mapState,
-  filters,
-  newPoint,
-  drawer,
-  dialog,
-  newRating
-});
+const reducers = {
+  marker: marker,
+  points: points,
+  network: network,
+  tracks: tracks,
+  settings: settings,
+  mapState: mapState,
+  filters: filters,
+  newPoint: newPoint,
+  account: account,
+  drawer: drawer,
+  dialog: dialog,
+  newRating: newRating
+};
+
+export default combineReducers( reducers );
