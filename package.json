@@ -99,7 +99,6 @@
     "phantomjs-prebuilt": "^2.1.4",
     "react-addons-test-utils": "^0.14.2",
     "redux-devtools": "^3.1.1",
-    "shell-executor": "^0.3.2",
-    "watchify": "^3.7.0"
+    "shell-executor": "^0.3.2"
   }
 }
