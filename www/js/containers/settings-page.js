@@ -54,7 +54,7 @@ export class SettingsPage extends Component {
           </SettingSwitch>
         </div>
         <div className="form-row">
-          <RaisedButton secondary>Sync Edits Now</RaisedButton>
+          <RaisedButton secondary label="Sync Edits Now"/>
         </div>
         <div className="form-row">
           <div>

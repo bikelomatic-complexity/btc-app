@@ -260,9 +260,8 @@ export class AddPointPage extends Component {
         <div className="form-row">
           <RaisedButton secondary
                   disabled={disabled && (currentPage!==AddPointLocation)}
-                  onClick={onNext.bind(this)}>
-            {nextText}
-          </RaisedButton>
+                  onClick={onNext.bind(this)}
+                  label={nextText}/>
         </div>
       </div>
     );
