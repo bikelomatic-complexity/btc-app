@@ -5,9 +5,23 @@ import RatingSelector from './rating-selector';
 
 export class RatingPointCard extends Component {
 
+  onSubmit() {
+    const { newRating, newComment } = this.props;
+    // TODO: submit this comment
+    console.log(`rating: ${newRating.rating}`);
+    console.log(`comment: ${newRating.comment}`);
+    console.log(`date: ${new Date().toJSON()}`)
+  }
+
+  onCommentUpdate(event) {
+    const {setComment} = this.props;
+    const comment = event.target.value;
+    setComment(comment);
+  }
+
   render() {
     const { peekMarker, deselectMarker, point,
-      setRating, newRating } = this.props;
+      setRating, newRating, setComment } = this.props;
 
     // if we have an image, use that
     // otherwise, use an mdl-blue for the title,
@@ -59,52 +73,89 @@ export class RatingPointCard extends Component {
 
     const mockComments = [
       {
-        user:'Ted',
-        rating:4,
-        text:'This place was great!'
+        'user': "gypsy",
+        'rating': 0,
+        'text': "This place was a great... place.",
+        'date': "2016-02-28T15:37:04.540Z"
       },
       {
-        user:'Bill',
-        rating:5,
-        text:"This place was most excellent!"
+        'user': "cambot",
+        'rating': 3,
+        'text': "",
+        'date': "2016-02-28T15:37:04.540Z"
       },
       {
-        user:'Ned',
-        rating:4.5,
-        text:"Fantasticarino!"
+        'user': "tomservo",
+        'rating': 4,
+        'text': "This place was okay",
+        'date': "2016-02-28T15:37:04.540Z"
       },
       {
-        user:'Homer',
-        rating:2.5,
-        text:"Needs more donuts..."
+        'user': "crow",
+        'rating': 2,
+        'text': "This place smells like pepperoni... I love pepperoni!",
+        'date': "2016-02-28T15:37:04.540Z"
       }
     ]
 
-    const comments = mockComments.map( comment => {
-      const stars = <RatingSelector disabled={true}
-                                    rating={comment.rating} />
+    let commentElements = (<Paper>
+      <CardText style={{fontSize:'27px', textAlign:'center'}}>
+        There are no comments for this service yet.
+      </CardText>
+    </Paper>);
 
-      return (<Paper key={comment.user}>
-        <CardText style={{fontSize:'27px'}}>
-          {comment.user} {stars}
-        </CardText>
-        <CardText>
-          {comment.text}
-        </CardText>
-      </Paper>);
-    });
+    // TODO: swap with mockComments with point.comments
+    if (mockComments.length !== 0) {
+      commentElements = mockComments.map( comment => {
+        let stars = <span />
+        if (comment.rating > 0) {
+          stars = <RatingSelector disabled={true} rating={comment.rating}
+                                  style={{fontSize:'14px'}}/>
+        }
+        const starElement = (<span style={{verticalAlign:'middle'}}>
+          {stars}
+        </span>);
+
+        const date = comment.date.slice(0,10).split('-');
+        const dateString = [date[1], date[2], date[0]].join('/');
+
+        const dateElement = (<span>{dateString}</span>);
+
+        let commentElement = <span key={comment.user} />
+        if (comment.text !== "") {
+          commentElement = (<Paper key={comment.user}>
+            <CardText style={{fontSize:'27px'}}>
+              {comment.user}
+            </CardText>
+            <div style={{fontSize:'12px', paddingLeft:'16px'}}>
+              {starElement} {dateElement}
+            </div>
+            <CardText style={{fontSize:'16px'}}>
+              {comment.text}
+            </CardText>
+          </Paper>)
+        }
+        return commentElement;
+      });
+    }
 
     const newComment = (<Paper>
       <div style={{padding:'16px'}}>
-      <div>
-        <RatingSelector setRating={setRating.bind(this)}
-          rating={newRating.rating}
-          style={{fontSize:'40px'}} />
-      </div>
-      <div>
-        <TextField  multiLine={true} rows={2} rowsMax={4}
-                    floatingLabelText="New Comment" />
-      </div>
+        <div>
+          <RatingSelector setRating={setRating.bind(this)}
+            rating={newRating.rating}
+            style={{fontSize:'40px'}} />
+        </div>
+        <div>
+          <TextField  onBlur={this.onCommentUpdate.bind(this)}
+                      fullWidth={true}
+                      multiLine={true} rows={2} rowsMax={4}
+                      hintText="New Comment" />
+        </div>
+        <div>
+          <RaisedButton label="Submit Comment"
+                        onClick={this.onSubmit.bind(this)}/>
+        </div>
       </div>
     </Paper>);
 
@@ -116,7 +167,7 @@ export class RatingPointCard extends Component {
           <div style={cardTitleStyle} />
         </CardMedia>
         <div style={{margin:'8px', marginBottom:'64px'}}>
-          { comments }
+          { commentElements }
           { newComment }
         </div>
         <CardActions className="form-row view-buttons">

@@ -9,7 +9,7 @@ import { findIndex } from 'underscore'
 
 import { selectMarker, setMapCenter, setGeoLocation,
   setMapZoom, setMapLoading } from '../actions/map-actions';
-import { setRating } from '../reducers/new-rating';
+import { setRating, setComment } from '../reducers/new-rating';
 
 import PointMap from '../components/point-map';
 
@@ -57,6 +57,9 @@ class MapPage extends Component {
         newRating: newRating,
         setRating: (rating) => {
           dispatch(setRating(rating));
+        },
+        setComment: (comment) => {
+          dispatch(setComment(comment));
         },
         fullscreenMarker: () => {
           const id = this.props.marker._id;

@@ -18,14 +18,10 @@ export class RatingSelector extends Component {
       } else if ((this.props.rating - star) === 0.5) {
         icon = "star_half";
       }
-      return icon;
-    });
-
-    const starIcons = stars.map( (star, i) => {
       return (<FontIcon style={this.props.style}
-                        key={i} className="material-icons"
-                        onClick={()=>{this.onSetRating(i+1)}}>
-        {star}
+                        key={star} className="material-icons"
+                        onClick={()=>{this.onSetRating(star)}}>
+        {icon}
       </FontIcon>);
     });
 
@@ -38,7 +34,7 @@ export class RatingSelector extends Component {
       </FontIcon>);
     }
 
-    return (<span>{starIcons}{clearIcon}</span>);
+    return (<span>{stars}{clearIcon}</span>);
   }
 }
 
