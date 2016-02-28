@@ -1,0 +1,28 @@
+.entry {
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.entry__header {
+    margin-bottom: 0px;
+}
+
+.entry__header--error {
+    color: red;
+}
+
+.entry__action {
+}
+
+.entry__footer {
+    width: inherit;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

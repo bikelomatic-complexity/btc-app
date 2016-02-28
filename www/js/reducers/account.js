@@ -1,66 +1,113 @@
-import defaults from 'superagent-defaults';
+import request from 'superagent';
 import config from 'config';
-import { has } from 'underscore';
+import merge from 'lodash/merge';
+import assign from 'lodash/assign';
 
-import { User } from 'btc-models';
-
-const {protocol, domain, port} = config.get( 'Client.server' );
-const baseUrl = `${protocol}://${domain}:${port}`;
+import { User, Login } from 'btc-models';
 
 const REQUEST_LOGIN = 'btc-app/account/REQUEST_LOGIN';
 const RECEIVE_LOGIN = 'btc-app/account/RECEIVE_LOGIN';
+const FAILED_LOGIN_VALIDATION = 'btc-app/account/FAILED_LOGIN_VALIDATION';
 const LOGOUT = 'btc-app/account/LOGOUT';
+
 const REQUEST_REGISTRATION = 'btc-app/account/REQUEST_REGISTRATION';
 const RECEIVE_REGISTRATION = 'btc-app/account/RECEIVE_REGISTRATION';
-const ERROR_IN_REGISTRATION = 'btc-app/account/ERROR_IN_REGISTRATION';
+const FAILED_REG_VALIDATION = 'btc-app/account/FAILED_REG_VALIDATION';
 
 const initState = {
-  loggedIn: false,
-  fetchingLogin: false, // False until login response arrives
-  fetchingRegistration: false, // False until registration response arrives
-  received: false // True when a request has completed
+  login: {
+    loggedIn: false,
+    email: null,
+    password: null,
+    fetching: false, // true during login request
+    received: false, // false until login response received
+    validation: [],
+    error: null
+  },
+  registration: {
+    fetching: false, // true during registration request
+    received: false, // false until registration response received
+    validation: [],
+    error: null
+  }
 };
+
+function clear( state ) {
+  return assign( {}, state, {
+    login: {
+      validation: [],
+      error: null
+    },
+    registration: {
+      validation: [],
+      error: null
+    }
+  } );
+}
 
 export default function reducer( state = initState, action ) {
   switch ( action.type ) {
   case REQUEST_LOGIN:
-    return Object.assign( {}, state, {
-      email: action.email,
-      password: action.password,
-      fetchingLogin: true,
-      loggedIn: false
+    return merge( {}, clear( state ), {
+      login: {
+        email: action.email,
+        password: action.password,
+        loggedIn: false,
+        fetching: true
+      }
     } );
   case RECEIVE_LOGIN:
-    return Object.assign( {}, state, {
-      token: action.token,
-      roles: action.roles,
-      error: action.error,
-      fetchingLogin: false,
-      loggedIn: action.loggedIn
+    return merge( {}, clear( state ), {
+      login: {
+        token: action.token,
+        roles: action.roles,
+        error: action.error,
+        loggedIn: action.loggedIn,
+        fetching: false
+      }
+    } );
+  case FAILED_LOGIN_VALIDATION:
+    return merge( {}, clear( state ), {
+      login: {
+        validation: action.error,
+        loggedIn: false,
+        fetching: false
+      }
     } );
   case LOGOUT:
-    return Object.assign( {}, initState );
-  case ERROR_IN_REGISTRATION:
-    return Object.assign( {}, state, {
-      fetchingRegistration: false,
-      registrationError: action.error
-    } );
+    return assign( {}, initState );
   case REQUEST_REGISTRATION:
-    return Object.assign( {}, state, {
-      fetchingRegistration: true
+    return merge( {}, clear( state ), {
+      registration: {
+        fetching: true
+      }
     } );
   case RECEIVE_REGISTRATION:
-    return Object.assign( {}, state, {
-      received: true,
-      registrationError: action.error,
-      fetchingRegistration: false
+    return merge( {}, clear( state ), {
+      registration: {
+        error: action.error,
+        received: true,
+        fetching: false
+      }
+    } );
+  case FAILED_REG_VALIDATION:
+    return merge( {}, clear( state ), {
+      registration: {
+        validation: action.error,
+        received: false,
+        fetching: false
+      }
     } );
   default:
     return state;
   }
 }
 
-const server = defaults()
+const {protocol, domain, port} = config.get( 'Client.server' );
+const baseUrl = `${protocol}://${domain}:${port}`;
+
+const server = route => request
+  .post( baseUrl + route )
   .set( 'Accept', 'application/json' )
   .set( 'Content-Type', 'application/json' );
 
@@ -69,13 +116,19 @@ const server = defaults()
 //
 // When dispatched, the dispatch function will return a promise that
 // resolves if login is successful and rejects otherwise.
-export function login( email, password ) {
-  return dispatch => {
-    dispatch( requestLogin( email, password ) );
+export function login( attrs, success ) {
+  // Short-circuit the request if there is a client side validation error
+  const user = new Login( attrs, { validate: true } );
+  if ( user.validationError ) {
+    return errorInLogin( user.validationError );
+  }
 
-    const promise = new Promise( ( resolve, reject ) => {
-      server.post( baseUrl + '/authenticate' )
-        .send( { email, password } )
+  return dispatch => {
+    dispatch( requestLogin( attrs.email, attrs.password ) );
+
+    return new Promise( ( resolve, reject ) => {
+      server( '/authenticate' )
+        .send( attrs )
         .end( ( error, response ) => {
           switch ( response.statusCode ) {
           case 200:
@@ -87,16 +140,20 @@ export function login( email, password ) {
             break;
           }
         } );
-    } );
-
-    promise.then( auth_token => {
+    } ).then( auth_token => {
       dispatch( recieveLogin( auth_token ) );
+      if ( success ) {
+        success();
+      }
     }, error => {
       dispatch( recieveLogin( null, error ) );
     } );
-
-    return promise;
   };
+}
+
+// The action to create when there are client-side validation errors
+function errorInLogin( error ) {
+  return { type: FAILED_LOGIN_VALIDATION, error };
 }
 
 // Notify the store that a login request has begun
@@ -123,9 +180,7 @@ export function logout() {
 
 // This action validates User attributes then sends a registration request
 // to the api server.
-export function register( email, password, username, first, last ) {
-  const attrs = { email, password, username, first, last };
-
+export function register( attrs, success ) {
   // Short-circuit the request if there is a client side validation error
   const user = new User( attrs, { validate: true } );
   if ( user.validationError ) {
@@ -136,7 +191,7 @@ export function register( email, password, username, first, last ) {
     dispatch( requestRegistration( attrs ) );
 
     const promise = new Promise( ( resolve, reject ) => {
-      server.post( baseUrl + '/register' )
+      server( '/register' )
         .send( attrs )
         .end( ( error, response ) => {
           switch ( response.statusCode ) {
@@ -153,6 +208,7 @@ export function register( email, password, username, first, last ) {
 
     promise.then( ( ) => {
       dispatch( receiveRegistration() );
+      if ( success ) success();
     }, error => {
       dispatch( receiveRegistration( error ) );
     } );
@@ -163,7 +219,7 @@ export function register( email, password, username, first, last ) {
 
 // The action to create when there are client-side validation errors
 function errorInRegistration( error ) {
-  return { type: ERROR_IN_REGISTRATION, error };
+  return { type: FAILED_REG_VALIDATION, error };
 }
 
 // The action to create when we send the registration request to the server

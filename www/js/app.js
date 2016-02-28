@@ -1,18 +1,21 @@
+/*global process*/
 import PouchDB from 'pouchdb';
 
+/*eslint-disable no-unused-vars*/
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+/*eslint-enable no-unused-vars*/
 
-import StoreBuilder, { createAppStore } from './store';
+import ReactDOM from 'react-dom';
 
 import Main from './containers/main';
 
 import MapPage from './containers/map-page';
 import AddPointPage from './containers/add-point-page';
-import RegisterPage from './containers/register-page';
 import LoginPage from './containers/login-page';
+import RegisterPage from './containers/register-page';
+import ThanksPage from './containers/thanks-page';
 import DownloadTrackPage from './containers/download-track-page';
 import FilterPage from './containers/filter-page';
 import SettingsPage from './containers/settings-page';
@@ -23,61 +26,59 @@ import AddPointDescription from './components/add-point-description';
 import AddPointHours from './components/add-point-hours';
 import AddPointAmenities from './components/add-point-amenities';
 
-
-
+import StoreBuilder from './store';
 import Gateway from './gateway';
-
 import Sync from './sync';
 import { NetworkManager } from './reducers/network';
-
 import { reloadPoints } from './reducers/points';
 
 // this is needed for material-ui
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-if(process.env.NODE_ENV === 'development') {
+if ( process.env.NODE_ENV === 'development' ) {
   window.PouchDB = PouchDB;
 }
 
-const local = new PouchDB('stop-here-db');
-const gateway = new Gateway(local);
+const local = new PouchDB( 'stop-here-db' );
+const gateway = new Gateway( local );
 
-const storeBuilder = new StoreBuilder([ gateway.getMiddleware() ]);
+const storeBuilder = new StoreBuilder( [ gateway.getMiddleware() ] );
 const store = storeBuilder.build();
 
 /* Requires cordova.js to already be loaded via <script> */
-document.addEventListener('deviceReady', () => {
+document.addEventListener( 'deviceReady', ( ) => {
 
-  const network = new NetworkManager(store);
+  const network = new NetworkManager( store );
   network.monitor();
 
-  const sync = new Sync(local, gateway, store);
+  const sync = new Sync( local, gateway, store );
   sync.start();
 
-  gateway.getPoints().then(points => {
-    store.dispatch(reloadPoints(points));
-  });
+  gateway.getPoints().then( points => {
+    store.dispatch( reloadPoints( points ) );
+  } );
 
-  ReactDOM.render((
-    <Provider store={store}>
-      <Router history={browserHistory}>
-        <Route path="/" component={Main}>
-          <IndexRoute component={MapPage}/>
-          <Route path="/settings" component={SettingsPage}/>
-          <Route path="/login" component={LoginPage}/>
-          <Route path="/register" component={RegisterPage}/>
-          <Route path="/add-point" component={AddPointPage}>
-            <IndexRoute component={AddPointLocation} />
-            <Route path="name" component={AddPointName} />
-            <Route path="description" component={AddPointDescription} />
-            <Route path="hours" component={AddPointHours} />
-            <Route path="amenities" component={AddPointAmenities} />
+  ReactDOM.render( (
+    <Provider store={ store }>
+      <Router history={ browserHistory }>
+        <Route path="/" component={ Main }>
+          <IndexRoute component={ MapPage } />
+          <Route path="/settings" component={ SettingsPage } />
+          <Route path="/login" component={ LoginPage } />
+          <Route path="/register" component={ RegisterPage } />
+          <Route path="/thanks" component={ ThanksPage } />
+          <Route path="/add-point" component={ AddPointPage }>
+            <IndexRoute component={ AddPointLocation } />
+            <Route path="name" component={ AddPointName } />
+            <Route path="description" component={ AddPointDescription } />
+            <Route path="hours" component={ AddPointHours } />
+            <Route path="amenities" component={ AddPointAmenities } />
           </Route>
-          <Route path="/download-track" component={DownloadTrackPage}/>
-          <Route path="/filter" component={FilterPage}/>
+          <Route path="/download-track" component={ DownloadTrackPage } />
+          <Route path="/filter" component={ FilterPage } />
         </Route>
       </Router>
     </Provider>
-  ), document.getElementById('main'));
-});
+    ), document.getElementById( 'main' ) );
+} );
