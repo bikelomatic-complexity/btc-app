@@ -13,8 +13,8 @@ export class AddPointAmenities extends Component {
   }
 
   componentDidMount() {
-    const { setDrawer } = this.props;
-    setDrawer('Add Amenities');
+    const { setDrawer, newPoint } = this.props;
+    setDrawer(newPoint._id ? 'Update Amenities' : 'Add Amenities');
   }
 
   addAmenity(){

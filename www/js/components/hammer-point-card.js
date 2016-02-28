@@ -59,7 +59,7 @@ export class HammerPointCard extends Component {
   }
 
   render() {
-    const { fullscreenMarker, peekMarker, deselectMarker } = this.props;
+    const { history, fullscreenMarker, peekMarker, deselectMarker, setPointProps, setUpdate } = this.props;
 
     return (
       <Hammer>
@@ -71,6 +71,9 @@ export class HammerPointCard extends Component {
           deselectMarker={deselectMarker}
           peekMarker={peekMarker}
           fullscreenMarker={fullscreenMarker}
+          setPointProps={setPointProps}
+          setUpdate={setUpdate}
+          history={history}
         />
       </Hammer>
     );

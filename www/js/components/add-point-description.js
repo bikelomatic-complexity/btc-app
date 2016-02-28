@@ -3,9 +3,9 @@ import { RaisedButton, TextField } from 'material-ui';
 
 export class AddPointDescription extends Component {
 
-  componentDidMount() {
-    const { setDrawer } = this.props;
-    setDrawer('Add Details');
+  componentWillReceiveProps(nextProps) {
+    const { setDrawer, newPoint } = nextProps;
+    setDrawer(newPoint._id ? 'Update Details' : 'Add Details');
   }
 
   onDescriptionUpdate(event) {
@@ -50,14 +50,25 @@ export class AddPointDescription extends Component {
   }
 
   render() {
+    const { newPoint, params } = this.props;
     const { description, phoneNumber,
-      address, website, imageSrc } = this.props.newPoint;
+      address, website, imageSrc } = newPoint;
 
     let imgView = <div />
     if (imageSrc !== '') {
       imgView = <div>
         <img src={imageSrc} width="100%" />
       </div>
+    }
+
+    // if we are loading an update point,
+    // don't render the page til we have the correct data.
+    // (defaultValue cannot be overwritten after initial render)
+
+    if(((newPoint._id === undefined)
+      && (params.pointId !== undefined))
+      || (newPoint._id !== params.pointId)) {
+        return <div/>;
     }
 
     return (

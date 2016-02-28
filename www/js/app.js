@@ -60,25 +60,33 @@ document.addEventListener( 'deviceReady', ( ) => {
     store.dispatch( reloadPoints( points ) );
   } );
 
-  ReactDOM.render( (
-    <Provider store={ store }>
-      <Router history={ browserHistory }>
-        <Route path="/" component={ Main }>
-          <IndexRoute component={ MapPage } />
+  ReactDOM.render((
+    <Provider store={store}>
+      <Router history={browserHistory}>
+        <Route path="/" component={Main}>
+          <IndexRoute component={MapPage}/>
           <Route path="/settings" component={ SettingsPage } />
           <Route path="/login" component={ LoginPage } />
           <Route path="/logout" component={ LogoutPage } />
           <Route path="/register" component={ RegisterPage } />
           <Route path="/thanks" component={ ThanksPage } />
-          <Route path="/add-point" component={ AddPointPage }>
-            <IndexRoute component={ AddPointLocation } />
-            <Route path="name" component={ AddPointName } />
-            <Route path="description" component={ AddPointDescription } />
-            <Route path="hours" component={ AddPointHours } />
-            <Route path="amenities" component={ AddPointAmenities } />
+
+          <Route path="/add-point" component={AddPointPage}>
+            <IndexRoute component={AddPointLocation} />
+            <Route path="name" component={AddPointName} />
+            <Route path="description" component={AddPointDescription} />
+            <Route path="hours" component={AddPointHours} />
+            <Route path="amenities" component={AddPointAmenities} />
           </Route>
-          <Route path="/download-track" component={ DownloadTrackPage } />
-          <Route path="/filter" component={ FilterPage } />
+
+          <Route path="/update-point/:pointId" component={AddPointPage}>
+            <IndexRoute component={AddPointDescription} />
+            <Route path="hours" component={AddPointHours} />
+            <Route path="amenities" component={AddPointAmenities} />
+          </Route>
+
+          <Route path="/download-track" component={DownloadTrackPage}/>
+          <Route path="/filter" component={FilterPage}/>
         </Route>
       </Router>
     </Provider>
