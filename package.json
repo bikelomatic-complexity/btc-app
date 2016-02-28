@@ -4,7 +4,7 @@
   "description": "Bicycle Touring Companion",
   "scripts": {
     "build": "browserify www/js/app.js -o www/js/bundle.js",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel/register --recursive",
+    "//": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel/register --recursive",
     "debug:android": "cordova build android",
     "dev": "shell-exec --colored-output \"npm run watch\" \"npm run livereload\"",
     "doc": "esdoc -c .esdoc.json",
