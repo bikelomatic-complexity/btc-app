@@ -1,0 +1,9 @@
+Client:
+  couch:
+    protocol: http
+    domain: localhost
+    port: 5984
+  server:
+    protocol: http
+    domain: localhost
+    port: 8080

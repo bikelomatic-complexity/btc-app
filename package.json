@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "description": "Bicycle Touring Companion",
   "scripts": {
-    "build": "browserify www/js/app.js -t babelify -t envify -o www/js/bundle.js",
+    "build": "browserify www/js/app.js -o www/js/bundle.js",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel/register --recursive",
     "debug:android": "cordova build android",
     "dev": "shell-exec --colored-output \"npm run watch\" \"npm run livereload\"",
     "doc": "esdoc -c .esdoc.json",
-    "format": "jscs www/ -x -r inline; true",
+    "format": "esformatter --diff 'www/js/**/*.js'",    "lint": "eslint 'www/js/**/*.js'",
+    "format:enforce": "esformatter -i 'www/js/**/*.js'",
     "livereload": "livereload \"platforms/browser/www/\"",
     "postdebug:android": "node scripts/postdebug-android.js",
     "postinstall": "cordova prepare",
@@ -22,6 +23,13 @@
     "test": "mocha --compilers js:babel/register --recursive",
     "watch": "nodemon -e js,html,css --watch \"www\" --ignore \"www/js/bundle.js\" --exec \"npm run start:browser\""
   },
+  "browserify": {
+    "transform": [
+      "babelify",
+      "envify",
+      "config-browserify"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bikelomatic-complexity/btc-app.git"
@@ -34,6 +42,7 @@
   "homepage": "https://github.com/bikelomatic-complexity/btc-app#readme",
   "dependencies": {
     "blob-util": "^1.2.0",
+    "btc-models": "git+https://github.com/bikelomatic-complexity/btc-models.git",
     "docuri": "^4.2.1",
     "immutable": "^3.7.6",
     "leaflet": "^0.7.7",
@@ -49,7 +58,10 @@
     "react-tap-event-plugin": "^0.2.2",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.3",
+    "request": "^2.69.0",
     "rest": "^1.3.1",
+    "superagent": "^1.7.2",
+    "superagent-defaults": "^0.1.14",
     "to-id": "^1.0.5",
     "underscore": "^1.8.3"
   },
@@ -60,13 +72,21 @@
     "babelify": "^6.3.0",
     "browserify": "^11.2.0",
     "chai": "^3.4.1",
+    "config": "^1.19.0",
+    "config-browserify": "^1.0.5",
     "cordova": "^5.3.3",
     "envify": "^3.4.0",
     "es5-shim": "^4.5.7",
     "es6-shim": "^0.34.4",
     "esdoc": "^0.4.1",
+    "esformatter": "^0.9.1",
+    "esformatter-ignore": "^0.1.3",
+    "esformatter-jsx": "^4.1.3",
+    "eslint": "^2.0.0",
+    "eslint-plugin-react": "^3.16.1",
     "istanbul": "^0.4.2",
     "jscs": "^2.3.4",
+    "js-yaml": "^3.5.3",
     "karma": "^0.13.21",
     "karma-browserify": "^5.0.1",
     "karma-es6-shim": "^0.2.3",

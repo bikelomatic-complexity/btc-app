@@ -41,36 +41,38 @@ export class AddPointAmenities extends Component {
     let addAmenityButton = (
       <RaisedButton secondary
               disabled={!(this.state.amenity || this.props.newPoint.amenities.indexOf(this.state.amenity)!==-1)}
-              onClick={this.addAmenity.bind(this)}>
-        Add Amenity
-      </RaisedButton>
+              onClick={this.addAmenity.bind(this)}
+              label="Add Amenity"/>
     );
     if (this.props.newPoint.amenities && this.props.newPoint.amenities.indexOf(this.state.amenity)!==-1) {
       addAmenityButton = (
-        <RaisedButton secondary disabled> Add Amenity </RaisedButton>
+        <RaisedButton secondary disabled label="Add Amenity"/>
       );
     }
 
+    const amenities = this.props.newPoint.amenities.map((amenity, index)=>{
+      return (
+        <RaisedButton
+          key={amenity}
+          style={{margin:8}}
+          onClick={this.removeAmenity.bind(this, amenity)}
+          label={displayType(amenity)}
+          labelPosition="before"
+          icon={<FontIcon className="material-icons">clear</FontIcon>}/>
+      )
+    });
 
     return (
       <div className="form-column">
-        {this.props.newPoint.amenities.map((amenity, index)=>{
-          return (
-            <RaisedButton
-              key={amenity}
-              style={{margin:8}}
-              onClick={this.removeAmenity.bind(this, amenity)}
-              label={displayType(amenity)}
-              labelPosition="before"
-              icon={<FontIcon className="material-icons">clear</FontIcon>}/>
-          )
-        })}
         <div className="form-row">
           <DropDown options={types}
                     text="Amenity"
                     textTransform={displayType}
                     onSelectFunction={this.selectAmenity.bind(this)}/>
           { addAmenityButton }
+        </div>
+        <div>
+          { amenities }
         </div>
       </div>
     )
