@@ -10,7 +10,8 @@ import {  SET_POINT_NAME,
           REMOVE_POINT_HOURS,
           ADD_POINT_AMENITIES,
           REMOVE_POINT_AMENITIES,
-          CLEAR_POINT_PROPS
+          CLEAR_POINT_PROPS,
+          SET_POINT_PROPS
         } from '../actions/new-point-actions';
 
 const cleanState = {
@@ -64,9 +65,12 @@ export default function newPoint(state=initialState, action) {
       amenities.splice(action.amenityIndex, 1);
       return Object.assign({}, state, {amenities});;
     case CLEAR_POINT_PROPS:
-      console.log(initialState);
-      console.log(cleanState);
       return Object.assign({},cleanState);
+    case SET_POINT_PROPS:
+      if (action.point.schedule) {
+        action.point.hours = action.point.schedule[0].days;
+      }
+      return Object.assign({}, state, action.point);
     default:
       return state;
   }

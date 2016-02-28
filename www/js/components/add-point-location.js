@@ -18,7 +18,7 @@ export class AddPointLocation extends Component {
   componentDidMount() {
     const { setPointLocation, mapState, setDrawer } = this.props;
     setPointLocation(mapState.center);
-    setDrawer('Pick a Location');
+    setDrawer(this.props.update ? 'Update Location' : 'Pick a Location');
   }
 
   render() {

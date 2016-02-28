@@ -19,8 +19,8 @@ export class AddPointHours extends Component {
   }
 
   componentDidMount() {
-    const { setDrawer } = this.props;
-    setDrawer('Add Hours');
+    const { setDrawer, newPoint } = this.props;
+    setDrawer(newPoint._id ? 'Update Hours' : 'Add Hours');
   }
 
   addHours(){

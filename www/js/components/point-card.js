@@ -26,6 +26,12 @@ export class PointCard extends Component {
     return seasonDays;
   }
 
+  updatePoint() {
+    const id = this.props.point._id;
+    const urlId = encodeURIComponent(id);
+    this.props.history.push(`/update-point/${urlId}`);
+  }
+
   render() {
     const { fullscreenMarker, peekMarker, deselectMarker } = this.props;
 
@@ -169,7 +175,9 @@ export class PointCard extends Component {
               anchorOrigin={{horizontal: 'right', vertical: 'top'}}
               targetOrigin={{horizontal: 'right', vertical: 'top'}}
             >
-              <MenuItem primaryText="Edit Information" />
+              <MenuItem
+                primaryText="Update Information"
+                onClick={this.updatePoint.bind(this)}/>
             </IconMenu>
           </div>
         </CardMedia>
