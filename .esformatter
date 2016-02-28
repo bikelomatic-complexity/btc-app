@@ -5,10 +5,18 @@
   ],
 
   "jsx": {
+    "formatJSX": true,
     "attrsOnSameLineAsTag": false,
     "maxAttrsOnTag": 1,
     "firstAttributeOnSameLine": true,
-    "alignWithFirstAttribute": false
+    "alignWithFirstAttribute": false,
+    "htmlOptions": {
+      "brace-style": "collapse-preserve-inline",
+      "unformatted": [
+        "inline",
+        "block"
+      ]
+    }
   },
 
   "preset" : "default",

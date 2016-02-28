@@ -9,6 +9,9 @@ import { connect } from 'react-redux';
 
 import { logout } from '../reducers/account';
 
+// The logout page serves two purposes.
+//  1. to let the user they are logged out
+//  2. to actually perform the logout action when the page is loaded.
 class LogoutPage extends Component {
   componentDidMount() {
     this.props.setDrawer( 'Logout' );
@@ -18,7 +21,7 @@ class LogoutPage extends Component {
   render() {
     return (
       <LetterheadPage>
-        <Block header="You have successfully logged out." />
+        <Block header='You have successfully logged out.' />
       </LetterheadPage>
       );
   }

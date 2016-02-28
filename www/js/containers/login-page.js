@@ -1,4 +1,3 @@
-
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { Link } from 'react-router';
@@ -23,8 +22,8 @@ const fields = [ {
 
 const footer = (
 <BlockFooter>
-  <span><Link to="register"> Sign up </Link> for the app</span>
-  <span><Link to="forgot"> Forgot password? </Link></span>
+  <span><Link to="register">Sign up</Link> for the app</span>
+  <span><Link to="forgot">Forgot password?</Link></span>
 </BlockFooter>
 );
 
@@ -38,6 +37,11 @@ class LoginPage extends Component {
     this.props.setDrawer( 'Login' );
   }
 
+  // The FormBlock will call `onLogin` with `values` as an object containing
+  // field, field value pairs.
+  //
+  // If login is successful, redirect the user to the map and display a
+  // snackbar message.
   onLogin( values ) {
     const {dispatch, history} = this.props;
     dispatch( login( values, ( ) => {

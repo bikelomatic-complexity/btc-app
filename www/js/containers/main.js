@@ -9,10 +9,14 @@ import { connect } from 'react-redux';
 import { setDrawer } from '../reducers/drawer';
 import { setDialog, closeDialog, closeSnackbar } from '../reducers/notifications';
 
-/**
- * the App component fetches service data from the server and displays
- * a map with points for each service. Fetching hapens upon mount.
- */
+// This component is the root of what the user sees in the browser chrome.
+// It contains the drawer, the app bar, and the loaded sub-page.
+//
+// Since this component is always loaded, we anchor the dialog and snackbar
+// elements here.
+//
+// If you are looking for the react router, that is in app.js, the entry point
+// of our application.
 export class App extends Component {
   onActionTap( tapHandler ) {
     const {dispatch} = this.props;
@@ -57,14 +61,17 @@ export class App extends Component {
         <ACDrawer history={ this.props.history }
           page={ this.props.drawer }
           account={ this.props.account } />
+
         <Paper style={ { height: '100%'} }>
           { childrenWithActions }
         </Paper>
+
         <Dialog { ...this.props.dialog }
           onRequestClose={ this.onActionTap.bind( this ) }
           actions={ dialogActions }>
           { this.props.dialog.description }
         </Dialog>
+
         <Snackbar { ...this.props.snackbar }
           onRequestClose={ ( ) => dispatch( closeSnackbar() ) } />
       </Paper>

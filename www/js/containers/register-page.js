@@ -36,6 +36,10 @@ class RegisterPage extends Component {
     this.props.setDrawer( 'Register' );
   }
 
+  // The FormBlock will call `onRegister` with `values` as an object containing
+  // field, field value pairs.
+  //
+  // If registration is successful, redirect the user to a "thank you" page
   onRegister( values ) {
     const {dispatch, history} = this.props;
     dispatch( register( values, ( ) => history.push( '/thanks' ) ) );
