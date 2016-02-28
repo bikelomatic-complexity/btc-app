@@ -86,13 +86,13 @@ export class RatingPointCard extends Component {
       },
       {
         'user': "tomservo",
-        'rating': 4,
+        'rating': 3,
         'text': "This place was okay",
         'date': "2016-02-28T15:37:04.540Z"
       },
       {
         'user': "crow",
-        'rating': 2,
+        'rating': 5,
         'text': "This place smells like pepperoni... I love pepperoni!",
         'date': "2016-02-28T15:37:04.540Z"
       }
