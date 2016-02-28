@@ -50,8 +50,9 @@ export class AddPointDescription extends Component {
   }
 
   render() {
+    const { newPoint, params } = this.props;
     const { description, phoneNumber,
-      address, website, imageSrc } = this.props.newPoint;
+      address, website, imageSrc } = newPoint;
 
     let imgView = <div />
     if (imageSrc !== '') {
@@ -60,8 +61,13 @@ export class AddPointDescription extends Component {
       </div>
     }
 
-    if((this.props.newPoint._id === undefined)
-      && (this.props.params.pointId !== undefined)) {
+    // if we are loading an update point,
+    // don't render the page til we have the correct data.
+    // (defaultValue cannot be overwritten after initial render)
+
+    if(((newPoint._id === undefined)
+      && (params.pointId !== undefined))
+      || (newPoint._id !== params.pointId)) {
         return <div/>;
     }
 

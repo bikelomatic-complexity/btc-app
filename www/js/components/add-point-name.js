@@ -9,7 +9,7 @@ export class AddPointName extends Component {
 
   componentDidMount() {
     const { setDrawer } = this.props;
-    setDrawer(this.props.update ? 'Update Information' : 'Enter Information') ;
+    setDrawer('Enter Information') ;
   }
 
   onNameUpdate(event) {
@@ -34,7 +34,6 @@ export class AddPointName extends Component {
       <div className="form-column">
         <div className="form-row">
           <TextField  hintText="Name"
-                      disabled={this.props.update}
                       onBlur={this.onNameUpdate.bind(this)}
                       defaultValue={this.props.newPoint.name} />
         </div>

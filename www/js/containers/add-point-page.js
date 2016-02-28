@@ -61,7 +61,7 @@ export class AddPointPage extends Component {
     // set the current point (if we got it from a URL param)
     const { dispatch, services, newPoint } = props;
     const { pointId } = props.params;
-    if ((newPoint._id === undefined)
+    if ((newPoint._id !== pointId)
       && (pointId !== undefined)
       && (services.length > 0)) {
       const pointIndex = findIndex(services, point => {
@@ -81,10 +81,6 @@ export class AddPointPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.loadPoint(nextProps);
-  }
-
-  componentWillUnmount() {
-    this.props.dispatch(clearPointProps());
   }
 
   onSubmit() {

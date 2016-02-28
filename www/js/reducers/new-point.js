@@ -65,14 +65,15 @@ export default function newPoint(state=initialState, action) {
       amenities.splice(action.amenityIndex, 1);
       return Object.assign({}, state, {amenities});;
     case CLEAR_POINT_PROPS:
-      return Object.assign({},cleanState);
+      return Object.assign({}, cleanState);
     case SET_POINT_PROPS:
       let transData = {};
       if (action.point.schedule) {
         transData.hours = action.point.schedule[0].days;
       }
-      transData.coverUrl = action.point.imageSrc;
-      return Object.assign({}, state, transData, action.point);
+      transData.imageSrc = action.point.coverUrl;
+      transData.phoneNumber = action.point.phone;
+      return Object.assign({}, transData, action.point);
     default:
       return state;
   }
