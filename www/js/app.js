@@ -23,8 +23,6 @@ import AddPointDescription from './components/add-point-description';
 import AddPointHours from './components/add-point-hours';
 import AddPointAmenities from './components/add-point-amenities';
 
-
-
 import Gateway from './gateway';
 
 import Sync from './sync';
@@ -67,6 +65,7 @@ document.addEventListener('deviceReady', () => {
           <Route path="/settings" component={SettingsPage}/>
           <Route path="/login" component={LoginPage}/>
           <Route path="/register" component={RegisterPage}/>
+
           <Route path="/add-point" component={AddPointPage}>
             <IndexRoute component={AddPointLocation} />
             <Route path="name" component={AddPointName} />
@@ -74,6 +73,13 @@ document.addEventListener('deviceReady', () => {
             <Route path="hours" component={AddPointHours} />
             <Route path="amenities" component={AddPointAmenities} />
           </Route>
+
+          <Route path="/update-point/:pointId" component={AddPointPage}>
+            <IndexRoute component={AddPointDescription} />
+            <Route path="hours" component={AddPointHours} />
+            <Route path="amenities" component={AddPointAmenities} />
+          </Route>
+
           <Route path="/download-track" component={DownloadTrackPage}/>
           <Route path="/filter" component={FilterPage}/>
         </Route>

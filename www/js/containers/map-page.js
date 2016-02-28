@@ -9,6 +9,8 @@ import {  fullscreenMarker, peekMarker, deselectMarker,
   selectMarker, setMapCenter, setGeoLocation,
   setMapZoom, setMapLoading } from '../actions/map-actions';
 
+import { setPointProps, setUpdate } from '../actions/new-point-actions';
+
 import PointMap from '../components/point-map';
 import HammerPointCard from '../components/hammer-point-card';
 
@@ -21,7 +23,8 @@ class MapPage extends Component {
 
   render() {
     const { dispatch, marker, services, alerts,
-            tracks, settings, mapState, filters} = this.props;
+            tracks, settings, mapState, filters,
+            history } = this.props;
 
     let selectedPoint;
     if(marker.selectedMarker) {
@@ -39,15 +42,19 @@ class MapPage extends Component {
           fullscreenMarker={() => {dispatch(fullscreenMarker())}}
           peekMarker={() => {dispatch(peekMarker())}}
           deselectMarker={() => {dispatch(deselectMarker())}}
+          setPointProps={point => {dispatch(setPointProps(point))}}
+          setUpdate={isUpdate => {dispatch(setUpdate(isUpdate))}}
+          history={history}
         />
       );
     }
 
     return (
       <div className="page-content">
-        <PointMap services={services} alerts={alerts}
-                  tracks={tracks} settings={settings}
-                  mapState={mapState} filters={filters}
+        <PointMap
+          services={services} alerts={alerts}
+          tracks={tracks} settings={settings}
+          mapState={mapState} filters={filters}
           selectMarker={point => {dispatch(selectMarker(point))}}
           deselectMarker={() => {dispatch(deselectMarker())}}
           setMapCenter={coords => {dispatch(setMapCenter(coords))}}

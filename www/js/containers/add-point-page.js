@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import * as leaflet from 'react-leaflet';
 import { divIcon } from 'leaflet';
 
+import { findIndex } from 'underscore';
+
 import { RaisedButton, Tabs, Tab, FontIcon } from 'material-ui';
 
 import AddPointLocation from '../components/add-point-location';
@@ -15,7 +17,8 @@ import { userAddPoint } from '../reducers/points';
 import { setPointName, setPointLocation, setPointType,
   setPointDescription, setPointAddress, setPointImage,
   setPointWebsite, setPointPhone, addPointHours, removePointHours,
-  addPointAmenity, removePointAmenity, clearPointProps
+  addPointAmenity, removePointAmenity, clearPointProps,
+  setPointProps, setUpdate
 } from '../actions/new-point-actions';
 
 import {  fullscreenMarker, peekMarker, deselectMarker,
@@ -32,7 +35,7 @@ export class AddPointPage extends Component {
   addPoint(blob=undefined) {
     const { dispatch } = this.props;
     const { address, amenities, description, hours, location,
-            name, phoneNumber, type, website } = this.props.newPoint;
+            name, phoneNumber, type, website, isUpdate } = this.props.newPoint;
 
     dispatch(userAddPoint({
       class: 'service',
@@ -54,6 +57,32 @@ export class AddPointPage extends Component {
     this.props.history.push('/');
   }
 
+  loadPoint(props) {
+    // set the current point (if we got it from a URL param)
+    const { dispatch, services, newPoint } = props;
+    const { pointId } = props.params;
+    if ((newPoint._id !== pointId)
+      && (pointId !== undefined)
+      && (services.length > 0)) {
+      const pointIndex = findIndex(services, point => {
+        return point._id === pointId;
+      });
+      const newPoint = services[pointIndex];
+      dispatch(setPointProps(newPoint));
+    }
+    if ((pointId === undefined) && (newPoint._id !== undefined)) {
+      dispatch(clearPointProps());
+    }
+  }
+
+  componentDidMount() {
+    this.loadPoint(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.loadPoint(nextProps);
+  }
+
   onSubmit() {
     const { dispatch } = this.props;
     const { imageSrc } = this.props.newPoint;
@@ -71,7 +100,7 @@ export class AddPointPage extends Component {
       marker, services, alerts, mapState } = this.props;
     const {
       address, amenities, description, hours, imageSrc,
-      location, name, phoneNumber, type, website
+      location, name, phoneNumber, type, website, isUpdate
     } = newPoint;
 
     // add props and actions so the component can dispatch actions
@@ -135,6 +164,46 @@ export class AddPointPage extends Component {
       })
     });
 
+    const addTabs = [
+      {
+        value:AddPointLocation, icon: "place",
+        onClick:()=>{this.props.history.push('/add-point');}
+      },
+      {
+        value:AddPointName, icon: "mode_edit",
+        onClick:()=>{this.props.history.push('/add-point/name');},
+      },
+      {
+        value:AddPointDescription, icon: "format_align_left",
+        onClick:()=>{this.props.history.push('/add-point/description');},
+      },
+      {
+        value:AddPointHours, icon: "schedule",
+        onClick:()=>{this.props.history.push('/add-point/hours');},
+      },
+      {
+        value:AddPointAmenities, icon: "local_bar",
+        onClick:()=>{this.props.history.push('/add-point/amenities');},
+      }
+    ];
+
+    const urlId = encodeURIComponent(newPoint._id);
+
+    const updateTabs = [
+      {
+        value:AddPointDescription, icon: "format_align_left",
+        onClick:()=>{this.props.history.push(`/update-point/${urlId}`);},
+      },
+      {
+        value:AddPointHours, icon: "schedule",
+        onClick:()=>{this.props.history.push(`/update-point/${urlId}/hours`);},
+      },
+      {
+        value:AddPointAmenities, icon: "local_bar",
+        onClick:()=>{this.props.history.push(`/update-point/${urlId}/amenities`);},
+      }
+    ];
+
     // determine next page, based on current page
     const currentPage = this.props.children.type;
     const disabled = !((name) && (type));
@@ -149,6 +218,9 @@ export class AddPointPage extends Component {
         break;
       case AddPointDescription:
         onNext = ()=> {this.props.history.push('/add-point/hours');}
+        if (newPoint._id) {
+          onNext = ()=> {this.props.history.push('/update-point/${urlId}/hours');}
+        }
         if (!((description) || (phoneNumber) ||
               (address) || (website) || (imageSrc))) {
           nextText = "Skip";
@@ -156,6 +228,9 @@ export class AddPointPage extends Component {
         break;
       case AddPointHours:
         onNext = ()=> {this.props.history.push('/add-point/amenities');}
+        if (newPoint._id) {
+          onNext = ()=> {this.props.history.push('/update-point/${urlId}/amenities');}
+        }
         if (hours.length == 0) {
           nextText = "Skip";
         }
@@ -166,24 +241,18 @@ export class AddPointPage extends Component {
         break;
     }
 
+    const tabs = newPoint._id ? updateTabs : addTabs;
+
     return (
       <div className="form-column page-content">
         <Tabs value={currentPage}>
-          <Tab  value={AddPointLocation}
-                onClick={()=>{this.props.history.push('/add-point');}}
-                icon={<FontIcon className="material-icons">place</FontIcon>}/>
-          <Tab  value={AddPointName}
-                onClick={()=>{this.props.history.push('/add-point/name');}}
-                icon={<FontIcon className="material-icons">mode_edit</FontIcon>}/>
-          <Tab  value={AddPointDescription} disabled={disabled}
-                onClick={()=>{this.props.history.push('/add-point/description');}}
-                icon={<FontIcon className="material-icons">format_align_left</FontIcon>}/>
-          <Tab  value={AddPointHours} disabled={disabled}
-                onClick={()=>{this.props.history.push('/add-point/hours');}}
-                icon={<FontIcon className="material-icons">schedule</FontIcon>}/>
-          <Tab  value={AddPointAmenities} disabled={disabled}
-                onClick={()=>{this.props.history.push('/add-point/amenities');}}
-                icon={<FontIcon className="material-icons">local_bar</FontIcon>}/>
+          {tabs.map((tab)=>{
+            return (
+              <Tab key={tab.value} value={tab.value} onClick={tab.onClick}
+                icon={<FontIcon className="material-icons">{tab.icon}</FontIcon>}
+              />);
+            }
+          )}
         </Tabs>
 
         <div>
