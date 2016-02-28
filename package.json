@@ -73,7 +73,7 @@
     "babel-preset-react": "^6.5.0",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
-    "chai": "^3.4.1",
+    "chai": "^3.5.0",
     "config": "^1.19.0",
     "config-browserify": "^1.0.5",
     "cordova": "^6.0.0",
