@@ -112,7 +112,7 @@ export class RatingPointCard extends Component {
           stars = <RatingSelector disabled={true} rating={comment.rating}
                                   style={{fontSize:'14px'}}/>
         }
-        const starElement = (<span style={{verticalAlign:'middle'}}>
+        const starElement = (<span style={{verticalAlign:'sub'}}>
           {stars}
         </span>);
 
