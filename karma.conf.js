@@ -7,29 +7,26 @@ module.exports = function(config) {
 	browserNoActivityTimeout: 120000,
 	browserify:{
 	  transform:[ 
-	    ['babelify', {'presets': ['react', 'es2015']}]
+	    'babelify'
 	  ]
 	},
 	browsers: ['PhantomJS'],
 	captureTimeout: 30000,
 	files: [
 	  { 
-	    pattern: './www/js/bundle.js', 
-		watched: false, 
-		included: true, 
-		served: true 
+	    pattern: './www/js/**/*.js', 
+		watched: false
 	  },
 	  { 
 	    pattern: './test/**/*.js', 
-	    watched: false, 
-		included: true, 
-		served: true
+	    watched: false
 	  }
 	],
-	frameworks: ['browserify', 'mocha'],
+	frameworks: ['browserify', 'mocha', 'es6-shim'],
 	port: 8001,
 	preprocessors:{
-	  './test/**/*.js': ['browserify']
+	  './test/**/*.js': ['browserify'],
+	  './www/js/**/*.js': ['browserify']
 	},
 	// TODO: add the coverage reporter in
 	//reporters:
