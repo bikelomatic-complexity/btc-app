@@ -9,9 +9,11 @@ export class RatingPointCard extends Component {
   onSubmit() {
     const { newRating, newComment } = this.props;
     // TODO: submit this comment
-    console.log(`rating: ${newRating.rating}`);
-    console.log(`comment: ${newRating.comment}`);
-    console.log(`date: ${new Date().toJSON()}`)
+    newComment = {
+      rating: newRating.rating,
+      comment: newRating.comment,
+      date: new Date().toJSON()
+    }
   }
 
   onCommentUpdate(event) {

@@ -66,7 +66,7 @@ export class PeekPointCard extends Component {
     }
 
     // small screen details
-    let cardDetails = (
+    const cardDetails = (
       <CardText>
         {point.description}
         {timeDetails}
