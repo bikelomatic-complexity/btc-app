@@ -10,7 +10,8 @@ import {  SET_POINT_NAME,
           REMOVE_POINT_HOURS,
           ADD_POINT_AMENITIES,
           REMOVE_POINT_AMENITIES,
-          CLEAR_POINT_PROPS
+          CLEAR_POINT_PROPS,
+          SET_POINT_PROPS
         } from '../actions/new-point-actions';
 
 const cleanState = {
@@ -64,7 +65,15 @@ export default function newPoint(state=initialState, action) {
       amenities.splice(action.amenityIndex, 1);
       return Object.assign({}, state, {amenities});;
     case CLEAR_POINT_PROPS:
-      return Object.assign({},cleanState);
+      return Object.assign({}, cleanState);
+    case SET_POINT_PROPS:
+      let transData = {};
+      if (action.point.schedule) {
+        transData.hours = action.point.schedule[0].days;
+      }
+      transData.imageSrc = action.point.coverUrl;
+      transData.phoneNumber = action.point.phone;
+      return Object.assign({}, transData, action.point);
     default:
       return state;
   }

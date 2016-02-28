@@ -65,15 +65,18 @@ document.addEventListener('deviceReady', () => {
     <Provider store={store}>
       <Router history={browserHistory}>
         <Route path="/" component={Main}>
+
           <Route component={MapPage}>
             <IndexRoute />
             <Route path="peek-point/:pointId" component={PeekPointCard} />
             <Route path="view-point/:pointId" component={ViewPointCard} />
             <Route path="rate-point/:pointId" component={RatingPointCard} />
           </Route>
+
           <Route path="settings" component={SettingsPage} />
           <Route path="login" component={LoginPage} />
           <Route path="register" component={RegisterPage} />
+
           <Route path="add-point" component={AddPointPage}>
             <IndexRoute component={AddPointLocation} />
             <Route path="name" component={AddPointName} />
@@ -81,8 +84,16 @@ document.addEventListener('deviceReady', () => {
             <Route path="hours" component={AddPointHours} />
             <Route path="amenities" component={AddPointAmenities} />
           </Route>
-          <Route path="download-track" component={DownloadTrackPage} />
-          <Route path="filter" component={FilterPage} />
+
+          <Route path="/update-point/:pointId" component={AddPointPage}>
+            <IndexRoute component={AddPointDescription} />
+            <Route path="hours" component={AddPointHours} />
+            <Route path="amenities" component={AddPointAmenities} />
+          </Route>
+
+          <Route path="/download-track" component={DownloadTrackPage}/>
+          <Route path="/filter" component={FilterPage}/>
+          
         </Route>
       </Router>
     </Provider>

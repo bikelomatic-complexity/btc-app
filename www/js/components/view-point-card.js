@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import { Card, CardMedia, CardTitle, CardActions, CardText, RaisedButton } from 'material-ui';
+import { Card, CardActions, CardText, RaisedButton, Paper } from 'material-ui';
+import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import HoursTable from './hours-table';
 import { displayType } from '../types'
+import PointHeader from './point-header';
 
 const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
                 'Thursday', 'Friday', 'Saturday'];
@@ -25,29 +27,10 @@ export class ViewPointCard extends Component {
   }
 
   render() {
-    const { peekMarker, deselectMarker, point } = this.props;
-
-    // if we have an image, use that
-    // otherwise, use an mdl-blue for the title,
-    // and make the card a bit smaller
-    let backgroundStyle;
-    let titleHeight;
-    let smallHeight;
-
-    if (point.coverUrl) {
-      backgroundStyle = `url(${point.coverUrl}) center / cover`;
-      titleHeight = '176px';
-      smallHeight = 300 - this.props.heightOffset;
-    }
-    else {
-      backgroundStyle = '#3f51b5';
-      titleHeight = '100px';
-      smallHeight = 224 - this.props.heightOffset;
-    }
+    const { peekMarker, deselectMarker, point, history } = this.props;
 
     const headerHeight = Math.max(64,  64 + this.props.heightOffset);
     const headerHeightCSS = `calc(100% - ${headerHeight}px)`;
-    const smallHeightCSS = `${smallHeight}px`;
     let cardStyle = {
       width: '100%',
       position: 'fixed',
@@ -56,13 +39,6 @@ export class ViewPointCard extends Component {
       transition: 'all 300ms ease' ,
       zIndex:'8',
       overflowY:'auto'
-    }
-
-    let cardTitleStyle = {
-      color: '#fff',
-      height: titleHeight,
-      background: backgroundStyle,
-      margin: '0px !important'
     }
 
     let seeButton = (
@@ -140,11 +116,7 @@ export class ViewPointCard extends Component {
 
     return (
       <Card id="mdl-map-card" className="form-column" style={cardStyle}>
-        <CardMedia className="hammer-grab" overlay={
-          <CardTitle className="hammer-grab" title={point.name}/>
-        }>
-          <div style={cardTitleStyle} />
-        </CardMedia>
+        <PointHeader  point={this.props.point} history={history} />
         <div style={{margin:'8px', marginBottom:'64px'}}>
           { cardDetails }
         </div>

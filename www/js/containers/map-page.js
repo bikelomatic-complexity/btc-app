@@ -11,6 +11,8 @@ import { selectMarker, setMapCenter, setGeoLocation,
   setMapZoom, setMapLoading } from '../actions/map-actions';
 import { setRating, setComment } from '../reducers/new-rating';
 
+import { setPointProps } from '../actions/new-point-actions';
+
 import PointMap from '../components/point-map';
 
 class MapPage extends Component {
@@ -47,7 +49,7 @@ class MapPage extends Component {
 
   render() {
     const { dispatch, marker, services, alerts, newRating,
-            tracks, settings, mapState, filters} = this.props;
+            tracks, settings, mapState, filters, history} = this.props;
 
     // add props and actions so the component can dispatch actions
     const pointChildren = React.Children.map(this.props.children, child => {
@@ -55,6 +57,7 @@ class MapPage extends Component {
         point: marker,
         heightOffset: 0,
         newRating: newRating,
+        history: history,
         setRating: (rating) => {
           dispatch(setRating(rating));
         },
@@ -74,6 +77,9 @@ class MapPage extends Component {
         deselectMarker: () => {
           this.props.history.push('/');
         },
+        setPointProps: () => {
+          dispatch(setPointProps(this.props.marker));
+        }
       });
     });
 
