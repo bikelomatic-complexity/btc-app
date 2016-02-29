@@ -61,7 +61,7 @@ export class App extends Component {
         height: '100%',
       },
       rest: {
-        maxHeight:'calc(100% - 64px)',
+        height:'calc(100% - 64px)',
         overflowY: 'auto'
       }
     };
