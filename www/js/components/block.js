@@ -93,7 +93,8 @@ export class FormBlock extends Component {
 
 FormBlock.defaultProps = {
   problemText: null,
-  validation: []
+  validation: [],
+  actionText: 'Submit'
 };
 FormBlock.propTypes = {
   header: React.PropTypes.oneOfType( [
@@ -104,6 +105,8 @@ FormBlock.propTypes = {
     React.PropTypes.string,
     React.PropTypes.object
   ] ),
+  actionText: React.PropTypes.string,
+  onAction: React.PropTypes.func,
   problemText: React.PropTypes.string,
   validation: React.PropTypes.array
 };

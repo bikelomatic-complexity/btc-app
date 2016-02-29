@@ -26,7 +26,7 @@ const fields = [ {
   name: 'username'
 } ];
 
-class RegisterPage extends Component {
+export class RegisterPage extends Component {
   constructor( props ) {
     super( props );
     bindAll( this, 'onRegister' );

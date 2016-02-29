@@ -27,7 +27,7 @@ const footer = (
 </BlockFooter>
 );
 
-class LoginPage extends Component {
+export class LoginPage extends Component {
   constructor( props ) {
     super( props );
     bindAll( this, 'onLogin' );
