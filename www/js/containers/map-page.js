@@ -70,7 +70,7 @@ class MapPage extends Component {
       } );
     } );
 
-    const selectMarker = point => {
+    const selMarker = point => {
       dispatch( selectMarker( point ) );
       const id = this.props.marker._id;
       const urlId = encodeURIComponent( id );
@@ -85,7 +85,7 @@ class MapPage extends Component {
           settings={ settings }
           mapState={ mapState }
           filters={ filters }
-          selectMarker={ selectMarker }
+          selectMarker={ selMarker }
           deselectMarker={ ( ) => this.props.history.push( '/' ) }
           setMapCenter={ coords => dispatch( setMapCenter( coords ) ) }
           setGeoLocation={ coords => dispatch( setGeoLocation( coords ) ) }
