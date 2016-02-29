@@ -77,17 +77,19 @@ export class FormBlock extends Component {
       props.footer = footer;
     }
 
+    /*esfmt-ignore-start*/
     return (
       <Block { ...props }>
-              { this.boxes() }
-              <div className='entry__spacer' />
-              <RaisedButton secondary
-                className="entry__action"
-                fullWidth={ true }
-                onClick={ this.onAction }
-                label={ this.props.actionText } />
+        { this.boxes() }
+        <div className='entry__spacer' />
+        <RaisedButton secondary
+          className='entry__action'
+          fullWidth={ true }
+          onClick={ this.onAction }
+          label={ this.props.actionText } />
       </Block>
       );
+    /*esfmt-ignore-end*/
   }
 }
 
@@ -175,9 +177,9 @@ Block.propTypes = {
 // use this component as a base.
 export class BlockFooter extends Component {
   render() {
-    return <div className='entry__footer'>
-             { this.props.children }
-           </div>;
+    return (<div className='entry__footer'>
+              { this.props.children }
+            </div>);
   }
 }
 

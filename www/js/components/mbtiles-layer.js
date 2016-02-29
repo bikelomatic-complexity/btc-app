@@ -1,8 +1,11 @@
-import { PropTypes } from 'react'
-import { TileLayer as LTileLayer } from 'leaflet'
-import { TileLayer } from 'react-leaflet'
-import { omit } from 'underscore'
-import { join } from 'path'
+/*global Buffer sqlitePlugin*/
+
+/*eslint-disable no-unused-vars*/
+import { TileLayer as LTileLayer } from 'leaflet';
+import { TileLayer } from 'react-leaflet';
+/*eslint-enable no-unused-vars*/
+
+import { omit } from 'underscore';
 
 /*
  * A plugin for native leaflet, which gets tile URLs as data URIs. The data
@@ -12,10 +15,10 @@ import { join } from 'path'
  * TODO: Investigate the Leaflet.FunctionalTileLayer plugin, which supports
  * promises.
  */
-const LMBTilesLayer = LTileLayer.extend({
+const LMBTilesLayer = LTileLayer.extend( {
 
-  initialize: function(url, options, db) {
-    LTileLayer.prototype.initialize.call(this, url, options);
+  initialize: function( url, options, db ) {
+    LTileLayer.prototype.initialize.call( this, url, options );
     this.db = db;
   },
 
@@ -37,22 +40,22 @@ const LMBTilesLayer = LTileLayer.extend({
    *
    * Also note: the Content-Security-Policy needs to allow `data:`
    */
-  getTileUrl: function(tilePoint, tile) {
+  getTileUrl: function( tilePoint, tile ) {
     const {z, x, y} = tilePoint;
-    const mby = Math.pow(2, z) - 1 - y // MBTiles 1.1 adjustment. See spec.
+    const mby = Math.pow( 2, z ) - 1 - y; // MBTiles 1.1 adjustment. See spec.
 
-    this.db.executeSql('SELECT hex(tile_data) AS hex FROM tiles WHERE tiles.zoom_level=? AND tiles.tile_column=? AND tiles.tile_row=?', [z, x, mby], result => {
-      if (result.rows.length > 0) {
-        const hex = result.rows.item(0).hex;
-        const b64 = new Buffer(hex, 'hex').toString('base64');
+    this.db.executeSql( 'SELECT hex(tile_data) AS hex FROM tiles WHERE tiles.zoom_level=? AND tiles.tile_column=? AND tiles.tile_row=?', [ z, x, mby ], result => {
+      if ( result.rows.length > 0 ) {
+        const hex = result.rows.item( 0 ).hex;
+        const b64 = new Buffer( hex, 'hex' ).toString( 'base64' );
         const url = `data:image/png;base64,${b64}`;
         tile.src = url;
       } else {
         // No tile data found
       }
     }, err => {
-      console.error(err);
-    });
+      console.error( err );
+    } );
   },
 
   /*
@@ -63,20 +66,20 @@ const LMBTilesLayer = LTileLayer.extend({
    * The code, aside from pasing tile as a second argument to `getTileUrl` is
    * copied verbatim from `_loadTile` in leaflet v0.7.7
    */
-  _loadTile: function(tile, tilePoint) {
+  _loadTile: function( tile, tilePoint ) {
     tile._layer = this;
     tile.onload = this._tileOnLoad;
     tile.onerror = this._tileOnError;
 
-    this._adjustTilePoint(tilePoint);
-    this.src = this.getTileUrl(tilePoint, tile);
+    this._adjustTilePoint( tilePoint );
+    this.src = this.getTileUrl( tilePoint, tile );
 
-    this.fire('tileloadstart', {
+    this.fire( 'tileloadstart', {
       tile: tile,
       url: tile.src
-    });
+    } );
   }
-});
+} );
 
 /*
  * A react-leaflet component to display an MBTiles database as a tile layer
@@ -85,14 +88,14 @@ export class MBTilesLayer extends TileLayer {
   componentWillMount() {
     super.componentWillMount();
 
-    const { pkg, map, url } = this.props;
-    const options = omit(this.props, 'pkg', 'map', 'url');
+    const {pkg, url} = this.props;
+    const options = omit( this.props, 'pkg', 'map', 'url' );
 
-    const db = sqlitePlugin.openDatabase({
+    const db = sqlitePlugin.openDatabase( {
       name: pkg
-    });
+    } );
 
-    this.leafletElement = new LMBTilesLayer(url, options, db);
+    this.leafletElement = new LMBTilesLayer( url, options, db );
   }
 }
 

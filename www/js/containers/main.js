@@ -61,17 +61,14 @@ export class App extends Component {
         <ACDrawer history={ this.props.history }
           page={ this.props.drawer }
           account={ this.props.account } />
-
-        <Paper style={ { height: '100%'} }>
+        <Paper style={ { height: '100%' } }>
           { childrenWithActions }
         </Paper>
-
         <Dialog { ...this.props.dialog }
           onRequestClose={ this.onActionTap.bind( this ) }
           actions={ dialogActions }>
           { this.props.dialog.description }
         </Dialog>
-
         <Snackbar { ...this.props.snackbar }
           onRequestClose={ ( ) => dispatch( closeSnackbar() ) } />
       </Paper>

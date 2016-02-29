@@ -1,7 +1,7 @@
 {
   "plugins": [
-    "esformatter-ignore",
-    "esformatter-jsx"
+    "esformatter-jsx",
+    "esformatter-ignore"
   ],
 
   "jsx": {

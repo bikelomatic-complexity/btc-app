@@ -1,5 +1,5 @@
-
-import { contains } from 'underscore'
+/*global Connection device*/
+import { contains } from 'underscore';
 
 /**
  * The base device, used for extension by known devices and as the fallback
@@ -12,23 +12,23 @@ import { contains } from 'underscore'
 export default class Device {
 
   static getDevice() {
-    switch(device.platform) {
-      case 'Android':
-        return new AndroidDevice();
-      case 'iOS':
-        return new IOSDevice();
-      case 'browser':
-        return new BrowserDevice();
-      default:
-        return new Device();
+    switch ( device.platform ) {
+    case 'Android':
+      return new AndroidDevice();
+    case 'iOS':
+      return new IOSDevice();
+    case 'browser':
+      return new BrowserDevice();
+    default:
+      return new Device();
     }
   }
 
-  isOnline(connection) {
+  isOnline( connection ) {
     return false;
   }
 
-  isOnMobileData(connection) {
+  isOnMobileData( connection ) {
     return false;
   }
 
@@ -39,17 +39,17 @@ export default class Device {
  */
 class AndroidDevice extends Device {
 
-  isOnline(connection) {
+  isOnline( connection ) {
     return connection !== Connection.UNKNOWN;
   }
 
-  isOnMobileData(connection) {
-    return contains([
+  isOnMobileData( connection ) {
+    return contains( [
       Connection.CELL_2G,
       Connection.CELL_3G,
       Connection.CELL_4G,
       Connection.CELL
-    ], connection);
+    ], connection );
   }
 
 }
@@ -59,17 +59,17 @@ class AndroidDevice extends Device {
  */
 class IOSDevice extends Device {
 
-  isOnline(connection) {
+  isOnline( connection ) {
     return connection !== Connection.UNKNOWN;
   }
 
-  isOnMobileData(connection) {
-    return contains([
+  isOnMobileData( connection ) {
+    return contains( [
       Connection.CELL_2G,
       Connection.CELL_3G,
       Connection.CELL_4G,
       Connection.CELL
-    ], connection);
+    ], connection );
   }
 
 }
@@ -81,11 +81,11 @@ class IOSDevice extends Device {
  */
 class BrowserDevice extends Device {
 
-  isOnline(connection) {
+  isOnline( connection ) {
     return true;
   }
 
-  isOnMobileData(connection) {
+  isOnMobileData( connection ) {
     return false;
   }
 
