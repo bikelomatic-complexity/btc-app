@@ -58,10 +58,10 @@ export class App extends Component {
 
     const styles = {
       main: {
-        height: '100%',
+        height: '100%'
       },
       rest: {
-        height:'calc(100% - 64px)',
+        height: 'calc(100% - 64px)',
         overflowY: 'auto'
       }
     };
