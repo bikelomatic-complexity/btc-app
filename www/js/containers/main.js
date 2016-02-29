@@ -56,21 +56,31 @@ export class App extends Component {
       return this.makeDialogButton( button );
     } );
 
+    const styles = {
+      main: {
+        height: '100%',
+      },
+      rest: {
+        maxHeight:'calc(100% - 64px)',
+        overflowY: 'auto'
+      }
+    };
+
     return (
-      <Paper style={ { height: '100%' } }>
+      <div style={ styles.main }>
         <ACDrawer history={ this.props.history }
           page={ this.props.drawer }
           account={ this.props.account } />
-        <Paper style={ { height: '100%' } }>
+        <div style={ styles.rest }>
           { childrenWithActions }
-        </Paper>
+        </div>
         <Dialog { ...this.props.dialog }
           onRequestClose={ this.onActionTap.bind( this ) }
           actions={ dialogActions }>
           { this.props.dialog.description }
         </Dialog>
         <Snackbar { ...this.props.snackbar } onRequestClose={ ( ) => dispatch( closeSnackbar() ) } />
-      </Paper>
+      </div>
       );
   }
 }
