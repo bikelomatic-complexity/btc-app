@@ -87,7 +87,6 @@
     "eslint": "^2.2.0",
     "eslint-plugin-react": "^4.1.0",
     "istanbul": "^0.4.2",
-    "jquery": "^2.2.1",
     "js-yaml": "^3.5.3",
     "karma": "^0.13.21",
     "karma-browserify": "^5.0.1",
