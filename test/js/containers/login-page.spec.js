@@ -5,10 +5,10 @@ import sd from 'skin-deep';
 /*eslint-disable no-unused-vars*/
 import React from 'react';
 import ReactDom from 'react-dom';
-import { LoginPage } from '../../www/js/containers/login-page';
+import { LoginPage } from '../../../www/js/containers/login-page';
 /*eslint-enable no-unused-vars*/
 
-import * as login from '../../www/js/reducers/account/login';
+import * as login from '../../../www/js/reducers/account/login';
 
 describe( '<LoginPage />', function() {
   beforeEach( function() {

@@ -7,7 +7,7 @@ chai.use( chai$ );
 /*eslint-disable no-unused-vars*/
 import React from 'react';
 import ReactDom from 'react-dom';
-import { Page, LetterheadPage } from '../../www/js/components/page';
+import { Page, LetterheadPage } from '../../../www/js/components/page';
 /*eslint-enable no-unused-vars*/
 
 import { renderIntoDocument } from 'react-addons-test-utils';
