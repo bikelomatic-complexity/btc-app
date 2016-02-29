@@ -24,8 +24,7 @@ export class LetterheadPage extends Component {
   render() {
     return (
       <Page>
-        <img className='page__logo'
-          src={ this.props.logo } />
+        <img className='page__logo' src={ this.props.logo } />
         { this.props.children }
       </Page>
       );

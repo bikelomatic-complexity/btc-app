@@ -14,16 +14,9 @@ import * as leaflet from 'react-leaflet';
 import { divIcon } from 'leaflet';
 
 import { userAddPoint } from '../reducers/points';
-import { setPointName, setPointLocation, setPointType,
-  setPointDescription, setPointAddress, setPointImage,
-  setPointWebsite, setPointPhone, addPointHours, removePointHours,
-  addPointAmenity, removePointAmenity, clearPointProps,
-  setPointProps
-} from '../actions/new-point-actions';
+import { setPointName, setPointLocation, setPointType, setPointDescription, setPointAddress, setPointImage, setPointWebsite, setPointPhone, addPointHours, removePointHours, addPointAmenity, removePointAmenity, clearPointProps, setPointProps } from '../actions/new-point-actions';
 
-import {  fullscreenMarker, peekMarker, deselectMarker,
-  selectMarker, setMapCenter, setGeoLocation,
-  setMapZoom, setMapLoading } from '../actions/map-actions';
+import { fullscreenMarker, peekMarker, deselectMarker, selectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 
 import BlobUtil from 'blob-util';
 import { findIndex, noop } from 'lodash';

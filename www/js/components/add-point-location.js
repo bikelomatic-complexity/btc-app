@@ -32,8 +32,7 @@ export class AddPointLocation extends Component {
     const layoutStyle = { position: 'absolute', width: '100%', height: 'calc(100% - 0px)' };
 
     return (
-      <div className='hideZoomControl'
-        style={ layoutStyle }>
+      <div className='hideZoomControl' style={ layoutStyle }>
         <PointMap services={ services }
           alerts={ alerts }
           filters={ filters }
@@ -45,8 +44,7 @@ export class AddPointLocation extends Component {
           setGeoLocation={ setGeoLocation }
           setMapZoom={ setMapZoom }
           setMapLoading={ setMapLoading } />
-        <div className='adding-point'
-          style={ { position: 'fixed', top: 'calc(50% + 45px)', right: 'calc(50% - 12.5px)' } }>
+        <div className='adding-point' style={ { position: 'fixed', top: 'calc(50% + 45px)', right: 'calc(50% - 12.5px)' } }>
           <img src='img/icons/marker-shadow.png'
             className='leaflet-marker-shadow'
             style={ styleShadow } />

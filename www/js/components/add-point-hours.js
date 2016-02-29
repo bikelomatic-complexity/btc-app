@@ -61,8 +61,7 @@ export class AddPointHours extends Component {
       return weekDays.indexOf( dayA.day ) > weekDays.indexOf( dayB.day );
     } ).map( ( day, index ) => {
       return (
-        <div key={ day.day + day.opens + day.closes }
-          className='form-row'>
+        <div key={ day.day + day.opens + day.closes } className='form-row'>
           <RaisedButton onClick={ this.removeHours.bind( this, index ) }
             label={ `${day.day}: ${day.opens} - ${day.closes}` }
             labelPosition='before'

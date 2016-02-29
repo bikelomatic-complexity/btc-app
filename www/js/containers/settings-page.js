@@ -35,8 +35,7 @@ export class SettingsPage extends Component {
           </SettingSwitch>
         </div>
         <div className="form-row">
-          <SettingSwitch id="conflict-switch"
-            title="Conflict Notifications">
+          <SettingSwitch id="conflict-switch" title="Conflict Notifications">
             Notify me when conflicts occur with my edits to services.
           </SettingSwitch>
         </div>
@@ -48,16 +47,14 @@ export class SettingsPage extends Component {
           </SettingSwitch>
         </div>
         <div className="form-row">
-          <SettingSwitch id="cellular-switch"
-            title="Sync using Cellular">
+          <SettingSwitch id="cellular-switch" title="Sync using Cellular">
             Sync edits to services on cellular data.
             <br/>
             <i>Recommended Off</i>
           </SettingSwitch>
         </div>
         <div className="form-row">
-          <RaisedButton secondary
-            label="Sync Edits Now" />
+          <RaisedButton secondary label="Sync Edits Now" />
         </div>
         <div className="form-row">
           <div>

@@ -120,8 +120,7 @@ class FilterPage extends Component {
             checked={ this.state.hideAlert } />
         </div>
         <div className="form-row">
-          <RaisedButton onClick={ this.clearFilters.bind( this ) }
-            label="Clear" />
+          <RaisedButton onClick={ this.clearFilters.bind( this ) } label="Clear" />
           <RaisedButton onClick={ this.onFilter.bind( this ) }
             secondary
             label="Filter" />

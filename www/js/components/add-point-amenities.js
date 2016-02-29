@@ -36,8 +36,7 @@ export class AddPointAmenities extends Component {
 
   render() {
     const amenityOptions = types.map( ( amenity ) => {
-      return (<option key={ amenity }
-                value={ amenity }>
+      return (<option key={ amenity } value={ amenity }>
                 { displayType( amenity ) }
               </option>);
     } );

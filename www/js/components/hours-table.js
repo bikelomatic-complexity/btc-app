@@ -23,8 +23,7 @@ export class HoursTable extends Component {
 
     return (
       <Table>
-        <TableBody displayRowCheckbox={ false }
-          adjustForCheckbox={ false }>
+        <TableBody displayRowCheckbox={ false } adjustForCheckbox={ false }>
           { hoursData }
         </TableBody>
       </Table>

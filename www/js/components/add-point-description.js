@@ -57,8 +57,7 @@ export class AddPointDescription extends Component {
     let imgView = <div />;
     if ( imageSrc !== '' ) {
       imgView = <div>
-                  <img src={ imageSrc }
-                    width="100%" />
+                  <img src={ imageSrc } width="100%" />
                 </div>;
     }
 
@@ -75,10 +74,13 @@ export class AddPointDescription extends Component {
     return (
       <div className="form-column">
         <div className="form-row">
-          <TextField  fullWidth={true} floatingLabelText="Description"
-                      multiLine={true} rows={2} rowsMax={4}
-                      onBlur={this.onDescriptionUpdate.bind(this)}
-                      defaultValue={description} />
+          <TextField fullWidth={ true }
+            floatingLabelText="Description"
+            multiLine={ true }
+            rows={ 2 }
+            rowsMax={ 4 }
+            onBlur={ this.onDescriptionUpdate.bind( this ) }
+            defaultValue={ description } />
         </div>
         <div className="form-row">
           <TextField floatingLabelText="Phone Number"

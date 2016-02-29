@@ -69,8 +69,7 @@ export class App extends Component {
           actions={ dialogActions }>
           { this.props.dialog.description }
         </Dialog>
-        <Snackbar { ...this.props.snackbar }
-          onRequestClose={ ( ) => dispatch( closeSnackbar() ) } />
+        <Snackbar { ...this.props.snackbar } onRequestClose={ ( ) => dispatch( closeSnackbar() ) } />
       </Paper>
       );
   }

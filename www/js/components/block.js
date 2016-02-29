@@ -148,8 +148,7 @@ export class Block extends Component {
     }
 
     return (
-      <Paper className="entry"
-        zDepth={ 2 }>
+      <Paper className="entry" zDepth={ 2 }>
         { header }
         { this.props.children }
         { footer }

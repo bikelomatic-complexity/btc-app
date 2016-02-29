@@ -61,16 +61,14 @@ export class ACDrawer extends Component {
 
     let navs = pages.map( ( page ) => {
       return (
-        <MenuItem key={ page.title }
-          onTouchTap={ this.onMenuItemTap.bind( this, page ) }>
+        <MenuItem key={ page.title } onTouchTap={ this.onMenuItemTap.bind( this, page ) }>
         { page.title }
         </MenuItem>
         );
     } );
 
     return (
-      <AppBar onLeftIconButtonTouchTap={ this.showNav }
-        title={ this.props.page }>
+      <AppBar onLeftIconButtonTouchTap={ this.showNav } title={ this.props.page }>
         <LeftNav docked={ false }
           onRequestChange={ this.hideNav }
           open={ this.state.open }>

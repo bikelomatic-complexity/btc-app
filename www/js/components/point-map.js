@@ -58,18 +58,18 @@ class PointMap extends Component {
     setMapCenter( this.state.center );
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps( nextProps ) {
     const {mapState} = nextProps;
-    this.setState({
-      startCenter: mapState.center,
-    });
+    this.setState( {
+      startCenter: mapState.center
+    } );
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return  (this.props.mapState.loading !== nextProps.mapState.loading) ||
-            (this.state.startCenter !== nextState.startCenter) ||
-            (this.state.startCenter !== nextProps.mapState.center) ||
-            (this.props.services.length !== nextProps.services.length);
+  shouldComponentUpdate( nextProps, nextState ) {
+    return ( this.props.mapState.loading !== nextProps.mapState.loading ) ||
+      ( this.state.startCenter !== nextState.startCenter ) ||
+      ( this.state.startCenter !== nextProps.mapState.center ) ||
+      ( this.props.services.length !== nextProps.services.length );
   }
 
   onMapMoved( leaflet ) {
@@ -142,8 +142,7 @@ class PointMap extends Component {
     let tileLayer;
     if ( settings.onlineMode ) {
       tileLayer = (
-        <TileLayer url={ tileLayerInfo.url }
-          attribution={ tileLayerInfo.attr } />
+        <TileLayer url={ tileLayerInfo.url } attribution={ tileLayerInfo.attr } />
       );
     } else if ( availableTracks.length > 0 ) {
       const pkg = availableTracks[ 0 ].pkg;

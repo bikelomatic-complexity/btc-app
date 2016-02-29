@@ -74,10 +74,8 @@ class DownloadTrackPage extends Component {
       }
 
       return (
-        <Card key={ id }
-          style={ { margin: 16 } }>
-          <CardMedia overlay={ <CardTitle title={ track.name }
-                                 subtitle={ `${track.sizeMiB} MiB` } /> }>
+        <Card key={ id } style={ { margin: 16 } }>
+          <CardMedia overlay={ <CardTitle title={ track.name } subtitle={ `${track.sizeMiB} MiB` } /> }>
             <img src='./img/usbr20.png' />
           </CardMedia>
           <CardText>

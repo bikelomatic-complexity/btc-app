@@ -41,8 +41,7 @@ describe( '<LoginPage />', function() {
 
     const account = { login: {} };
     const tree = sd.shallowRender( (
-      <LoginPage account={ account }
-        setDrawer={ setDrawer } />
+      <LoginPage account={ account } setDrawer={ setDrawer } />
       ) );
 
     tree.getMountedInstance().componentDidMount();
