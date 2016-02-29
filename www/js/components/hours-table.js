@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import { render } from 'react-dom';
-
-import { Table, TableBody, TableHeader, TableRow, TableHeaderColumn, TableRowColumn } from 'material-ui';
+import { Table, TableBody, TableHeader, TableRow,
+  TableHeaderColumn, TableRowColumn } from 'material-ui';
 
 export class HoursTable extends Component {
   render() {

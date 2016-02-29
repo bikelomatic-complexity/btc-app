@@ -12,6 +12,7 @@ import newPoint from './new-point';
 import account from './account';
 import drawer from './drawer';
 import dialog from './dialog';
+import newRating from './new-rating';
 
 const reducers = {
   marker: marker,
@@ -24,7 +25,8 @@ const reducers = {
   newPoint: newPoint,
   account: account,
   drawer: drawer,
-  dialog: dialog
+  dialog: dialog,
+  newRating: newRating
 };
 
 export default combineReducers( reducers );

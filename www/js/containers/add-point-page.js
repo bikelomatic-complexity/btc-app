@@ -18,7 +18,7 @@ import { setPointName, setPointLocation, setPointType,
   setPointDescription, setPointAddress, setPointImage,
   setPointWebsite, setPointPhone, addPointHours, removePointHours,
   addPointAmenity, removePointAmenity, clearPointProps,
-  setPointProps, setUpdate
+  setPointProps
 } from '../actions/new-point-actions';
 
 import {  fullscreenMarker, peekMarker, deselectMarker,
