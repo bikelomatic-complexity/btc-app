@@ -18,6 +18,8 @@ install:
 before_script:
 - npm run build
 script:
+- npm format
+- npm lint
 - npm test 
 
 before_deploy:
