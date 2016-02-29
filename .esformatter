@@ -7,7 +7,7 @@
   "jsx": {
     "formatJSX": true,
     "attrsOnSameLineAsTag": false,
-    "maxAttrsOnTag": 1,
+    "maxAttrsOnTag": 2,
     "firstAttributeOnSameLine": true,
     "alignWithFirstAttribute": false,
     "htmlOptions": {

@@ -13,12 +13,20 @@ import { connect } from 'react-redux';
 import * as leaflet from 'react-leaflet';
 import { divIcon } from 'leaflet';
 
+import { userAddPoint } from '../reducers/points';
+import { setPointName, setPointLocation, setPointType,
+  setPointDescription, setPointAddress, setPointImage,
+  setPointWebsite, setPointPhone, addPointHours, removePointHours,
+  addPointAmenity, removePointAmenity, clearPointProps,
+  setPointProps
+} from '../actions/new-point-actions';
+
+import {  fullscreenMarker, peekMarker, deselectMarker,
+  selectMarker, setMapCenter, setGeoLocation,
+  setMapZoom, setMapLoading } from '../actions/map-actions';
+
 import BlobUtil from 'blob-util';
 import { findIndex, noop } from 'lodash';
-
-import { userAddPoint } from '../reducers/points';
-import { setPointName, setPointLocation, setPointType, setPointDescription, setPointAddress, setPointImage, setPointWebsite, setPointPhone, addPointHours, removePointHours, addPointAmenity, removePointAmenity, clearPointProps, setPointProps, setUpdate } from '../actions/new-point-actions';
-import { fullscreenMarker, peekMarker, deselectMarker, selectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 
 export class AddPointPage extends Component {
   addPoint( blob = undefined ) {

@@ -12,6 +12,7 @@ import newPoint from './new-point';
 import account from './account';
 import drawer from './drawer';
 import notifications from './notifications';
+import newRating from './new-rating';
 
 const reducers = {
   marker: marker,
@@ -24,7 +25,8 @@ const reducers = {
   newPoint: newPoint,
   account: account,
   drawer: drawer,
-  notifications: notifications
+  notifications: notifications,
+  newRating: newRating
 };
 
 export default combineReducers( reducers );

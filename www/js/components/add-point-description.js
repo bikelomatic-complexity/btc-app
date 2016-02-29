@@ -75,10 +75,10 @@ export class AddPointDescription extends Component {
     return (
       <div className="form-column">
         <div className="form-row">
-          <TextField rows={ 3 }
-            floatingLabelText="Description"
-            onBlur={ this.onDescriptionUpdate.bind( this ) }
-            defaultValue={ description } />
+          <TextField  fullWidth={true} floatingLabelText="Description"
+                      multiLine={true} rows={2} rowsMax={4}
+                      onBlur={this.onDescriptionUpdate.bind(this)}
+                      defaultValue={description} />
         </div>
         <div className="form-row">
           <TextField floatingLabelText="Phone Number"
