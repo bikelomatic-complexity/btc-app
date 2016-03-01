@@ -4,6 +4,7 @@ import { RaisedButton, Checkbox, FontIcon } from 'material-ui';
 import DropDown from '../components/drop-down';
 /*eslint-enable no-unused-vars*/
 
+import contains from 'lodash/contains';
 import { connect } from 'react-redux';
 import { setFilters } from '../actions/map-actions';
 import { types, displayType } from '../types';
@@ -14,7 +15,7 @@ class FilterPage extends Component {
     const {activeFilters, openServices, hideAlert} = this.props.filters;
 
     const filters = types.filter( type => {
-      return !activeFilters.indexOf( type ) >= 0;
+      return !contains( activeFilters, type );
     } ); // copy by value
 
     this.state = { filters, activeFilters, openServices, hideAlert };

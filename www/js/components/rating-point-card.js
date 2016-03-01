@@ -74,11 +74,13 @@ export class RatingPointCard extends Component {
       }
     ];
 
-    let commentElements = (<Paper>
-                             <CardText style={ { fontSize: '27px', textAlign: 'center' } }>
-                               There are no comments for this service yet.
-                             </CardText>
-                           </Paper>);
+    let commentElements = (
+    <Paper>
+      <CardText style={ { fontSize: '27px', textAlign: 'center' } }>
+        There are no comments for this service yet.
+      </CardText>
+    </Paper>
+    );
 
     // TODO: swap with mockComments with point.comments
     if ( mockComments.length !== 0 ) {
@@ -121,26 +123,28 @@ export class RatingPointCard extends Component {
       } );
     }
 
-    const newComment = (<Paper>
-                          <div style={ { padding: '16px' } }>
-                            <div>
-                              <RatingSelector setRating={ setRating.bind( this ) }
-                                rating={ newRating.rating }
-                                style={ { fontSize: '40px' } } />
-                            </div>
-                            <div>
-                              <TextField onBlur={ this.onCommentUpdate.bind( this ) }
-                                fullWidth={ true }
-                                multiLine={ true }
-                                rows={ 2 }
-                                rowsMax={ 4 }
-                                hintText='New Comment' />
-                            </div>
-                            <div>
-                              <RaisedButton label='Submit Comment' onClick={ this.onSubmit.bind( this ) } />
-                            </div>
-                          </div>
-                        </Paper>);
+    const newComment = (
+    <Paper>
+      <div style={ { padding: '16px' } }>
+        <div>
+          <RatingSelector setRating={ setRating.bind( this ) }
+            rating={ newRating.rating }
+            style={ { fontSize: '40px' } } />
+        </div>
+        <div>
+          <TextField onBlur={ this.onCommentUpdate.bind( this ) }
+            fullWidth={ true }
+            multiLine={ true }
+            rows={ 2 }
+            rowsMax={ 4 }
+            hintText='New Comment' />
+        </div>
+        <div>
+          <RaisedButton label='Submit Comment' onClick={ this.onSubmit.bind( this ) } />
+        </div>
+      </div>
+    </Paper>
+    );
 
     return (
       <Card id='mdl-map-card'

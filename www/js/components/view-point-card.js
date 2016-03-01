@@ -18,14 +18,12 @@ export class ViewPointCard extends Component {
     const curMonth = date.getMonth();
     const curDate = date.getDate();
     seasons.forEach( season => {
-      /*esfmt-ignore start*/
       if ( ( season.seasonStart )
           && ( season.seasonEnd )
           && ( season.seasonStart.month <= curMonth <= season.seasonEnd.month )
           && ( season.seasonStart.date <= curDate <= season.seasonEnd.date ) ) {
         seasonDays = season.days;
       }
-    /*esfmt-ignore stop*/
     } );
     return seasonDays;
   }

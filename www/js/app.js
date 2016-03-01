@@ -77,9 +77,8 @@ document.addEventListener( 'deviceReady', ( ) => {
           <Route path="settings" component={ SettingsPage } />
           <Route path="login" component={ LoginPage } />
           <Route path="register" component={ RegisterPage } />
-          <Route path="/logout" component={ LogoutPage } />
-          <Route path="/register" component={ RegisterPage } />
-          <Route path="/thanks" component={ ThanksPage } />
+          <Route path="logout" component={ LogoutPage } />
+          <Route path="thanks" component={ ThanksPage } />
           <Route path="add-point" component={ AddPointPage }>
             <IndexRoute component={ AddPointLocation } />
             <Route path="name" component={ AddPointName } />
