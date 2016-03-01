@@ -29,7 +29,7 @@ export class SettingsPage extends Component {
       subtext: 'Don\'t connect to the internet',
       toggled: !settings.onlineMode,
       onToggle: offline => {
-        return dispatch(setOnlineMode( !settings.onlineMode ))
+        return dispatch( setOnlineMode( !settings.onlineMode ) );
       }
     }, {
       text: 'Download on mobile',
@@ -38,36 +38,42 @@ export class SettingsPage extends Component {
       onToggle: noop
     } ].map( item => {
       const tog = (
-        <Toggle toggled={ item.toggled } onToggle={ item.onToggle } />
+      <Toggle toggled={ item.toggled } onToggle={ item.onToggle } />
       );
       return (
-        <ListItem key={item.text} primaryText={item.text}
-          secondaryText={item.subtext}
-          rightToggle={tog} />
+        <ListItem key={ item.text }
+          primaryText={ item.text }
+          secondaryText={ item.subtext }
+          rightToggle={ tog } />
         );
     } );
 
     const date = 'Last updated: ' + new Date().toLocaleDateString();
     const lastUpdated = (
-      <ListItem primaryText='Update now' secondaryText={date}
-        leftIcon={ <Refresh /> } />
+    <ListItem primaryText='Update now'
+      secondaryText={ date }
+      leftIcon={ <Refresh /> } />
     );
 
     const clearPoints = (
-      <ListItem primaryText='Delete cache' secondaryText='80 MB'
-        leftIcon={ <Delete /> } />
-    )
+    <ListItem primaryText='Delete cache'
+      secondaryText='80 MB'
+      leftIcon={ <Delete /> } />
+    );
 
-    const { loggedIn, email } = this.props.login;
+    const {loggedIn, email} = this.props.login;
     let account;
-    if( loggedIn ) {
+    if ( loggedIn ) {
       account = (
         <List subheader='Your account'>
-          <ListItem disabled primaryText={email} secondaryText='email' />
+          <ListItem disabled
+            primaryText={ email }
+            secondaryText='email' />
         </List>
       );
     }
 
+    /*esfmt-ignore-start*/
     return (
       <Page>
         <Block style={ { padding: 0 } }>
@@ -83,7 +89,8 @@ export class SettingsPage extends Component {
           { account }
         </Block>
       </Page>
-    );
+      );
+      /*esfmt-ignore-end*/
   }
 }
 

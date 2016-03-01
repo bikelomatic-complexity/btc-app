@@ -147,13 +147,15 @@ export class Block extends Component {
                </div>;
     }
 
-    let props={};
+    let props = {};
     if ( this.props.style ) {
       props.style = this.props.style;
     }
 
     return (
-      <Paper { ...props } className="entry" zDepth={ 2 }>
+      <Paper { ...props }
+        className="entry"
+        zDepth={ 2 }>
         { header }
         { this.props.children }
         { footer }
