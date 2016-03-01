@@ -1,14 +1,21 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
-import { RaisedButton, CardText } from 'material-ui';
+import { RaisedButton, CardText, List, ListItem, Toggle, Divider } from 'material-ui';
+
+import { Page } from '../components/page';
+import { Block } from '../components/block';
 import { SettingSwitch } from '../components/setting-switch';
+
+import Refresh from 'material-ui/lib/svg-icons/navigation/refresh';
+import Delete from 'material-ui/lib/svg-icons/action/delete';
 /*eslint-enable no-unused-vars*/
+
+import noop from 'lodash/noop';
 
 import { setOnlineMode } from '../reducers/settings';
 import { connect } from 'react-redux';
 
 export class SettingsPage extends Component {
-
   componentDidMount() {
     const {setDrawer} = this.props;
     setDrawer( 'Settings' );
@@ -16,65 +23,74 @@ export class SettingsPage extends Component {
 
   render() {
     const {dispatch, settings} = this.props;
-    return (
-      <div className="form-column page-content">
-        <div className="form-row">
-          <div>
-            <CardText style={ { fontSize: '2em', fontWeight: 'bold' } }>
-              Sync Settings
-            </CardText>
-            <hr />
-          </div>
-        </div>
-        <div className="form-row">
-          <SettingSwitch id="offline-mode-switch"
-            title="Offline Mode"
-            checked={ !settings.onlineMode }
-            onChange={ change => dispatch( setOnlineMode( !change ) ) }>
-            Go into offline mode so you can view your offline tiles.
-          </SettingSwitch>
-        </div>
-        <div className="form-row">
-          <SettingSwitch id="conflict-switch" title="Conflict Notifications">
-            Notify me when conflicts occur with my edits to services.
-          </SettingSwitch>
-        </div>
-        <div className="form-row">
-          <SettingSwitch id="wifi-switch"
-            title="Sync using WIFI"
-            checked={ true }>
-            Sync edits to services when connected to the internet.
-          </SettingSwitch>
-        </div>
-        <div className="form-row">
-          <SettingSwitch id="cellular-switch" title="Sync using Cellular">
-            Sync edits to services on cellular data.
-            <br/>
-            <i>Recommended Off</i>
-          </SettingSwitch>
-        </div>
-        <div className="form-row">
-          <RaisedButton secondary label="Sync Edits Now" />
-        </div>
-        <div className="form-row">
-          <div>
-            <CardText style={ { fontSize: '2em', fontWeight: 'bold' } }>
-              Other Settings
-            </CardText>
-            <hr />
-          </div>
-        </div>
-        <div className="form-row">
-          { /* empty form row to snap to bottom */ }
-        </div>
-      </div>
+
+    const toggleItems = [ {
+      text: 'Offline mode',
+      subtext: 'Don\'t connect to the internet',
+      toggled: !settings.onlineMode,
+      onToggle: offline => {
+        return dispatch(setOnlineMode( !settings.onlineMode ))
+      }
+    }, {
+      text: 'Download on mobile',
+      subtext: 'Use 3G or 4G data',
+      toggled: false,
+      onToggle: noop
+    } ].map( item => {
+      const tog = (
+        <Toggle toggled={ item.toggled } onToggle={ item.onToggle } />
       );
+      return (
+        <ListItem key={item.text} primaryText={item.text}
+          secondaryText={item.subtext}
+          rightToggle={tog} />
+        );
+    } );
+
+    const date = 'Last updated: ' + new Date().toLocaleDateString();
+    const lastUpdated = (
+      <ListItem primaryText='Update now' secondaryText={date}
+        leftIcon={ <Refresh /> } />
+    );
+
+    const clearPoints = (
+      <ListItem primaryText='Delete cache' secondaryText='80 MB'
+        leftIcon={ <Delete /> } />
+    )
+
+    const { loggedIn, email } = this.props.login;
+    let account;
+    if( loggedIn ) {
+      account = (
+        <List subheader='Your account'>
+          <ListItem disabled primaryText={email} secondaryText='email' />
+        </List>
+      );
+    }
+
+    return (
+      <Page>
+        <Block style={ { padding: 0 } }>
+          <List subheader='Network'>
+            { toggleItems }
+          </List>
+          <Divider />
+          <List subheader='Services and Alerts'>
+            { lastUpdated }
+            { clearPoints }
+          </List>
+          <Divider />
+          { account }
+        </Block>
+      </Page>
+    );
   }
 }
 
 function select( state ) {
   return {
-    settings: state.settings.toJS()
+    settings: state.settings.toJS(),
+    login: state.account.login
   };
 }
 export default connect( select )( SettingsPage );
