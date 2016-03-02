@@ -37,6 +37,13 @@ import Sync from './sync';
 import { NetworkManager } from './reducers/network';
 import { reloadPoints } from './reducers/points';
 
+import "../../node_modules/leaflet/dist/leaflet.css";
+import "../../node_modules/material-design-lite/material.css";
+
+import '../css/app.css';
+import '../css/mod.css';
+import '../css/flex-objects.css';
+
 // this is needed for material-ui
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();

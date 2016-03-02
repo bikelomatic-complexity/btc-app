@@ -6,7 +6,7 @@ import sd from 'skin-deep';
 /*eslint-disable no-unused-vars*/
 import React from 'react';
 import ReactDom from 'react-dom';
-import { Block, BlockFooter, FormBlock, errorProps } from '../../../www/js/components/block';
+import { Block, BlockFooter, FormBlock, errorProps } from '../../../src/js/components/block';
 /*eslint-enable no-unused-vars*/
 
 describe( '<Block />', function() {

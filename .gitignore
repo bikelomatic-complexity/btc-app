@@ -1,5 +1,6 @@
 platforms/
 plugins/
+www/
 
 www/js/bundle.js
 test/bundle.js

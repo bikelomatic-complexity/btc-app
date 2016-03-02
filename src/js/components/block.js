@@ -6,6 +6,8 @@ import { Paper, RaisedButton, TextField } from 'material-ui';
 import classNames from 'classnames';
 import _, { bindAll, isObject, isString } from 'lodash';
 
+import '../../css/block.css';
+
 // This component extends the `Block` with form inputs inside. It is also able
 // to display form validation comments if they are supplied.
 export class FormBlock extends Component {

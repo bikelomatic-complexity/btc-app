@@ -5,10 +5,10 @@ import sd from 'skin-deep';
 /*eslint-disable no-unused-vars*/
 import React from 'react';
 import ReactDom from 'react-dom';
-import { RegisterPage } from '../../../www/js/containers/register-page';
+import { RegisterPage } from '../../../src/js/containers/register-page';
 /*eslint-enable no-unused-vars*/
 
-import * as registration from '../../../www/js/reducers/account/registration';
+import * as registration from '../../../src/js/reducers/account/registration';
 
 describe( '<RegisterPage />', function() {
   beforeEach( function() {

@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 /*eslint-enable no-unused-vars*/
 
+import '../../css/page.css';
+
 // The page component is a responsive way to display content in the center
 // of the screen.
 //
