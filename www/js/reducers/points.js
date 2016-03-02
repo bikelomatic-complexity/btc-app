@@ -15,18 +15,18 @@ export const SYNC_DELETE = 'pannier/points/DELETE';
 export const RELOAD = 'pannier/points/RELOAD';
 
 function helpSyncReceive( state, action ) {
-  const idx = findIndex( state, point => point._id === action.id );
+  const pointIdx = findIndex( state, point => point._id === action.id );
 
-  if ( idx === -1 ) { // Replicated point is new
+  if ( pointIdx === -1 ) { // Replicated point is new
     return [ ...state, action.point ];
   } else { // Replicated point is an edit
-    return values( Object.assign( {}, state, { [idx]: action.point } ) );
+    return values( Object.assign( {}, state, { [pointIdx]: action.point } ) );
   }
 }
 
 function helpSyncDelete( state, action ) {
-  const idx = findIndex( state, point => point._id === action.id );
-  return values( omit( state, idx ) );
+  const pointIdx = findIndex( state, point => point._id === action.id );
+  return values( omit( state, pointIdx ) );
 }
 
 export default function reducer( state = [], action ) {
