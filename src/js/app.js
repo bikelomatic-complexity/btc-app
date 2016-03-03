@@ -37,8 +37,8 @@ import Sync from './sync';
 import { NetworkManager } from './reducers/network';
 import { reloadPoints } from './reducers/points';
 
-import "../../node_modules/leaflet/dist/leaflet.css";
-import "../../node_modules/material-design-lite/material.css";
+import '../../node_modules/leaflet/dist/leaflet.css';
+import '../../node_modules/material-design-lite/material.css';
 
 import '../css/app.css';
 import '../css/mod.css';
