@@ -21,11 +21,11 @@ import DownloadTrackPage from './containers/download-track-page';
 import FilterPage from './containers/filter-page';
 import SettingsPage from './containers/settings-page';
 
-import AddPointLocation from './components/add-point-location';
-import AddPointName from './components/add-point-name';
-import AddPointDescription from './components/add-point-description';
-import AddPointHours from './components/add-point-hours';
-import AddPointAmenities from './components/add-point-amenities';
+import AddPointLocation from './components/wizard/add-point-location';
+import AddPointName from './components/wizard/add-point-name';
+import AddPointDescription from './components/wizard/add-point-description';
+import AddPointHours from './components/wizard/add-point-hours';
+import AddPointAmenities from './components/wizard/add-point-amenities';
 
 import PeekPointCard from './components/peek-point-card';
 import ViewPointCard from './components/view-point-card';

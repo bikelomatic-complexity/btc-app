@@ -1,18 +1,22 @@
 /*eslint-disable no-unused-vars*/
-import React, { Component } from 'react';
-import DropDown from './drop-down';
+import React from 'react';
+import DropDown from '../drop-down';
 import { RaisedButton, CardText, FontIcon, TimePicker } from 'material-ui';
 /*eslint-enable no-unused-vars*/
+
+import { bindAll } from 'lodash';
+import WizardPage from './wizard-page';
 
 const weekDays = [
   'Weekdays', 'Weekends', 'Monday', 'Tuesday',
   'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
 ];
 
-export class AddPointHours extends Component {
-
+export class AddPointHours extends WizardPage {
   constructor( props ) {
     super( props );
+    bindAll(this, 'onDaySelect', 'addHours', 'removeHours');
+
     this.state = { add: false };
   }
 
@@ -53,7 +57,7 @@ export class AddPointHours extends Component {
     removePointHours( index );
   }
 
-  render() {
+  getPageContent() {
     const midnight = new Date();
     midnight.setHours( 0, 0, 0, 0 );
 
@@ -73,42 +77,40 @@ export class AddPointHours extends Component {
     } );
 
     return (
-      <div className='form-column'>
-        <div style={ { overflowX: 'hidden' } }>
-          <div className='form-row'>
-            <DropDown ref='dayDropDown'
-              text={ 'Day(s)' }
-              onSelectFunction={ this.onDaySelect.bind( this ) }
-              options={ weekDays } />
-          </div>
-          <div className='form-row'>
-            <span>
-              Opens at
-            </span>
-            <TimePicker style={ { flex: 5 } }
-              ref='openPicker'
-              format='ampm'
-              defaultTime={ midnight } />
-          </div>
-          <div className='form-row'>
-            <span>
-              Closes at
-            </span>
-            <TimePicker style={ { flex: 5 } }
-              ref='closePicker'
-              format='ampm'
-              defaultTime={ midnight } />
-          </div>
-          <div className='form-row'>
-            <RaisedButton secondary
-              disabled={ !( this.state.add ) }
-              onClick={ this.addHours.bind( this ) }
-              label='Add Hours' />
-          </div>
+      <div className='wizard-page' style={ { overflowX: 'hidden' } }>
+        <DropDown ref='dayDropDown'
+          text='Day(s)'
+          onSelectFunction={ this.onDaySelect }
+          options={ weekDays } />
+        <div>
+          <span>Opens at</span>
+          <TimePicker ref='openPicker'
+            format='ampm'
+            defaultTime={ midnight } />
         </div>
+        <div>
+          <span>Closes at</span>
+          <TimePicker ref='closePicker'
+            format='ampm'
+            defaultTime={ midnight } />
+        </div>
+        <RaisedButton secondary
+          disabled={ !this.state.add }
+          onClick={ this.addHours }
+          label='Add Hours' />
         { hours }
       </div>
       );
+  }
+
+  getTransition() {
+    const { hours } = this.props.newPoint;
+
+    if( hours.length > 0 ) {
+      return WizardPage.transitions.next;
+    } else {
+      return WizardPage.transitions.skip;
+    }
   }
 }
 

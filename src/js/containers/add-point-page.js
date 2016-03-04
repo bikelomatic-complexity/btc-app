@@ -2,13 +2,20 @@
 import React, { Component } from 'react';
 import { RaisedButton, Tabs, Tab, FontIcon } from 'material-ui';
 
-import AddPointLocation from '../components/add-point-location';
-import AddPointName from '../components/add-point-name';
-import AddPointDescription from '../components/add-point-description';
-import AddPointHours from '../components/add-point-hours';
-import AddPointAmenities from '../components/add-point-amenities';
+import AddPointLocation from '../components/wizard/add-point-location';
+import AddPointName from '../components/wizard/add-point-name';
+import AddPointDescription from '../components/wizard/add-point-description';
+import AddPointHours from '../components/wizard/add-point-hours';
+import AddPointAmenities from '../components/wizard/add-point-amenities';
+
+import PlaceIcon from 'material-ui/lib/svg-icons/maps/place';
+import EditIcon from 'material-ui/lib/svg-icons/image/edit';
+import FormatAlignLeftIcon from 'material-ui/lib/svg-icons/editor/format-align-left';
+import ScheduleIcon from 'material-ui/lib/svg-icons/action/schedule';
+import LocalBarIcon from 'material-ui/lib/svg-icons/maps/local-bar';
 /*eslint-enabled no-unused-vars*/
 
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as leaflet from 'react-leaflet';
 import { divIcon } from 'leaflet';
@@ -18,10 +25,51 @@ import { setPointName, setPointLocation, setPointType, setPointDescription, setP
 
 import { fullscreenMarker, peekMarker, deselectMarker, selectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 
+import * as pointActions from '../actions/new-point-actions';
+import * as mapActions from '../actions/map-actions';
+
 import BlobUtil from 'blob-util';
-import { findIndex, noop } from 'lodash';
+import _, { findIndex, noop, assign, bindAll } from 'lodash';
+
+const allTabs = {
+  AddPointLocation: {
+    value: AddPointLocation,
+    icon: <PlaceIcon />,
+    url: '/'
+  },
+  AddPointName: {
+    value: AddPointName,
+    icon: <EditIcon />,
+    url: '/name',
+  },
+  AddPointDescription: {
+    value: AddPointDescription,
+    icon: <FormatAlignLeftIcon />,
+    url: '/description'
+  },
+  AddPointHours: {
+    value: AddPointHours,
+    icon: <ScheduleIcon />,
+    url: '/hours'
+  },
+  AddPointAmenities: {
+    value: AddPointAmenities,
+    icon: <LocalBarIcon />,
+    url: '/amenities'
+  }
+};
+
+const navigate = (history, tabSet, tab) => {
+  return () => {
+    history.push( tabSet.baseUrl + tab.url );
+  };
+};
 
 export class AddPointPage extends Component {
+  constructor(props) {
+    super(props);
+    bindAll(this, 'onSubmit', 'loadPoint');
+  }
   addPoint( blob = undefined ) {
     const {dispatch} = this.props;
     const {address, amenities, description, hours, location, name, phoneNumber, type, website, isUpdate} = this.props.newPoint;
@@ -85,200 +133,66 @@ export class AddPointPage extends Component {
   }
 
   render() {
-    const {dispatch, setDrawer, setDialog, newPoint, tracks, settings, filters, marker, services, alerts, mapState} = this.props;
-    const {address, amenities, description, hours, imageSrc, location, name, phoneNumber, type, website, isUpdate} = newPoint;
+    const { dispatch, newPoint, setDrawer, history } = this.props;
 
-    // add props and actions so the component can dispatch actions
-    const newPointChildren = React.Children.map( this.props.children, child => {
-      return React.cloneElement( child, {
-        setDrawer, setDialog, newPoint, marker, services, filters,
-        alerts, mapState, tracks, settings,
-        setPointName: newName => {
-          dispatch( setPointName( newName ) );
-        },
-        setPointLocation: newLocation => {
-          dispatch( setPointLocation( newLocation ) );
-        },
-        setPointType: newType => {
-          dispatch( setPointType( newType ) );
-        },
-        setPointDescription: newDescription => {
-          dispatch( setPointDescription( newDescription ) );
-        },
-        setPointAddress: newAddress => {
-          dispatch( setPointAddress( newAddress ) );
-        },
-        setPointImage: newImage => {
-          dispatch( setPointImage( newImage ) );
-        },
-        setPointWebsite: newWebsite => {
-          dispatch( setPointWebsite( newWebsite ) );
-        },
-        setPointPhone: newPhone => {
-          dispatch( setPointPhone( newPhone ) );
-        },
-        addPointHours: ( {day, opens, closes} ) => {
-          dispatch( addPointHours( { day, opens, closes } ) );
-        },
-        removePointHours: index => {
-          dispatch( removePointHours( index ) );
-        },
-        addPointAmenity: newAmenity => {
-          dispatch( addPointAmenity( newAmenity ) );
-        },
-        removePointAmenity: index => {
-          dispatch( removePointAmenity( index ) );
-        },
-        clearPointProps: ( ) => {
-          dispatch( clearPointProps() );
-        },
-        setMapCenter: coords => {
-          dispatch( setMapCenter( coords ) );
-        },
-        setGeoLocation: coords => {
-          dispatch( setGeoLocation( coords ) );
-        },
-        setMapZoom: zoom => {
-          dispatch( setMapZoom( zoom ) );
-        },
-        setMapLoading: isLoading => {
-          dispatch( setMapLoading( isLoading ) );
-        }
-      } );
-    } );
+    const addTabs = {
+      baseUrl: '/add-point',
+      tabs: [
+        allTabs.AddPointLocation,
+        allTabs.AddPointName,
+        allTabs.AddPointDescription,
+        allTabs.AddPointHours,
+        allTabs.AddPointAmenities
+      ]
+    };
+    const updateTabs = {
+      baseUrl: '/update-point/' + encodeURIComponent( newPoint._id ),
+      tabs: [
+        allTabs.AddPointDescription,
+        allTabs.AddPointHours,
+        allTabs.AddPointAmenities
+      ]
+    }
+    const tabSet = newPoint._id ? updateTabs : addTabs;
 
-    const addTabs = [
-      {
-        value: AddPointLocation, icon: 'place',
-        onClick: ( ) => {
-          this.props.history.push( '/add-point' );
-        }
-      },
-      {
-        value: AddPointName, icon: 'mode_edit',
-        onClick: ( ) => {
-          this.props.history.push( '/add-point/name' );
-        }
-      },
-      {
-        value: AddPointDescription, icon: 'format_align_left',
-        onClick: ( ) => {
-          this.props.history.push( '/add-point/description' );
-        }
-      },
-      {
-        value: AddPointHours, icon: 'schedule',
-        onClick: ( ) => {
-          this.props.history.push( '/add-point/hours' );
-        }
-      },
-      {
-        value: AddPointAmenities, icon: 'local_bar',
-        onClick: ( ) => {
-          this.props.history.push( '/add-point/amenities' );
-        }
-      }
-    ];
+    // The router will provide a single child based on the route
+    const page = React.Children.only( this.props.children );
 
-    const urlId = encodeURIComponent( newPoint._id );
-
-    const updateTabs = [
-      {
-        value: AddPointDescription, icon: 'format_align_left',
-        onClick: ( ) => {
-          this.props.history.push( `/update-point/${urlId}` );
-        }
-      },
-      {
-        value: AddPointHours, icon: 'schedule',
-        onClick: ( ) => {
-          this.props.history.push( `/update-point/${urlId}/hours` );
-        }
-      },
-      {
-        value: AddPointAmenities, icon: 'local_bar',
-        onClick: ( ) => {
-          this.props.history.push( `/update-point/${urlId}/amenities` );
-        }
-      }
-    ];
-
-    // determine next page, based on current page
-    const currentPage = this.props.children.type;
-    const disabled = !( (name) && (type) );
-    let nextText = 'Next';
-    let onNext = noop;
-    switch ( currentPage ) {
-    case AddPointLocation:
-      onNext = ( ) => {
-        this.props.history.push( '/add-point/name' );
-      };
-      break;
-    case AddPointName:
-      onNext = ( ) => {
-        this.props.history.push( '/add-point/description' );
-      };
-      break;
-    case AddPointDescription:
-      onNext = ( ) => {
-        this.props.history.push( '/add-point/hours' );
-      };
-      if ( newPoint._id ) {
-        onNext = ( ) => {
-          this.props.history.push( '/update-point/${urlId}/hours' );
-        };
-      }
-      if ( !( (description) || (phoneNumber) ||
-          (address) || (website) || (imageSrc) ) ) {
-        nextText = 'Skip';
-      }
-      break;
-    case AddPointHours:
-      onNext = ( ) => {
-        this.props.history.push( '/add-point/amenities' );
-      };
-      if ( newPoint._id ) {
-        onNext = ( ) => {
-          this.props.history.push( '/update-point/${urlId}/amenities' );
-        };
-      }
-      if ( hours.length == 0 ) {
-        nextText = 'Skip';
-      }
-      break;
-    case AddPointAmenities:
+    const tabIndex = findIndex( tabSet.tabs, { value: page.type } );
+    let onNext;
+    if( tabIndex === tabSet.tabs.length - 1 ) {
       onNext = this.onSubmit;
-      nextText = 'Submit';
-      break;
+    } else {
+      onNext = navigate( history, tabSet, tabSet.tabs[ tabIndex + 1 ] );
     }
 
-    const tabs = ( newPoint._id ? updateTabs : addTabs ).map( tab => {
-      return (
-        <Tab key={ tab.value }
-          value={ tab.value }
-          onClick={ tab.onClick }
-          icon={ <FontIcon className='material-icons'>
-                   { tab.icon }
-                 </FontIcon> } />
-        );
-    } );
+    const actions = _.chain()
+      .assign( {}, pointActions, mapActions )
+      .omit( 'default' )
+      .value();
+    const boundActions = bindActionCreators(actions, dispatch);
+
+    // The page is being rendered twice? once *without* boundActions?
+    const props = assign( {}, this.props, boundActions, { onNext } );
+    const pageWithProps = React.cloneElement( page, props );
+
+    const tabs = tabSet.tabs.map( tab => (
+      <Tab key={ tab.value }
+        value={ tab.value }
+        onClick={ navigate( history, tabSet, tab ) }
+        icon={ tab.icon } />
+    ) );
 
     return (
       <div className='form-column page-content'>
-        <Tabs value={ currentPage }>
+        <Tabs value={ page.type }>
           { tabs }
         </Tabs>
         <div>
-          { newPointChildren }
-        </div>
-        <div className='form-row'>
-          <RaisedButton secondary
-            disabled={ disabled && ( currentPage !== AddPointLocation ) }
-            onClick={ onNext.bind( this ) }
-            label={ nextText } />
+          { pageWithProps }
         </div>
       </div>
-      );
+    );
   }
 }
 

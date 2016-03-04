@@ -2,12 +2,13 @@
 import React, { Component } from 'react';
 import { RaisedButton, CardText, FontIcon } from 'material-ui';
 
-import DropDown from './drop-down';
+import DropDown from '../drop-down';
 /*eslint-disable no-unused-vars*/
 
-import { types, displayType } from '../types';
+import { types, displayType } from '../../types';
+import WizardPage from './wizard-page';
 
-export class AddPointAmenities extends Component {
+export class AddPointAmenities extends WizardPage {
   constructor( props ) {
     super( props );
     this.state = {
@@ -34,7 +35,7 @@ export class AddPointAmenities extends Component {
     this.setState( { amenity } );
   }
 
-  render() {
+  getPageContent() {
     const amenityOptions = types.map( ( amenity ) => {
       return (<option key={ amenity } value={ amenity }>
                 { displayType( amenity ) }
@@ -69,19 +70,21 @@ export class AddPointAmenities extends Component {
     } );
 
     return (
-      <div className="form-column">
-        <div className="form-row">
-          <DropDown options={ types }
-            text="Amenity"
-            textTransform={ displayType }
-            onSelectFunction={ this.selectAmenity.bind( this ) } />
-          { addAmenityButton }
-        </div>
+      <div className="wizard-page">
+        <DropDown options={ types }
+          text="Amenity"
+          textTransform={ displayType }
+          onSelectFunction={ this.selectAmenity.bind( this ) } />
+        { addAmenityButton }
         <div>
           { amenities }
         </div>
       </div>
       );
+  }
+
+  getTransition() {
+    return WizardPage.transitions.submit;
   }
 }
 

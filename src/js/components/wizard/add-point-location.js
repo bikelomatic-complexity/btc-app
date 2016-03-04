@@ -1,11 +1,12 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 
-import PointMap from './point-map';
+import PointMap from '../point-map';
 /*eslint-enable no-unused-vars*/
 
-export class AddPointLocation extends Component {
+import WizardPage from './wizard-page';
 
+export class AddPointLocation extends WizardPage {
   updateLocation( leaflet ) {
     const {setPointLocation} = this.props;
     const {lat, lng} = leaflet.target.getCenter();
@@ -23,7 +24,7 @@ export class AddPointLocation extends Component {
     setDrawer( 'Pick a Location' );
   }
 
-  render() {
+  getPageContent() {
     const {services, alerts, tracks, mapState, setMapCenter, filters, settings, setGeoLocation, setMapZoom, setMapLoading} = this.props;
 
     const styleShadow = { marginLeft: '4px', marginTop: '18px', width: '25px', height: '41px' };
@@ -54,6 +55,10 @@ export class AddPointLocation extends Component {
         </div>
       </div>
       );
+  }
+
+  getTransition() {
+    return WizardPage.transitions.next;
   }
 }
 
