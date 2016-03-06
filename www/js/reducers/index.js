@@ -11,7 +11,7 @@ import filters from './filter';
 import newPoint from './new-point';
 import account from './account';
 import drawer from './drawer';
-import dialog from './dialog';
+import notifications from './notifications';
 import newRating from './new-rating';
 
 const reducers = {
@@ -25,7 +25,7 @@ const reducers = {
   newPoint: newPoint,
   account: account,
   drawer: drawer,
-  dialog: dialog,
+  notifications: notifications,
   newRating: newRating
 };
 

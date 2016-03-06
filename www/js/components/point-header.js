@@ -1,20 +1,21 @@
-import React, {Component} from 'react';
-import { CardMedia, CardTitle, IconMenu,
-  MenuItem, FontIcon, IconButton } from 'material-ui';
+/*eslint-disable no-unused-vars*/
+import React, { Component } from 'react';
+import { CardMedia, CardTitle, IconMenu, MenuItem, FontIcon, IconButton } from 'material-ui';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
+/*eslint-enable no-unused-vars*/
 
 export class PointHeader extends Component {
 
   updatePoint() {
     const id = this.props.point._id;
-    const urlId = encodeURIComponent(id);
-    this.props.history.push(`/update-point/${urlId}`);
+    const urlId = encodeURIComponent( id );
+    this.props.history.push( `/update-point/${urlId}` );
   }
 
   ratePoint() {
     const id = this.props.point._id;
-    const urlId = encodeURIComponent(id);
-    this.props.history.push(`/rate-point/${urlId}`);
+    const urlId = encodeURIComponent( id );
+    this.props.history.push( `/rate-point/${urlId}` );
   }
 
   flagPoint() {
@@ -22,7 +23,7 @@ export class PointHeader extends Component {
   }
 
   render() {
-    const { point } = this.props;
+    const {point} = this.props;
 
     // if we have an image, use that
     // otherwise, use an mdl-blue for the title,
@@ -30,11 +31,10 @@ export class PointHeader extends Component {
     let backgroundStyle;
     let titleHeight;
 
-    if (point.coverUrl) {
+    if ( point.coverUrl ) {
       backgroundStyle = `url(${point.coverUrl}) center / cover`;
       titleHeight = '176px';
-    }
-    else {
+    } else {
       backgroundStyle = '#3f51b5';
       titleHeight = '100px';
     }
@@ -44,42 +44,32 @@ export class PointHeader extends Component {
       height: titleHeight,
       background: backgroundStyle,
       margin: '0px !important'
-    }
-
-    const iconStyle = {
-      zIndex:1, float:"right",
-      background: "rgba(0,0,0,0.6)",
-      borderRadius: "100%"
     };
 
+    const iconStyle = {
+      zIndex: 1, float: 'right',
+      background: 'rgba(0,0,0,0.6)',
+      borderRadius: '100%'
+    };
+
+    const alertStyle = point.type == "alert" ? {display:"none"} : {};
+
     return (
-      <CardMedia className="hammer-grab" overlay={
-        <CardTitle className="hammer-grab" title={point.name}/>
-      }>
-        <div style={cardTitleStyle}>
-          <IconMenu
-            style={iconStyle}
-            iconButtonElement={<IconButton>
-              <MoreVertIcon color="white"/>
-            </IconButton>}
-            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-            targetOrigin={{horizontal: 'right', vertical: 'top'}}
-          >
-            <MenuItem
-              style={point.type == "alert" ? {display:"none"} : {}}
-              primaryText="Update Information"
-              onClick={this.updatePoint.bind(this)} />
-            <MenuItem
-              style={point.type == "alert" ? {display:"none"} : {}}
-              primaryText="Rate Service"
-              onClick={this.ratePoint.bind(this)} />
-            <MenuItem
-              primaryText="Flag Service"
-              onClick={this.flagPoint.bind(this)} />
+      <CardMedia className='hammer-grab' overlay={ <CardTitle className='hammer-grab' title={ point.name } /> }>
+        <div style={ cardTitleStyle }>
+          <IconMenu style={ iconStyle }
+            iconButtonElement={ <IconButton>
+                                  <MoreVertIcon color='white' />
+                                </IconButton> }
+            anchorOrigin={ { horizontal: 'right', vertical: 'top' } }
+            targetOrigin={ { horizontal: 'right', vertical: 'top' } }>
+            <MenuItem primaryText='Update Information' style={alertStyle} onClick={ this.updatePoint.bind( this ) } />
+            <MenuItem primaryText='Rate Service' style={alertStyle} onClick={ this.ratePoint.bind( this ) } />
+            <MenuItem primaryText='Flag Service' onClick={ this.flagPoint.bind( this ) } />
           </IconMenu>
         </div>
       </CardMedia>
-    );
+      );
   }
 }
 

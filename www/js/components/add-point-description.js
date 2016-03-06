@@ -1,112 +1,114 @@
-import React, {Component} from 'react';
+/*eslint-disable no-unused-vars*/
+import React, { Component } from 'react';
 import { RaisedButton, TextField } from 'material-ui';
+/*eslint-enable no-unused-vars*/
 
 export class AddPointDescription extends Component {
-
-  componentWillReceiveProps(nextProps) {
-    const { setDrawer, newPoint } = nextProps;
-    setDrawer(newPoint._id ? 'Update Details' : 'Add Details');
+  componentWillReceiveProps( nextProps ) {
+    const {setDrawer, newPoint} = nextProps;
+    setDrawer( newPoint._id ? 'Update Details' : 'Add Details' );
   }
 
-  onDescriptionUpdate(event) {
-    const { setPointDescription } = this.props;
+  onDescriptionUpdate( event ) {
+    const {setPointDescription} = this.props;
     const description = event.target.value;
-    setPointDescription(description);
+    setPointDescription( description );
   }
 
-  onPhoneUpdate(event) {
-    const { setPointPhone } = this.props;
+  onPhoneUpdate( event ) {
+    const {setPointPhone} = this.props;
     const phoneNumber = event.target.value;
-    setPointPhone(phoneNumber);
+    setPointPhone( phoneNumber );
   }
 
-  onWebsiteUpdate(event) {
-    const { setPointWebsite } = this.props;
+  onWebsiteUpdate( event ) {
+    const {setPointWebsite} = this.props;
     const website = event.target.value;
-    setPointWebsite(website);
+    setPointWebsite( website );
   }
 
-  onAddressUpdate(event) {
-    const { setPointAddress } = this.props;
+  onAddressUpdate( event ) {
+    const {setPointAddress} = this.props;
     const address = event.target.value;
-    setPointAddress(address);
+    setPointAddress( address );
   }
 
   onPhotoAdd() {
-    const { setPointImage } = this.props;
+    const {setPointImage} = this.props;
     // This logic will not work on the browser
     // because of issue - Apache Cordova / CB-9852
     // https://issues.apache.org/jira/browse/CB-9852
     navigator.camera.getPicture(
       imageSrc => {
-        setPointImage(imageSrc);
+        setPointImage( imageSrc );
       },
       err => console.error( err ),
-      { sourceType:navigator.camera.PictureSourceType.PHOTOLIBRARY,
-        destinationType:navigator.camera.DestinationType.FILE_URI,
-        encodingType:navigator.camera.EncodingType.PNG
+      { sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+        destinationType: navigator.camera.DestinationType.FILE_URI,
+        encodingType: navigator.camera.EncodingType.PNG
       }
-    )
+    );
   }
 
   render() {
-    const { newPoint, params } = this.props;
-    const { description, phoneNumber,
-      address, website, imageSrc } = newPoint;
+    const {newPoint, params} = this.props;
+    const {description, phoneNumber, address, website, imageSrc} = newPoint;
 
-    let imgView = <div />
-    if (imageSrc !== '') {
+    let imgView = <div />;
+    if ( imageSrc !== '' ) {
       imgView = <div>
-        <img src={imageSrc} width="100%" />
-      </div>
+                  <img src={ imageSrc } width="100%" />
+                </div>;
     }
 
     // if we are loading an update point,
     // don't render the page til we have the correct data.
     // (defaultValue cannot be overwritten after initial render)
 
-    if(((newPoint._id === undefined)
-      && (params.pointId !== undefined))
-      || (newPoint._id !== params.pointId)) {
-        return <div/>;
+    if ( ( ( newPoint._id === undefined )
+        && ( params.pointId !== undefined ) )
+        || ( newPoint._id !== params.pointId ) ) {
+      return <div/>;
     }
 
     return (
       <div className="form-column">
         <div className="form-row">
-          <TextField  fullWidth={true} floatingLabelText="Description"
-                      multiLine={true} rows={2} rowsMax={4}
-                      onBlur={this.onDescriptionUpdate.bind(this)}
-                      defaultValue={description} />
+          <TextField fullWidth={ true }
+            floatingLabelText="Description"
+            multiLine={ true }
+            rows={ 2 }
+            rowsMax={ 4 }
+            onBlur={ this.onDescriptionUpdate.bind( this ) }
+            defaultValue={ description } />
         </div>
         <div className="form-row">
-          <TextField  floatingLabelText="Phone Number"
-                      type="tel"
-                      onBlur={this.onPhoneUpdate.bind(this)}
-                      defaultValue={phoneNumber} />
+          <TextField floatingLabelText="Phone Number"
+            type="tel"
+            onBlur={ this.onPhoneUpdate.bind( this ) }
+            defaultValue={ phoneNumber } />
         </div>
         <div className="form-row">
-          <TextField  floatingLabelText="Address"
-                      onBlur={this.onAddressUpdate.bind(this)}
-                      defaultValue={address} />
+          <TextField floatingLabelText="Address"
+            onBlur={ this.onAddressUpdate.bind( this ) }
+            defaultValue={ address } />
         </div>
         <div className="form-row">
-          <TextField  floatingLabelText="Website"
-                      type="url"
-                      onBlur={this.onWebsiteUpdate.bind(this)}
-                      defaultValue={website} />
+          <TextField floatingLabelText="Website"
+            type="url"
+            onBlur={ this.onWebsiteUpdate.bind( this ) }
+            defaultValue={ website } />
         </div>
         <div className="form-row">
           { imgView }
         </div>
         <div className="form-row">
-          <RaisedButton
-            secondary
-            onClick={this.onPhotoAdd.bind(this)}
-            label="Upload Photo"/>
+          <RaisedButton secondary
+            onClick={ this.onPhotoAdd.bind( this ) }
+            label="Upload Photo" />
         </div>
       </div>
-    )
+      );
   }
 }
 

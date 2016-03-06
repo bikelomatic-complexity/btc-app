@@ -1,43 +1,46 @@
-import React, {Component, PropTypes} from 'react';
+/*eslint-disable no-unused-vars*/
+import React, { Component, PropTypes } from 'react';
 import { SelectField, MenuItem } from 'material-ui';
+/*eslint-enable no-unused-vars*/
 
-const noOps = function(text){return text}; // do nothing
+const noOps = text => text; // do nothing
 
 export class DropDown extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {value:null}
+  constructor( props ) {
+    super( props );
+    this.state = { value: null };
   }
 
-  getSelected(){
+  getSelected() {
     return this.state.value;
   }
 
-  setSelected(value){
-    this.setState({value});
+  setSelected( value ) {
+    this.setState( { value } );
   }
 
-  handleChange(event, index, value){
-    this.setState({value})
-    this.props.onSelectFunction(value);
+  handleChange( event, index, value ) {
+    this.setState( { value } );
+    this.props.onSelectFunction( value );
   }
 
   render() {
-    const { options, onSelectFunction, textTransform, text, value } = this.props;
-    const optionItems = options.map((option, index)=> {
+    const {options, textTransform, text, value} = this.props;
+    const optionItems = options.map( ( option, index ) => {
       return (
-        <MenuItem key={option} primaryText={textTransform(option)} value={option}/>
-      );
-    });
+        <MenuItem key={ option }
+          primaryText={ textTransform( option ) }
+          value={ option } />
+        );
+    } );
     return (
-      <SelectField
-        floatingLabelText={text}
-        value={value || this.state.value}
-        onChange={this.handleChange.bind(this)}>
+      <SelectField floatingLabelText={ text }
+        value={ value || this.state.value }
+        onChange={ this.handleChange.bind( this ) }>
         { optionItems }
       </SelectField>
-    )
+      );
   }
 }
 

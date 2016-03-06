@@ -18,99 +18,58 @@ export const CLEAR_POINT_PROPS = 'CLEAR_POINT_PROPS';
 export const SET_POINT_PROPS = 'SET_POINT_PROPS';
 
 /* Action Creators */
-export function setPointName(name) {
-  return {
-    type: SET_POINT_NAME,
-    name
-  }
+export function setPointName( name ) {
+  return { type: SET_POINT_NAME, name };
 }
 
-export function setPointLocation(location) {
-  return {
-    type: SET_POINT_LOCATION,
-    location
-  }
+export function setPointLocation( location ) {
+  return { type: SET_POINT_LOCATION, location };
 }
 
-export function setPointType(pointType) {
-  return {
-    type: SET_POINT_TYPE,
-    pointType
-  }
+export function setPointType( pointType ) {
+  return { type: SET_POINT_TYPE, pointType };
 }
 
-export function setPointDescription(description) {
-  return {
-    type: SET_POINT_DESCRIPTION,
-    description
-  }
+export function setPointDescription( description ) {
+  return { type: SET_POINT_DESCRIPTION, description };
 }
 
-export function setPointAddress(address) {
-  return {
-    type: SET_POINT_ADDRESS,
-    address
-  }
+export function setPointAddress( address ) {
+  return { type: SET_POINT_ADDRESS, address };
 }
 
-export function setPointImage(imageSrc) {
-  return {
-    type: SET_POINT_IMAGE,
-    imageSrc
-  }
+export function setPointImage( imageSrc ) {
+  return { type: SET_POINT_IMAGE, imageSrc };
 }
 
-export function setPointWebsite(website) {
-  return {
-    type: SET_POINT_WEBSITE,
-    website
-  }
+export function setPointWebsite( website ) {
+  return { type: SET_POINT_WEBSITE, website };
 }
 
-export function setPointPhone(phoneNumber) {
-  return {
-    type: SET_POINT_PHONE,
-    phoneNumber
-  }
+export function setPointPhone( phoneNumber ) {
+  return { type: SET_POINT_PHONE, phoneNumber };
 }
 
-export function addPointHours(newHours) {
-  return {
-    type: ADD_POINT_HOURS,
-    newHours
-  }
+export function addPointHours( newHours ) {
+  return { type: ADD_POINT_HOURS, newHours };
 }
 
-export function removePointHours(hourIndex) {
-  return {
-    type: REMOVE_POINT_HOURS,
-    hourIndex
-  }
+export function removePointHours( hourIndex ) {
+  return { type: REMOVE_POINT_HOURS, hourIndex };
 }
 
-export function addPointAmenity(newAmenity) {
-  return {
-    type: ADD_POINT_AMENITIES,
-    newAmenity
-  }
+export function addPointAmenity( newAmenity ) {
+  return { type: ADD_POINT_AMENITIES, newAmenity };
 }
 
-export function removePointAmenity(amenityIndex) {
-  return {
-    type: REMOVE_POINT_AMENITIES,
-    amenityIndex
-  }
+export function removePointAmenity( amenityIndex ) {
+  return { type: REMOVE_POINT_AMENITIES, amenityIndex };
 }
 
 export function clearPointProps() {
-  return {
-    type: CLEAR_POINT_PROPS
-  }
+  return { type: CLEAR_POINT_PROPS };
 }
 
-export function setPointProps(point) {
-  return {
-    type: SET_POINT_PROPS,
-    point
-  }
+export function setPointProps( point ) {
+  return { type: SET_POINT_PROPS, point };
 }

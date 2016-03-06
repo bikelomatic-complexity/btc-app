@@ -1,55 +1,56 @@
-import React, {Component} from 'react';
+/*eslint-disable no-unused-vars*/
+import React, { Component } from 'react';
 
 import { TextField } from 'material-ui';
 import DropDown from './drop-down';
+/*eslint-enable no-unused-vars*/
 
 import { types, displayType } from '../types';
 
 export class AddPointName extends Component {
-
   componentDidMount() {
-    const { setDrawer } = this.props;
-    setDrawer('Enter Information') ;
+    const {setDrawer} = this.props;
+    setDrawer( 'Enter Information' ) ;
   }
 
-  onNameUpdate(event) {
-    const { setPointName } = this.props;
+  onNameUpdate( event ) {
+    const {setPointName} = this.props;
     const name = event.target.value;
-    setPointName(name);
+    setPointName( name );
   }
 
-  onTypeSelect(type) {
-    const { setPointType } = this.props;
-    setPointType(type);
+  onTypeSelect( type ) {
+    const {setPointType} = this.props;
+    setPointType( type );
   }
 
   render() {
     let latLngString = '';
-    if (this.props.newPoint.location.length !== 0) {
+    if ( this.props.newPoint.location.length !== 0 ) {
       const [lat, lng] = this.props.newPoint.location;
-      latLngString = `(${lat.toFixed(4)}, ${lng.toFixed(4)})`;
+      latLngString = `(${lat.toFixed( 4 )}, ${lng.toFixed( 4 )})`;
     }
 
     return (
       <div className="form-column">
         <div className="form-row">
-          <TextField  hintText="Name"
-                      onBlur={this.onNameUpdate.bind(this)}
-                      defaultValue={this.props.newPoint.name} />
+          <TextField hintText="Name"
+            onBlur={ this.onNameUpdate.bind( this ) }
+            defaultValue={ this.props.newPoint.name } />
         </div>
         <div className="form-row">
-          <TextField  floatingLabelText="Location" disabled={true}
-                      value={latLngString} />
+          <TextField floatingLabelText="Location"
+            disabled={ true }
+            value={ latLngString } />
         </div>
-        <DropDown
-          className="form-row"
+        <DropDown className="form-row"
           text="Select Type"
-          value={this.props.newPoint.type}
-          options={types}
-          textTransform={displayType}
-          onSelectFunction={this.onTypeSelect.bind(this)}/>
+          value={ this.props.newPoint.type }
+          options={ types }
+          textTransform={ displayType }
+          onSelectFunction={ this.onTypeSelect.bind( this ) } />
       </div>
-    )
+      );
   }
 }
 

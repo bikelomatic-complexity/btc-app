@@ -18,7 +18,9 @@ install:
 before_script:
 - npm run build
 script:
-- npm test 
+- npm run format
+- npm run lint
+- npm test
 
 before_deploy:
 - export NODE_ENV=production

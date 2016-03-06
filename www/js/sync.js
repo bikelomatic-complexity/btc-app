@@ -3,7 +3,7 @@ import { bindAll, has } from 'underscore';
 import docuri from 'docuri';
 import config from 'config';
 
-import { docToPoint, syncRecievePointHack, reloadPoints, syncDeletePoint } from './reducers/points'
+import { docToPoint, syncRecievePointHack, reloadPoints, syncDeletePoint } from './reducers/points';
 
 const {protocol, domain, port} = config.get( 'Client.couch' );
 const url = `${protocol}://${domain}:${port}/points`;

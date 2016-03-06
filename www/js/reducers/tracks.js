@@ -1,17 +1,11 @@
+/*global FileTransfer*/
+import path from 'path';
+import { fromJS } from 'immutable';
 
-import path from 'path'
-import { fromJS } from 'immutable'
+import usbr20 from '../usbr20.json';
 
-import usbr20 from '../usbr20.json'
+import { MBTILES_SERVER, MBTILES_SERVER_ROOT, hackDatabasePath } from '../config';
 
-import {
-  MBTILES_SERVER,
-  MBTILES_SERVER_ROOT,
-  MBTILES_LOCAL_ROOT,
-  hackDatabasePath
-} from '../config'
-
-const FETCH = 'pannier/tracks/FETCH';
 const REQUEST = 'pannier/tracks/REQUEST';
 const RECEIVE = 'pannier/tracks/RECEIVE';
 const CLEAR = 'pannier/tracks/CLEAR';
@@ -23,7 +17,7 @@ const DEACTIVATE = 'pannier/tracks/DEACTIVATE';
  * the Immutable data structure
  * TODO: Obtain tracks from the database
  */
-const initState = fromJS({
+const initState = fromJS( {
   'usbr-20': {
     _id: 'usbr-20',
     name: 'USBR 20',
@@ -50,33 +44,33 @@ const initState = fromJS({
     sha256: null, // TODO: implement digest check to verify downloads
     waypoints: usbr20 // See above
   }
-});
+} );
 
-export default function reducer(state = initState, action) {
-  switch(action.type) {
-    case REQUEST:
-      return state.mergeDeepIn([action.id], {
-        isFetching: action.progress
-      });
-    case RECEIVE:
-      return state.mergeDeepIn([action.id], {
-        isFetching: false,
-        status: action.status,
-      });
-    case CLEAR:
-      return state.mergeDeepIn([action.id], {
-        status: 'absent'
-      });
-    case DEACTIVATE:
-      return state.mergeDeepIn([action.id], {
-        active: false
-      });
-    case ACTIVATE:
-      return state.mergeDeepIn([action.id], {
-        active: true
-      });
-    default:
-      return state;
+export default function reducer( state = initState, action ) {
+  switch ( action.type ) {
+  case REQUEST:
+    return state.mergeDeepIn( [ action.id ], {
+      isFetching: action.progress
+    } );
+  case RECEIVE:
+    return state.mergeDeepIn( [ action.id ], {
+      isFetching: false,
+      status: action.status
+    } );
+  case CLEAR:
+    return state.mergeDeepIn( [ action.id ], {
+      status: 'absent'
+    } );
+  case DEACTIVATE:
+    return state.mergeDeepIn( [ action.id ], {
+      active: false
+    } );
+  case ACTIVATE:
+    return state.mergeDeepIn( [ action.id ], {
+      active: true
+    } );
+  default:
+    return state;
   }
 }
 
@@ -84,14 +78,14 @@ export default function reducer(state = initState, action) {
  * Creates an action thunk to async download mbtiles packages for tracks. The
  * download is performed with the cordova-plugin-file-transfer plugin.
  */
-export function fetchTrack(id, pkg) {
+export function fetchTrack( id, pkg ) {
   return dispatch => {
 
     // Inform app state the track download is starting
-    dispatch(requestTrack(id, true));
+    dispatch( requestTrack( id, true ) );
 
     const transfer = new FileTransfer();
-    const source = encodeURI(`http://${MBTILES_SERVER}/${MBTILES_SERVER_ROOT}/${pkg}`);
+    const source = encodeURI( `http://${MBTILES_SERVER}/${MBTILES_SERVER_ROOT}/${pkg}` );
 
     /*
      * In a perfect world, this commented out code is the best solution.
@@ -100,44 +94,44 @@ export function fetchTrack(id, pkg) {
      * return Promise.resolve(`${MBTILES_LOCAL_ROOT}/${pkg}`).then(target => {
      */
 
-    return hackDatabasePath().then(databasePath => {
-      return new Promise((resolve, reject) => {
+    return hackDatabasePath().then( databasePath => {
+      return new Promise( ( resolve, reject ) => {
 
-        const target = path.join(databasePath, pkg);
-        
+        const target = path.join( databasePath, pkg );
+
         // Use cordova-plugin-file-transfer to initiate the download
-        transfer.download(source, target, entry => {
-          resolve(entry);
+        transfer.download( source, target, entry => {
+          resolve( entry );
         }, error => {
-          console.error(`fetch error code ${error.code}`);
-          reject(error);
+          console.error( `fetch error code ${error.code}` );
+          reject( error );
         },
-        true);
+          true );
 
         // Only dispatch updates every 10% to improve performance. If we ever
         // cannot determine the size of the download, mark progress as
         // indeterminate.
         let last = 0.0;
         transfer.onprogress = e => {
-          if(e.lengthComputable) {
+          if ( e.lengthComputable ) {
             const fract = e.loaded / e.total;
-            if(fract >= last) {
+            if ( fract >= last ) {
               last = last + 0.1;
-              dispatch(requestTrack(id, fract));
+              dispatch( requestTrack( id, fract ) );
             }
           } else {
-            dispatch(requestTrack(id, true));
+            dispatch( requestTrack( id, true ) );
           }
         };
 
-    });
+      } );
 
-    }).then(entry => {
-      dispatch(receiveTrack(id, 'available'));
-    }).catch(error => {
-      dispatch(receiveTrack(id, 'failed'));
-    });
-  }
+    } ).then( entry => {
+      dispatch( receiveTrack( id, 'available' ) );
+    } ).catch( error => {
+      dispatch( receiveTrack( id, 'failed' ) );
+    } );
+  };
 }
 
 /*
@@ -148,7 +142,7 @@ export function fetchTrack(id, pkg) {
  * represents an indeterminate download. When progress is a number, it should
  * be a float between 0.0 and 1.0 representing download progress.
  */
-function requestTrack(id, progress) {
+function requestTrack( id, progress ) {
   return { type: REQUEST, id, progress };
 }
 
@@ -156,7 +150,7 @@ function requestTrack(id, progress) {
  * Create action to notify store an async track package download has completed.
  * This action creator should only be used within fetchTrack.
  */
-function receiveTrack(id, status) {
+function receiveTrack( id, status ) {
   return { type: RECEIVE, id, status };
 }
 
@@ -164,21 +158,21 @@ function receiveTrack(id, status) {
  * Create action to clear a downloaded track from memory.
  * TODO: Implement clearTrack.
  */
-export function clearTrack(id) {
-  console.log('TODO: `clearTrack: remove associated mbtiles pkg`');
+export function clearTrack( id ) {
+  console.log( 'TODO: `clearTrack: remove associated mbtiles pkg`' );
   return { type: CLEAR, id };
 }
 
 /*
  * Show a track on the map.
  */
-export function activateTrack(id) {
+export function activateTrack( id ) {
   return { type: ACTIVATE, id };
 }
 
 /*
  * Hide a track from the map
  */
-export function deactivateTrack(id) {
+export function deactivateTrack( id ) {
   return { type: DEACTIVATE, id };
 }

@@ -1,113 +1,73 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindAll } from 'underscore';
-import { RaisedButton, TextField, CardText, Divider, Paper } from 'material-ui';
+/*eslint-disable no-unused-vars*/
+import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { Snackbar } from 'material-ui';
+import { LetterheadPage } from '../components/page';
+import { FormBlock, Block, BlockFooter, errorProps } from '../components/block';
+/*eslint-enable no-unused-vars*/
+
+import { connect } from 'react-redux';
+import bindAll from 'lodash/bindAll';
 
 import { login } from '../reducers/account';
+import { setSnackbar } from '../reducers/notifications';
 
-const styles = {
-  logo: {
-    maxWidth: '75%',
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 25,
-    marginBottom: 25
-  },
-  border: {
-    margin: 10,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  page: {
-    flexGrow: 1,
-    maxWidth: 500,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  block: {
-    width: '100%',
-    padding: 15,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  login: {
-    marginTop: 20,
-    marginBottom: 20,
-    width: '100%'
-  },
-  options: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    color: '#B3B3B3'
-  },
-  p: {
-    marginBottom: 0
-  }
-};
+const fields = [ {
+  name: 'email',
+  hint: 'Email'
+}, {
+  name: 'password',
+  hint: 'Password'
+} ];
 
-class LoginPage extends React.Component {
+const footer = (
+<BlockFooter>
+  <span>
+    <Link to="register"> Sign up
+    </Link> for the app
+  </span>
+  <span>
+    <Link to="forgot"> Forgot password?
+    </Link>
+  </span>
+</BlockFooter>
+);
+
+export class LoginPage extends Component {
   constructor( props ) {
     super( props );
     bindAll( this, 'onLogin' );
   }
 
   componentDidMount() {
-    const {setDrawer} = this.props;
-    setDrawer( 'Login' );
+    this.props.setDrawer( 'Login' );
   }
 
-  onLogin() {
-    const email = this.refs.email.getValue();
-    const password = this.refs.password.getValue();
-
-    this.props.dispatch( login( email, password ) ).then( ( ) => {
-      this.props.history.push( '/' );
-    } );
+  // The FormBlock will call `onLogin` with `values` as an object containing
+  // field, field value pairs.
+  //
+  // If login is successful, redirect the user to the map and display a
+  // snackbar message.
+  onLogin( values ) {
+    const {dispatch, history} = this.props;
+    dispatch( login( values, ( ) => {
+      history.push( '/' );
+      dispatch( setSnackbar( { message: 'You have logged in!' }, 500 ) );
+    } ) );
   }
 
   render() {
+    const {account} = this.props;
+    const {error, validation} = account.login;
+
     return (
-      <div style={ styles.border }>
-        <div style={ styles.page }>
-          <img style={ styles.logo } src="./img/advc-big.jpg" />
-          <Paper style={ styles.block } zDepth={ 2 }>
-            <TextField hintText="Email"
-              underlineShow={ true }
-              fullWidth={ true }
-              type="email"
-              ref="email" />
-            <TextField hintText="Password"
-              underlineShow={ true }
-              fullWidth={ true }
-              ref="password"
-              type="password" />
-            <RaisedButton style={ styles.login }
-              secondary
-              onClick={ this.onLogin }
-              label="Log In"/>
-            <div style={ styles.options }>
-              <p style={ styles.p }>
-                <Link to="register">
-                { "Sign Up" }
-                </Link>
-                { " for Adventure Cycling" }
-              </p>
-              <p style={ styles.p }>
-                { "Forgot password?" }
-              </p>
-            </div>
-          </Paper>
-        </div>
-      </div>
+      <LetterheadPage>
+        <FormBlock onAction={ this.onLogin }
+          { ...errorProps( error, validation ) }
+          actionText="Login"
+          fields={ fields }
+          footer={ footer } />
+      </LetterheadPage>
       );
   }
 }
