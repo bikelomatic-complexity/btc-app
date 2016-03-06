@@ -1,14 +1,22 @@
 {
   "plugins": [
-    "esformatter-ignore",
-    "esformatter-jsx"
+    "esformatter-jsx",
+    "esformatter-ignore"
   ],
 
   "jsx": {
+    "formatJSX": true,
     "attrsOnSameLineAsTag": false,
     "maxAttrsOnTag": 2,
     "firstAttributeOnSameLine": true,
-    "alignWithFirstAttribute": false
+    "alignWithFirstAttribute": false,
+    "htmlOptions": {
+      "brace-style": "collapse-preserve-inline",
+      "unformatted": [
+        "inline",
+        "block"
+      ]
+    }
   },
 
   "preset" : "default",

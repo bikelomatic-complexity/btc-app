@@ -12,62 +12,38 @@ export const SET_GEO_LOCATION = 'SET_GEO_LOCATION';
 export const SET_FILTERS = 'SET_FILTERS';
 
 /* Action Creators */
-export function selectMarker(marker) {
-  return {
-    type: SELECT_MARKER,
-    marker
-  }
+export function selectMarker( marker ) {
+  return { type: SELECT_MARKER, marker };
 }
 
 export function peekMarker() {
-  return {
-    type: PEEK_MARKER
-  }
+  return { type: PEEK_MARKER };
 }
 
 export function fullscreenMarker() {
-  return {
-    type: FULLSCREEN_MARKER
-  }
+  return { type: FULLSCREEN_MARKER };
 }
 
 export function deselectMarker() {
-  return {
-    type: DESELECT_MARKER
-  }
+  return { type: DESELECT_MARKER };
 }
 
-export function setMapCenter(center) {
-  return {
-    type: SET_MAP_CENTER,
-    center
-  }
+export function setMapCenter( center ) {
+  return { type: SET_MAP_CENTER, center };
 }
 
-export function setMapZoom(zoom) {
-  return {
-    type: SET_MAP_ZOOM,
-    zoom
-  }
+export function setMapZoom( zoom ) {
+  return { type: SET_MAP_ZOOM, zoom };
 }
 
-export function setMapLoading(loading) {
-  return {
-    type: SET_MAP_LOADING,
-    loading
-  }
+export function setMapLoading( loading ) {
+  return { type: SET_MAP_LOADING, loading };
 }
 
-export function setGeoLocation(geolocation) {
-  return {
-    type: SET_GEO_LOCATION,
-    geolocation
-  }
+export function setGeoLocation( geolocation ) {
+  return { type: SET_GEO_LOCATION, geolocation };
 }
 
-export function setFilters(filters) {
-  return {
-    type: SET_FILTERS,
-    filters
-  }
+export function setFilters( filters ) {
+  return { type: SET_FILTERS, filters };
 }
