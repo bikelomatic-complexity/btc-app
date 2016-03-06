@@ -1,4 +1,4 @@
-/*global beforeEach it*/
+/*global describe beforeEach it*/
 import { expect } from 'chai';
 
 /*eslint-disable no-unused-vars*/
