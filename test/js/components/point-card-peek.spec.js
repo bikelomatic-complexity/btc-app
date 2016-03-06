@@ -26,21 +26,12 @@ describe('<PointCardPeek />', function(){
   });
   
   it('should show see more', function(){
-    /*var foundSpans = TestUtils.scryRenderedDOMComponentsWithTag(
-	  this.card, 'span'
-    );
-    foundSpans[3].innerText.should.be.equal("See More");*/
-    //console.log(this.vdom);
-	//console.log(this.vdom.props);
-	//console.log(this.vdom.props.children);
-	console.log(this.vdom.props.children[2]);
-	//console.log(this.vdom.props.children.length);
+    var leftButton = this.vdom.props.children[2].props.children[0];
+    expect ( leftButton.props.label ).to.be.equal( "See More" );
   });
 
   it('should show close', function(){
-    /*var foundSpans = TestUtils.scryRenderedDOMComponentsWithTag(
-	  this.card, 'span'
-    );
-    foundSpans[4].innerText.should.be.equal("Close");*/
+    var rightButton = this.vdom.props.children[2].props.children[1];
+    expect ( rightButton.props.label ).to.be.equal( "Close" );
   });	
 });
