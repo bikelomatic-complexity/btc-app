@@ -11,6 +11,7 @@ import Main from './containers/main';
 
 import MapPage from './containers/map-page';
 import AddPointPage from './containers/add-point-page';
+import AddAlertPage from './containers/add-alert-page';
 import RegisterPage from './containers/register-page';
 import LoginPage from './containers/login-page';
 import DownloadTrackPage from './containers/download-track-page';
@@ -22,6 +23,7 @@ import AddPointName from './components/add-point-name';
 import AddPointDescription from './components/add-point-description';
 import AddPointHours from './components/add-point-hours';
 import AddPointAmenities from './components/add-point-amenities';
+import AddAlertDetails from './components/add-alert-details';
 
 import PeekPointCard from './components/peek-point-card';
 import ViewPointCard from './components/view-point-card';
@@ -85,6 +87,11 @@ document.addEventListener('deviceReady', () => {
             <Route path="amenities" component={AddPointAmenities} />
           </Route>
 
+          <Route path="add-alert" component={AddAlertPage}>
+            <IndexRoute component={AddPointLocation} />
+            <Route path="details" component={AddAlertDetails} />
+          </Route>
+
           <Route path="/update-point/:pointId" component={AddPointPage}>
             <IndexRoute component={AddPointDescription} />
             <Route path="hours" component={AddPointHours} />
@@ -93,7 +100,7 @@ document.addEventListener('deviceReady', () => {
 
           <Route path="/download-track" component={DownloadTrackPage}/>
           <Route path="/filter" component={FilterPage}/>
-          
+
         </Route>
       </Router>
     </Provider>

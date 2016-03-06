@@ -15,5 +15,6 @@ const typesEnglish = [
 ]
 
 export function displayType(type) {
+  if (type == "alert") { return "Alert"; }
   return typesEnglish[types.indexOf(type)];
 }

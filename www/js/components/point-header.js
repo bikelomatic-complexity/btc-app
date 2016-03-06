@@ -66,9 +66,11 @@ export class PointHeader extends Component {
             targetOrigin={{horizontal: 'right', vertical: 'top'}}
           >
             <MenuItem
+              style={point.type == "alert" ? {display:"none"} : {}}
               primaryText="Update Information"
               onClick={this.updatePoint.bind(this)} />
             <MenuItem
+              style={point.type == "alert" ? {display:"none"} : {}}
               primaryText="Rate Service"
               onClick={this.ratePoint.bind(this)} />
             <MenuItem

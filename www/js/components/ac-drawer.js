@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import { AppBar, MenuItem, LeftNav } from 'material-ui';
+import { AppBar, MenuItem, LeftNav, FontIcon } from 'material-ui';
 import { Link } from 'react-router';
 
 export class ACDrawer extends Component {
@@ -24,16 +24,18 @@ export class ACDrawer extends Component {
 
   render() {
     let pages = [
-      {link: "/", title: "Map"},
-      {link: "filter", title: "Filter"},
-      {link: "add-point", title: "Add Point"},
-      {link: "download-track", title: "Download Track"},
-      {link: "settings", title: "Settings"},
-      {link: "login", title: "Login"}
+      {link: "/", title: "Map", icon: "map"},
+      {link: "filter", title: "Filter", icon: "filter_list"},
+      {link: "add-point", title: "Add Point", icon: "add_location"},
+      {link: "add-alert", title: "Add Alert", icon: "warning"},
+      {link: "download-track", title: "Download Track", icon: "cloud_download"},
+      {link: "settings", title: "Settings", icon: "settings"},
+      {link: "login", title: "Login", icon: "account_box"}
     ];
 
     let navs = pages.map((page) => {
       return (<MenuItem key={page.title}
+                    leftIcon={<FontIcon className="material-icons">{page.icon}</FontIcon>}
                     onTouchTap={this.onMenuItemTap.bind(this,page)}>
                 {page.title}
               </MenuItem>);
