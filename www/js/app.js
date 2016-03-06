@@ -13,11 +13,7 @@ import Main from './containers/main';
 
 import MapPage from './containers/map-page';
 import AddPointPage from './containers/add-point-page';
-<<<<<<< HEAD
 import AddAlertPage from './containers/add-alert-page';
-import RegisterPage from './containers/register-page';
-=======
->>>>>>> master
 import LoginPage from './containers/login-page';
 import LogoutPage from './containers/logout-page';
 import RegisterPage from './containers/register-page';
