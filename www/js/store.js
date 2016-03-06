@@ -1,36 +1,33 @@
+/*global process*/
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 
-import { union } from 'underscore'
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk'
-
-import reducers from './reducers'
+import reducers from './reducers';
 
 const reqMiddleware = [ thunk ];
 
 const devTools = typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f;
 
 export default class StoreBuilder {
-
-  constructor(extMiddleware) {
+  constructor( extMiddleware ) {
     const all = [ ...reqMiddleware, ...extMiddleware ];
 
-    if(process.env.NODE_ENV === 'development') {
+    if ( process.env.NODE_ENV === 'development' ) {
 
       this.finalCreateStore = compose(
-        applyMiddleware(...all),
+        applyMiddleware( ...all ),
         devTools
-      )(createStore);
+      )( createStore );
 
     } else {
 
       this.finalCreateStore = compose(
-        applyMiddleware(...all)
-      )(createStore);
+        applyMiddleware( ...all )
+      )( createStore );
     }
   }
 
-  build(initState = {}) {
-    return this.finalCreateStore(reducers, initState);
+  build( initState = {} ) {
+    return this.finalCreateStore( reducers, initState );
   }
-
 }

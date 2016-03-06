@@ -1,29 +1,28 @@
-import React, {Component} from 'react';
+/*eslint-disable no-unused-vars*/
+import React, { Component } from 'react';
 import { CardText, Toggle } from 'material-ui';
+/*eslint-enable no-unused-vars*/
 
 export class SettingSwitch extends Component {
-
   render() {
     const titleStyle = {
       fontSize: '1.8em',
       fontWeight: 'bold',
       paddingBottom: '8px'
-    }
+    };
 
     return (
-      <div className={this.props.className}>
-        <CardText style={titleStyle}>
+      <div className={ this.props.className }>
+        <CardText style={ titleStyle }>
           { this.props.title }
         </CardText>
-        <Toggle
-          id={this.props.id}
-          label={this.props.children}
-          style={{marginBottom:16}}
-          onToggle={this.props.onChange}
-          toggled={this.props.checked}
-        />
+        <Toggle id={ this.props.id }
+          label={ this.props.children }
+          style={ { marginBottom: 16 } }
+          onToggle={ this.props.onChange }
+          toggled={ this.props.checked } />
       </div>
-    )
+      );
   }
 }
 
