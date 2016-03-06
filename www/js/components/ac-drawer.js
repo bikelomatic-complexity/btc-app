@@ -33,40 +33,40 @@ export class ACDrawer extends Component {
     let pages = [ {
       link: '/',
       title: 'Map',
-      icon: "map"
+      icon: 'map'
     }, {
       link: 'filter',
       title: 'Filter',
-      icon: "filter_list"
+      icon: 'filter_list'
     }, {
       link: 'add-point',
       title: 'Add Point',
-      icon: "add_location"
+      icon: 'add_location'
     }, {
-      link: "add-alert",
-      title: "Add Alert",
-      icon: "warning"
+      link: 'add-alert',
+      title: 'Add Alert',
+      icon: 'warning'
     }, {
       link: 'download-track',
       title: 'Download Track',
-      icon: "cloud_download"
+      icon: 'cloud_download'
     }, {
       link: 'settings',
       title: 'Settings',
-      icon: "settings"
+      icon: 'settings'
     } ];
 
     if ( account.login.loggedIn ) {
       pages.push( {
         link: 'logout',
         title: 'Logout',
-        icon: "account_box"
+        icon: 'account_box'
       } );
     } else {
       pages.push( {
         link: 'login',
         title: 'Login',
-        icon: "account_box"
+        icon: 'account_box'
       } );
     }
 

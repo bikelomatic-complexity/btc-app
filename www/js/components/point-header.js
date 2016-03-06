@@ -52,7 +52,7 @@ export class PointHeader extends Component {
       borderRadius: '100%'
     };
 
-    const alertStyle = point.type == "alert" ? { display: "none" } : {};
+    const alertStyle = point.type == 'alert' ? { display: 'none' } : {};
 
     return (
       <CardMedia className='hammer-grab' overlay={ <CardTitle className='hammer-grab' title={ point.name } /> }>

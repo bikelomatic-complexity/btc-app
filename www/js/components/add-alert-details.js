@@ -1,7 +1,9 @@
+/*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 
 import { RaisedButton, TextField } from 'material-ui';
 import DropDown from './drop-down';
+/*eslint-disable no-unused-vars*/
 
 export class AddAlertDetails extends Component {
 
@@ -36,7 +38,7 @@ export class AddAlertDetails extends Component {
         destinationType: navigator.camera.DestinationType.FILE_URI,
         encodingType: navigator.camera.EncodingType.PNG
       }
-    )
+    );
   }
 
   render() {
@@ -46,11 +48,11 @@ export class AddAlertDetails extends Component {
       latLngString = `(${lat.toFixed( 4 )}, ${lng.toFixed( 4 )})`;
     }
 
-    let imgView = <div />
+    let imgView = (<div />);
     if ( imageSrc !== '' ) {
-      imgView = <div>
+      imgView = (<div>
                   <img src={ imageSrc } width="100%" />
-                </div>
+                </div>);
     }
 
     const {description, imageSrc} = this.props.newPoint;
@@ -85,7 +87,7 @@ export class AddAlertDetails extends Component {
             label="Upload Photo" />
         </div>
       </div>
-    )
+    );
   }
 }
 

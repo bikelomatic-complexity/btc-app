@@ -1,3 +1,4 @@
+/*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 
 import * as leaflet from 'react-leaflet';
@@ -20,6 +21,7 @@ import BlobUtil from 'blob-util';
 
 // import redux components
 import { connect } from 'react-redux';
+/*eslint-disable no-unused-vars*/
 
 export class AddAlertPage extends Component {
 
@@ -32,7 +34,7 @@ export class AddAlertPage extends Component {
       created_at: new Date().toISOString(),
       name,
       location,
-      type: "alert",
+      type: 'alert',
       description,
       flag: false
     }, blob ) );
@@ -114,38 +116,38 @@ export class AddAlertPage extends Component {
           dispatch( setMapLoading( isLoading ) );
         }
 
-      } )
+      } );
     } );
 
     const tabs = [
       {
-        value: AddPointLocation, icon: "place",
+        value: AddPointLocation, icon: 'place',
         onClick: ( ) => {
           this.props.history.push( '/add-alert' );
         }
       },
       {
-        value: AddAlertDetails, icon: "mode_edit",
+        value: AddAlertDetails, icon: 'mode_edit',
         onClick: ( ) => {
           this.props.history.push( '/add-alert/details' );
-        },
+        }
       }
     ];
 
     // determine next page, based on current page
     const currentPage = this.props.children.type;
-    let nextText = "Next";
+    let nextText = 'Next';
     let onNext = ( ) => {
     };
     switch ( currentPage ) {
     case AddPointLocation:
       onNext = ( ) => {
         this.props.history.push( '/add-alert/details' );
-      }
+      };
       break;
     case AddAlertDetails:
       onNext = this.onSubmit;
-      nextText = "Submit";
+      nextText = 'Submit';
       break;
     }
 
@@ -153,15 +155,15 @@ export class AddAlertPage extends Component {
       <div className="form-column page-content">
         <Tabs value={ currentPage }>
           { tabs.map( ( tab ) => {
-              return (
-                <Tab key={ tab.value }
-                  value={ tab.value }
-                  onClick={ tab.onClick }
-                  icon={ <FontIcon className="material-icons">
-                           { tab.icon }
-                         </FontIcon> } />);
-            }
-            ) }
+            return (
+              <Tab key={ tab.value }
+                value={ tab.value }
+                onClick={ tab.onClick }
+                icon={ <FontIcon className="material-icons">
+                         { tab.icon }
+                       </FontIcon> } />);
+          }
+          ) }
         </Tabs>
         <div>
           { newAlertChildren }
@@ -185,7 +187,7 @@ function select( state ) {
     mapState: state.mapState,
     tracks: state.tracks.toJS(),
     filters: state.filters,
-    settings: state.settings.toJS(),
+    settings: state.settings.toJS()
   };
 }
 
