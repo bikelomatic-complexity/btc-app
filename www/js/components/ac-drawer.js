@@ -72,7 +72,11 @@ export class ACDrawer extends Component {
 
     let navs = pages.map( ( page ) => {
       return (
-        <MenuItem key={ page.title } leftIcon={<FontIcon className="material-icons">{page.icon}</FontIcon>} onTouchTap={ this.onMenuItemTap.bind( this, page ) }>
+        <MenuItem key={ page.title }
+          leftIcon={ <FontIcon className="material-icons">
+                       { page.icon }
+                     </FontIcon> }
+          onTouchTap={ this.onMenuItemTap.bind( this, page ) }>
         { page.title }
         </MenuItem>
         );

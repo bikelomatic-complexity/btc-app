@@ -52,7 +52,7 @@ export class PointHeader extends Component {
       borderRadius: '100%'
     };
 
-    const alertStyle = point.type == "alert" ? {display:"none"} : {};
+    const alertStyle = point.type == "alert" ? { display: "none" } : {};
 
     return (
       <CardMedia className='hammer-grab' overlay={ <CardTitle className='hammer-grab' title={ point.name } /> }>
@@ -63,8 +63,12 @@ export class PointHeader extends Component {
                                 </IconButton> }
             anchorOrigin={ { horizontal: 'right', vertical: 'top' } }
             targetOrigin={ { horizontal: 'right', vertical: 'top' } }>
-            <MenuItem primaryText='Update Information' style={alertStyle} onClick={ this.updatePoint.bind( this ) } />
-            <MenuItem primaryText='Rate Service' style={alertStyle} onClick={ this.ratePoint.bind( this ) } />
+            <MenuItem primaryText='Update Information'
+              style={ alertStyle }
+              onClick={ this.updatePoint.bind( this ) } />
+            <MenuItem primaryText='Rate Service'
+              style={ alertStyle }
+              onClick={ this.ratePoint.bind( this ) } />
             <MenuItem primaryText='Flag Service' onClick={ this.flagPoint.bind( this ) } />
           </IconMenu>
         </div>
