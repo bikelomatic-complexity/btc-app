@@ -18,7 +18,6 @@ install:
 before_script:
 - npm run build
 script:
-- npm run format
 - npm run lint
 - npm test
 
