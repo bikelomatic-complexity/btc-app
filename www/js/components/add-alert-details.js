@@ -51,8 +51,8 @@ export class AddAlertDetails extends Component {
     let imgView = (<div />);
     if ( imageSrc !== '' ) {
       imgView = (<div>
-                  <img src={ imageSrc } width="100%" />
-                </div>);
+                   <img src={ imageSrc } width="100%" />
+                 </div>);
     }
 
     const {description, imageSrc} = this.props.newPoint;
@@ -87,7 +87,7 @@ export class AddAlertDetails extends Component {
             label="Upload Photo" />
         </div>
       </div>
-    );
+      );
   }
 }
 

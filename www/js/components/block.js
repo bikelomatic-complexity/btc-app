@@ -80,13 +80,13 @@ export class FormBlock extends Component {
     /*esfmt-ignore-start*/
     return (
       <Block { ...props }>
-              { this.boxes() }
-              <div className='entry__spacer' />
-              <RaisedButton secondary
-                className='entry__action'
-                fullWidth={ true }
-                onClick={ this.onAction }
-                label={ this.props.actionText } />
+                    { this.boxes() }
+                    <div className='entry__spacer' />
+                    <RaisedButton secondary
+                      className='entry__action'
+                      fullWidth={ true }
+                      onClick={ this.onAction }
+                      label={ this.props.actionText } />
       </Block>
       );
       /*esfmt-ignore-end*/

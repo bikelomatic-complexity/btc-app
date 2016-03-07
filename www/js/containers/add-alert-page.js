@@ -12,7 +12,7 @@ import AddPointLocation from '../components/add-point-location';
 import AddAlertDetails from '../components/add-alert-details';
 
 import { userAddPoint } from '../reducers/points';
-import { setPointName, setPointLocation, setPointType, setPointDescription, setPointImage, clearPointProps,
+import { setPointName, setPointLocation, setPointType, setPointDescription, setPointImage, clearPointProps
 } from '../actions/new-point-actions';
 
 import { fullscreenMarker, peekMarker, deselectMarker, selectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
@@ -24,6 +24,10 @@ import { connect } from 'react-redux';
 /*eslint-disable no-unused-vars*/
 
 export class AddAlertPage extends Component {
+
+  componentDidMount() {
+    clearPointProps();
+  }
 
   addPoint( blob = undefined ) {
     const {dispatch} = this.props;
@@ -75,29 +79,8 @@ export class AddAlertPage extends Component {
         setPointDescription: newDescription => {
           dispatch( setPointDescription( newDescription ) );
         },
-        setPointAddress: newAddress => {
-          dispatch( setPointAddress( newAddress ) );
-        },
         setPointImage: newImage => {
           dispatch( setPointImage( newImage ) );
-        },
-        setPointWebsite: newWebsite => {
-          dispatch( setPointWebsite( newWebsite ) );
-        },
-        setPointPhone: newPhone => {
-          dispatch( setPointPhone( newPhone ) );
-        },
-        addPointHours: ( {day, opens, closes} ) => {
-          dispatch( addPointHours( { day, opens, closes } ) );
-        },
-        removePointHours: index => {
-          dispatch( removePointHours( index ) );
-        },
-        addPointAmenity: newAmenity => {
-          dispatch( addPointAmenity( newAmenity ) );
-        },
-        removePointAmenity: index => {
-          dispatch( removePointAmenity( index ) );
         },
         clearPointProps: ( ) => {
           dispatch( clearPointProps() );
