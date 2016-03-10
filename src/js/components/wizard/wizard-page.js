@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { assign, isFunction, bindAll } from 'lodash';
+import { keys, pick, assign, isFunction, bindAll } from 'lodash';
 import { RaisedButton } from 'material-ui';
 
 import '../../../css/wizard.css';
@@ -8,6 +8,11 @@ export class WizardPage extends Component {
   constructor(props) {
     super(props);
     bindAll(this, 'link');
+
+    if( isFunction( this.getInitState ) ) {
+      this.init = this.getInitState();
+      this.state = this.getInitState();
+    }
   }
 
   getPageFields() {
@@ -35,7 +40,10 @@ export class WizardPage extends Component {
   componentWillUnmount( ) {
     const { persist } = this.props;
 
-    if( isFunction( persist ) ) persist( this.getPageValues() );
+    const values = this.getPageValues();
+    if( keys(values).length > 0 && isFunction( persist ) ) {
+      persist( values );
+    }
   }
 
   // Links state and input value. Tuned to work with Material UI.

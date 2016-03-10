@@ -4,9 +4,10 @@ import PouchDB from 'pouchdb';
 /*eslint-disable no-unused-vars*/
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router';
 /*eslint-enable no-unused-vars*/
 
+import history from './history'
 import ReactDOM from 'react-dom';
 
 import Main from './containers/main';
@@ -73,7 +74,7 @@ document.addEventListener( 'deviceReady', ( ) => {
 
   ReactDOM.render( (
     <Provider store={ store }>
-      <Router history={ browserHistory }>
+      <Router history={ history }>
         <Route path="/" component={ Main }>
           <Route component={ MapPage }>
             <IndexRoute />

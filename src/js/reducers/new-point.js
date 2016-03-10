@@ -1,4 +1,4 @@
-import { SET_POINT_NAME, SET_POINT_LOCATION, SET_POINT_TYPE, SET_POINT_DESCRIPTION, SET_POINT_ADDRESS, SET_POINT_IMAGE, SET_POINT_WEBSITE, SET_POINT_PHONE, ADD_POINT_HOURS, REMOVE_POINT_HOURS, ADD_POINT_AMENITIES, REMOVE_POINT_AMENITIES, CLEAR_POINT_PROPS, SET_POINT_PROPS } from '../actions/new-point-actions';
+import { SET_POINT_NAME, SET_POINT_LOCATION, SET_POINT_TYPE, SET_POINT_DESCRIPTION, SET_POINT_ADDRESS, SET_POINT_IMAGE, SET_POINT_WEBSITE, SET_POINT_PHONE, ADD_POINT_HOURS, REMOVE_POINT_HOURS, ADD_POINT_AMENITIES, REMOVE_POINT_AMENITIES, CLEAR_POINT_PROPS, SET_POINT_PROPS, UPDATE_POINT_PROPS } from '../actions/new-point-actions';
 
 const cleanState = {
   name: '',
@@ -54,6 +54,8 @@ export default function newPoint( state = initialState, action ) {
     return Object.assign( {}, cleanState );
   case SET_POINT_PROPS:
     return helpSetPointProps( state, action );
+  case UPDATE_POINT_PROPS:
+    return Object.assign( {}, state, action.point );
   default:
     return state;
   }

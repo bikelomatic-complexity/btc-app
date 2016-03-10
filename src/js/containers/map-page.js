@@ -3,39 +3,27 @@ import React, { Component } from 'react';
 import { Paper } from 'material-ui';
 
 import PointMap from '../components/point-map';
+import ConnectedPointMap from './connected-point-map';
 /*eslint-enable no-unused-vars*/
 
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { findIndex } from 'underscore';
+import { assign, find } from 'lodash';
 
-import { selectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
-
+import { selectMarker, setMapCenter } from '../actions/map-actions';
 import { setRating, setComment } from '../reducers/new-rating';
 import { setPointProps } from '../actions/new-point-actions';
+import { setDrawer } from '../reducers/drawer';
+
+import history from '../history';
 
 class MapPage extends Component {
-  loadMarker( props ) {
-    // set the current point (if we got it from a URL param)
-    const {dispatch, services, marker} = props;
-    const {pointId} = props.params;
-    if ( ( marker._id === undefined )
-        && ( pointId !== undefined )
-        && ( services.length > 0 ) ) {
-      const markerIndex = findIndex( services, point => {
-        return point._id === pointId;
-      } );
-      const newMarker = services[ markerIndex ];
-      dispatch( selectMarker( newMarker ) );
-
-      // if you selected a marker, we're going to point the map there
-      dispatch( setMapCenter( newMarker.location ) );
-    }
+  constructor(props) {
+    super(props);
   }
 
   componentDidMount() {
-    const {setDrawer} = this.props;
-    setDrawer( 'Map' );
-
+    this.props.setDrawer( 'Map' );
     this.loadMarker( this.props );
   }
 
@@ -43,57 +31,69 @@ class MapPage extends Component {
     this.loadMarker( nextProps );
   }
 
-  render() {
-    const {dispatch, marker, services, alerts, newRating, tracks, settings, mapState, filters, history} = this.props;
+  // If the user has specified a point to view via the url, and no point
+  // is not currently loaded, then try to load it. If we can load the point,
+  // then center the map on that point.
+  loadMarker( ) {
+    const paramId = this.props.params.pointId;
+    const pointId = this.props.marker._id;
 
-    // add props and actions so the component can dispatch actions
-    const pointChildren = React.Children.map( this.props.children, child => {
-      return React.cloneElement( child, {
-        point: marker,
-        heightOffset: 0,
-        newRating: newRating,
-        history: history,
-        setRating: rating => dispatch( setRating( rating ) ),
-        setComment: comment => dispatch( setComment( comment ) ),
-        fullscreenMarker: ( ) => {
-          const id = this.props.marker._id;
-          const urlId = encodeURIComponent( id );
-          this.props.history.push( `/view-point/${urlId}` );
-        },
-        peekMarker: ( ) => {
-          const id = this.props.marker._id;
-          const urlId = encodeURIComponent( id );
-          this.props.history.push( `/peek-point/${urlId}` );
-        },
-        deselectMarker: ( ) => this.props.history.push( '/' ),
-        setPointProps: ( ) => dispatch( setPointProps( this.props.marker ) )
-      } );
+    if( paramId && !pointId ) {
+      const { services } = this.props;
+      if( services.length > 0 ) {
+        const marker = find( services, { '_id': paramId } );
+        if( marker ) {
+          this.selectMarker( marker ); // TODO: Merge these for performance
+          this.setMapCenter( marker.location );
+        }
+      }
+    }
+  }
+
+  deselectMarker() {
+    history.push( '/' );
+  }
+
+  navigateWithId( prefix ) {
+    const id = this.props.marker._id;
+    const encodedId = encodeURIComponent( id );
+
+    history.push( `/${prefix}/${encodedId}` );
+  }
+
+  mapPropsOnCard() {
+    if( !this.props.children ) return;
+    const { dispatch, marker, newRating } = this.props;
+
+    const cardState = { newRating, point: marker, heightOffset: 0 };
+    const cardActions = { setRating, setComment, setPointProps };
+    const cardFunctions = {
+      deselectMarker: this.deselectMarker,
+      fullscreenMarker: () => this.navigateWithId( 'view-point' ),
+      peekMarker: () => this.navigateWithId( 'peek-point' )
+    }
+
+    const card = React.Children.only( this.props.children );
+    return React.cloneElement( card, {
+      ...bindActionCreators( cardActions, dispatch ),
+      ...cardState,
+      ...cardFunctions
     } );
+  }
 
-    const selMarker = point => {
-      dispatch( selectMarker( point ) );
-      const id = this.props.marker._id;
-      const urlId = encodeURIComponent( id );
-      this.props.history.push( `/peek-point/${urlId}` );
-    };
+  render() {
+    const props = { };
+    props.deselectMarker = this.deselectMarker;
+    props.selectMarker = point => {
+      this.props.selectMarker( point );
+      this.navigateWithId( 'peek-point' );
+    }
 
     return (
-      <div className="page-content">
-        <PointMap services={ services }
-          alerts={ alerts }
-          tracks={ tracks }
-          settings={ settings }
-          mapState={ mapState }
-          filters={ filters }
-          selectMarker={ selMarker }
-          deselectMarker={ ( ) => this.props.history.push( '/' ) }
-          setMapCenter={ coords => dispatch( setMapCenter( coords ) ) }
-          setGeoLocation={ coords => dispatch( setGeoLocation( coords ) ) }
-          setMapZoom={ zoom => dispatch( setMapZoom( zoom ) ) }
-          setMapLoading={ isLoading => dispatch( setMapLoading( isLoading ) ) } />
-        { pointChildren }
-      </div>
-      );
+      <ConnectedPointMap { ...props }>
+        { this.mapPropsOnCard() }
+      </ConnectedPointMap>
+    );
   }
 }
 
@@ -101,13 +101,9 @@ function select( state ) {
   return {
     marker: state.marker,
     services: state.points,
-    alerts: [],
-    tracks: state.tracks.toJS(),
-    settings: state.settings.toJS(),
-    mapState: state.mapState,
-    filters: state.filters,
-    newRating: state.newRating
   };
 }
 
-export default connect( select )( MapPage );
+const actions = { selectMarker, setMapCenter, setDrawer };
+
+export default connect( select, actions )( MapPage );

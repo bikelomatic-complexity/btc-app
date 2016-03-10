@@ -13,23 +13,22 @@ import EditIcon from 'material-ui/lib/svg-icons/image/edit';
 import FormatAlignLeftIcon from 'material-ui/lib/svg-icons/editor/format-align-left';
 import ScheduleIcon from 'material-ui/lib/svg-icons/action/schedule';
 import LocalBarIcon from 'material-ui/lib/svg-icons/maps/local-bar';
-/*eslint-enabled no-unused-vars*/
+/*eslint-enable no-unused-vars*/
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as leaflet from 'react-leaflet';
-import { divIcon } from 'leaflet';
 
 import { userAddPoint } from '../reducers/points';
-import { setPointName, setPointLocation, setPointType, setPointDescription, setPointAddress, setPointImage, setPointWebsite, setPointPhone, addPointHours, removePointHours, addPointAmenity, removePointAmenity, clearPointProps, setPointProps } from '../actions/new-point-actions';
-
-import { fullscreenMarker, peekMarker, deselectMarker, selectMarker, setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
+import { setPointProps, clearPointProps, updatePointProps } from '../actions/new-point-actions';
 
 import * as pointActions from '../actions/new-point-actions';
 import * as mapActions from '../actions/map-actions';
+import * as drawerActions from '../reducers/drawer';
 
 import BlobUtil from 'blob-util';
-import _, { findIndex, noop, assign, bindAll } from 'lodash';
+import _, { findIndex, assign, bindAll } from 'lodash';
+
+import history from '../history';
 
 const allTabs = {
   AddPointLocation: {
@@ -40,7 +39,7 @@ const allTabs = {
   AddPointName: {
     value: AddPointName,
     icon: <EditIcon />,
-    url: '/name',
+    url: '/name'
   },
   AddPointDescription: {
     value: AddPointDescription,
@@ -59,7 +58,7 @@ const allTabs = {
   }
 };
 
-const navigate = (history, tabSet, tab) => {
+const navigate = (tabSet, tab) => {
   return () => {
     history.push( tabSet.baseUrl + tab.url );
   };
@@ -70,11 +69,11 @@ export class AddPointPage extends Component {
     super(props);
     bindAll(this, 'onSubmit', 'loadPoint');
   }
-  addPoint( blob = undefined ) {
-    const {dispatch} = this.props;
-    const {address, amenities, description, hours, location, name, phoneNumber, type, website, isUpdate} = this.props.newPoint;
 
-    dispatch( userAddPoint( {
+  addPoint( blob = undefined ) {
+    const {address, amenities, description, hours, location, name, phoneNumber, type, website } = this.props.newPoint;
+
+    this.props.userAddPoint( {
       class: 'service',
       created_at: new Date().toISOString(),
       address,
@@ -89,39 +88,44 @@ export class AddPointPage extends Component {
       phone: phoneNumber,
       website,
       rating: 5
-    }, blob ) );
-    dispatch( clearPointProps() );
-    this.props.history.push( '/' );
+    }, blob );
+    this.props.clearPointProps();
+
+    history.push( '/' );
   }
 
   loadPoint( props ) {
+    console.log('loadPoint');
     // set the current point (if we got it from a URL param)
-    const {dispatch, services, newPoint} = props;
+    const {services, newPoint} = props;
     const {pointId} = props.params;
     if ( ( newPoint._id !== pointId )
         && ( pointId !== undefined )
         && ( services.length > 0 ) ) {
+      console.log('good');
       const pointIndex = findIndex( services, point => {
         return point._id === pointId;
       } );
       const newPoint = services[ pointIndex ];
-      dispatch( setPointProps( newPoint ) );
+      this.props.setPointProps( newPoint );
     }
     if ( ( pointId === undefined ) && ( newPoint._id !== undefined ) ) {
-      dispatch( clearPointProps() );
+      console.log('bad');
+      this.props.clearPointProps();
     }
   }
 
   componentDidMount() {
+    console.log('didmount');
     this.loadPoint( this.props );
   }
 
   componentWillReceiveProps( nextProps ) {
+    console.log('willprops');
     this.loadPoint( nextProps );
   }
 
   onSubmit() {
-    const {dispatch} = this.props;
     const {imageSrc} = this.props.newPoint;
     if ( imageSrc === '' ) {
       this.addPoint();
@@ -133,7 +137,7 @@ export class AddPointPage extends Component {
   }
 
   render() {
-    const { dispatch, newPoint, setDrawer, history } = this.props;
+    const { newPoint } = this.props;
 
     const addTabs = {
       baseUrl: '/add-point',
@@ -152,8 +156,11 @@ export class AddPointPage extends Component {
         allTabs.AddPointHours,
         allTabs.AddPointAmenities
       ]
-    }
+    };
     const tabSet = newPoint._id ? updateTabs : addTabs;
+    console.log('PARAMS PARAMS PARAMS');
+    console.log(this.props.route);
+    console.log(this.props.location);
 
     // The router will provide a single child based on the route
     const page = React.Children.only( this.props.children );
@@ -163,23 +170,20 @@ export class AddPointPage extends Component {
     if( tabIndex === tabSet.tabs.length - 1 ) {
       onNext = this.onSubmit;
     } else {
-      onNext = navigate( history, tabSet, tabSet.tabs[ tabIndex + 1 ] );
+      onNext = navigate( tabSet, tabSet.tabs[ tabIndex + 1 ] );
     }
 
-    const actions = _.chain()
-      .assign( {}, pointActions, mapActions )
-      .omit( 'default' )
-      .value();
-    const boundActions = bindActionCreators(actions, dispatch);
-
     // The page is being rendered twice? once *without* boundActions?
-    const props = assign( {}, this.props, boundActions, { onNext } );
+    const props = assign( {}, this.props, this.props.wizardActions, {
+      onNext: onNext,
+      persist: this.props.updatePointProps
+    } );
     const pageWithProps = React.cloneElement( page, props );
 
     const tabs = tabSet.tabs.map( tab => (
       <Tab key={ tab.value }
         value={ tab.value }
-        onClick={ navigate( history, tabSet, tab ) }
+        onClick={ navigate( tabSet, tab ) }
         icon={ tab.icon } />
     ) );
 
@@ -196,17 +200,31 @@ export class AddPointPage extends Component {
   }
 }
 
-function select( state ) {
+function mapStateToProps( state ) {
   return {
     newPoint: state.newPoint,
-    marker: state.marker,
-    services: state.points,
-    alerts: [],
-    mapState: state.mapState,
-    tracks: state.tracks.toJS(),
-    filters: state.filters,
-    settings: state.settings.toJS()
+    mapState: state.mapState
   };
 }
 
-export default connect( select )( AddPointPage );
+function mapDispatchToProps( dispatch ) {
+  return {
+    // These actions will be available in `this.props`
+    ...bindActionCreators( {
+      setPointProps,
+      clearPointProps,
+      updatePointProps,
+      userAddPoint
+    }, dispatch),
+
+    // These actions are meant for the selected tab and are available in
+    // `this.props.wizardActions`
+    wizardActions: bindActionCreators( {
+      ...pointActions,
+      ...mapActions,
+      ...drawerActions
+    }, dispatch)
+  }
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( AddPointPage );

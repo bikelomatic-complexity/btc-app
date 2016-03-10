@@ -17,6 +17,8 @@ export const REMOVE_POINT_AMENITIES = 'REMOVE_POINT_AMENITIES';
 export const CLEAR_POINT_PROPS = 'CLEAR_POINT_PROPS';
 export const SET_POINT_PROPS = 'SET_POINT_PROPS';
 
+export const UPDATE_POINT_PROPS = 'UPDATE_POINT_PROPS';
+
 /* Action Creators */
 export function setPointName( name ) {
   return { type: SET_POINT_NAME, name };
@@ -72,4 +74,8 @@ export function clearPointProps() {
 
 export function setPointProps( point ) {
   return { type: SET_POINT_PROPS, point };
+}
+
+export function updatePointProps( point ) {
+  return { type: UPDATE_POINT_PROPS, point };
 }

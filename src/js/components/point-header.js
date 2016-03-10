@@ -4,18 +4,20 @@ import { CardMedia, CardTitle, IconMenu, MenuItem, FontIcon, IconButton } from '
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 /*eslint-enable no-unused-vars*/
 
+import history from '../history';
+
 export class PointHeader extends Component {
 
   updatePoint() {
     const id = this.props.point._id;
     const urlId = encodeURIComponent( id );
-    this.props.history.push( `/update-point/${urlId}` );
+    history.push( `/update-point/${urlId}` );
   }
 
   ratePoint() {
     const id = this.props.point._id;
     const urlId = encodeURIComponent( id );
-    this.props.history.push( `/rate-point/${urlId}` );
+    history.push( `/rate-point/${urlId}` );
   }
 
   flagPoint() {

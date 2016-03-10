@@ -1,21 +1,22 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 
-import PointMap from '../point-map';
+import ConnectedPointMap from '../../containers/connected-point-map';
 /*eslint-enable no-unused-vars*/
 
 import WizardPage from './wizard-page';
+import { bindAll } from 'lodash';
 
 export class AddPointLocation extends WizardPage {
+  constructor(props) {
+    super(props);
+    bindAll(this, 'updateLocation');
+  }
+
   updateLocation( leaflet ) {
     const {setPointLocation} = this.props;
     const {lat, lng} = leaflet.target.getCenter();
     setPointLocation( [ lat, lng ] );
-  }
-
-  updateLocationCoords( coords ) {
-    const {setPointLocation} = this.props;
-    setPointLocation( coords );
   }
 
   componentDidMount() {
@@ -33,18 +34,9 @@ export class AddPointLocation extends WizardPage {
     const layoutStyle = { position: 'absolute', width: '100%', height: 'calc(100% - 0px)' };
 
     return (
-      <div className='hideZoomControl' style={ layoutStyle }>
-        <PointMap services={ services }
-          alerts={ alerts }
-          filters={ filters }
-          mapState={ mapState }
-          tracks={ tracks }
-          settings={ settings }
-          afterMoved={ this.updateLocation.bind( this ) }
-          setMapCenter={ setMapCenter }
-          setGeoLocation={ setGeoLocation }
-          setMapZoom={ setMapZoom }
-          setMapLoading={ setMapLoading } />
+      <div style={ layoutStyle } >
+        <ConnectedPointMap hideZoomControl
+          afterMoved={ this.updateLocation } />
         <div className='adding-point' style={ { position: 'fixed', top: 'calc(50% + 45px)', right: 'calc(50% - 12.5px)' } }>
           <img src='img/icons/marker-shadow.png'
             className='leaflet-marker-shadow'
@@ -54,7 +46,7 @@ export class AddPointLocation extends WizardPage {
             style={ styleMarker } />
         </div>
       </div>
-      );
+    );
   }
 
   getTransition() {

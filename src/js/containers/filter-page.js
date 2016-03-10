@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import { setFilters } from '../actions/map-actions';
 import { types, displayType } from '../types';
 
+import history from '../history';
+
 class FilterPage extends Component {
   constructor( props ) {
     super( props );
@@ -79,7 +81,7 @@ class FilterPage extends Component {
 
   onFilter( e ) {
     e.preventDefault();
-    this.props.history.pushState( null, '/' );
+    history.push( '/' );
   }
 
   render() {

@@ -10,14 +10,17 @@ export class AddPointDescription extends WizardPage {
   constructor(props) {
     super(props);
     bindAll( this, 'onPhotoAdd' );
+  }
 
+  getInitState() {
     const { newPoint } = this.props;
-    this.state = {
+
+    return {
       description: newPoint.description || '',
       phoneNumber: newPoint.phoneNumber || '',
       address: newPoint.address || '',
       website: newPoint.website || ''
-    }
+    };
   }
 
   componentWillReceiveProps( nextProps ) {
@@ -66,22 +69,22 @@ export class AddPointDescription extends WizardPage {
           <TextField { ...this.link( 'description' ) }
             floatingLabelText="Description"
             hintText="Description"
-            defaultValue={ this.state }
+            defaultValue={ this.init.description }
             multiLine={ true }
             rows={ 2 }
             rowsMax={ 4 } />
           <TextField { ...this.link( 'phoneNumber' ) }
             floatingLabelText="Phone Number"
             hintText="Phone Number"
-            defaultValue={ this.props.phoneNumber }
+            defaultValue={ this.init.phoneNumber }
             type="tel" />
           <TextField { ...this.link( 'address' ) }
             floatingLabelText="Address"
             hintText="Address"
-            defaultValue={ this.props.address } />
+            defaultValue={ this.init.address } />
           <TextField { ...this.link( 'website' ) }
             floatingLabelText="Website"
-            defaultValue={ this.props.website }
+            defaultValue={ this.init.website }
             type="url" />
           { image }
           <RaisedButton secondary

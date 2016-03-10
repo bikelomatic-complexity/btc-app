@@ -5,13 +5,17 @@ import { AppBar, MenuItem, LeftNav } from 'material-ui';
 import { Link } from 'react-router';
 /*eslint-enable no-unused-vars*/
 
+import { connect } from 'react-redux';
 import bindAll from 'lodash/bindAll';
+
+import history from '../history';
 
 export class ACDrawer extends Component {
   constructor( props ) {
     super( props );
-    this.state = { open: false };
     bindAll( this, 'onMenuItemTap', 'showNav', 'hideNav' );
+
+    this.state = { open: false };
   }
 
   hideNav() {
@@ -23,12 +27,12 @@ export class ACDrawer extends Component {
   }
 
   onMenuItemTap( page ) {
-    this.props.history.pushState( null, page.link );
+    history.push( page.link );
     this.hideNav();
   }
 
   render() {
-    const {account} = this.props;
+    const { login } = this.props;
 
     let pages = [ {
       link: '/',
@@ -47,7 +51,7 @@ export class ACDrawer extends Component {
       title: 'Settings'
     } ];
 
-    if ( account.login.loggedIn ) {
+    if ( login.loggedIn ) {
       pages.push( {
         link: 'logout',
         title: 'Logout'
@@ -59,7 +63,7 @@ export class ACDrawer extends Component {
       } );
     }
 
-    let navs = pages.map( ( page ) => {
+    let navs = pages.map( page => {
       return (
         <MenuItem key={ page.title } onTouchTap={ this.onMenuItemTap.bind( this, page ) }>
         { page.title }
@@ -68,7 +72,7 @@ export class ACDrawer extends Component {
     } );
 
     return (
-      <AppBar onLeftIconButtonTouchTap={ this.showNav } title={ this.props.page }>
+      <AppBar onLeftIconButtonTouchTap={ this.showNav } title={ this.props.drawer }>
         <LeftNav docked={ false }
           onRequestChange={ this.hideNav }
           open={ this.state.open }>
@@ -79,4 +83,10 @@ export class ACDrawer extends Component {
   }
 }
 
-export default ACDrawer;
+function select(state) {
+  return {
+    drawer: state.drawer,
+    login: state.account.login
+  };
+}
+export default connect( select )( ACDrawer );

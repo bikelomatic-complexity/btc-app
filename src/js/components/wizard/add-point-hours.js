@@ -106,7 +106,7 @@ export class AddPointHours extends WizardPage {
   getTransition() {
     const { hours } = this.props.newPoint;
 
-    if( hours.length > 0 ) {
+    if( hours && hours.length > 0 ) {
       return WizardPage.transitions.next;
     } else {
       return WizardPage.transitions.skip;
