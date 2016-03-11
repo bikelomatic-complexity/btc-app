@@ -35,6 +35,10 @@ export default class Gateway {
     } );
   }
 
+  oneDoc( id ) {
+    return this.db.get( id , { attachments: true } );
+  }
+
   /**
    * Returns all points in the database
    */
@@ -42,6 +46,10 @@ export default class Gateway {
     return this.allDocsByClass( 'point' ).then( response => {
       return response.rows.map( row => docToPoint( row.doc ) );
     } );
+  }
+
+  getPoint(id) {
+    return this.oneDoc( id ).then( doc => docToPoint( doc ) );
   }
 
   /**

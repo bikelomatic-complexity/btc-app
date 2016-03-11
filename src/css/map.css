@@ -1,0 +1,64 @@
+
+.map {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+/*
+ * In browsing mode, we need to place the controls below the MUI header, which
+ * is 60px tall. We add 4px to preserve the margins of the control area
+ */
+.map--browse-mode .leaflet-top {
+    top: 64px;
+}
+/*
+ * In wizard mode, we need to place the controls below both the MUI header and
+ * the wizard tabs. The wizard tabs add an additional 48 of height we need
+ * to displace.
+ */
+.map--wizard-mode .leaflet-top {
+    top: 116px;
+}
+
+.map__cards {
+    align-self: flex-end;
+}
+
+.crosshairs {
+    z-index: 40;
+    position: fixed;
+    height: 41px;
+    width: 41px;
+    bottom: 50%;
+    left: calc(50% - 12.5px);
+}
+
+.crosshairs__shadow {
+    position: absolute;
+    background-image: url('../../img/icons/marker-shadow.png');
+    height: 41px;
+    width: 41px;
+    left: 0px;
+}
+
+.crosshairs__marker {
+    position: absolute;
+    background-image: url('../../img/icons/marker-icon.png');
+    height: 41px;
+    width: 25px;
+    left: 0px;
+    top: 0px;
+    -webkit-animation-name: adding;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+}
+@-webkit-keyframes adding {
+    0% {top: 0px;}
+    50% {top: -15px;}
+    100% {top: 0px;}
+}

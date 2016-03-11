@@ -6,6 +6,8 @@ import ACDrawer from '../components/ac-drawer';
 import Notifications from '../containers/notifications';
 /*eslint-enable no-unused-vars*/
 
+import '../../css/layout.css';
+
 // This component is the root of what the user sees in the browser chrome.
 // It contains the drawer, the app bar, and the loaded sub-page.
 //
@@ -16,25 +18,36 @@ import Notifications from '../containers/notifications';
 // of our application.
 export class App extends Component {
   render() {
-    const styles = {
-      main: {
-        height: '100%'
-      },
-      rest: {
-        height: 'calc(100% - 64px)',
-        overflowY: 'auto'
-      }
-    };
+    const page = React.Children.only( this.props.children );
 
     return (
-      <div style={ styles.main }>
+      <div className='layout'>
         <ACDrawer />
-        <div style={ styles.rest }>
-          { this.props.children }
-        </div>
+        { page }
         <Notifications />
       </div>
-      );
+    );
+
+
+    // const styles = {
+    //   main: {
+    //     height: '100%'
+    //   },
+    //   rest: {
+    //     height: 'calc(100% - 64px)',
+    //     overflowY: 'auto'
+    //   }
+    // };
+    //
+    // return (
+    //   <div style={ styles.main }>
+    //     <ACDrawer />
+    //     <div style={ styles.rest }>
+    //       { this.props.children }
+    //     </div>
+    //     <Notifications />
+    //   </div>
+    //   );
   }
 }
 

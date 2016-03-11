@@ -13,7 +13,6 @@ import ReactDOM from 'react-dom';
 import Main from './containers/main';
 
 import MapPage from './containers/map-page';
-import AddPointPage from './containers/add-point-page';
 import LoginPage from './containers/login-page';
 import LogoutPage from './containers/logout-page';
 import RegisterPage from './containers/register-page';
@@ -22,11 +21,14 @@ import DownloadTrackPage from './containers/download-track-page';
 import FilterPage from './containers/filter-page';
 import SettingsPage from './containers/settings-page';
 
-import AddPointLocation from './components/wizard/add-point-location';
-import AddPointName from './components/wizard/add-point-name';
-import AddPointDescription from './components/wizard/add-point-description';
-import AddPointHours from './components/wizard/add-point-hours';
-import AddPointAmenities from './components/wizard/add-point-amenities';
+import AddPointPage from './containers/wizard/add-point-page';
+import UpdatePointPage from './containers/wizard/update-point-page';
+
+import PointLocation from './components/wizard/add-point-location';
+import PointName from './components/wizard/add-point-name';
+import PointDescription from './components/wizard/add-point-description';
+import PointHours from './components/wizard/add-point-hours';
+import PointAmenities from './components/wizard/add-point-amenities';
 
 import PeekPointCard from './components/peek-point-card';
 import ViewPointCard from './components/view-point-card';
@@ -88,21 +90,23 @@ document.addEventListener( 'deviceReady', ( ) => {
           <Route path="logout" component={ LogoutPage } />
           <Route path="thanks" component={ ThanksPage } />
           <Route path="add-point" component={ AddPointPage }>
-            <IndexRoute component={ AddPointLocation } />
-            <Route path="name" component={ AddPointName } />
-            <Route path="description" component={ AddPointDescription } />
-            <Route path="hours" component={ AddPointHours } />
-            <Route path="amenities" component={ AddPointAmenities } />
+            <IndexRoute component={ PointLocation } />
+            <Route path="location" component={ PointLocation } />
+            <Route path="name" component={ PointName } />
+            <Route path="description" component={ PointDescription } />
+            <Route path="hours" component={ PointHours } />
+            <Route path="amenities" component={ PointAmenities } />
           </Route>
-          <Route path="/update-point/:pointId" component={ AddPointPage }>
-            <IndexRoute component={ AddPointDescription } />
-            <Route path="hours" component={ AddPointHours } />
-            <Route path="amenities" component={ AddPointAmenities } />
+          <Route path="/update-point/:pointId" component={ UpdatePointPage }>
+            <IndexRoute component={ PointDescription } />
+            <Route path="description" component={ PointDescription } />
+            <Route path="hours" component={ PointHours } />
+            <Route path="amenities" component={ PointAmenities } />
           </Route>
           <Route path="/download-track" component={ DownloadTrackPage } />
           <Route path="/filter" component={ FilterPage } />
         </Route>
       </Router>
     </Provider>
-    ), document.getElementById( 'main' ) );
+   ), document.getElementById( 'main' ) );
 } );

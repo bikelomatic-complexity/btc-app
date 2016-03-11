@@ -1,3 +1,6 @@
+import PouchDB from 'pouchdb';
+import Gateway from '../gateway';
+
 /* Action Types */
 export const SET_POINT_NAME = 'SET_POINT_NAME';
 export const SET_POINT_LOCATION = 'SET_POINT_LOCATION';
@@ -18,6 +21,8 @@ export const CLEAR_POINT_PROPS = 'CLEAR_POINT_PROPS';
 export const SET_POINT_PROPS = 'SET_POINT_PROPS';
 
 export const UPDATE_POINT_PROPS = 'UPDATE_POINT_PROPS';
+export const RECEIVE_LOAD_POINT = 'RECEIVE_LOAD_POINT';
+export const REQUEST_LOAD_POINT = 'REQUEST_LOAD_POINT';
 
 /* Action Creators */
 export function setPointName( name ) {
@@ -78,4 +83,23 @@ export function setPointProps( point ) {
 
 export function updatePointProps( point ) {
   return { type: UPDATE_POINT_PROPS, point };
+}
+
+const gateway = new Gateway(new PouchDB( 'stop-here-db' ));
+export function loadPoint( id ) {
+  return dispatch => {
+    dispatch( requestLoadPoint( id ) );
+
+    gateway.getPoint( id ).then( point => {
+      dispatch( receiveLoadPoint( id, point ) );
+    } );
+  }
+}
+
+function requestLoadPoint( id ) {
+  return { type: REQUEST_LOAD_POINT, id };
+}
+
+function receiveLoadPoint( id, point ) {
+  return { type: RECEIVE_LOAD_POINT, id, point };
 }

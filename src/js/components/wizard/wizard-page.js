@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { keys, pick, assign, isFunction, bindAll } from 'lodash';
+import { keys, pick, assign, isFunction, bindAll, isEmpty } from 'lodash';
 import { RaisedButton } from 'material-ui';
 
 import '../../../css/wizard.css';
@@ -8,11 +8,6 @@ export class WizardPage extends Component {
   constructor(props) {
     super(props);
     bindAll(this, 'link');
-
-    if( isFunction( this.getInitState ) ) {
-      this.init = this.getInitState();
-      this.state = this.getInitState();
-    }
   }
 
   getPageFields() {
@@ -61,13 +56,19 @@ export class WizardPage extends Component {
   link( field, method = 'onChange' ) {
     const props = {};
 
-    // Set the input to the value at the `field` key in state.
+    // Set the input to the value at the `field` key in state
     props.value = this.state[ field ];
 
-    // Add an event listener that sets state @ `field`.
+    // Add an event listener that sets state @ `field`
     props[ method ] = (event, key, value) => {
       this.setState( { [ field ]: value || event.target.value } );
     };
+
+    // Set the input's default value at the `field` key in newPoint
+    const { newPoint } = this.props;
+    if( newPoint ) {
+      props.defaultValue = newPoint[ field ] || '';
+    }
 
     return props;
   }
@@ -77,7 +78,7 @@ export class WizardPage extends Component {
     const { label } = this.getTransition();
 
     return (
-      <div>
+      <div className="tabs-content">
         { this.getPageContent() }
         <RaisedButton secondary
           disabled={ this.isDisabled() }

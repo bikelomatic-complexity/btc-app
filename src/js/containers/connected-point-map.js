@@ -16,6 +16,7 @@ export class ConnectedPointMap extends Component {
       'selectMarker',
       'deselectMarker',
       'afterMoved',
+      'className'
     ] );
     const requiredProps = pick( this.props, [
       'setMapCenter',
@@ -24,17 +25,10 @@ export class ConnectedPointMap extends Component {
       'setMapLoading'
     ] );
 
-    const names = classNames( 'page-content', {
-      'hideZoomControl': this.props.hideZoomControl
-    } );
-
     return (
-      <div className={ names }>
-        <PointMap { ...this.props.dependencies }
-          { ...optionalProps }
-          { ...requiredProps } />
-        { this.props.children }
-      </div>
+      <PointMap { ...this.props.dependencies }
+        { ...optionalProps }
+        { ...requiredProps } />
     );
   }
 }

@@ -75,10 +75,11 @@ export class AddPointAmenities extends WizardPage {
           text="Amenity"
           textTransform={ displayType }
           onSelectFunction={ this.selectAmenity.bind( this ) } />
-        { addAmenityButton }
         <div>
           { amenities }
         </div>
+        <div className="wizard-page__spacer" />
+        { addAmenityButton }
       </div>
       );
   }

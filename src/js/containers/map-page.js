@@ -17,6 +17,9 @@ import { setDrawer } from '../reducers/drawer';
 
 import history from '../history';
 
+import '../../css/layout.css';
+import '../../css/map.css';
+
 class MapPage extends Component {
   constructor(props) {
     super(props);
@@ -90,9 +93,13 @@ class MapPage extends Component {
     }
 
     return (
-      <ConnectedPointMap { ...props }>
-        { this.mapPropsOnCard() }
-      </ConnectedPointMap>
+      <div className="layout__section">
+        <div className="map__cards">
+          { this.mapPropsOnCard() }
+        </div>
+        <ConnectedPointMap className="map map--browse-mode"
+          { ...props } />
+      </div>
     );
   }
 }

@@ -11,6 +11,8 @@ import MBTilesLayer from './mbtiles-layer';
 import { values, bindAll } from 'underscore';
 import noop from 'lodash/noop';
 
+import '../../css/map.css';
+
 setIconDefaultImagePath( 'img/icons' );
 
 class PointMap extends Component {
@@ -173,7 +175,8 @@ class PointMap extends Component {
       );
     } else {
       view = (
-        <Map center={ this.state.startCenter }
+        <Map className={ this.props.className || 'map' }
+          center={ this.state.startCenter }
           zoom={ this.state.zoom }
           onLeafletMove={ this.props.onLeafletMove }
           onLeafletMoveEnd={ this.onMapMoved }

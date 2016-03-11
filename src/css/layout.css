@@ -1,0 +1,30 @@
+
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#main {
+    height: 100%;
+    width: 100%;
+}
+
+.layout {
+    height: inherit;
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout__header {
+
+}
+
+.layout__section {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: stretch;
+}

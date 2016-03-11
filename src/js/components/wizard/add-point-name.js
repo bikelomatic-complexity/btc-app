@@ -52,20 +52,17 @@ export class AddPointName extends WizardPage {
     ) );
 
     return (
-      <form className="wizard-page">
-        <TextField { ...this.link( 'name' ) }
-          hintText="Name"
-          floatingLabelText="Name"
-          defaultValue={ name } />
-        <TextField disabled
+      <div className="wizard-page">
+        <TextField fullWidth { ...this.link( 'name' ) }
+          floatingLabelText="Name" />
+        <TextField disabled fullWidth
           value={ latLngString }
-          hintText="Location"
           floatingLabelText="Location" />
-        <SelectField { ...this.link( 'type' ) }
+        <SelectField fullWidth { ...this.link( 'type' ) }
           floatingLabelText="Service type">
           { options }
         </SelectField>
-      </form>
+      </div>
       );
   }
 

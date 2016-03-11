@@ -10,17 +10,14 @@ export class AddPointDescription extends WizardPage {
   constructor(props) {
     super(props);
     bindAll( this, 'onPhotoAdd' );
-  }
 
-  getInitState() {
-    const { newPoint } = this.props;
-
-    return {
+    const { newPoint } = props;
+    this.state = {
       description: newPoint.description || '',
       phoneNumber: newPoint.phoneNumber || '',
       address: newPoint.address || '',
       website: newPoint.website || ''
-    };
+    }
   }
 
   componentWillReceiveProps( nextProps ) {
@@ -46,57 +43,36 @@ export class AddPointDescription extends WizardPage {
     return ['description', 'phoneNumber', 'address', 'website'];
   }
 
-  // If we are loading an update point, don't render the page until we have the
-  // correct data. The `defaultValue` cannot be overwritten after the initial
-  // render.
-  //
-  // TODO: what does each subexpression mean?
-  notReady() {
-    const { newPoint, params } = this.props;
-    return ( isUndefined( newPoint._id ) && !isUndefined( params.pointId ) )
-        || ( newPoint._id !== params.pointId );
-  }
-
-  render() {
+  getPageContent() {
     const { imageSrc } = this.props.newPoint;
     const image = isEmpty(imageSrc) ? <div /> : <img src={ imageSrc } />;
 
-    if( this.notReady() ) {
-      return <div/>;
-    } else {
-      return (
-        <div className="wizard-page">
-          <TextField { ...this.link( 'description' ) }
-            floatingLabelText="Description"
-            hintText="Description"
-            defaultValue={ this.init.description }
-            multiLine={ true }
-            rows={ 2 }
-            rowsMax={ 4 } />
-          <TextField { ...this.link( 'phoneNumber' ) }
-            floatingLabelText="Phone Number"
-            hintText="Phone Number"
-            defaultValue={ this.init.phoneNumber }
-            type="tel" />
-          <TextField { ...this.link( 'address' ) }
-            floatingLabelText="Address"
-            hintText="Address"
-            defaultValue={ this.init.address } />
-          <TextField { ...this.link( 'website' ) }
-            floatingLabelText="Website"
-            defaultValue={ this.init.website }
-            type="url" />
-          { image }
-          <RaisedButton secondary
-            onClick={ this.onPhotoAdd }
-            label="Upload Photo" />
-        </div>
-        );
-    }
+    return (
+      <div className="wizard-page">
+        <TextField fullWidth { ...this.link( 'phoneNumber' ) }
+          floatingLabelText="Phone Number"
+          type="tel" />
+        <TextField fullWidth { ...this.link( 'address' ) }
+          floatingLabelText="Address" />
+        <TextField fullWidth { ...this.link( 'website' ) }
+          floatingLabelText="Website"
+          type="url" />
+        <TextField fullWidth { ...this.link( 'description' ) }
+          floatingLabelText="Description"
+          multiLine={ true }
+          rows={ 2 }
+          rowsMax={ 4 } />
+        { image }
+        <div className="wizard-page__spacer" />
+        <RaisedButton fullWidth secondary
+          onClick={ this.onPhotoAdd }
+          label="Upload Photo" />
+      </div>
+      );
   }
 
   getTransition() {
-    const anySet = this.getFields().reduce( ( anySet, field ) => {
+    const anySet = this.getPageFields().reduce( ( anySet, field ) => {
       return anySet || !isEmpty( this.state[ field ] );
     }, false );
 

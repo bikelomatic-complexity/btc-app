@@ -60,6 +60,7 @@ function pointId( cls, name, location ) {
  * object url at this point.
  */
 export function userAddPoint( point, coverBlob ) {
+  console.log('userAddPoint');
   point._id = pointId( point.class, point.name, point.location );
   return {
     type: USER_ADD,

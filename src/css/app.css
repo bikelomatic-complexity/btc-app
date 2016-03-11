@@ -3,20 +3,20 @@
 
 /* For the leaflet map to take up the whole screen, height on all elements
    in the chain up to html must be 100% */
-html {
+/*html {
     height: 100%;
-}
+}*/
 
 /* Reset body margin & padding so map touches screen edge */
-body {
+/*body {
     height: inherit;
     margin: 0;
     padding: 0;
-}
+}*/
 
-#main {
+/*#main {
     height: inherit;
-}
+}*/
 
 .page-content {
   height: 100%
@@ -44,21 +44,6 @@ body {
 
 .mdl-navigation__link.selected-page {
     font-weight: bold;
-}
-
-/* Get the bobbing motion for new markers */
-.adding-point > .marker {
-    position: relative;
-    top: 0px;
-    -webkit-animation-name: adding;
-    -webkit-animation-duration: 2s;
-    -webkit-animation-iteration-count: infinite;
-}
-
-@-webkit-keyframes adding {
-    0%   {top: 0px;}
-    50%  {top: -15px;}
-    100% {top: 0px;}
 }
 
 .hideZoomControl * > .leaflet-control-zoom {

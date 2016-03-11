@@ -35,7 +35,7 @@ export class DropDown extends Component {
         );
     } );
     return (
-      <SelectField floatingLabelText={ text }
+      <SelectField fullWidth floatingLabelText={ text }
         value={ value || this.state.value }
         onChange={ this.handleChange.bind( this ) }>
         { optionItems }
