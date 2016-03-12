@@ -27,7 +27,6 @@ export class UpdatePointPage extends PointPage {
 
     console.log( 'implement UpdatePointPage#onFinal()' );
 
-    this.props.clearPointProps();
     history.push( '/' );
   }
 

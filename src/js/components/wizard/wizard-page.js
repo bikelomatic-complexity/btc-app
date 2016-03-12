@@ -80,7 +80,8 @@ export class WizardPage extends Component {
     return (
       <div className="tabs-content">
         { this.getPageContent() }
-        <RaisedButton secondary
+        <RaisedButton className="tabs-content__action"
+          secondary
           disabled={ this.isDisabled() }
           onClick={ onNext }
           label={ label } />

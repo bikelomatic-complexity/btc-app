@@ -46,3 +46,8 @@
     margin: auto;
     box-sizing: border-box;
 }
+
+/* Raise the wizard's action button above the map on the add location page */
+.tabs-content__action {
+    z-index: 2;
+}

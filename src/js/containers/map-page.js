@@ -94,11 +94,9 @@ class MapPage extends Component {
 
     return (
       <div className="layout__section">
-        <div className="map__cards">
-          { this.mapPropsOnCard() }
-        </div>
         <ConnectedPointMap className="map map--browse-mode"
           { ...props } />
+        { this.mapPropsOnCard() }
       </div>
     );
   }

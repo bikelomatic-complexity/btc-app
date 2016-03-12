@@ -28,6 +28,10 @@ export default class PointPage extends Component {
     bindAll( this, 'onSubmit', 'onNext' );
   }
 
+  componentWillUnmount() {
+    this.props.pageActions.clearPointProps();
+  }
+
   // Override this method in your PointPage subclass to match the url you
   // chose in the Routes definiton for this page. For example, AddPointPage
   // returns '/add-point'.
@@ -173,7 +177,8 @@ export default class PointPage extends Component {
     return {
       // These actions will be available in `this.props.pageActions`
       pageActions: bindActionCreators( {
-        'updatePointProps': pointActions.updatePointProps
+        'updatePointProps': pointActions.updatePointProps,
+        'clearPointProps': pointActions.clearPointProps
       }, dispatch ),
 
       // These actions are meant for the selected tab and are available in

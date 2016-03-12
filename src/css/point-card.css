@@ -1,0 +1,92 @@
+
+.point-card {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    transition: all 300ms ease;
+}
+
+.point-card--peek {
+    position: absolute;
+    height: 50%;
+    max-height: 500px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: hidden;
+}
+
+.point-card--view {
+    flex-grow: 1;
+    max-width: 750px;
+    overflow-y: auto !important;
+    display: flex;
+}
+
+/*
+ * Material-UI's <Card> generates a single container div underneath the root
+ * div. We need to make this unamed div a columnar flexbox
+ */
+.point-card > div {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    width: inherit;
+}
+
+.point-card.point-card--peek > div {
+    height: 100%;
+}
+
+.point-card__avatar {
+    height: 100% !important;
+    width: auto !important;
+}
+
+.point-card__header {
+    flex-basis: 72px;
+    flex-shrink: 0;
+}
+
+.point-card__icon-menu {
+    float: right;
+    height: 40px;
+    width: auto;
+}
+
+.point-card__icon-menu > button {
+    height: inherit !important;
+    width: auto !important;
+    padding: 0px !important;
+}
+
+.point-card__media {
+    width: inherit;
+    flex-basis: 150px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    background-size: cover;
+    background-position: center;
+    background-color: grey;
+}
+
+.point-card__description {
+    flex-grow: 1;
+    flex-shrink: 3;
+    overflow-y: hidden;
+}
+
+.point-card__content {
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+.point-card__actions {
+    flex-shrink: 0;
+}

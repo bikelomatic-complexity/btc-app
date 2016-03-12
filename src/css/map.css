@@ -1,4 +1,8 @@
 
+.leaflet-control-container div {
+    z-index: 1;
+}
+
 .map {
     position: absolute;
     height: 100%;
@@ -22,11 +26,7 @@
  * to displace.
  */
 .map--wizard-mode .leaflet-top {
-    top: 116px;
-}
-
-.map__cards {
-    align-self: flex-end;
+    display: none;
 }
 
 .crosshairs {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PointPage from './point-page';
 import * as tabs from './tabs';
 import { userAddPoint } from '../../reducers/points';
-import { clearPointProps } from '../../actions/new-point-actions';
+
 import history from '../../history';
 
 export class AddPointPage extends PointPage {
@@ -41,7 +41,6 @@ export class AddPointPage extends PointPage {
       'rating': point.rating
     }, blob );
 
-    this.props.clearPointProps();
     history.push( '/' );
   }
 }
@@ -57,8 +56,7 @@ function mapDispatchToProps( dispatch ) {
   return {
     ...PointPage.mapDispatchToProps.apply( this, arguments ),
     ...bindActionCreators( {
-      'userAddPoint': userAddPoint,
-      'clearPointProps': clearPointProps
+      'userAddPoint': userAddPoint
     }, dispatch )
   }
 }

@@ -30,8 +30,8 @@ import PointDescription from './components/wizard/add-point-description';
 import PointHours from './components/wizard/add-point-hours';
 import PointAmenities from './components/wizard/add-point-amenities';
 
-import PeekPointCard from './components/peek-point-card';
-import ViewPointCard from './components/view-point-card';
+import PeekPointCard from './components/point-card/peek-point-card';
+import ViewPointCard from './components/point-card/view-point-card';
 import RatingPointCard from './components/rating-point-card';
 
 import StoreBuilder from './store';
