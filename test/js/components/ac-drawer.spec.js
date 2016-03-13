@@ -15,7 +15,6 @@ describe( '<ACDrawer />', function() {
     ) );
 
     const instance = tree.getMountedInstance();
-    const vdom = tree.getRenderOutput();
 
     expect(instance.state.open).to.be.false;
   } );
