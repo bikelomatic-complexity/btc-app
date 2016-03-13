@@ -6,9 +6,9 @@ export const MockComments = [
     'date': '2016-02-28T15:37:04.540Z'
   },
   {
-    'user': 'cambot',
-    'rating': 3,
-    'text': '',
+    'user': 'crow',
+    'rating': 5,
+    'text': 'This place smells like pepperoni... I love pepperoni!',
     'date': '2016-02-28T15:37:04.540Z'
   },
   {
@@ -20,8 +20,8 @@ export const MockComments = [
 ]
 
 export const MockNewComment = {
-    'user': 'crow',
-    'rating': 5,
-    'text': 'This place smells like pepperoni... I love pepperoni!',
-    'date': '2016-02-28T15:37:04.540Z'
+  'user': 'cambot',
+  'rating': 3,
+  'text': 'new comment',
+  'date': '2016-02-28T15:37:04.540Z'
 }
