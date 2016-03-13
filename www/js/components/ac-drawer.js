@@ -49,7 +49,11 @@ export class ACDrawer extends Component {
     }, {
       link: 'download-track',
       title: 'Download Track',
-      icon: 'cloud_download'
+      icon: 'timeline'
+    }, {
+      link: '/',
+      title: 'Publish',
+      icon: 'cloud_upload'
     }, {
       link: 'settings',
       title: 'Settings',
