@@ -1,6 +1,7 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { RaisedButton, FontIcon, Card, CardMedia, CardTitle, CardActions, CardText, LinearProgress } from 'material-ui';
+import DeviceStorage from '../components/device-storage';
 /*eslint-enable no-unused-vars*/
 
 import { connect } from 'react-redux';
