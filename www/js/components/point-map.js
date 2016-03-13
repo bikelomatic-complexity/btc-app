@@ -13,7 +13,7 @@ import noop from 'lodash/noop';
 
 setIconDefaultImagePath( 'img/icons' );
 
-class PointMap extends Component {
+export class PointMap extends Component {
   constructor( props ) {
     super( props );
     const {mapState} = this.props;
@@ -102,7 +102,7 @@ class PointMap extends Component {
       } );
     } ).map( ( service ) => {
       const onClick = ( ) => {
-        if ( !this.props.addpoint ) {
+        if ( !this.props.addPoint ) {
           selectMarker( service );
         }
       };
@@ -171,7 +171,11 @@ class PointMap extends Component {
           zoom={ this.state.zoom }
           onLeafletMove={ this.props.onLeafletMove }
           onLeafletMoveEnd={ this.onMapMoved }
-          onclick={ ( ) => deselectMarker() }>
+          onclick={ ( ) => {
+            if ( !this.props.addPoint ) {
+              deselectMarker();
+            }
+          } }>
           { circleMarker }
           { tileLayer }
           { markers }
