@@ -15,10 +15,10 @@ import sd from 'skin-deep';
 
 describe('<PointCardPeek />', function(){
   beforeEach(function(){
-    this.sample = MockPoints[0];
+    this.mockPoint = MockPoints[0];
     const tree = sd.shallowRender(
       <PeekPointCard
-        point={this.sample}
+        point={this.mockPoint}
       />
     );
     this.instance = tree.getMountedInstance();
