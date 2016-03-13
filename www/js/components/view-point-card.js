@@ -96,12 +96,16 @@ export class ViewPointCard extends Component {
       // for services
       let pointAmenities = '';
       if ( point.amenities !== undefined ) {
+        point.amenities = point.amenities.map(amenity => displayType(amenity));
+        pointAmenities = 'Amenities include ';
         if ( point.amenities.length > 1 ){
           const lastAmenity = point.amenities.pop();
-          pointAmenities = point.amenities.join( ', ' );
-          pointAmenities = `${pointAmenities} and ${lastAmenity}`;
+          pointAmenities += point.amenities.join( ', ' );
+          pointAmenities += ` and ${lastAmenity}`;
+        } else if ( point.amenities.length == 1 ) {
+          pointAmenities += point.amenities[0];
         } else {
-          pointAmenities = point.amenities;
+          pointAmenities = '';
         }
       }
       cardDetails = (
@@ -113,7 +117,7 @@ export class ViewPointCard extends Component {
           <CardText>
             <br/>
             <span className="amenities">
-              Amenities include {pointAmenities}
+              { pointAmenities }
             </span>
           </CardText>
           <CardText>

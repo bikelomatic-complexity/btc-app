@@ -1,7 +1,7 @@
 export const types = [
   'airport', 'bar', 'bed_and_breakfast', 'bike_shop', 'cabin', 'campground',
   'convenience_store', 'cyclists_camping', 'cyclists_lodging', 'grocery',
-  'hostel', 'hot spring', 'hotel', 'motel', 'information', 'library', 'museum',
+  'hostel', 'hot_spring', 'hotel', 'motel', 'information', 'library', 'museum',
   'other', 'outdoor_store', 'rest_area', 'restaurant', 'restroom',
   'scenic_area', 'state_park'
 ];
