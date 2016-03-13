@@ -43,7 +43,8 @@ export class AddPointLocation extends Component {
           setMapCenter={ setMapCenter }
           setGeoLocation={ setGeoLocation }
           setMapZoom={ setMapZoom }
-          setMapLoading={ setMapLoading } />
+          setMapLoading={ setMapLoading }
+          addPoint={ true } />
         <div className='adding-point' style={ { position: 'fixed', top: 'calc(50% + 45px)', right: 'calc(50% - 12.5px)' } }>
           <img src='img/icons/marker-shadow.png'
             className='leaflet-marker-shadow'

@@ -4,6 +4,8 @@ import { CardMedia, CardTitle, IconMenu, MenuItem, FontIcon, IconButton } from '
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 /*eslint-enable no-unused-vars*/
 
+import { displayType, displayAlertType } from '../types';
+
 export class PointHeader extends Component {
 
   updatePoint() {
@@ -52,8 +54,10 @@ export class PointHeader extends Component {
       borderRadius: '100%'
     };
 
+    const alertStyle = displayAlertType(point.type) ? { display: 'none' } : {};
+
     return (
-      <CardMedia className='hammer-grab' overlay={ <CardTitle className='hammer-grab' title={ point.name } /> }>
+      <CardMedia className='hammer-grab' overlay={ <CardTitle className='hammer-grab' title={ point.name } subtitle={ displayType(point.type) || displayAlertType(point.type) || '' } /> }>
         <div style={ cardTitleStyle }>
           <IconMenu style={ iconStyle }
             iconButtonElement={ <IconButton>
@@ -61,9 +65,13 @@ export class PointHeader extends Component {
                                 </IconButton> }
             anchorOrigin={ { horizontal: 'right', vertical: 'top' } }
             targetOrigin={ { horizontal: 'right', vertical: 'top' } }>
-            <MenuItem primaryText='Update Information' onClick={ this.updatePoint.bind( this ) } />
-            <MenuItem primaryText='Rate Service' onClick={ this.ratePoint.bind( this ) } />
-            <MenuItem primaryText='Flag Service' onClick={ this.flagPoint.bind( this ) } />
+            <MenuItem primaryText='Update Information'
+              style={ alertStyle }
+              onClick={ this.updatePoint.bind( this ) } />
+            <MenuItem primaryText='Rate Service'
+              style={ alertStyle }
+              onClick={ this.ratePoint.bind( this ) } />
+            <MenuItem primaryText='Flag' onClick={ this.flagPoint.bind( this ) } />
           </IconMenu>
         </div>
       </CardMedia>
