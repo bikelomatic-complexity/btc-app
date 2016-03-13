@@ -21,6 +21,7 @@ import ThanksPage from './containers/thanks-page';
 import DownloadTrackPage from './containers/download-track-page';
 import FilterPage from './containers/filter-page';
 import SettingsPage from './containers/settings-page';
+import ListPage from './containers/list-page';
 
 import AddPointLocation from './components/add-point-location';
 import AddPointName from './components/add-point-name';
@@ -76,6 +77,7 @@ document.addEventListener( 'deviceReady', ( ) => {
             <Route path="view-point/:pointId" component={ ViewPointCard } />
             <Route path="rate-point/:pointId" component={ RatingPointCard } />
           </Route>
+          <Route path="list" component={ ListPage }/>
           <Route path="settings" component={ SettingsPage } />
           <Route path="login" component={ LoginPage } />
           <Route path="register" component={ RegisterPage } />
