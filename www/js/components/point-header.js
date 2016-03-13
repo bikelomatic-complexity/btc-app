@@ -54,7 +54,7 @@ export class PointHeader extends Component {
       borderRadius: '100%'
     };
 
-    const alertStyle = point.type == 'alert' ? { display: 'none' } : {};
+    const alertStyle = displayAlertType(point.type) ? { display: 'none' } : {};
 
     return (
       <CardMedia className='hammer-grab' overlay={ <CardTitle className='hammer-grab' title={ point.name } subtitle={ displayType(point.type) || displayAlertType(point.type) || '' } /> }>
@@ -71,7 +71,7 @@ export class PointHeader extends Component {
             <MenuItem primaryText='Rate Service'
               style={ alertStyle }
               onClick={ this.ratePoint.bind( this ) } />
-            <MenuItem primaryText='Flag Service' onClick={ this.flagPoint.bind( this ) } />
+            <MenuItem primaryText='Flag' onClick={ this.flagPoint.bind( this ) } />
           </IconMenu>
         </div>
       </CardMedia>
