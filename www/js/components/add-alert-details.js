@@ -5,6 +5,8 @@ import { RaisedButton, TextField } from 'material-ui';
 import DropDown from './drop-down';
 /*eslint-disable no-unused-vars*/
 
+import { alertTypes, displayAlertType } from '../types';
+
 export class AddAlertDetails extends Component {
 
   componentDidMount() {
@@ -16,6 +18,11 @@ export class AddAlertDetails extends Component {
     const {setPointName} = this.props;
     const name = event.target.value;
     setPointName( name );
+  }
+
+  onTypeSelect( type ) {
+    const {setPointType} = this.props;
+    setPointType( type );
   }
 
   onDescriptionUpdate( event ) {
@@ -69,6 +76,12 @@ export class AddAlertDetails extends Component {
             disabled={ true }
             value={ latLngString } />
         </div>
+        <DropDown className="form-row"
+          text="Select Type"
+          value={ this.props.newPoint.type }
+          options={ alertTypes }
+          textTransform={ displayAlertType }
+          onSelectFunction={ this.onTypeSelect.bind( this ) } />
         <div className="form-row">
           <TextField fullWidth={ true }
             floatingLabelText="Description"

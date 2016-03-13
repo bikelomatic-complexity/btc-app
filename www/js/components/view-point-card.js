@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Card, CardActions, CardText, RaisedButton, Paper } from 'material-ui';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import HoursTable from './hours-table';
-import { displayType } from '../types';
+import { displayType, displayAlertType } from '../types';
 import PointHeader from './point-header';
 /*eslint-enable no-unused-vars*/
 
@@ -81,7 +81,10 @@ export class ViewPointCard extends Component {
 
     let cardDetails;
     // large screen details
-    if ( point.type === 'alert' ) {
+
+
+    if ( displayAlertType(point.type) ) {
+      // for alerts
       cardDetails = (
         <div id="point-details">
           <CardText>
@@ -90,9 +93,16 @@ export class ViewPointCard extends Component {
         </div>
       );
     } else {
+      // for services
       let pointAmenities = '';
       if ( point.amenities !== undefined ) {
-        pointAmenities = point.amenities.join( ', ' );
+        if ( point.amenities.length > 1 ){
+          const lastAmenity = point.amenities.pop();
+          pointAmenities = point.amenities.join( ', ' );
+          pointAmenities = `${pointAmenities} and ${lastAmenity}`
+        } else {
+          pointAmenities = point.amenities;
+        }
       }
       cardDetails = (
         <div id="point-details">
@@ -101,10 +111,9 @@ export class ViewPointCard extends Component {
             { timeDetails }
           </CardText>
           <CardText>
-            { displayType( point.type ) }
             <br/>
             <span className="amenities">
-              { pointAmenities }
+              Amenities include {pointAmenities}
             </span>
           </CardText>
           <CardText>

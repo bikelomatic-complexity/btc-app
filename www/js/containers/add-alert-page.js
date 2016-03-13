@@ -31,14 +31,14 @@ export class AddAlertPage extends Component {
 
   addPoint( blob = undefined ) {
     const {dispatch} = this.props;
-    const {description, hours, location, name} = this.props.newPoint;
+    const {description, type, location, name} = this.props.newPoint;
 
     dispatch( userAddPoint( {
       class: 'service',
       created_at: new Date().toISOString(),
       name,
       location,
-      type: 'alert',
+      type,
       description,
       flag: false
     }, blob ) );

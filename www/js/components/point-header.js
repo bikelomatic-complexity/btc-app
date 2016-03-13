@@ -4,6 +4,8 @@ import { CardMedia, CardTitle, IconMenu, MenuItem, FontIcon, IconButton } from '
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 /*eslint-enable no-unused-vars*/
 
+import { displayType, displayAlertType } from '../types';
+
 export class PointHeader extends Component {
 
   updatePoint() {
@@ -55,7 +57,7 @@ export class PointHeader extends Component {
     const alertStyle = point.type == 'alert' ? { display: 'none' } : {};
 
     return (
-      <CardMedia className='hammer-grab' overlay={ <CardTitle className='hammer-grab' title={ point.name } /> }>
+      <CardMedia className='hammer-grab' overlay={ <CardTitle className='hammer-grab' title={ point.name } subtitle={ displayType(point.type) || displayAlertType(point.type) || "" } /> }>
         <div style={ cardTitleStyle }>
           <IconMenu style={ iconStyle }
             iconButtonElement={ <IconButton>

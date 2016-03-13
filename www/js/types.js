@@ -6,6 +6,10 @@ export const types = [
   'scenic_area', 'state_park'
 ];
 
+export const alertTypes = [
+  'road_closure', 'forest_fire', 'flooding', 'detour', 'alert_other'
+]
+
 const typesEnglish = [
   'Airport', 'Bar', 'Bed & Breakfast', 'Bike Shop', 'Cabin', 'Campground',
   'Convenience Store', 'Cyclists Camping', 'Cyclists Lodging', 'Grocery',
@@ -14,7 +18,14 @@ const typesEnglish = [
   'Scenic Area', 'State Park'
 ];
 
+const alertTypesEnglish = [
+  'Road Closure', 'Forest Fire', 'Flooding', 'Detour', 'Other'
+]
+
 export function displayType( type ) {
-  if ( type == 'alert' ) { return 'Alert'; }
   return typesEnglish[ types.indexOf( type ) ];
+}
+
+export function displayAlertType( type ) {
+  return alertTypesEnglish[ alertTypes.indexOf( type ) ];
 }
