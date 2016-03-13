@@ -99,7 +99,7 @@ export class ViewPointCard extends Component {
         if ( point.amenities.length > 1 ){
           const lastAmenity = point.amenities.pop();
           pointAmenities = point.amenities.join( ', ' );
-          pointAmenities = `${pointAmenities} and ${lastAmenity}`
+          pointAmenities = `${pointAmenities} and ${lastAmenity}`;
         } else {
           pointAmenities = point.amenities;
         }

@@ -57,7 +57,7 @@ export class PointHeader extends Component {
     const alertStyle = point.type == 'alert' ? { display: 'none' } : {};
 
     return (
-      <CardMedia className='hammer-grab' overlay={ <CardTitle className='hammer-grab' title={ point.name } subtitle={ displayType(point.type) || displayAlertType(point.type) || "" } /> }>
+      <CardMedia className='hammer-grab' overlay={ <CardTitle className='hammer-grab' title={ point.name } subtitle={ displayType(point.type) || displayAlertType(point.type) || '' } /> }>
         <div style={ cardTitleStyle }>
           <IconMenu style={ iconStyle }
             iconButtonElement={ <IconButton>

@@ -8,7 +8,7 @@ export const types = [
 
 export const alertTypes = [
   'road_closure', 'forest_fire', 'flooding', 'detour', 'alert_other'
-]
+];
 
 const typesEnglish = [
   'Airport', 'Bar', 'Bed & Breakfast', 'Bike Shop', 'Cabin', 'Campground',
@@ -20,7 +20,7 @@ const typesEnglish = [
 
 const alertTypesEnglish = [
   'Road Closure', 'Forest Fire', 'Flooding', 'Detour', 'Other'
-]
+];
 
 export function displayType( type ) {
   return typesEnglish[ types.indexOf( type ) ];
