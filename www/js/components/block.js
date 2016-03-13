@@ -77,7 +77,6 @@ export class FormBlock extends Component {
       props.footer = footer;
     }
 
-    /*esfmt-ignore-start*/
     return (
       <Block { ...props }>
         { this.boxes() }
@@ -89,7 +88,6 @@ export class FormBlock extends Component {
           label={ this.props.actionText } />
       </Block>
       );
-    /*esfmt-ignore-end*/
   }
 }
 
