@@ -26,7 +26,7 @@ describe('<RatingPointCard />', function(){
         setRating = {this.setRatingMock}
         newRating = {this.newRatingMock}
       />
-	);
+  );
     this.instance = tree.getMountedInstance();
     this.vdom = tree.getRenderOutput();
   });
