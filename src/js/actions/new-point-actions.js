@@ -1,5 +1,4 @@
-import PouchDB from 'pouchdb';
-import Gateway from '../gateway';
+import gateway from '../gateway';
 
 /* Action Types */
 export const SET_POINT_NAME = 'SET_POINT_NAME';
@@ -85,7 +84,6 @@ export function updatePointProps( point ) {
   return { type: UPDATE_POINT_PROPS, point };
 }
 
-const gateway = new Gateway(new PouchDB( 'stop-here-db' ));
 export function loadPoint( id ) {
   return dispatch => {
     dispatch( requestLoadPoint( id ) );

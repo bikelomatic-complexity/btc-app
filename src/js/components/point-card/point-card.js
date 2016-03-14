@@ -19,7 +19,12 @@ export class PointCard extends Component {
 
   getCardState() { }
 
-  // Make the MapPage pass the navigateWithId funciton in 
+  componentDidMount() {
+    const { pointId } = this.props.params;
+    this.props.loadMarker( pointId );
+  }
+
+  // Make the MapPage pass the navigateWithId funciton in
   navigate( path ) {
     const id = encodeURIComponent( this.props.point._id );
     return () => history.push( `/${path}/${id}` );

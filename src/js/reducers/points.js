@@ -3,7 +3,7 @@ import { findIndex, omit, values, has } from 'underscore';
 import { createObjectURL } from 'blob-util';
 import toId from 'to-id';
 import ngeohash from 'ngeohash';
-import PouchDB from 'pouchdb';
+import db from '../database';
 
 import attach from '../util/attach';
 
@@ -60,7 +60,6 @@ function pointId( cls, name, location ) {
  * object url at this point.
  */
 export function userAddPoint( point, coverBlob ) {
-  console.log('userAddPoint');
   point._id = pointId( point.class, point.name, point.location );
   return {
     type: USER_ADD,
@@ -89,10 +88,7 @@ export function userUpdatePoint( id, point ) {
  * a blob along with change notifications in sync.js
  *
  * TODO: figure that out
- */
-const db = new PouchDB( 'stop-here-db' );
-
-/*
+ *
  * Creates an action on behalf of the database sync agent to insert a point
  * into the store that has just been recieved from a remote database.
  */
@@ -178,7 +174,7 @@ export function docToPoint( doc ) {
  * Utility function to convert a cover image blob to an object url and then
  * merge that url with the point.
  */
-function withCover( point, coverBlob ) {
+export function withCover( point, coverBlob ) {
   let withCover;
 
   if ( coverBlob ) {

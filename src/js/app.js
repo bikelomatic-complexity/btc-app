@@ -35,7 +35,10 @@ import ViewPointCard from './components/point-card/view-point-card';
 import RatingPointCard from './components/point-card/rating-point-card';
 
 import StoreBuilder from './store';
-import Gateway from './gateway';
+
+import database from './database';
+import gateway from './gateway';
+
 import Sync from './sync';
 import { NetworkManager } from './reducers/network';
 import { reloadPoints } from './reducers/points';
@@ -51,13 +54,6 @@ import '../css/flex-objects.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-if ( process.env.NODE_ENV === 'development' ) {
-  window.PouchDB = PouchDB;
-}
-
-const local = new PouchDB( 'stop-here-db' );
-const gateway = new Gateway( local );
-
 const storeBuilder = new StoreBuilder( [ gateway.getMiddleware() ] );
 const store = storeBuilder.build();
 
@@ -67,7 +63,7 @@ document.addEventListener( 'deviceReady', ( ) => {
   const network = new NetworkManager( store );
   network.monitor();
 
-  const sync = new Sync( local, gateway, store );
+  const sync = new Sync( database, gateway, store );
   sync.start();
 
   gateway.getPoints().then( points => {

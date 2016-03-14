@@ -52,7 +52,6 @@ export default function newPoint( state = initialState, action ) {
     amenities.splice( action.amenityIndex, 1 );
     return Object.assign( {}, state, { amenities } );
   case CLEAR_POINT_PROPS:
-    console.log('clear-point-props');
     return Object.assign( {}, cleanState );
   case SET_POINT_PROPS:
     return helpSetPointProps( state, action );

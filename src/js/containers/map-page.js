@@ -14,6 +14,7 @@ import { selectMarker, setMapCenter } from '../actions/map-actions';
 import { setRating, setComment } from '../reducers/new-rating';
 import { setPointProps } from '../actions/new-point-actions';
 import { setDrawer } from '../reducers/drawer';
+import { loadMarker } from '../reducers/marker';
 
 import history from '../history';
 
@@ -25,42 +26,36 @@ class MapPage extends Component {
     super(props);
   }
 
-  componentDidMount() {
+  componentDidMount( ) {
     this.props.pageActions.setDrawer( 'Map' );
-    this.loadMarker( this.props );
-  }
-
-  componentWillReceiveProps( nextProps ) {
-    this.loadMarker( nextProps );
   }
 
   // If the user has specified a point to view via the url, and no point
   // is not currently loaded, then try to load it. If we can load the point,
   // then center the map on that point.
-  loadMarker( ) {
-    const paramId = this.props.params.pointId;
-    const pointId = this.props.marker._id;
-
-    if( paramId && !pointId ) {
-      const { services } = this.props;
-      if( services.length > 0 ) {
-        const marker = find( services, { '_id': paramId } );
-        if( marker ) {
-          const { selectMarker, setMapCenter } = this.props.pageActions;
-          selectMarker( marker ); // TODO: Merge these for performance
-          setMapCenter( marker.location );
-        }
-      }
-    }
-  }
+  // loadMarker( ) {
+  //   const paramId = this.props.params.pointId;
+  //   const pointId = this.props.marker._id;
+  //
+  //   if( paramId && !pointId ) {
+  //     const { services } = this.props;
+  //     if( services.length > 0 ) {
+  //       const marker = find( services, { '_id': paramId } );
+  //       if( marker ) {
+  //         const { selectMarker, setMapCenter } = this.props.pageActions;
+  //         selectMarker( marker ); // TODO: Merge these for performance
+  //         setMapCenter( marker.location );
+  //       }
+  //     }
+  //   }
+  // }
 
   deselectMarker() {
     history.push( '/' );
   }
 
-  navigateWithId( prefix ) {
-    const id = this.props.marker._id;
-    const encodedId = encodeURIComponent( id );
+  static navigateWithId( prefix, marker ) {
+    const encodedId = encodeURIComponent( marker._id );
 
     history.push( `/${prefix}/${encodedId}` );
   }
@@ -72,8 +67,8 @@ class MapPage extends Component {
     const cardState = { newRating, point: marker, heightOffset: 0 };
     const cardFunctions = {
       deselectMarker: this.deselectMarker,
-      fullscreenMarker: () => this.navigateWithId( 'view-point' ),
-      peekMarker: () => this.navigateWithId( 'peek-point' )
+      fullscreenMarker: () => MapPage.navigateWithId( 'view-point', marker ),
+      peekMarker: () => MapPage.navigateWithId( 'peek-point', marker )
     }
 
     const card = React.Children.only( this.props.children );
@@ -88,8 +83,7 @@ class MapPage extends Component {
     const props = { };
     props.deselectMarker = this.deselectMarker;
     props.selectMarker = point => {
-      this.props.pageActions.selectMarker( point );
-      this.navigateWithId( 'peek-point' );
+      MapPage.navigateWithId( 'peek-point', point );
     }
 
     return (
@@ -113,6 +107,7 @@ function select( state ) {
 function mapDispatchToProps( dispatch ) {
   return {
     cardActions: bindActionCreators( {
+      'loadMarker': loadMarker,
       'setRating': setRating,
       'setComment': setComment,
       'setPointProps': setPointProps

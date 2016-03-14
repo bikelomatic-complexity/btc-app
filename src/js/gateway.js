@@ -1,5 +1,6 @@
 import { bindAll } from 'underscore';
 import { USER_ADD, pointToDoc, docToPoint } from './reducers/points';
+import database from './database';
 
 /**
  * The Gateway wraps the local PouchDB instance. It provides useful methods
@@ -10,7 +11,7 @@ import { USER_ADD, pointToDoc, docToPoint } from './reducers/points';
  * and into the points Duck. That way, we can use the gateway inside the
  * points duck.
  */
-export default class Gateway {
+export class Gateway {
   constructor( db ) {
     this.db = db;
 
@@ -36,7 +37,7 @@ export default class Gateway {
   }
 
   oneDoc( id ) {
-    return this.db.get( id , { attachments: true } );
+    return this.db.get( id , { attachments: true, binary: true } );
   }
 
   /**
@@ -76,3 +77,6 @@ export default class Gateway {
     };
   }
 }
+
+const gateway = new Gateway( database );
+export default gateway;
