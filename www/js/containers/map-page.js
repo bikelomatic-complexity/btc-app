@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Paper } from 'material-ui';
 
 import PointMap from '../components/point-map';
+import MapButtons from '../components/map-buttons';
 /*eslint-enable no-unused-vars*/
 
 import { connect } from 'react-redux';
@@ -92,6 +93,13 @@ class MapPage extends Component {
           setMapZoom={ zoom => dispatch( setMapZoom( zoom ) ) }
           setMapLoading={ isLoading => dispatch( setMapLoading( isLoading ) ) } />
         { pointChildren }
+        <MapButtons
+          history={ this.props.history }
+          buttons={[
+            {page: 'list', icon: 'list'},
+            {page: 'filter', icon: 'filter_list'}
+          ]}
+          />
       </div>
       );
   }
