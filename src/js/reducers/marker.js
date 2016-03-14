@@ -1,3 +1,4 @@
+import { find } from 'lodash';
 import gateway from '../gateway';
 import { setMapCenter } from '../actions/map-actions';
 import { withCover } from './points';
@@ -39,9 +40,13 @@ export function selectMarker( marker ) {
 // map's center.
 export function loadMarker( id ) {
   return (dispatch, getState) => {
-    const { marker } = getState();
-    if( isCached( marker, id ) ) {
+    const { marker, points } = getState();
+    let cache;
+
+    if( isLoaded( marker, id ) ) {
       return;
+    } else if( cache = isCached( points, id ) ) {
+      dispatch( recieveLoadMarker( cache ) );
     } else {
       dispatch( requestLoadMarker( id ) );
       return gateway.getPoint( id ).then(
@@ -53,8 +58,12 @@ export function loadMarker( id ) {
   }
 }
 
-function isCached( marker, id ) {
+function isLoaded( marker, id ) {
   return !marker.isFetching && marker._id === id;
+}
+
+function isCached( points, id ) {
+  return find( points, { _id: id } );
 }
 
 function requestLoadMarker( id ) {
