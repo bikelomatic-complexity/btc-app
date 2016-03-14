@@ -1,3 +1,11 @@
+
+/* TODO: rename `entry` to `block` */
+
+/*
+ * The block is a generic piece of paper with a header and footer. The
+ * form block extends this concept with a group of fields and an action
+ * button.
+ */
 .entry {
     width: 100%;
     padding: 15px;
