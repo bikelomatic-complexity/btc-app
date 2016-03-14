@@ -32,36 +32,6 @@ export class ViewPointCard extends PointCard {
   getCardContent() {
     const {point} = this.props;
 
-    // // this logic is for points with hour / schedule information
-    // // TODO: consider revising logic placement
-    // let seasonalDetails = <br/>;
-    // let timeDetails;
-    // let hoursDetails;
-    // if ( point.schedule && point.schedule.length > 0 ) {
-    //   let day = this.getDays( point.schedule ).filter(
-    //     ( dayEle ) => {
-    //       return dayMap.indexOf( dayEle.day ) == ( new Date() ).getDay();
-    //     } )[ 0 ]; // get the day that matches today.
-    //
-    //   // when is the service open
-    //   const text = day ? `Open until: ${day.closes}` : 'Not Open Todday';
-    //   timeDetails = <span className='open-until'>
-    //                   { text }
-    //                 </span>;
-    //
-    //   // is this point seasonal?
-    //   if ( point.seasonal ) {
-    //     seasonalDetails = (
-    //       <CardText>
-    //         These hours are seasonal. Call or check online for more information.
-    //       </CardText>
-    //     );
-    //   }
-    //
-    //   // hours for service
-    //   hoursDetails = <HoursTable hours={ this.getDays( point.schedule ) } />;
-    // }
-
     let timeDetails, hoursDetails;
     if( point.schedule && point.schedule.length > 0 ) {
       const day = find( this.getDays( point.schedule ), {

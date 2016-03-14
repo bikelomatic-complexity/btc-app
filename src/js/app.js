@@ -32,7 +32,7 @@ import PointAmenities from './components/wizard/add-point-amenities';
 
 import PeekPointCard from './components/point-card/peek-point-card';
 import ViewPointCard from './components/point-card/view-point-card';
-import RatingPointCard from './components/rating-point-card';
+import RatingPointCard from './components/point-card/rating-point-card';
 
 import StoreBuilder from './store';
 import Gateway from './gateway';

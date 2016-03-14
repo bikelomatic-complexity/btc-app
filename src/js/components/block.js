@@ -1,10 +1,10 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
-import { Paper, RaisedButton, TextField } from 'material-ui';
+import { Paper, RaisedButton, FlatButton, TextField } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
 import classNames from 'classnames';
-import _, { bindAll, isObject, isString } from 'lodash';
+import _, { bindAll, isObject, isString, isUndefined, isArray } from 'lodash';
 
 import '../../css/block.css';
 
@@ -13,7 +13,7 @@ import '../../css/block.css';
 export class FormBlock extends Component {
   constructor( props ) {
     super( props );
-    bindAll( this, 'onAction' );
+    bindAll( this, 'onAction', 'createBox' );
   }
 
   // If an `onAction` callback has been supplied, call it with field values
@@ -21,7 +21,7 @@ export class FormBlock extends Component {
   // pairs.
   onAction() {
     if ( this.props.onAction ) {
-      const fields = _( this.props.fields )
+      const fields = _( FormBlock.flattenFields( this.props.fields ) )
         .map( 'name' )
         .value();
       const values = _( this.refs )
@@ -33,11 +33,35 @@ export class FormBlock extends Component {
     }
   }
 
+  static flattenFields( fields ) {
+    return fields.reduce( (flattened, field) => {
+      if( isArray( field.row ) ) {
+        return [ ...flattened, ...FormBlock.flattenFields( field.row ) ];
+      } else {
+        return [ ...flattened, field ];
+      }
+    }, [] );
+  }
+
+  boxes() {
+    return this.props.fields.map( this.createBox );
+  }
+
   // Generate text boxes for each field, and display validation text for each
   // text box if it exists. The validation object needs to be in json schema
   // format.
-  boxes() {
-    return this.props.fields.map( field => {
+  createBox( field ) {
+    if( isArray( field.row ) ) {
+      let className = 'entry__row';
+      if( field.rowClassName ) {
+        className += ' ' + field.rowClassName;
+      }
+      return (
+        <div className={ className } key={ field.row } >
+          { field.row.map( this.createBox ) }
+        </div>
+      );
+    } else {
       let textProps = {};
 
       const error = _.find( this.props.validation, {
@@ -51,15 +75,33 @@ export class FormBlock extends Component {
         textProps.type = field.name;
       }
 
-      return (
-        <TextField { ...textProps }
-          key={ field.name }
-          hintText={ field.hint }
-          ref={ field.name }
-          underlineShow={ true }
-          fullWidth={ true } />
+      let props = {};
+      if( field.className ) {
+        props.className = field.className;
+      }
+
+      let node;
+      if( field.element ) {
+        node = React.cloneElement( field.element, {
+          ...props,
+          ...textProps,
+          key: field.name,
+          hintText: field.name,
+          ref: field.name
+        } );
+      } else {
+        node = (
+          <TextField { ...props }
+            { ...textProps }
+            key={ field.name }
+            hintText={ field.hint }
+            ref={ field.name }
+            underlineShow={ true }
+            fullWidth={ true } />
         );
-    } );
+      }
+      return node;
+    }
   }
 
   render() {
@@ -79,14 +121,30 @@ export class FormBlock extends Component {
       props.footer = footer;
     }
 
+    const { zDepth, className, thinActionButton } = this.props;
+    if( !isUndefined( zDepth ) ) {
+      props.zDepth = zDepth;
+    }
+    if( isString( className ) ) {
+      props.className = className;
+    }
+
+    const ButtonClass = thinActionButton ? FlatButton : RaisedButton;
+    let actionProps = {};
+    if( !this.props.thinActionButton ) {
+      actionProps.fullWidth = true;
+      actionProps.secondary = true;
+    } else {
+      actionProps.style = { alignSelf: 'center' };
+    }
+
     /*esfmt-ignore-start*/
     return (
       <Block { ...props }>
         { this.boxes() }
         <div className='entry__spacer' />
-        <RaisedButton secondary
+        <ButtonClass { ...actionProps }
           className='entry__action'
-          fullWidth={ true }
           onClick={ this.onAction }
           label={ this.props.actionText } />
       </Block>
@@ -98,7 +156,8 @@ export class FormBlock extends Component {
 FormBlock.defaultProps = {
   problemText: null,
   validation: [],
-  actionText: 'Submit'
+  actionText: 'Submit',
+  thinActionButton: false
 };
 FormBlock.propTypes = {
   header: React.PropTypes.oneOfType( [
@@ -149,8 +208,11 @@ export class Block extends Component {
                </div>;
     }
 
+    const { zDepth, className } = this.props;
+    const names = classNames( 'entry', { [ className ]: className } );
+
     return (
-      <Paper className="entry" zDepth={ 2 }>
+      <Paper className={ names } zDepth={ zDepth }>
         { header }
         { this.props.children }
         { footer }
@@ -160,7 +222,8 @@ export class Block extends Component {
 }
 
 Block.defaultProps = {
-  problem: false
+  problem: false,
+  zDepth: 2
 };
 Block.propTypes = {
   problem: React.PropTypes.bool,

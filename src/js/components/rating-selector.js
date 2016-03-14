@@ -4,19 +4,27 @@ import { FontIcon } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
 export class RatingSelector extends Component {
+  constructor( props ) {
+    super( props );
+    this.state = { rating: props.rating };
+  }
+
   onSetRating( starIndex ) {
-    const {setRating} = this.props;
     if ( !this.props.disabled ) {
-      setRating( starIndex );
+      this.setState( { rating: starIndex } );
     }
+  }
+
+  getValue() {
+    return this.state.rating;
   }
 
   render() {
     const stars = [ 1, 2, 3, 4, 5 ].map( star => {
       let icon = 'star_border';
-      if ( this.props.rating >= star ) {
+      if ( this.state.rating >= star ) {
         icon = 'star';
-      } else if ( ( this.props.rating - star ) === 0.5 ) {
+      } else if ( ( this.state.rating - star ) === 0.5 ) {
         icon = 'star_half';
       }
       return (<FontIcon style={ this.props.style }
@@ -27,20 +35,23 @@ export class RatingSelector extends Component {
               </FontIcon>);
     } );
 
-    let clearIcon;
-    if ( !this.props.disabled && this.props.rating != 0 ) {
-      clearIcon = (<FontIcon className='material-icons'
-                     style={ this.props.style }
-                     onClick={ ( ) => this.onSetRating( 0 ) }>
-                     clear
-                   </FontIcon>);
-    }
+    // let clearIcon;
+    // if ( !this.props.disabled && this.state.rating != 0 ) {
+    //   clearIcon = (<FontIcon className='material-icons'
+    //                  style={ this.props.style }
+    //                  onClick={ this.onSetRating.bind( this, 0 ) }>
+    //                  clear
+    //                </FontIcon>);
+    // }
 
-    return (<span>
+    return (<div style={ { display: 'inline-flex' } }>
               { stars }
-              { clearIcon }
-            </span>);
+            </div>);
   }
 }
+
+RatingSelector.defaultProps = {
+  rating: 3
+};
 
 export default RatingSelector;

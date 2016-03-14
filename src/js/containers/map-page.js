@@ -26,7 +26,7 @@ class MapPage extends Component {
   }
 
   componentDidMount() {
-    this.props.setDrawer( 'Map' );
+    this.props.pageActions.setDrawer( 'Map' );
     this.loadMarker( this.props );
   }
 
@@ -46,8 +46,9 @@ class MapPage extends Component {
       if( services.length > 0 ) {
         const marker = find( services, { '_id': paramId } );
         if( marker ) {
-          this.selectMarker( marker ); // TODO: Merge these for performance
-          this.setMapCenter( marker.location );
+          const { selectMarker, setMapCenter } = this.props.pageActions;
+          selectMarker( marker ); // TODO: Merge these for performance
+          setMapCenter( marker.location );
         }
       }
     }
@@ -66,10 +67,9 @@ class MapPage extends Component {
 
   mapPropsOnCard() {
     if( !this.props.children ) return;
-    const { dispatch, marker, newRating } = this.props;
+    const { marker, newRating } = this.props;
 
     const cardState = { newRating, point: marker, heightOffset: 0 };
-    const cardActions = { setRating, setComment, setPointProps };
     const cardFunctions = {
       deselectMarker: this.deselectMarker,
       fullscreenMarker: () => this.navigateWithId( 'view-point' ),
@@ -78,7 +78,7 @@ class MapPage extends Component {
 
     const card = React.Children.only( this.props.children );
     return React.cloneElement( card, {
-      ...bindActionCreators( cardActions, dispatch ),
+      ...this.props.cardActions,
       ...cardState,
       ...cardFunctions
     } );
@@ -88,7 +88,7 @@ class MapPage extends Component {
     const props = { };
     props.deselectMarker = this.deselectMarker;
     props.selectMarker = point => {
-      this.props.selectMarker( point );
+      this.props.pageActions.selectMarker( point );
       this.navigateWithId( 'peek-point' );
     }
 
@@ -106,9 +106,24 @@ function select( state ) {
   return {
     marker: state.marker,
     services: state.points,
+    newRating: state.newRating
   };
 }
 
-const actions = { selectMarker, setMapCenter, setDrawer };
+function mapDispatchToProps( dispatch ) {
+  return {
+    cardActions: bindActionCreators( {
+      'setRating': setRating,
+      'setComment': setComment,
+      'setPointProps': setPointProps
+    }, dispatch ),
+    pageActions: bindActionCreators( {
+      'selectMarker': selectMarker,
+      'setMapCenter': setMapCenter,
+      'setDrawer': setDrawer,
+      'setRating': setRating
+    }, dispatch )
+  }
+}
 
-export default connect( select, actions )( MapPage );
+export default connect( select, mapDispatchToProps )( MapPage );

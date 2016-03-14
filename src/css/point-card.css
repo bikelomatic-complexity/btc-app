@@ -16,11 +16,15 @@
     overflow-y: hidden;
 }
 
-.point-card--view {
+.point-card--view, .point-card--rate {
     flex-grow: 1;
     max-width: 750px;
     overflow-y: auto !important;
     display: flex;
+}
+
+.point-card.point-card--rate .point-card__media {
+    display: none;
 }
 
 /*
@@ -88,5 +92,35 @@
 }
 
 .point-card__actions {
+    flex-shrink: 0;
+}
+
+.comment-entry {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.comment-entry__comment, .comment-entry__rating {
+    /*margin-bottom: 15px;*/
+}
+
+.comment-entry__comment {
+    flex-grow: 1;
+    flex-basis: 515px;
+    width: auto !important;
+    margin-right: 15px;
+}
+
+@media screen and (max-width: 750px) {
+    .comment-entry__comment {
+        order: 2;
+        margin-right: 0px;
+    }
+}
+
+.comment-entry__rating {
     flex-shrink: 0;
 }

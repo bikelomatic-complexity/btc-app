@@ -29,18 +29,14 @@ class PointMap extends Component {
 
   componentDidMount() {
     const {mapState, setGeoLocation, setMapCenter, setMapLoading} = this.props;
-    console.log('componentDidMount');
     if ( mapState.loading ) {
-      console.log('loading');
       navigator.geolocation.getCurrentPosition(
         ( pos ) => {
-          console.log('here');
           const {latitude, longitude} = pos.coords;
           const coords = [ latitude, longitude ];
           setGeoLocation( coords );
           setMapCenter( coords );
           setMapLoading( false );
-          console.log('here here');
           this.setState( {
             startCenter: coords,
             center: coords,
@@ -48,7 +44,6 @@ class PointMap extends Component {
           } );
         },
         ( err ) => {
-          console.log('there');
           console.error( err );
           setMapLoading( false );
         },
@@ -166,7 +161,6 @@ class PointMap extends Component {
     }
 
     let view;
-    console.log( 'mapState.loading', mapState.loading );
     if ( mapState.loading ) {
       view = (
         <div style={ { margin: 'auto' } }>
