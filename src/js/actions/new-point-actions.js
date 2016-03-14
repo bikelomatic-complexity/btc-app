@@ -1,4 +1,5 @@
 import gateway from '../gateway';
+import { withCover } from '../reducers/points';
 
 /* Action Types */
 export const SET_POINT_NAME = 'SET_POINT_NAME';
@@ -89,7 +90,7 @@ export function loadPoint( id ) {
     dispatch( requestLoadPoint( id ) );
 
     gateway.getPoint( id ).then( point => {
-      dispatch( receiveLoadPoint( id, point ) );
+      dispatch( receiveLoadPoint( id, withCover( point, point.coverBlob ) ) );
     } );
   }
 }

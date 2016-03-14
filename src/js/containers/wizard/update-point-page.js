@@ -32,7 +32,6 @@ export class UpdatePointPage extends PointPage {
 
   componentDidMount() {
     const { params, newPoint } = this.props;
-    console.log( 'compnentDidMount', params.pointId );
     this.props.loadPoint( params.pointId );
   }
 }
