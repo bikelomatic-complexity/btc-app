@@ -8,7 +8,17 @@ import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import history from '../../history';
 import '../../../css/point-card.css';
 
+// The PointCard is the base class for all the states of a point card. These
+// include the peek, rate, and view cards.
+//
+// The base class is responsible for rendering the card, the header, actions,
+// and media. The subclasses may implement `getCardContent` to supply anything
+// else.
+//
+// When a card mounts or updates, the card is responsible for dispatching the
+// action to load the marker indicated within the React Router params.
 export class PointCard extends Component {
+  // Return content do display in the card
   getCardContent() {
     return (
       <CardText className="point-card__description">
@@ -17,7 +27,10 @@ export class PointCard extends Component {
     );
   }
 
-  getCardState() { }
+  // Return a BEM state class to append to the Card's className
+  getCardState() {
+    console.error( 'PointCard#getCardState() is abstract' );
+  }
 
   componentDidMount() {
     const { params } = this.props;
@@ -29,12 +42,18 @@ export class PointCard extends Component {
     this.props.loadMarker( params.pointId );
   }
 
-  // Make the MapPage pass the navigateWithId funciton in
-  navigate( path ) {
-    const id = encodeURIComponent( this.props.point._id );
-    return () => history.push( `/${path}/${id}` );
+  // Return a function that navigates to a different page with the loaded
+  // point's id as the parameter.
+  navigate( prefix ) {
+    const { navigateWithId, point } = this.props;
+    return () => navigateWithId( prefix, point );
   }
 
+  // The IconMenu at the top right of the card, in the header. It allows the
+  // user to:
+  //  - update a point's information
+  //  - rate and comment on a point
+  //  - flag the point
   getIconMenu() {
     return (
       <IconMenu className="point-card__icon-menu"
@@ -52,6 +71,7 @@ export class PointCard extends Component {
     );
   }
 
+  // Display the card if the point is loaded. If not, show a spinner.
   render() {
     const {fullscreenMarker, deselectMarker, point} = this.props;
 

@@ -13,14 +13,12 @@ export default class StoreBuilder {
     const all = [ ...reqMiddleware, ...extMiddleware ];
 
     if ( process.env.NODE_ENV === 'development' ) {
-
       this.finalCreateStore = compose(
         applyMiddleware( ...all ),
         devTools
       )( createStore );
 
     } else {
-
       this.finalCreateStore = compose(
         applyMiddleware( ...all )
       )( createStore );

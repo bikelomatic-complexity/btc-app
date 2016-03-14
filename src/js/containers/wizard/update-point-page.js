@@ -18,7 +18,7 @@ export class UpdatePointPage extends PointPage {
     return [
       tabs.PointDescriptionTab,
       tabs.PointHoursTab,
-      tabs.PointAmenitiesTab,
+      tabs.PointAmenitiesTab
     ];
   }
 

@@ -7,7 +7,9 @@ import database from './database';
  * so that the client does not have to deal with PouchDB response objects.
  *
  * The Gateway also supplies middleware to copy entities into PouchDB as they
- * are inserted into the store. TODO: Move this middleware out of the Gateway
+ * are inserted into the store.
+ *
+ * TODO: Move this middleware out of the Gateway
  * and into the points Duck. That way, we can use the gateway inside the
  * points duck.
  */

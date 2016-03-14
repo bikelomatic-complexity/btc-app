@@ -5,40 +5,37 @@ import PointMap from '../components/point-map';
 /*eslint-enable no-unused-vars*/
 
 import { pick } from 'lodash';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 
+// The ConnectedPointMap connects Redux to the PointMap
+//
+// We transfer three groups of props to the PointMap
+//  1. Plain props we want to transfer from ConnectedPointMap
+//  2. Redux state from `mapStateToProps`
+//  3. Redux actions from `mapDispatchToProps`
 export class ConnectedPointMap extends Component {
   render() {
-    const optionalProps = pick( this.props, [
+    const props = pick( this.props, [
       'selectMarker',
       'deselectMarker',
       'afterMoved',
       'className'
     ] );
-    const requiredProps = pick( this.props, [
-      'setMapCenter',
-      'setGeoLocation',
-      'setMapZoom',
-      'setMapLoading'
-    ] );
-
     return (
-      <PointMap { ...this.props.dependencies }
-        { ...optionalProps }
-        { ...requiredProps } />
+      <PointMap { ...props }
+        { ...this.props.pointMapState }
+        { ...this.props.pointMapActions } />
     );
   }
 }
-ConnectedPointMap.defaultProps = {
-  hideZoomControl: false
-};
 
-function select( state ) {
+function mapStateToProps( state ) {
   return {
-    dependencies: {
+    pointMapState: {
       services: state.points,
       alerts: [],
       tracks: state.tracks.toJS(),
@@ -46,9 +43,18 @@ function select( state ) {
       mapState: state.mapState,
       filters: state.filters
     }
-  }
+  };
 }
 
-const actions = { setMapCenter, setGeoLocation, setMapZoom, setMapLoading };
+function mapDispatchToProps( dispatch ) {
+  return {
+    pointMapActions: bindActionCreators( {
+      'setMapCenter': setMapCenter,
+      'setGeoLocation': setGeoLocation,
+      'setMapZoom': setMapZoom,
+      'setMapLoading': setMapLoading
+    }, dispatch )
+  };
+}
 
-export default connect( select, actions )( ConnectedPointMap );
+export default connect( mapStateToProps, mapDispatchToProps )( ConnectedPointMap );

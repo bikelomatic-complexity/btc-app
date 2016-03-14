@@ -99,6 +99,7 @@ export class RatingPointCard extends PointCard {
   }
 
   getCommentEntry() {
+    // See the FormBlock class in block.js for how this tree works.
     const fields = [ {
       rowClassName: 'comment-entry',
       row: [ {

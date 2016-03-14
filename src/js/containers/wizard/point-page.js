@@ -15,19 +15,20 @@ import * as drawerActions from '../../reducers/drawer';
 import history from '../../history';
 import '../../../css/layout.css';
 
-// The PointPage is an abstract base class for the wizard.
+// The PointPage is an abstract base class for the wizard's root page.
+// It is used to add or update points on the map.
 //
-// It is used to add or update points on the map. The PointPage knows how to
-// render the current page of the wizard along with a row of tabs above that
-// page. Additionally, the PointPage gives the current wizard page all the
-// props it needs to render correctly, since WizardPages are stateless
-// (with the exception of the PointMap).
+// The PointPage knows how to render the current page of the wizard along with
+// a row of tabs above that page. Additionally, the PointPage gives the current
+// wizard page all the props it needs to render correctly, since WizardPages
+// are stateless (with the exception of the AddPointLocation page).
 export default class PointPage extends Component {
   constructor( props ) {
     super( props );
     bindAll( this, 'onSubmit', 'onNext' );
   }
 
+  // When the user navigates from the add/update point pages, reset all fields.
   componentWillUnmount() {
     this.props.pageActions.clearPointProps();
   }
@@ -62,7 +63,7 @@ export default class PointPage extends Component {
     const nextTab = set[ tabIndex + 1 ];
 
     if ( nextTab ) {
-      this.navigate( nextTab );
+      this.navigateToTab( nextTab );
     } else {
       this.onSubmit();
     }
@@ -70,7 +71,7 @@ export default class PointPage extends Component {
 
   // Given a tab, navigate to the url that selects that tab. The url varies
   // based on the PointPage subclass.
-  navigate( tab ) {
+  navigateToTab( tab ) {
     const pageUrl = this.getPageUrl();
     history.push( `/${pageUrl}/${tab.url}` );
   }
@@ -136,7 +137,7 @@ export default class PointPage extends Component {
     const tabs = this.getTabSet().map( tab => (
       <Tab key={ tab.value }
         value={ tab.value }
-        onClick={ this.navigate.bind( this, tab ) }
+        onClick={ this.navigateToTab.bind( this, tab ) }
         icon={ tab.icon } />
     ) );
 

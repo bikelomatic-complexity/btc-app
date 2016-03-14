@@ -1,5 +1,7 @@
 /*global process*/
-import PouchDB from 'pouchdb';
+
+// These React components are rendered with JSX tags, so the linter can't
+// detect them.
 
 /*eslint-disable no-unused-vars*/
 import React from 'react';
@@ -7,9 +9,9 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
 /*eslint-enable no-unused-vars*/
 
-import history from './history'
 import ReactDOM from 'react-dom';
 
+// The React components below are inserted by the React router
 import Main from './containers/main';
 
 import MapPage from './containers/map-page';
@@ -34,31 +36,51 @@ import PeekPointCard from './components/point-card/peek-point-card';
 import ViewPointCard from './components/point-card/view-point-card';
 import RatingPointCard from './components/point-card/rating-point-card';
 
+// Exposes the history object for navigating with the React Router.
+// Right now, it's hash based.
+import history from './history'
+
+// Builds a redux store given optional middleware.
+// TODO: refactor out this dependency once we only depend on redux-thunk.
 import StoreBuilder from './store';
 
+// Allow direct access to the local PouchDB instance and import the gateway
+// singleton to make working with the database easier.
 import database from './database';
 import gateway from './gateway';
 
+// Sync and NetworkManager allow us to automatically work with the remote
+// PouchDB when the user is online.
 import Sync from './sync';
 import { NetworkManager } from './reducers/network';
+
+// Redux action creators used by app.js
 import { reloadPoints } from './reducers/points';
 
+// Load global css used by any other js module.
 import '../../node_modules/leaflet/dist/leaflet.css';
-import '../../node_modules/material-design-lite/material.css';
-
 import '../css/app.css';
-import '../css/mod.css';
-import '../css/flex-objects.css';
 
-// this is needed for material-ui
+// Fix tap events so material-ui components work
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-const storeBuilder = new StoreBuilder( [ gateway.getMiddleware() ] );
-const store = storeBuilder.build();
 
-/* Requires cordova.js to already be loaded via <script> */
+
+// When Cordova has loaded, assemble the application components and start them.
+//
+//  1. Create the redux store
+//  2. Start the NetworkManager to reflect network state in the store
+//  3. Start syncing the local PouchDB with the remote CouchDB
+//  4. Pull all locally available points into the store
+//  5. Start the React Router
+//
+// In order for this event to be fired, cordova.js must already be loaded via
+// a <script> tag. Also, a <div class="main" /> is required in the body. We
+// render the application into that div.
 document.addEventListener( 'deviceReady', ( ) => {
+  const storeBuilder = new StoreBuilder( [ gateway.getMiddleware() ] );
+  const store = storeBuilder.build();
 
   const network = new NetworkManager( store );
   network.monitor();

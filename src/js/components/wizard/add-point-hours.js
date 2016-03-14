@@ -102,33 +102,6 @@ export class AddPointHours extends WizardPage {
           label='Add Hours' />
       </div>
       );
-
-      // return (
-      //   <div className='wizard-page'>
-      //     <DropDown ref='dayDropDown'
-      //       text='Day(s)'
-      //       onSelectFunction={ this.onDaySelect }
-      //       options={ weekDays } />
-      //     <div>
-      //       <span>Opens at</span>
-      //       <TimePicker ref='openPicker'
-      //         format='ampm'
-      //         defaultTime={ midnight } />
-      //     </div>
-      //     <div>
-      //       <span>Closes at</span>
-      //       <TimePicker ref='closePicker'
-      //         format='ampm'
-      //         defaultTime={ midnight } />
-      //     </div>
-      //     { hours }
-      //     <div className="wizard-page__spacer" />
-      //     <RaisedButton secondary
-      //       disabled={ !this.state.add }
-      //       onClick={ this.addHours }
-      //       label='Add Hours' />
-      //   </div>
-      //   );
   }
 
   getTransition() {

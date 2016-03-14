@@ -68,8 +68,7 @@ export class ViewPointCard extends PointCard {
           { 'Phone: ' + point.phone }
         </CardText>
         <CardText>
-          Visit <a href={ point.website }>{ point.website }</a>
-          for more details.
+          Visit <a href={ point.website }>{ point.website }</a> for more details.
         </CardText>
         <div style={ { overflow: 'visible' } }>
           { hoursDetails }

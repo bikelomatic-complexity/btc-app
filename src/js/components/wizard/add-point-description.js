@@ -45,7 +45,6 @@ export class AddPointDescription extends WizardPage {
 
   getPageContent() {
     const { imageSrc } = this.props.newPoint;
-    console.log( this.props.newPoint );
     const image = isEmpty(imageSrc) ? <div /> : <img src={ imageSrc } />;
 
     return (

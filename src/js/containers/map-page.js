@@ -10,9 +10,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { assign, find } from 'lodash';
 
-import { selectMarker, setMapCenter } from '../actions/map-actions';
-import { setRating, setComment } from '../reducers/new-rating';
-import { setPointProps } from '../actions/new-point-actions';
 import { setDrawer } from '../reducers/drawer';
 import { loadMarker } from '../reducers/marker';
 
@@ -21,54 +18,47 @@ import history from '../history';
 import '../../css/layout.css';
 import '../../css/map.css';
 
+// The MapPage displays the browsable map and point cards.
+//
+// It connects to a slice of state required to render both the map and
+// point cards, if necessary. We expect the React Router to provide us at most
+// a single child. If it exists, the child will be the point card.
 class MapPage extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount( ) {
     this.props.pageActions.setDrawer( 'Map' );
   }
 
-  // If the user has specified a point to view via the url, and no point
-  // is not currently loaded, then try to load it. If we can load the point,
-  // then center the map on that point.
-  // loadMarker( ) {
-  //   const paramId = this.props.params.pointId;
-  //   const pointId = this.props.marker._id;
-  //
-  //   if( paramId && !pointId ) {
-  //     const { services } = this.props;
-  //     if( services.length > 0 ) {
-  //       const marker = find( services, { '_id': paramId } );
-  //       if( marker ) {
-  //         const { selectMarker, setMapCenter } = this.props.pageActions;
-  //         selectMarker( marker ); // TODO: Merge these for performance
-  //         setMapCenter( marker.location );
-  //       }
-  //     }
-  //   }
-  // }
-
-  deselectMarker() {
+  // Navigating to the index route (the MapPage) deslects any marker
+  static deselectMarker( ) {
     history.push( '/' );
   }
 
+  // Navigate to the path with `prefix` specific to the provided marker.
+  // This is used by MapPage and its child PointCard to open PointCards in
+  // various states (peek, view, rate).
   static navigateWithId( prefix, marker ) {
     const encodedId = encodeURIComponent( marker._id );
-
     history.push( `/${prefix}/${encodedId}` );
   }
 
+  // Clone the child PointCard with relevant state and props.
+  //
+  // If the MapPage is supplied a PointCard, then clone that PointCard with
+  // all the actions, functions, and state slices it might need.
+  // The cardActions are bound to dispatch by the connect call at the end of
+  // this file.
+  //
+  // This function will throw an error if there is more than one child.
   mapPropsOnCard() {
     if( !this.props.children ) return;
-    const { marker, newRating } = this.props;
+    const { marker } = this.props;
 
-    const cardState = { newRating, point: marker, heightOffset: 0 };
+    const cardState = { point: marker, heightOffset: 0 };
     const cardFunctions = {
-      deselectMarker: this.deselectMarker,
+      deselectMarker: MapPage.deselectMarker,
       fullscreenMarker: () => MapPage.navigateWithId( 'view-point', marker ),
-      peekMarker: () => MapPage.navigateWithId( 'peek-point', marker )
+      peekMarker: () => MapPage.navigateWithId( 'peek-point', marker ),
+      navigateWithId: MapPage.navigateWithId
     }
 
     const card = React.Children.only( this.props.children );
@@ -79,13 +69,13 @@ class MapPage extends Component {
     } );
   }
 
+  // Display the map in browse mode with any child PointCard on top.
+  // See map.css and point-card.css to learn how the elements are displayed.
   render() {
-    const props = { };
-    props.deselectMarker = this.deselectMarker;
-    props.selectMarker = point => {
-      MapPage.navigateWithId( 'peek-point', point );
-    }
-
+    const props = {
+      deselectMarker: MapPage.deselectMarker,
+      selectMarker: point => MapPage.navigateWithId( 'peek-point', point )
+    };
     return (
       <div className="layout__section">
         <ConnectedPointMap className="map map--browse-mode"
@@ -96,29 +86,25 @@ class MapPage extends Component {
   }
 }
 
-function select( state ) {
+function mapStateToProps( state ) {
   return {
-    marker: state.marker,
-    services: state.points,
-    newRating: state.newRating
+    marker: state.marker // PointCards are built for this marker
   };
 }
 
+// Separates bound action creators into two keys
+//  - cardActions: for those bound action creators to pass to the PointCard.
+//    They are passed directly to the cloned PointCard
+//  - pageActions: for those bound action creators to use within MapPage
 function mapDispatchToProps( dispatch ) {
   return {
     cardActions: bindActionCreators( {
-      'loadMarker': loadMarker,
-      'setRating': setRating,
-      'setComment': setComment,
-      'setPointProps': setPointProps
+      'loadMarker': loadMarker  // Cards load markers on componentDidMount
     }, dispatch ),
     pageActions: bindActionCreators( {
-      'selectMarker': selectMarker,
-      'setMapCenter': setMapCenter,
-      'setDrawer': setDrawer,
-      'setRating': setRating
+      'setDrawer': setDrawer
     }, dispatch )
   }
 }
 
-export default connect( select, mapDispatchToProps )( MapPage );
+export default connect( mapStateToProps, mapDispatchToProps )( MapPage );

@@ -22,17 +22,6 @@ export class AddPointName extends WizardPage {
     setDrawer( 'Enter Information' ) ;
   }
 
-  onNameUpdate( event ) {
-    const {setPointName} = this.props;
-    const name = event.target.value;
-    setPointName( name );
-  }
-
-  onTypeSelect( type ) {
-    const {setPointType} = this.props;
-    setPointType( type );
-  }
-
   getPageFields() {
     return ['name', 'location', 'type'];
   }

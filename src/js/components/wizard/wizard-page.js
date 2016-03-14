@@ -4,34 +4,57 @@ import { RaisedButton } from 'material-ui';
 
 import '../../../css/wizard.css';
 
+// The WizardPage is the base class for all the pages associated with a tab
+// in the add point or update point flows.
+//
+// Wizard pages operate in succession. Completing one page brings you to the
+// next. This transition may depend on the state of the current page. Each
+// wizard page is given the ability to choose when it allows the user to
+// move on to the next page.
+//
+// NOTE: **A WizardPage must not be rendered if its required data is not yet
+// available.** The link function works off of the defaultValue prop, anything
+// else is needlessly complex.
 export class WizardPage extends Component {
   constructor(props) {
     super(props);
     bindAll(this, 'link');
   }
 
+  // Return an array of field names that will be picked out of `this.state`
+  // for serialization.
   getPageFields() {
     return [];
   }
 
+  // Pick the values for fields in `getPageFields()` for serialization;
   getPageValues() {
     return assign( {}, pick( this.state, this.getPageFields() ) );
   }
 
+  // Get the content to display in the wizard page. These should usually be
+  // form fields. The content should be controlled, where fields are linked
+  // with this.state.
   getPageContent() {
     return <div />;
     console.error('WizardPage#getPageContent() is abstract');
   }
 
+  // Return an transition type from WizardPage.transitions to modify the
+  // effect of the ``next'' action button.
   getTransition() {
     return WizardPage.transitions.disabled;
     console.error('WizardPage#getPageContent() is abstract');
   }
 
+  // The action button should be disabled if that transition is selected.
   isDisabled() {
     return this.getTransition() === WizardPage.transitions.disabled;
   }
 
+  // When a page unmounts, persist the page values obtained via
+  // `getpageValues()'. The `persist` function must be supplied by the
+  // add point or update point pages.
   componentWillUnmount( ) {
     const { persist } = this.props;
 
@@ -59,7 +82,9 @@ export class WizardPage extends Component {
     // Set the input to the value at the `field` key in state
     props.value = this.state[ field ];
 
-    // Add an event listener that sets state @ `field`
+    // Add an event listener that sets state @ `field`. Different material-ui
+    // components return the field value differently. It can either be in
+    // `value` or `event.target.value`.
     props[ method ] = (event, key, value) => {
       this.setState( { [ field ]: value || event.target.value } );
     };

@@ -10,6 +10,9 @@ import '../../css/block.css';
 
 // This component extends the `Block` with form inputs inside. It is also able
 // to display form validation comments if they are supplied.
+//
+// The structure of the form is determined by the `fields` prop. See the
+// `boxes()` function for how the prop is parsed.
 export class FormBlock extends Component {
   constructor( props ) {
     super( props );
@@ -33,6 +36,8 @@ export class FormBlock extends Component {
     }
   }
 
+  // The `fields` prop is recursive. This field will extract all leaf fields
+  // from the recursive structure.
   static flattenFields( fields ) {
     return fields.reduce( (flattened, field) => {
       if( isArray( field.row ) ) {
@@ -43,6 +48,7 @@ export class FormBlock extends Component {
     }, [] );
   }
 
+  // Map the recursive fields structure to an array of React components.
   boxes() {
     return this.props.fields.map( this.createBox );
   }
@@ -50,6 +56,13 @@ export class FormBlock extends Component {
   // Generate text boxes for each field, and display validation text for each
   // text box if it exists. The validation object needs to be in json schema
   // format.
+  //
+  // A field may either be an object represing a leaf field, or it may be
+  // an object representing a row of fields. In the row case, wrap that sub-
+  // tree of field elements in an 'entry__row' div.
+  //
+  // Leaf fields have these properties: name, validation, className, element.
+  // If a custom field.element is supplied, we use that instead of a TextField.
   createBox( field ) {
     if( isArray( field.row ) ) {
       let className = 'entry__row';
@@ -62,6 +75,9 @@ export class FormBlock extends Component {
         </div>
       );
     } else {
+      // ***We are working with a leaf field object now.***
+
+      // These props control the validation and type of the TextField
       let textProps = {};
 
       const error = _.find( this.props.validation, {
@@ -70,21 +86,21 @@ export class FormBlock extends Component {
       if ( error ) {
         textProps.errorText = error.message;
       }
-
       if ( [ 'email', 'password' ].indexOf( field.name ) >= 0 ) {
         textProps.type = field.name;
       }
 
+      // These props control the appearance of the Field element
       let props = {};
       if( field.className ) {
         props.className = field.className;
       }
 
+      // Generate a TextField, or if field.element is set, clone that.
       let node;
       if( field.element ) {
         node = React.cloneElement( field.element, {
           ...props,
-          ...textProps,
           key: field.name,
           hintText: field.name,
           ref: field.name
