@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import bindAll from 'lodash/bindAll';
 
 import { login } from '../reducers/account';
+import { setDrawer } from '../reducers/drawer';
 import { setSnackbar } from '../reducers/notifications';
 
 const fields = [ {
@@ -22,14 +23,8 @@ const fields = [ {
 
 const footer = (
 <BlockFooter>
-  <span>
-    <Link to="register"> Sign up
-    </Link> for the app
-  </span>
-  <span>
-    <Link to="forgot"> Forgot password?
-    </Link>
-  </span>
+  <span><Link to="register">Sign up</Link> for the app</span>
+  <span><Link to="forgot">Forgot password?</Link></span>
 </BlockFooter>
 );
 
@@ -40,7 +35,7 @@ export class LoginPage extends Component {
   }
 
   componentDidMount() {
-    this.props.setDrawer( 'Login' );
+    this.props.dispatch( setDrawer( 'Login' ) );
   }
 
   // The FormBlock will call `onLogin` with `values` as an object containing
@@ -61,7 +56,7 @@ export class LoginPage extends Component {
     const {error, validation} = account.login;
 
     return (
-      <LetterheadPage>
+      <LetterheadPage className="layout__section">
         <FormBlock onAction={ this.onLogin }
           { ...errorProps( error, validation ) }
           actionText="Login"

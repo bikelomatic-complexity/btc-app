@@ -11,8 +11,12 @@ import '../../css/page.css';
 // the whole screen.
 export class Page extends Component {
   render() {
+    let className = 'page';
+    if( this.props.className ) {
+      className += ' ' + this.props.className;
+    }
     return (
-      <div className='page'>
+      <div className={ className }>
         <div className='page__paper'>
           { this.props.children }
         </div>
@@ -24,8 +28,12 @@ export class Page extends Component {
 // The `LetterheadPage` extends the `Page` with the adventure cycling logo
 export class LetterheadPage extends Component {
   render() {
+    let props = {};
+    if( this.props.className ) {
+      props.className = this.props.className;
+    }
     return (
-      <Page>
+      <Page { ...props }>
         <img className='page__logo' src={ this.props.logo } />
         { this.props.children }
       </Page>

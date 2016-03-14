@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import bindAll from 'lodash/bindAll';
 
 import { register } from '../reducers/account';
+import { setDrawer } from '../reducers/drawer';
 
 const fields = [ {
   hint: 'Email',
@@ -33,7 +34,7 @@ export class RegisterPage extends Component {
   }
 
   componentDidMount() {
-    this.props.setDrawer( 'Register' );
+    this.props.dispatch( setDrawer( 'Register' ) );
   }
 
   // The FormBlock will call `onRegister` with `values` as an object containing
@@ -50,7 +51,7 @@ export class RegisterPage extends Component {
     const {error, validation} = account.registration;
 
     return (
-      <LetterheadPage>
+      <LetterheadPage className="layout__section">
         <FormBlock onAction={ this.onRegister }
           header="Sign up for a Bicycle Touring Companion account"
           { ...errorProps( error, validation ) }
