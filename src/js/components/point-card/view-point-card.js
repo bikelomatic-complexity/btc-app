@@ -56,7 +56,7 @@ export class ViewPointCard extends PointCard {
     }
 
     return (
-      <div className="point-map__content">
+      <div className="point-card__content">
         <CardText>
           { point.description }
           { timeDetails }
@@ -71,7 +71,9 @@ export class ViewPointCard extends PointCard {
           Visit <a href={ point.website }>{ point.website }</a>
           for more details.
         </CardText>
-        { hoursDetails }
+        <div style={ { overflow: 'visible' } }>
+          { hoursDetails }
+        </div>
         { seasonalDetails }
       </div>
       );

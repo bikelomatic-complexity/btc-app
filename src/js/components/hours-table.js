@@ -7,9 +7,10 @@ import { Table, TableBody, TableHeader, TableRow, TableHeaderColumn, TableRowCol
 
 export class HoursTable extends Component {
   render() {
-    const hoursData = this.props.hours.map( ( day ) => {
+    let keyCounter = 0;
+    const hoursData = this.props.hours.map( day => {
       return (
-        <TableRow key={ day.day + day.opens + day.closes }>
+        <TableRow key={ keyCounter++ }>
           <TableRowColumn>
             { day.day }
           </TableRowColumn>

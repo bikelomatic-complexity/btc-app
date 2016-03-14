@@ -8,7 +8,7 @@ export const RECEIVE_LOAD_MARKER = 'btc-app/marker/RECEIVE_LOAD_MARKER';
 
 const initState = {
   _id: null,
-  isFetching: false
+  isFetching: true
 }
 
 export default function marker( state = initState, action ) {
@@ -22,10 +22,10 @@ export default function marker( state = initState, action ) {
     if( state._id === action.id ) {
       return state;
     } else {
-      return { ...state, _id: action.id, isFetching: true };
+      return { _id: action.id, isFetching: true };
     }
   case RECEIVE_LOAD_MARKER:
-    return { ...state, isFetching: false, ...action.marker }
+    return { isFetching: false, ...action.marker }
   default:
     return state;
   }
@@ -38,14 +38,23 @@ export function selectMarker( marker ) {
 // The map reducer also listens to RECIEVE_LOAD_MARKER to set the
 // map's center.
 export function loadMarker( id ) {
-  return dispatch => {
-    dispatch( requestLoadMarker( id ) );
-    gateway.getPoint( id ).then(
-      point => {
-        dispatch( recieveLoadMarker( withCover( point, point.coverBlob ) ) );
-      }
-    );
+  return (dispatch, getState) => {
+    const { marker } = getState();
+    if( isCached( marker, id ) ) {
+      return;
+    } else {
+      dispatch( requestLoadMarker( id ) );
+      return gateway.getPoint( id ).then(
+        point => {
+          dispatch( recieveLoadMarker( withCover( point, point.coverBlob ) ) );
+        }
+      );
+    }
   }
+}
+
+function isCached( marker, id ) {
+  return !marker.isFetching && marker._id === id;
 }
 
 function requestLoadMarker( id ) {

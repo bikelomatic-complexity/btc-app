@@ -12,7 +12,7 @@ export default function mapState( state = { loading: true, center: USMap.center,
      *
      * return Object.assign( {}, state, { center: action.marker.location } );
      */
-    return;
+    return state;
   case SET_MAP_CENTER:
     return Object.assign( {}, state, { center: action.center } );
   case SET_MAP_ZOOM:

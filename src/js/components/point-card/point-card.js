@@ -1,6 +1,6 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
-import { Card, CardActions, CardText, FlatButton, CardMedia, CardTitle, CardHeader, IconButton, IconMenu, MenuItem } from 'material-ui';
+import { Card, CardActions, CardText, FlatButton, CardMedia, CardTitle, CardHeader, IconButton, IconMenu, MenuItem, CircularProgress } from 'material-ui';
 import LocationIcon from 'material-ui/lib/svg-icons/maps/place';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 /*eslint-enable no-unused-vars*/
@@ -20,8 +20,13 @@ export class PointCard extends Component {
   getCardState() { }
 
   componentDidMount() {
-    const { pointId } = this.props.params;
-    this.props.loadMarker( pointId );
+    const { params } = this.props;
+    this.props.loadMarker( params.pointId );
+  }
+
+  componentWillReceiveProps( nextProps ) {
+    const { params } = nextProps;
+    this.props.loadMarker( params.pointId );
   }
 
   // Make the MapPage pass the navigateWithId funciton in
@@ -57,6 +62,14 @@ export class PointCard extends Component {
 
     const state = this.getCardState();
     const className = 'point-card' + (state ? (' ' + state) : '');
+
+    if( point.isFetching ) {
+      return (
+        <Card className={ className }>
+          <CircularProgress className="point-card__spinner" size={2} />
+        </Card>
+      );
+    }
 
     return (
       <Card className={ className }>
