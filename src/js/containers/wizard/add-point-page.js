@@ -1,6 +1,8 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import { serviceTypes } from 'btc-models/lib/schema/types';
+
 import PointPage from './point-page';
 import * as tabs from './tabs';
 import { userAddPoint } from '../../reducers/points';
@@ -48,7 +50,8 @@ export class AddPointPage extends PointPage {
 function mapStateToProps( state ) {
   return {
     ...PointPage.mapStateToProps.apply( this, arguments ),
-    mapState: state.mapState
+    mapState: state.mapState, // You need a map to place a service
+    types: serviceTypes       // You need to select a service type
   }
 }
 

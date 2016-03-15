@@ -42,9 +42,17 @@ export class WizardPage extends Component {
 
   // Return an transition type from WizardPage.transitions to modify the
   // effect of the ``next'' action button.
-  getTransition() {
+  getPreferredTransition() {
     return WizardPage.transitions.disabled;
     console.error('WizardPage#getPageContent() is abstract');
+  }
+
+  getTransition() {
+    if( this.props.finalTab ) {
+      return WizardPage.transitions.submit;
+    } else {
+      return this.getPreferredTransition();
+    }
   }
 
   // The action button should be disabled if that transition is selected.

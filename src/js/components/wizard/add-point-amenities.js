@@ -5,7 +5,7 @@ import { RaisedButton, CardText, FontIcon } from 'material-ui';
 import DropDown from '../drop-down';
 /*eslint-disable no-unused-vars*/
 
-import { types, displayType } from '../../types';
+import { keys } from 'lodash';
 import WizardPage from './wizard-page';
 
 export class AddPointAmenities extends WizardPage {
@@ -36,12 +36,6 @@ export class AddPointAmenities extends WizardPage {
   }
 
   getPageContent() {
-    const amenityOptions = types.map( ( amenity ) => {
-      return (<option key={ amenity } value={ amenity }>
-                { displayType( amenity ) }
-              </option>);
-    } );
-
     let addAmenityButton = (
     <RaisedButton secondary
       disabled={ !( this.state.amenity || this.props.newPoint.amenities.indexOf( this.state.amenity ) !== -1 ) }
@@ -69,9 +63,14 @@ export class AddPointAmenities extends WizardPage {
         );
     } );
 
+
+    const { types } = this.props;
+    const displayType = type => types[ type ].display;
+    const amenityTypes = keys( types );
+
     return (
       <div className="wizard-page">
-        <DropDown options={ types }
+        <DropDown options={ amenityTypes }
           text="Amenity"
           textTransform={ displayType }
           onSelectFunction={ this.selectAmenity.bind( this ) } />
@@ -84,7 +83,7 @@ export class AddPointAmenities extends WizardPage {
       );
   }
 
-  getTransition() {
+  getPreferredTransition() {
     return WizardPage.transitions.submit;
   }
 }

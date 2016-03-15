@@ -1,5 +1,6 @@
 
 import { findIndex, omit, values, has } from 'underscore';
+import { defaults } from 'lodash';
 import { createObjectURL } from 'blob-util';
 import toId from 'to-id';
 import ngeohash from 'ngeohash';
@@ -166,6 +167,11 @@ export function docToPoint( doc ) {
   } else {
     point = Object.assign( {}, doc );
   }
+
+  // TODO: move this to btc-models eventually
+  defaults( point, {
+    amenities: []
+  } );
 
   return point;
 }

@@ -5,6 +5,7 @@ import LocationIcon from 'material-ui/lib/svg-icons/maps/place';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 /*eslint-enable no-unused-vars*/
 
+import { display } from 'btc-models/lib/schema/types';
 import history from '../../history';
 import '../../../css/point-card.css';
 
@@ -96,7 +97,7 @@ export class PointCard extends Component {
         <CardHeader
           className="point-card__header"
           title={ point.name }
-          subtitle={ point.type }
+          subtitle={ display( point.type ) }
           avatar={ <LocationIcon className="point-card__avatar" /> }>
           { this.getIconMenu() }
         </CardHeader>

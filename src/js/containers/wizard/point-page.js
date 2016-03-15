@@ -5,7 +5,7 @@ import { CircularProgress } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
 import BlobUtil from 'blob-util';
-import { findIndex, bindAll, isEmpty } from 'lodash';
+import { findIndex, bindAll, isEmpty, last } from 'lodash';
 import { bindActionCreators } from 'redux';
 
 import * as pointActions from '../../actions/new-point-actions';
@@ -69,6 +69,11 @@ export default class PointPage extends Component {
     }
   }
 
+  isFinalTab( curPageType ) {
+    const set = this.getTabSet();
+    return curPageType === last( set ).value;
+  }
+
   // Given a tab, navigate to the url that selects that tab. The url varies
   // based on the PointPage subclass.
   navigateToTab( tab ) {
@@ -118,6 +123,7 @@ export default class PointPage extends Component {
       ...this.props,
       ...this.props.wizardActions,
       onNext: this.onNext.bind( this, tabContent.type ),
+      finalTab: this.isFinalTab( tabContent.type ),
       persist: this.props.pageActions.updatePointProps
     } );
   }

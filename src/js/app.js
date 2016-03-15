@@ -15,6 +15,7 @@ import ReactDOM from 'react-dom';
 import Main from './containers/main';
 
 import MapPage from './containers/map-page';
+import ListPage from './containers/list-page';
 import LoginPage from './containers/login-page';
 import LogoutPage from './containers/logout-page';
 import RegisterPage from './containers/register-page';
@@ -25,12 +26,14 @@ import SettingsPage from './containers/settings-page';
 
 import AddPointPage from './containers/wizard/add-point-page';
 import UpdatePointPage from './containers/wizard/update-point-page';
+import AddAlertPage from './containers/wizard/add-alert-page';
 
 import PointLocation from './components/wizard/add-point-location';
 import PointName from './components/wizard/add-point-name';
 import PointDescription from './components/wizard/add-point-description';
 import PointHours from './components/wizard/add-point-hours';
 import PointAmenities from './components/wizard/add-point-amenities';
+import AlertNameDescription from './components/wizard/alert-name-description';
 
 import PeekPointCard from './components/point-card/peek-point-card';
 import ViewPointCard from './components/point-card/view-point-card';
@@ -102,6 +105,7 @@ document.addEventListener( 'deviceReady', ( ) => {
             <Route path="view-point/:pointId" component={ ViewPointCard } />
             <Route path="rate-point/:pointId" component={ RatingPointCard } />
           </Route>
+          <Route path="list" component={ ListPage } />
           <Route path="settings" component={ SettingsPage } />
           <Route path="login" component={ LoginPage } />
           <Route path="register" component={ RegisterPage } />
@@ -120,6 +124,11 @@ document.addEventListener( 'deviceReady', ( ) => {
             <Route path="description" component={ PointDescription } />
             <Route path="hours" component={ PointHours } />
             <Route path="amenities" component={ PointAmenities } />
+          </Route>
+          <Route path="add-alert" component={ AddAlertPage }>
+            <IndexRoute component={ PointLocation } />
+            <Route path="location" component={ PointLocation } />
+            <Route path="name" component={ AlertNameDescription } />
           </Route>
           <Route path="/download-track" component={ DownloadTrackPage } />
           <Route path="/filter" component={ FilterPage } />

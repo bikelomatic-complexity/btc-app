@@ -23,7 +23,8 @@ export class ConnectedPointMap extends Component {
       'selectMarker',
       'deselectMarker',
       'afterMoved',
-      'className'
+      'className',
+      'addPoint'
     ] );
     return (
       <PointMap { ...props }

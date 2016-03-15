@@ -3,6 +3,7 @@ import PointName from '../../components/wizard/add-point-name';
 import PointDescription from '../../components/wizard/add-point-description';
 import PointHours from '../../components/wizard/add-point-hours';
 import PointAmenities from '../../components/wizard/add-point-amenities';
+import AlertNameDescription from '../../components/wizard/alert-name-description';
 
 /* eslint-disable no-unused-vars */
 import React from 'react';
@@ -29,6 +30,12 @@ export const PointDescriptionTab = {
   value: PointDescription,
   icon: <DescIcon />,
   url: '/description'
+}
+
+export const AlertNameDescriptionTab = {
+  value: AlertNameDescription,
+  icon: <NameIcon />,
+  url: '/name'
 }
 
 export const PointHoursTab = {

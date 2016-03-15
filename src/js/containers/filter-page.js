@@ -4,20 +4,23 @@ import { RaisedButton, Checkbox, FontIcon } from 'material-ui';
 import DropDown from '../components/drop-down';
 /*eslint-enable no-unused-vars*/
 
-import includes from 'lodash/includes';
+import { includes, assign, keys } from 'lodash';
 import { connect } from 'react-redux';
+import { display, serviceTypes, alertTypes } from 'btc-models/lib/schema/types';
+
 import { setFilters } from '../actions/map-actions';
-import { types, displayType } from '../types';
 import { setDrawer } from '../reducers/drawer';
 
 import history from '../history';
+
+const allTypes = keys( assign( {}, serviceTypes, alertTypes ) );
 
 class FilterPage extends Component {
   constructor( props ) {
     super( props );
     const {activeFilters, openServices, hideAlert} = this.props.filters;
 
-    const filters = types.filter( type => {
+    const filters = allTypes.filter( type => {
       return !includes( activeFilters, type );
     } ); // copy by value
 
@@ -61,7 +64,7 @@ class FilterPage extends Component {
   }
 
   clearFilters() {
-    const filters = types.filter( type => type ); // copy by value
+    const filters = [ ...allTypes ];
 
     this.setState( {
       filters,
@@ -91,7 +94,7 @@ class FilterPage extends Component {
           <RaisedButton key={ filterService }
             style={ { margin: 8 } }
             onClick={ this.removeFilter.bind( this, index ) }
-            label={ displayType( filterService ) }
+            label={ display( filterService ) }
             labelPosition="before"
             icon={ <FontIcon className="material-icons">
                      clear
@@ -107,7 +110,7 @@ class FilterPage extends Component {
           <DropDown className="form-row"
             text="Filter"
             options={ this.state.filters }
-            textTransform={ displayType }
+            textTransform={ display }
             onSelectFunction={ this.addFilter.bind( this ) } />
         </div>
         <div className="form-row">

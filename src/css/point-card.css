@@ -164,6 +164,14 @@
     overflow-y: hidden;
 }
 
+.point-card__open-until {
+    color: darkgreen;
+}
+
+.point-card__contact > * {
+    margin-right: 15px;
+}
+
 /*
  * The rest of the card's content. It is a columnar flexbox. This is the
  * div that is scrollable in view and rate mode.

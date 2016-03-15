@@ -15,7 +15,7 @@ import '../../css/map.css';
 
 setIconDefaultImagePath( 'img/icons' );
 
-class PointMap extends Component {
+export class PointMap extends Component {
   constructor( props ) {
     super( props );
     const {mapState} = this.props;
@@ -103,8 +103,9 @@ class PointMap extends Component {
         }
       } );
     } ).map( ( service ) => {
+      // TODO: Don't even include the onClick listener if we're in addPoint mode
       const onClick = ( ) => {
-        if ( !this.props.addpoint ) {
+        if ( !this.props.addPoint ) {
           selectMarker( service );
         }
       };
@@ -174,7 +175,11 @@ class PointMap extends Component {
           zoom={ this.state.zoom }
           onLeafletMove={ this.props.onLeafletMove }
           onLeafletMoveEnd={ this.onMapMoved }
-          onclick={ ( ) => deselectMarker() }>
+          onclick={ ( ) => {
+            if ( !this.props.addPoint ) {
+              deselectMarker();
+            }
+          } }>
           { circleMarker }
           { tileLayer }
           { markers }
@@ -188,6 +193,10 @@ class PointMap extends Component {
   }
 }
 
-PointMap.defaultProps = { onLeafletMove: noop, afterMoved: noop };
+PointMap.defaultProps = {
+  onLeafletMove: noop,
+  afterMoved: noop,
+  addPoint: false
+};
 
 export default PointMap;

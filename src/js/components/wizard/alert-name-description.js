@@ -4,22 +4,38 @@ import React from 'react';
 import { TextField, RaisedButton, SelectField, MenuItem } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
-import { toPairs } from 'lodash'
+import { toPairs, bindAll, isEmpty, isUndefined, pick } from 'lodash';
 import WizardPage from './wizard-page';
 
-export class AddPointName extends WizardPage {
+export class AlertNameDescription extends WizardPage {
   constructor(props) {
     super(props);
 
+    const { newPoint } = props;
     this.state = {
-      name: this.props.newPoint.name || '',
-      type: this.props.newPoint.type || ''
+      name: newPoint.name || '',
+      type: newPoint.type || '',
+      description: newPoint.description || ''
     };
   }
 
   componentDidMount() {
     const {setDrawer} = this.props;
     setDrawer( 'Enter Information' ) ;
+  }
+
+  // This logic will not work on the browser:
+  // [CB-9852](https://issues.apache.org/jira/browse/CB-9852)
+  onPhotoAdd() {
+    navigator.camera.getPicture(
+      imageSrc => this.props.setPointImage( imageSrc ),
+      err => console.error( err ),
+      {
+        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+        destinationType: navigator.camera.DestinationType.FILE_URI,
+        encodingType: navigator.camera.EncodingType.PNG
+      }
+    );
   }
 
   getPageFields() {
@@ -39,6 +55,9 @@ export class AddPointName extends WizardPage {
         value={ type } primaryText={ values.display } />
     ) );
 
+    const { imageSrc } = this.props.newPoint;
+    const image = isEmpty( imageSrc ) ? <div /> : <img src={ imageSrc } />;
+
     return (
       <div className="wizard-page">
         <TextField fullWidth { ...this.link( 'name' ) }
@@ -47,9 +66,19 @@ export class AddPointName extends WizardPage {
           value={ latLngString }
           floatingLabelText="Location" />
         <SelectField fullWidth { ...this.link( 'type' ) }
-          floatingLabelText="Service type">
+          floatingLabelText="Alert type">
           { options }
         </SelectField>
+        <TextField fullWidth { ...this.link( 'description' ) }
+          floatingLabelText="Description"
+          multiLine
+          rows={ 2 }
+          rowsMax={ 4 } />
+        <div className="wizard-page__spacer" />
+        { image }
+        <RaisedButton fullWidth secondary
+          onClick={ this.onPhotoAdd }
+          label="Upload Photo" />
       </div>
       );
   }
@@ -65,4 +94,4 @@ export class AddPointName extends WizardPage {
   }
 }
 
-export default AddPointName;
+export default AlertNameDescription;

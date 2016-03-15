@@ -20,7 +20,7 @@ export class AddPointDescription extends WizardPage {
     }
   }
 
-  componentWillReceiveProps( nextProps ) {
+  componentDidMount( nextProps ) {
     const {setDrawer, newPoint} = nextProps;
     setDrawer( newPoint._id ? 'Update Details' : 'Add Details' );
   }
@@ -71,7 +71,7 @@ export class AddPointDescription extends WizardPage {
       );
   }
 
-  getTransition() {
+  getPreferredTransition() {
     const anySet = this.getPageFields().reduce( ( anySet, field ) => {
       return anySet || !isEmpty( this.state[ field ] );
     }, false );

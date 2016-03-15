@@ -32,7 +32,7 @@ export class AddPointLocation extends WizardPage {
   getPageContent() {
     return (
       <div>
-        <ConnectedPointMap className="map map--wizard-mode"
+        <ConnectedPointMap addPoint className="map map--wizard-mode"
           afterMoved={ this.updateLocation } />
         <div className="crosshairs">
           <div className="crosshairs__shadow" />
@@ -42,7 +42,7 @@ export class AddPointLocation extends WizardPage {
     );
   }
 
-  getTransition() {
+  getPreferredTransition() {
     return WizardPage.transitions.next;
   }
 }

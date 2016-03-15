@@ -4,20 +4,11 @@ import { CardText, FlatButton } from 'material-ui';
 
 import PointCard from './point-card';
 import HoursTable from '../hours-table';
-import { displayType } from '../../types';
 /*eslint-enable no-unused-vars*/
 
 import { find } from 'lodash';
-
-const days = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday'
-];
+import { pointId } from 'btc-models/lib/model/point';
+import ServiceViewModel from './service-view-model';
 
 export class ViewPointCard extends PointCard {
   getCardState() {
@@ -31,67 +22,63 @@ export class ViewPointCard extends PointCard {
 
   getCardContent() {
     const {point} = this.props;
+    const uri = pointId( point._id );
 
-    let timeDetails, hoursDetails;
-    if( point.schedule && point.schedule.length > 0 ) {
-      const day = find( this.getDays( point.schedule ), {
-        day: days[ new Date().getDay() ]
-      } )
-      timeDetails = (
-        <span className="open-until">
-          { day ? `Open until: ${day.closes}` : 'Not Open Today' }
-        </span>
-      );
-
-      hoursDetails = <HoursTable hours={ this.getDays( point.schedule ) } />;
-    }
-
-    let seasonalDetails;
-    if( point.seasonal ) {
-      seasonalDetails = (
-        <CardText>
-          These hours are seasonal. Call or check online for more information.
-        </CardText>
-      );
-    }
-
-    return (
-      <div className="point-card__content">
-        <CardText>
-          { point.description }
-          { timeDetails }
-        </CardText>
-        <CardText>
-          { 'Amenities: ' + point.amenities.join( ', ' ) }
-        </CardText>
-        <CardText>
-          { 'Phone: ' + point.phone }
-        </CardText>
-        <CardText>
-          Visit <a href={ point.website }>{ point.website }</a> for more details.
-        </CardText>
-        <div style={ { overflow: 'visible' } }>
-          { hoursDetails }
+    let content;
+    if( uri.type === 'alert' ) {
+      content = (
+        <div className="point-card__content">
+          <CardText>{ point.description }</CardText>
         </div>
-        { seasonalDetails }
-      </div>
-      );
-  }
+      )
+    } else if( uri.type === 'service' ) {
+      const service = new ServiceViewModel( point );
 
-  getDays( seasons ) {
-    let seasonDays = seasons[ 0 ].days;
-    const date = ( new Date() );
-    const curMonth = date.getMonth();
-    const curDate = date.getDate();
-    seasons.forEach( season => {
-      if ( ( season.seasonStart )
-          && ( season.seasonEnd )
-          && ( season.seasonStart.month <= curMonth <= season.seasonEnd.month )
-          && ( season.seasonStart.date <= curDate <= season.seasonEnd.date ) ) {
-        seasonDays = season.days;
+      let hours, explanation;
+      if( service.hasSchedule() ) {
+        hours = <HoursTable hours={ service.getWeekForCurrentSeason() } />;
+
+        explanation = <CardText>These hours are seasonal. Call or check online for more information.</CardText>;
       }
-    } );
-    return seasonDays;
+
+      let website;
+      if( point.website ) {
+        website = (
+          <span>Website: <a href={ point.website }>{ point.website }</a></span>
+        );
+      }
+
+      let phone;
+      if( point.phone ) {
+        phone = (
+          <span>Phone: { point.phone }</span>
+        )
+      }
+
+      content = (
+        <div className="point-card__content">
+          <CardText>
+            <span className="point-card__open-until">
+              { service.openUntil() + ' — ' }
+            </span>
+            <span>
+              { point.description }
+            </span>
+          </CardText>
+          <CardText>
+            { service.amenities() }
+          </CardText>
+          <CardText className="point-card__contact">
+            { phone }
+            { website }
+          </CardText>
+          { hours }
+          { explanation }
+        </div>
+      )
+    }
+
+    return content;
   }
 }
 

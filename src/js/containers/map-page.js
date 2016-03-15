@@ -4,6 +4,7 @@ import { Paper } from 'material-ui';
 
 import PointMap from '../components/point-map';
 import ConnectedPointMap from './connected-point-map';
+import MapButtons from '../components/map-buttons';
 /*eslint-enable no-unused-vars*/
 
 import { bindActionCreators } from 'redux';
@@ -72,6 +73,13 @@ class MapPage extends Component {
   // Display the map in browse mode with any child PointCard on top.
   // See map.css and point-card.css to learn how the elements are displayed.
   render() {
+    const buttons = [ {
+      page: 'list',
+      icon: 'list'
+    }, {
+      page: 'filter',
+      icon: 'filter_list'
+    } ];
     const props = {
       deselectMarker: MapPage.deselectMarker,
       selectMarker: point => MapPage.navigateWithId( 'peek-point', point )
@@ -80,6 +88,7 @@ class MapPage extends Component {
       <div className="layout__section">
         <ConnectedPointMap className="map map--browse-mode"
           { ...props } />
+        <MapButtons buttons={ buttons } history={ history } />
         { this.mapPropsOnCard() }
       </div>
     );
