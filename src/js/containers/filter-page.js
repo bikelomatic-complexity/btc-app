@@ -8,6 +8,7 @@ import includes from 'lodash/includes';
 import { connect } from 'react-redux';
 import { setFilters } from '../actions/map-actions';
 import { types, displayType } from '../types';
+import { setDrawer } from '../reducers/drawer';
 
 import history from '../history';
 
@@ -24,8 +25,7 @@ class FilterPage extends Component {
   }
 
   componentDidMount() {
-    const {setDrawer} = this.props;
-    setDrawer( 'Filter' );
+    this.props.dispatch( setDrawer( 'Filter' ) );
   }
 
   componentWillUnmount() {

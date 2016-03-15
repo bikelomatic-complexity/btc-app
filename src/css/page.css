@@ -16,7 +16,7 @@
 .page__paper {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
 }
 
 .page__logo {

@@ -25,6 +25,7 @@
 
 .entry__header {
     margin-bottom: 0px;
+    text-align: center;
 }
 
 .entry__header--error {

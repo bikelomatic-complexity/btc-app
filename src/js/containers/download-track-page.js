@@ -1,18 +1,19 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { RaisedButton, FontIcon, Card, CardMedia, CardTitle, CardActions, CardText, LinearProgress } from 'material-ui';
+import DeviceStorage from '../components/device-storage';
+import { Page } from '../components/page';
 /*eslint-enable no-unused-vars*/
 
 import { connect } from 'react-redux';
 import { isFinite } from 'underscore';
 
+import { setDrawer } from '../reducers/drawer';
 import { fetchTrack, clearTrack, activateTrack, deactivateTrack } from '../reducers/tracks';
 
 class DownloadTrackPage extends Component {
-
   componentDidMount() {
-    const {setDrawer} = this.props;
-    setDrawer( 'Download Track' );
+    this.props.dispatch( setDrawer( 'Download Track' ) );
   }
 
   onSaveTrack( id, pkg ) {
@@ -102,10 +103,10 @@ class DownloadTrackPage extends Component {
     } );
 
     return (
-      <div className="page-content">
+      <Page className="layout__section">
         <DeviceStorage downloaded={ downloaded } />
         { rows }
-      </div>
+      </Page>
       );
   }
 }
