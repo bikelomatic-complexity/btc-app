@@ -15,7 +15,6 @@
     "postdebug:android": "node scripts/postdebug-android.js",
     "postinstall": "cordova prepare --browserify",
     "postrelease:android": "node scripts/postrelease-android.js",
-    "prebuild": "mkdir -p www/",
     "prestart:android": "npm run build",
     "prestart:browser": "npm run build",
     "release:android": "cordova build --browserify android --release",
