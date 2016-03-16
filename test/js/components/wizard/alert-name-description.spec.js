@@ -36,7 +36,7 @@ describe( '<AlertNameDescription />', function() {
     const instance = tree.getMountedInstance();
     instance.setState( {
       name: 'some alert'
-    }, () => {
+    }, ( ) => {
       instance.componentWillUnmount();
       sinon.assert.calledWithMatch( persist, { name: 'some alert' } );
       done();

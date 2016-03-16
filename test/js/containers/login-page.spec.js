@@ -13,7 +13,7 @@ import * as drawer from '../../../src/js/reducers/drawer';
 
 describe( '<LoginPage />', function() {
   beforeEach( function() {
-    this.setDrawer = sinon.stub(drawer, 'setDrawer');
+    this.setDrawer = sinon.stub( drawer, 'setDrawer' );
     this.login = sinon.stub( login, 'login' );
     this.dispatch = sinon.stub();
     this.history = { push: sinon.stub() };

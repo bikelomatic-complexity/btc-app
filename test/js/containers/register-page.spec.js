@@ -40,8 +40,6 @@ describe( '<RegisterPage />', function() {
     sinon.assert.called( this.dispatch );
   } );
   it( 'should set the drawer on mount', function() {
-    const setDrawer = sinon.spy();
-
     const account = { registration: {} };
     const tree = sd.shallowRender( (
       <RegisterPage account={ account }

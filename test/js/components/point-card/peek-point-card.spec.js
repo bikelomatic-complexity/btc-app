@@ -23,13 +23,13 @@ describe( '<PeekPointCard />', function() {
   } );
 
   it( 'should show see more', function() {
-    const button = this.tree.everySubTree( 'FlatButton' )[0];
+    const button = this.tree.everySubTree( 'FlatButton' )[ 0 ];
     expect( button.getRenderOutput().props )
       .to.have.property( 'label', 'See More' );
   } );
 
   it( 'should show close', function() {
-    const button = this.tree.everySubTree( 'FlatButton' )[1];
+    const button = this.tree.everySubTree( 'FlatButton' )[ 1 ];
     expect( button.getRenderOutput().props )
       .to.have.property( 'label', 'Close' );
   } );
