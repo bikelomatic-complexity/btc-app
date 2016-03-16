@@ -9,7 +9,7 @@
     "doc": "docco src/js/*.js src/js/*/*.js",
     "format": "esformatter --diff \"?(src|test)/js/**/*.js\"",
     "format:replace": "esformatter -i \"?(src|test)/js/**/*.js\"",
-    "lint": "eslint \"?(www|test)/js/**/*.js\"",
+    "lint": "eslint \"?(src|test)/js/**/*.js\"",
     "livereload": "livereload \"platforms/browser/www/\"",
     "postbuild": "cp -r src/index.html src/img www/",
     "postdebug:android": "node scripts/postdebug-android.js",

@@ -6,7 +6,6 @@ import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 /*eslint-enable no-unused-vars*/
 
 import { display } from 'btc-models/lib/schema/types';
-import history from '../../history';
 import '../../../css/point-card.css';
 
 // The PointCard is the base class for all the states of a point card. These
@@ -75,7 +74,7 @@ export class PointCard extends Component {
 
   // Display the card if the point is loaded. If not, show a spinner.
   render() {
-    const {fullscreenMarker, deselectMarker, point} = this.props;
+    const {deselectMarker, point} = this.props;
 
     let coverUrlStyle = {};
     if ( point.coverUrl ) {

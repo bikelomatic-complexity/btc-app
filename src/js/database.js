@@ -1,3 +1,4 @@
+/*global process*/
 import PouchDB from 'pouchdb';
 
 // If we are in development, set PouchDB on the window so we can use

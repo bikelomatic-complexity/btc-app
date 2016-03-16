@@ -7,7 +7,6 @@ import PointMap from '../components/point-map';
 import { pick } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 
 import { setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 

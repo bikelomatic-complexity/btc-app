@@ -17,12 +17,12 @@ export class AddAlertPage extends PointPage {
   getTabSet() {
     return [
       tabs.PointLocationTab,
-      tabs.AlertNameDescriptionTab,
+      tabs.AlertNameDescriptionTab
     ];
   }
 
   onFinal( blob = undefined ) {
-    const point = this.props.newPoint;
+    // const point = this.props.newPoint;
 
     console.error( 'implement AddAlertPage.onFinal()' );
 
@@ -39,7 +39,7 @@ function mapStateToProps( state ) {
     ...PointPage.mapStateToProps.apply( this, arguments ),
     mapState: state.mapState, // You need a map to place an alert
     types: alertTypes // You need to choose an alert type
-  }
+  };
 }
 
 function mapDispatchToProps( dispatch ) {
@@ -48,7 +48,7 @@ function mapDispatchToProps( dispatch ) {
     ...bindActionCreators( {
       'userAddPoint': userAddPoint
     }, dispatch )
-  }
+  };
 }
 
 export default connect( mapStateToProps, mapDispatchToProps )( AddAlertPage );

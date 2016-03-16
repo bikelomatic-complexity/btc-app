@@ -59,8 +59,6 @@ export class RatingPointCard extends PointCard {
   }
 
   getCommentList() {
-    const {point} = this.props;
-
     const comments = mockComments.map( comment => {
       const style = { fontSize: '16px' };
       const stars = (
@@ -88,12 +86,11 @@ export class RatingPointCard extends PointCard {
   }
 
   onComment( values ) {
-    const comment = {
-      comment: values.comment,
-      rating: values.rating,
-      date: ( new Date().toISOString() )
-    }
-    console.log( comment );
+    // const comment = {
+    //   comment: values.comment,
+    //   rating: values.rating,
+    //   date: ( new Date().toISOString() )
+    // };
   }
 
   getCommentEntry() {

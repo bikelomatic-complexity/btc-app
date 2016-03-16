@@ -92,7 +92,7 @@ export function loadPoint( id ) {
     gateway.getPoint( id ).then( point => {
       dispatch( receiveLoadPoint( id, withCover( point, point.coverBlob ) ) );
     } );
-  }
+  };
 }
 
 function requestLoadPoint( id ) {

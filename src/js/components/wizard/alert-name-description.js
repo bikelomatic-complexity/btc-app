@@ -4,7 +4,7 @@ import React from 'react';
 import { TextField, RaisedButton, SelectField, MenuItem } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
-import { toPairs, bindAll, isEmpty, isUndefined, pick } from 'lodash';
+import { toPairs, isEmpty } from 'lodash';
 import WizardPage from './wizard-page';
 
 export class AlertNameDescription extends WizardPage {

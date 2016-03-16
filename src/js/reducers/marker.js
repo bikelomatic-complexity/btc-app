@@ -18,7 +18,7 @@ export const RECEIVE_LOAD_MARKER = 'btc-app/marker/RECEIVE_LOAD_MARKER';
 const initState = {
   _id: null,
   isFetching: true
-}
+};
 
 export default function marker( state = initState, action ) {
   switch ( action.type ) {
@@ -56,6 +56,9 @@ export function loadMarker( id ) {
     const {marker, points} = getState();
     let cache;
 
+    // We check for points in this order to improve performance. Since
+    // isCached walks the points array, we only want to do it once.
+    /*eslint-disable no-cond-assign*/
     if ( isLoaded( marker, id ) ) {
       return;
     } else if ( cache = isCached( points, id ) ) {
@@ -68,7 +71,8 @@ export function loadMarker( id ) {
         }
       );
     }
-  }
+  /*eslint-enable no-cond-assign*/
+  };
 }
 
 // Return true if the marker with `id` is already loaded into the store

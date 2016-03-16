@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Snackbar } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
-import { bindAll } from 'lodash';
 import { connect } from 'react-redux';
 
 import * as actions from '../reducers/notifications';

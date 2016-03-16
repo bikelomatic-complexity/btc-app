@@ -52,7 +52,7 @@ function mapStateToProps( state ) {
     ...PointPage.mapStateToProps.apply( this, arguments ),
     mapState: state.mapState, // You need a map to place a service
     types: serviceTypes // You need to select a service type
-  }
+  };
 }
 
 function mapDispatchToProps( dispatch ) {
@@ -61,7 +61,7 @@ function mapDispatchToProps( dispatch ) {
     ...bindActionCreators( {
       'userAddPoint': userAddPoint
     }, dispatch )
-  }
+  };
 }
 
 export default connect( mapStateToProps, mapDispatchToProps )( AddPointPage );

@@ -9,7 +9,6 @@ import MapButtons from '../components/map-buttons';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { assign, find } from 'lodash';
 
 import { setDrawer } from '../reducers/drawer';
 import { loadMarker } from '../reducers/marker';
@@ -60,7 +59,7 @@ class MapPage extends Component {
       fullscreenMarker: ( ) => MapPage.navigateWithId( 'view-point', marker ),
       peekMarker: ( ) => MapPage.navigateWithId( 'peek-point', marker ),
       navigateWithId: MapPage.navigateWithId
-    }
+    };
 
     const card = React.Children.only( this.props.children );
     return React.cloneElement( card, {
@@ -114,7 +113,7 @@ function mapDispatchToProps( dispatch ) {
     pageActions: bindActionCreators( {
       'setDrawer': setDrawer
     }, dispatch )
-  }
+  };
 }
 
 export default connect( mapStateToProps, mapDispatchToProps )( MapPage );

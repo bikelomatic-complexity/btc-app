@@ -1,6 +1,8 @@
+/*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { keys, pick, assign, isFunction, bindAll, isEmpty } from 'lodash';
 import { RaisedButton } from 'material-ui';
+/*eslint-enable no-unused-vars*/
 
 import '../../../css/wizard.css';
 
@@ -36,15 +38,15 @@ export class WizardPage extends Component {
   // form fields. The content should be controlled, where fields are linked
   // with this.state.
   getPageContent() {
-    return <div />;
     console.error( 'WizardPage#getPageContent() is abstract' );
+    return <div />;
   }
 
   // Return an transition type from WizardPage.transitions to modify the
   // effect of the ``next'' action button.
   getPreferredTransition() {
-    return WizardPage.transitions.disabled;
     console.error( 'WizardPage#getPageContent() is abstract' );
+    return WizardPage.transitions.disabled;
   }
 
   getTransition() {

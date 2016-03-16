@@ -6,7 +6,6 @@ import PointCard from './point-card';
 import HoursTable from '../hours-table';
 /*eslint-enable no-unused-vars*/
 
-import { find } from 'lodash';
 import { pointId } from 'btc-models/lib/model/point';
 import ServiceViewModel from './service-view-model';
 
@@ -33,7 +32,7 @@ export class ViewPointCard extends PointCard {
             { point.description }
           </CardText>
         </div>
-      )
+      );
     } else if ( uri.type === 'service' ) {
       const service = new ServiceViewModel( point );
 
@@ -59,7 +58,7 @@ export class ViewPointCard extends PointCard {
       if ( point.phone ) {
         phone = (
           <span>Phone: { point.phone }</span>
-        )
+        );
       }
 
       content = (
@@ -78,7 +77,7 @@ export class ViewPointCard extends PointCard {
           { hours }
           { explanation }
         </div>
-      )
+      );
     }
 
     return content;

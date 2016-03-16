@@ -146,6 +146,7 @@ export class FormBlock extends Component {
       props.className = className;
     }
 
+    /*eslint-disable no-unused-vars*/
     const ButtonClass = thinActionButton ? FlatButton : RaisedButton;
     let actionProps = {};
     if ( !this.props.thinActionButton ) {
@@ -167,6 +168,7 @@ export class FormBlock extends Component {
       </Block>
       );
     /*esfmt-ignore-end*/
+    /*eslint-enable no-unused-vars*/
   }
 }
 

@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { Paper, Card, CardHeader, CardTitle, CardText } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
-import { display, serviceTypes, alertTypes } from 'btc-models/lib/schema/types';
+import { display } from 'btc-models/lib/schema/types';
 
 export class PointList extends Component {
   render() {

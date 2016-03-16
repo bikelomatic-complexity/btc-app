@@ -18,34 +18,34 @@ export const PointLocationTab = {
   value: PointLocation,
   icon: <LocationIcon />,
   url: '/'
-}
+};
 
 export const PointNameTab = {
   value: PointName,
   icon: <NameIcon />,
   url: '/name'
-}
+};
 
 export const PointDescriptionTab = {
   value: PointDescription,
   icon: <DescIcon />,
   url: '/description'
-}
+};
 
 export const AlertNameDescriptionTab = {
   value: AlertNameDescription,
   icon: <NameIcon />,
   url: '/name'
-}
+};
 
 export const PointHoursTab = {
   value: PointHours,
   icon: <HoursIcon />,
   url: '/hours'
-}
+};
 
 export const PointAmenitiesTab = {
   value: PointAmenities,
   icon: <AmenitiesIcon />,
   url: '/amenities'
-}
+};

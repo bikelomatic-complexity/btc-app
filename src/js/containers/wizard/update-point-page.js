@@ -23,7 +23,7 @@ export class UpdatePointPage extends PointPage {
   }
 
   onFinal( blob = undefined ) {
-    const point = this.props.newPoint;
+    // const point = this.props.newPoint;
 
     console.log( 'implement UpdatePointPage#onFinal()' );
 
@@ -31,15 +31,14 @@ export class UpdatePointPage extends PointPage {
   }
 
   componentDidMount() {
-    const {params, newPoint} = this.props;
-    this.props.loadPoint( params.pointId );
+    this.props.loadPoint( this.props.params.pointId );
   }
 }
 
 function mapStateToProps( state ) {
   return {
     ...PointPage.mapStateToProps.apply( this, arguments )
-  }
+  };
 }
 
 function mapDispatchToProps( dispatch ) {
@@ -48,7 +47,7 @@ function mapDispatchToProps( dispatch ) {
     ...bindActionCreators( {
       'loadPoint': loadPoint
     }, dispatch )
-  }
+  };
 }
 
 export default connect( mapStateToProps, mapDispatchToProps )( UpdatePointPage );

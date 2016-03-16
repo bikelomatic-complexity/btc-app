@@ -1,11 +1,14 @@
 import { isEmpty, find } from 'lodash';
 import { display } from 'btc-models/lib/schema/types';
 
+// The ServiceViewModel provides helper methods to React views that want
+// to display information about services.
 export class ServiceViewModel {
   constructor( service ) {
     this.service = service;
   }
 
+  // Get an english list of available amenities
   amenities() {
     const {amenities} = this.service;
     if ( !isEmpty( amenities ) ) {
@@ -14,12 +17,12 @@ export class ServiceViewModel {
       let seperator;
       if ( amenities.length > 2 ) { // 1, 2, and 3
         amenities_and.push( 'and ' + amenities_and.pop() );
-        seperator = ", ";
+        seperator = ', ';
       } else if ( amenities.length > 1 ) { // 1 and 2
         amenities_and.push( 'and ' + amenities_and.pop() );
-        seperator = " ";
+        seperator = ' ';
       } else {
-        seperator = "";
+        seperator = '';
       }
 
       return 'Amenities include: ' + amenities_and.join( seperator );
@@ -72,7 +75,7 @@ export class ServiceViewModel {
     if ( this.service.seasonal ) {
       return 'These hours are seasonal. Call or check online for more information';
     } else {
-      return
+      return;
     }
   }
 }

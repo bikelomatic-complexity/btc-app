@@ -1,5 +1,3 @@
-/*global process*/
-
 // These React components are rendered with JSX tags, so the linter can't
 // detect them.
 
@@ -41,7 +39,7 @@ import RatingPointCard from './components/point-card/rating-point-card';
 
 // Exposes the history object for navigating with the React Router.
 // Right now, it's hash based.
-import history from './history'
+import history from './history';
 
 // Builds a redux store given optional middleware.
 // TODO: refactor out this dependency once we only depend on redux-thunk.

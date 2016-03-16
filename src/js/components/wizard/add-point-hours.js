@@ -96,7 +96,7 @@ export class AddPointHours extends WizardPage {
             format='ampm'
             defaultTime={ midnight } />
         </div>
-        <__JSXExpression_0_4 />
+        { hours }
         <div className="wizard-page__spacer"></div>
         <RaisedButton secondary
           disabled={ !this.state.add }

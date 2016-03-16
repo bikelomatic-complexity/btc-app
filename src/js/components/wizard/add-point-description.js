@@ -3,7 +3,7 @@ import React from 'react';
 import { RaisedButton, TextField } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
-import { bindAll, isEmpty, isUndefined, pick } from 'lodash';
+import { bindAll, isEmpty } from 'lodash';
 import WizardPage from './wizard-page';
 
 export class AddPointDescription extends WizardPage {
@@ -17,7 +17,7 @@ export class AddPointDescription extends WizardPage {
       phoneNumber: newPoint.phoneNumber || '',
       address: newPoint.address || '',
       website: newPoint.website || ''
-    }
+    };
   }
 
   componentDidMount( nextProps ) {
