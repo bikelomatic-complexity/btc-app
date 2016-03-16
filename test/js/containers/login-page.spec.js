@@ -9,15 +9,18 @@ import { LoginPage } from '../../../src/js/containers/login-page';
 /*eslint-enable no-unused-vars*/
 
 import * as login from '../../../src/js/reducers/account/login';
+import * as drawer from '../../../src/js/reducers/drawer';
 
 describe( '<LoginPage />', function() {
   beforeEach( function() {
+    this.setDrawer = sinon.stub(drawer, 'setDrawer');
     this.login = sinon.stub( login, 'login' );
     this.dispatch = sinon.stub();
     this.history = { push: sinon.stub() };
   } );
   afterEach( function() {
     this.login.restore();
+    this.setDrawer.restore();
   } );
   it( 'should dispatch login when an action occurs', function() {
     const account = { login: {} };
@@ -37,16 +40,16 @@ describe( '<LoginPage />', function() {
     sinon.assert.called( this.dispatch );
   } );
   it( 'should set the drawer on mount', function() {
-    const setDrawer = sinon.spy();
-
     const account = { login: {} };
     const tree = sd.shallowRender( (
       <LoginPage account={ account }
-        setDrawer={ setDrawer } />
+        dispatch={ this.dispatch } />
       ) );
 
     tree.getMountedInstance().componentDidMount();
 
-    sinon.assert.called( setDrawer );
+    this.dispatch.callsArg( 1 );
+    sinon.assert.called( this.dispatch );
+    sinon.assert.called( this.setDrawer );
   } );
 } );

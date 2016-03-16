@@ -9,8 +9,7 @@ module.exports = function( config ) {
       ]
     },
     files: [
-      'test/**/*.js',
-      'www/css/**/*.css'
+      'test/**/*.js'
     ],
     preprocessors: {
       'test/**/*.js': [ 'browserify' ]
