@@ -7,7 +7,7 @@ import { TextField, RaisedButton, SelectField, MenuItem } from 'material-ui';
 import { toPairs } from 'lodash';
 import WizardPage from './wizard-page';
 
-export class AddPointName extends WizardPage {
+export class ServiceName extends WizardPage {
   constructor( props ) {
     super( props );
 
@@ -69,4 +69,4 @@ export class AddPointName extends WizardPage {
   }
 }
 
-export default AddPointName;
+export default ServiceName;

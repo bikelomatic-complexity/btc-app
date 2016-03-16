@@ -27,10 +27,10 @@ import UpdatePointPage from './containers/wizard/update-point-page';
 import AddAlertPage from './containers/wizard/add-alert-page';
 
 import PointLocation from './components/wizard/add-point-location';
-import PointName from './components/wizard/add-point-name';
-import PointDescription from './components/wizard/add-point-description';
-import PointHours from './components/wizard/add-point-hours';
-import PointAmenities from './components/wizard/add-point-amenities';
+import ServiceName from './components/wizard/add-point-name';
+import ServiceDescription from './components/wizard/add-point-description';
+import ServiceHours from './components/wizard/add-point-hours';
+import ServiceAmenities from './components/wizard/add-point-amenities';
 import AlertNameDescription from './components/wizard/alert-name-description';
 
 import PeekPointCard from './components/point-card/peek-point-card';
@@ -113,16 +113,16 @@ document.addEventListener( 'deviceReady', ( ) => {
           <Route path="add-point" component={ AddPointPage }>
             <IndexRoute component={ PointLocation } />
             <Route path="location" component={ PointLocation } />
-            <Route path="name" component={ PointName } />
-            <Route path="description" component={ PointDescription } />
-            <Route path="hours" component={ PointHours } />
-            <Route path="amenities" component={ PointAmenities } />
+            <Route path="name" component={ ServiceName } />
+            <Route path="description" component={ ServiceDescription } />
+            <Route path="hours" component={ ServiceHours } />
+            <Route path="amenities" component={ ServiceAmenities } />
           </Route>
           <Route path="/update-point/:pointId" component={ UpdatePointPage }>
-            <IndexRoute component={ PointDescription } />
-            <Route path="description" component={ PointDescription } />
-            <Route path="hours" component={ PointHours } />
-            <Route path="amenities" component={ PointAmenities } />
+            <IndexRoute component={ ServiceDescription } />
+            <Route path="description" component={ ServiceDescription } />
+            <Route path="hours" component={ ServiceHours } />
+            <Route path="amenities" component={ ServiceAmenities } />
           </Route>
           <Route path="add-alert" component={ AddAlertPage }>
             <IndexRoute component={ PointLocation } />

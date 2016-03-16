@@ -6,7 +6,7 @@ import { RaisedButton, TextField } from 'material-ui';
 import { bindAll, isEmpty } from 'lodash';
 import WizardPage from './wizard-page';
 
-export class AddPointDescription extends WizardPage {
+export class ServiceDescription extends WizardPage {
   constructor( props ) {
     super( props );
     bindAll( this, 'onPhotoAdd' );
@@ -89,4 +89,4 @@ export class AddPointDescription extends WizardPage {
   }
 }
 
-export default AddPointDescription;
+export default ServiceDescription;

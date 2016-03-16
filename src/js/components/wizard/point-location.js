@@ -10,7 +10,7 @@ import { bindAll } from 'lodash';
 import '../../../css/map.css';
 import '../../../css/wizard.css';
 
-export class AddPointLocation extends WizardPage {
+export class PointLocation extends WizardPage {
   constructor( props ) {
     super( props );
     bindAll( this, 'updateLocation' );
@@ -48,4 +48,4 @@ export class AddPointLocation extends WizardPage {
   }
 }
 
-export default AddPointLocation;
+export default PointLocation;

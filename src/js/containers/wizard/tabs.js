@@ -1,8 +1,8 @@
-import PointLocation from '../../components/wizard/add-point-location';
-import PointName from '../../components/wizard/add-point-name';
-import PointDescription from '../../components/wizard/add-point-description';
-import PointHours from '../../components/wizard/add-point-hours';
-import PointAmenities from '../../components/wizard/add-point-amenities';
+import PointLocation from '../../components/wizard/point-location';
+import ServiceName from '../../components/wizard/service-name';
+import ServiceDescription from '../../components/wizard/service-description';
+import ServiceHours from '../../components/wizard/service-hours';
+import ServiceAmenities from '../../components/wizard/service-amenities';
 import AlertNameDescription from '../../components/wizard/alert-name-description';
 
 /* eslint-disable no-unused-vars */
@@ -20,14 +20,14 @@ export const PointLocationTab = {
   url: '/'
 };
 
-export const PointNameTab = {
-  value: PointName,
+export const ServiceNameTab = {
+  value: ServiceName,
   icon: <NameIcon />,
   url: '/name'
 };
 
-export const PointDescriptionTab = {
-  value: PointDescription,
+export const ServiceDescriptionTab = {
+  value: ServiceDescription,
   icon: <DescIcon />,
   url: '/description'
 };
@@ -38,14 +38,14 @@ export const AlertNameDescriptionTab = {
   url: '/name'
 };
 
-export const PointHoursTab = {
-  value: PointHours,
+export const ServiceHoursTab = {
+  value: ServiceHours,
   icon: <HoursIcon />,
   url: '/hours'
 };
 
-export const PointAmenitiesTab = {
-  value: PointAmenities,
+export const ServiceAmenitiesTab = {
+  value: ServiceAmenities,
   icon: <AmenitiesIcon />,
   url: '/amenities'
 };

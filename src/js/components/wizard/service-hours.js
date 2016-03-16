@@ -12,7 +12,7 @@ const weekDays = [
   'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
 ];
 
-export class AddPointHours extends WizardPage {
+export class ServiceHours extends WizardPage {
   constructor( props ) {
     super( props );
     bindAll( this, 'onDaySelect', 'addHours', 'removeHours' );
@@ -117,4 +117,4 @@ export class AddPointHours extends WizardPage {
   }
 }
 
-export default AddPointHours;
+export default ServiceHours;

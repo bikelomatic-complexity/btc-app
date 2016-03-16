@@ -16,9 +16,9 @@ export class UpdatePointPage extends PointPage {
 
   getTabSet() {
     return [
-      tabs.PointDescriptionTab,
-      tabs.PointHoursTab,
-      tabs.PointAmenitiesTab
+      tabs.ServiceDescriptionTab,
+      tabs.ServiceHoursTab,
+      tabs.ServiceAmenitiesTab
     ];
   }
 

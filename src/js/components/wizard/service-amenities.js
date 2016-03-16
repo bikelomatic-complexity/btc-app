@@ -8,7 +8,7 @@ import DropDown from '../drop-down';
 import { keys } from 'lodash';
 import WizardPage from './wizard-page';
 
-export class AddPointAmenities extends WizardPage {
+export class ServiceAmenities extends WizardPage {
   constructor( props ) {
     super( props );
     this.state = {
@@ -86,4 +86,4 @@ export class AddPointAmenities extends WizardPage {
   }
 }
 
-export default AddPointAmenities;
+export default ServiceAmenities;

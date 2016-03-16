@@ -17,10 +17,10 @@ export class AddPointPage extends PointPage {
   getTabSet() {
     return [
       tabs.PointLocationTab,
-      tabs.PointNameTab,
-      tabs.PointDescriptionTab,
-      tabs.PointHoursTab,
-      tabs.PointAmenitiesTab
+      tabs.ServiceNameTab,
+      tabs.ServiceDescriptionTab,
+      tabs.ServiceHoursTab,
+      tabs.ServiceAmenitiesTab
     ];
   }
 
