@@ -26,11 +26,11 @@ import AddPointPage from './containers/wizard/add-point-page';
 import UpdatePointPage from './containers/wizard/update-point-page';
 import AddAlertPage from './containers/wizard/add-alert-page';
 
-import PointLocation from './components/wizard/add-point-location';
-import ServiceName from './components/wizard/add-point-name';
-import ServiceDescription from './components/wizard/add-point-description';
-import ServiceHours from './components/wizard/add-point-hours';
-import ServiceAmenities from './components/wizard/add-point-amenities';
+import PointLocation from './components/wizard/point-location';
+import ServiceName from './components/wizard/service-name';
+import ServiceDescription from './components/wizard/service-description';
+import ServiceHours from './components/wizard/service-hours';
+import ServiceAmenities from './components/wizard/service-amenities';
 import AlertNameDescription from './components/wizard/alert-name-description';
 
 import PeekPointCard from './components/point-card/peek-point-card';
