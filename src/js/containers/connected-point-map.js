@@ -30,7 +30,7 @@ export class ConnectedPointMap extends Component {
       <PointMap { ...props }
         { ...this.props.pointMapState }
         { ...this.props.pointMapActions } />
-    );
+      );
   }
 }
 

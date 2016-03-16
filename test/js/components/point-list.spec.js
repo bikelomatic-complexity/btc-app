@@ -11,20 +11,20 @@ import { PointList } from '../../../www/js/components/point-list';
 describe( '<PointList />', function() {
   it( 'should have list of points from props', function() {
     const points = [
-      {name: 'PointA', type: 'other', coverUrl: ''},
-      {name: 'PointB', type: 'other', coverUrl: ''},
-      {name: 'PointC', type: 'other', coverUrl: ''},
-      {name: 'PointD', type: 'other', coverUrl: ''}
+      { name: 'PointA', type: 'other', coverUrl: '' },
+      { name: 'PointB', type: 'other', coverUrl: '' },
+      { name: 'PointC', type: 'other', coverUrl: '' },
+      { name: 'PointD', type: 'other', coverUrl: '' }
     ];
 
     const tree = sd.shallowRender( (
-      <PointList points={points} />
+      <PointList points={ points } />
       ) );
 
-    const cardHeaders = tree.everySubTree('CardHeader');
+    const cardHeaders = tree.everySubTree( 'CardHeader' );
 
-    cardHeaders.forEach((cardHeader, index) => {
-      expect(cardHeader.props.title).to.be.equal(points[index].name);
-    });
+    cardHeaders.forEach( ( cardHeader, index ) => {
+      expect( cardHeader.props.title ).to.be.equal( points[ index ].name );
+    } );
   } );
 } );

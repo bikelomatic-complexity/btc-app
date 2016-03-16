@@ -35,7 +35,8 @@ export class DropDown extends Component {
         );
     } );
     return (
-      <SelectField fullWidth floatingLabelText={ text }
+      <SelectField fullWidth
+        floatingLabelText={ text }
         value={ value || this.state.value }
         onChange={ this.handleChange.bind( this ) }>
         { optionItems }
@@ -44,5 +45,9 @@ export class DropDown extends Component {
   }
 }
 
-DropDown.defaultProps = { onSelectFunction: noOps, textTransform: noOps, text: 'select' };
+DropDown.defaultProps = {
+  onSelectFunction: noOps,
+  textTransform: noOps,
+  text: 'select'
+};
 export default DropDown;

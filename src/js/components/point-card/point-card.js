@@ -25,7 +25,7 @@ export class PointCard extends Component {
       <CardText className="point-card__description">
         { this.props.point.description }
       </CardText>
-    );
+      );
   }
 
   // Return a BEM state class to append to the Card's className
@@ -34,20 +34,20 @@ export class PointCard extends Component {
   }
 
   componentDidMount() {
-    const { params } = this.props;
+    const {params} = this.props;
     this.props.loadMarker( params.pointId );
   }
 
   componentWillReceiveProps( nextProps ) {
-    const { params } = nextProps;
+    const {params} = nextProps;
     this.props.loadMarker( params.pointId );
   }
 
   // Return a function that navigates to a different page with the loaded
   // point's id as the parameter.
   navigate( prefix ) {
-    const { navigateWithId, point } = this.props;
-    return () => navigateWithId( prefix, point );
+    const {navigateWithId, point} = this.props;
+    return ( ) => navigateWithId( prefix, point );
   }
 
   // The IconMenu at the top right of the card, in the header. It allows the
@@ -58,10 +58,11 @@ export class PointCard extends Component {
   getIconMenu() {
     return (
       <IconMenu className="point-card__icon-menu"
-        iconButtonElement={ <IconButton><MoreVertIcon /></IconButton> }
+        iconButtonElement={ <IconButton>
+                              <MoreVertIcon />
+                            </IconButton> }
         anchorOrigin={ { horizontal: 'right', vertical: 'top' } }
-        targetOrigin={ { horizontal: 'right', vertical: 'top' } }
-      >
+        targetOrigin={ { horizontal: 'right', vertical: 'top' } }>
         <MenuItem primaryText='Update Information'
           onClick={ this.navigate( 'update-point' ) } />
         <MenuItem primaryText='Rate Service'
@@ -69,7 +70,7 @@ export class PointCard extends Component {
         <MenuItem primaryText='Flag Service'
           onClick={ this.navigate( 'flag-point' ) } />
       </IconMenu>
-    );
+      );
   }
 
   // Display the card if the point is loaded. If not, show a spinner.
@@ -77,25 +78,25 @@ export class PointCard extends Component {
     const {fullscreenMarker, deselectMarker, point} = this.props;
 
     let coverUrlStyle = {};
-    if( point.coverUrl ) {
+    if ( point.coverUrl ) {
       coverUrlStyle.backgroundImage = `url(${point.coverUrl})`;
     }
 
     const state = this.getCardState();
-    const className = 'point-card' + (state ? (' ' + state) : '');
+    const className = 'point-card' + ( state ? ( ' ' + state ) : '' );
 
-    if( point.isFetching ) {
+    if ( point.isFetching ) {
       return (
         <Card className={ className }>
-          <CircularProgress className="point-card__spinner" size={2} />
+          <CircularProgress className="point-card__spinner"
+            size={ 2 } />
         </Card>
-      );
+        );
     }
 
     return (
       <Card className={ className }>
-        <CardHeader
-          className="point-card__header"
+        <CardHeader className="point-card__header"
           title={ point.name }
           subtitle={ display( point.type ) }
           avatar={ <LocationIcon className="point-card__avatar" /> }>
@@ -106,10 +107,11 @@ export class PointCard extends Component {
         { this.getCardContent() }
         <CardActions className="point-card__actions">
           { this.getCardAction() }
-          <FlatButton label="Close" onClick={ deselectMarker } />
+          <FlatButton label="Close"
+            onClick={ deselectMarker } />
         </CardActions>
       </Card>
-    );
+      );
   }
 }
 

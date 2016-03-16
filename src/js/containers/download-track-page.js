@@ -75,8 +75,10 @@ class DownloadTrackPage extends Component {
       }
 
       return (
-        <Card key={ id } style={ { margin: 16 } }>
-          <CardMedia overlay={ <CardTitle title={ track.name } subtitle={ `${track.sizeMiB} MiB` } /> }>
+        <Card key={ id }
+          style={ { margin: 16 } }>
+          <CardMedia overlay={ <CardTitle title={ track.name }
+                                 subtitle={ `${track.sizeMiB} MiB` } /> }>
             <img src='./img/usbr20.png' />
           </CardMedia>
           <CardText>
@@ -87,16 +89,12 @@ class DownloadTrackPage extends Component {
               primary={ !isSave }
               onClick={ action }
               label={ downloadButtonText }
-              icon={ <FontIcon className='material-icons'>
-                       cloud_download
-                     </FontIcon> } />
+              icon={ <FontIcon className='material-icons'>cloud_download</FontIcon> } />
             <RaisedButton id={ id }
               label='Show Track'
               secondary={ track.active }
               onClick={ this.onActivationTrack.bind( this, id, !track.active ) }
-              icon={ <FontIcon className='material-icons'>
-                       visibility
-                     </FontIcon> } />
+              icon={ <FontIcon className='material-icons'>visibility</FontIcon> } />
           </CardActions>
         </Card>
         );

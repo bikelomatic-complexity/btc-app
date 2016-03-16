@@ -150,13 +150,14 @@ export default class PointPage extends Component {
     const tabContent = React.Children.only( this.props.children );
     const tabContentWithProps = this.mapPropsOnTabContent( tabContent );
 
-    const spinner = <CircularProgress size={2} />;
-    const { newPoint } = this.props;
+    const spinner = <CircularProgress size={ 2 } />;
+    const {newPoint} = this.props;
     const content = newPoint.isFetching ? spinner : tabContentWithProps;
 
     return (
       <div className='layout__section'>
-        <Tabs value={ tabContent.type } className="tabs-bar">
+        <Tabs value={ tabContent.type }
+          className="tabs-bar">
           { tabs }
         </Tabs>
         { content }

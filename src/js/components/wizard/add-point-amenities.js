@@ -57,14 +57,12 @@ export class AddPointAmenities extends WizardPage {
           onClick={ this.removeAmenity.bind( this, amenity ) }
           label={ displayType( amenity ) }
           labelPosition="before"
-          icon={ <FontIcon className="material-icons">
-                   clear
-                 </FontIcon> } />
+          icon={ <FontIcon className="material-icons">clear</FontIcon> } />
         );
     } );
 
 
-    const { types } = this.props;
+    const {types} = this.props;
     const displayType = type => types[ type ].display;
     const amenityTypes = keys( types );
 

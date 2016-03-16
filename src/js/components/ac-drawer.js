@@ -32,7 +32,7 @@ export class ACDrawer extends Component {
   }
 
   render() {
-    const { login } = this.props;
+    const {login} = this.props;
 
     let pages = [ {
       link: '/',
@@ -91,7 +91,8 @@ export class ACDrawer extends Component {
     } );
 
     return (
-      <AppBar onLeftIconButtonTouchTap={ this.showNav } title={ this.props.drawer }>
+      <AppBar onLeftIconButtonTouchTap={ this.showNav }
+        title={ this.props.drawer }>
         <LeftNav docked={ false }
           onRequestChange={ this.hideNav }
           open={ this.state.open }>
@@ -102,7 +103,7 @@ export class ACDrawer extends Component {
   }
 }
 
-function select(state) {
+function select( state ) {
   return {
     drawer: state.drawer,
     login: state.account.login

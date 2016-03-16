@@ -96,9 +96,7 @@ class FilterPage extends Component {
             onClick={ this.removeFilter.bind( this, index ) }
             label={ display( filterService ) }
             labelPosition="before"
-            icon={ <FontIcon className="material-icons">
-                     clear
-                   </FontIcon> } />
+            icon={ <FontIcon className="material-icons">clear</FontIcon> } />
           );
       }
     );
@@ -126,7 +124,8 @@ class FilterPage extends Component {
             checked={ this.state.hideAlert } />
         </div>
         <div className="form-row">
-          <RaisedButton onClick={ this.clearFilters.bind( this ) } label="Clear" />
+          <RaisedButton onClick={ this.clearFilters.bind( this ) }
+            label="Clear" />
           <RaisedButton onClick={ this.onFilter.bind( this ) }
             secondary
             label="Filter" />

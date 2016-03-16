@@ -39,7 +39,7 @@ export class Gateway {
   }
 
   oneDoc( id ) {
-    return this.db.get( id , { attachments: true, binary: true } );
+    return this.db.get( id, { attachments: true, binary: true } );
   }
 
   /**
@@ -51,7 +51,7 @@ export class Gateway {
     } );
   }
 
-  getPoint(id) {
+  getPoint( id ) {
     return this.oneDoc( id ).then( doc => docToPoint( doc ) );
   }
 

@@ -39,8 +39,8 @@ export class FormBlock extends Component {
   // The `fields` prop is recursive. This field will extract all leaf fields
   // from the recursive structure.
   static flattenFields( fields ) {
-    return fields.reduce( (flattened, field) => {
-      if( isArray( field.row ) ) {
+    return fields.reduce( ( flattened, field ) => {
+      if ( isArray( field.row ) ) {
         return [ ...flattened, ...FormBlock.flattenFields( field.row ) ];
       } else {
         return [ ...flattened, field ];
@@ -64,16 +64,17 @@ export class FormBlock extends Component {
   // Leaf fields have these properties: name, validation, className, element.
   // If a custom field.element is supplied, we use that instead of a TextField.
   createBox( field ) {
-    if( isArray( field.row ) ) {
+    if ( isArray( field.row ) ) {
       let className = 'entry__row';
-      if( field.rowClassName ) {
+      if ( field.rowClassName ) {
         className += ' ' + field.rowClassName;
       }
       return (
-        <div className={ className } key={ field.row } >
+        <div className={ className }
+          key={ field.row }>
           { field.row.map( this.createBox ) }
         </div>
-      );
+        );
     } else {
       // ***We are working with a leaf field object now.***
 
@@ -92,13 +93,13 @@ export class FormBlock extends Component {
 
       // These props control the appearance of the Field element
       let props = {};
-      if( field.className ) {
+      if ( field.className ) {
         props.className = field.className;
       }
 
       // Generate a TextField, or if field.element is set, clone that.
       let node;
-      if( field.element ) {
+      if ( field.element ) {
         node = React.cloneElement( field.element, {
           ...props,
           key: field.name,
@@ -137,17 +138,17 @@ export class FormBlock extends Component {
       props.footer = footer;
     }
 
-    const { zDepth, className, thinActionButton } = this.props;
-    if( !isUndefined( zDepth ) ) {
+    const {zDepth, className, thinActionButton} = this.props;
+    if ( !isUndefined( zDepth ) ) {
       props.zDepth = zDepth;
     }
-    if( isString( className ) ) {
+    if ( isString( className ) ) {
       props.className = className;
     }
 
     const ButtonClass = thinActionButton ? FlatButton : RaisedButton;
     let actionProps = {};
-    if( !this.props.thinActionButton ) {
+    if ( !this.props.thinActionButton ) {
       actionProps.fullWidth = true;
       actionProps.secondary = true;
     } else {
@@ -224,11 +225,12 @@ export class Block extends Component {
                </div>;
     }
 
-    const { zDepth, className } = this.props;
+    const {zDepth, className} = this.props;
     const names = classNames( 'entry', { [ className ]: className } );
 
     return (
-      <Paper className={ names } zDepth={ zDepth }>
+      <Paper className={ names }
+        zDepth={ zDepth }>
         { header }
         { this.props.children }
         { footer }

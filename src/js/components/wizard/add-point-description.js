@@ -7,11 +7,11 @@ import { bindAll, isEmpty, isUndefined, pick } from 'lodash';
 import WizardPage from './wizard-page';
 
 export class AddPointDescription extends WizardPage {
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
     bindAll( this, 'onPhotoAdd' );
 
-    const { newPoint } = props;
+    const {newPoint} = props;
     this.state = {
       description: newPoint.description || '',
       phoneNumber: newPoint.phoneNumber || '',
@@ -40,31 +40,36 @@ export class AddPointDescription extends WizardPage {
   }
 
   getPageFields() {
-    return ['description', 'phoneNumber', 'address', 'website'];
+    return [ 'description', 'phoneNumber', 'address', 'website' ];
   }
 
   getPageContent() {
-    const { imageSrc } = this.props.newPoint;
-    const image = isEmpty(imageSrc) ? <div /> : <img src={ imageSrc } />;
+    const {imageSrc} = this.props.newPoint;
+    const image = isEmpty( imageSrc ) ? <div /> : <img src={ imageSrc } />;
 
     return (
       <div className="wizard-page">
-        <TextField fullWidth { ...this.link( 'phoneNumber' ) }
+        <TextField fullWidth
+          { ...this.link( 'phoneNumber' ) }
           floatingLabelText="Phone Number"
           type="tel" />
-        <TextField fullWidth { ...this.link( 'address' ) }
+        <TextField fullWidth
+          { ...this.link( 'address' ) }
           floatingLabelText="Address" />
-        <TextField fullWidth { ...this.link( 'website' ) }
+        <TextField fullWidth
+          { ...this.link( 'website' ) }
           floatingLabelText="Website"
           type="url" />
-        <TextField fullWidth { ...this.link( 'description' ) }
+        <TextField fullWidth
+          { ...this.link( 'description' ) }
           floatingLabelText="Description"
           multiLine={ true }
           rows={ 2 }
           rowsMax={ 4 } />
         { image }
         <div className="wizard-page__spacer" />
-        <RaisedButton fullWidth secondary
+        <RaisedButton fullWidth
+          secondary
           onClick={ this.onPhotoAdd }
           label="Upload Photo" />
       </div>
@@ -76,7 +81,7 @@ export class AddPointDescription extends WizardPage {
       return anySet || !isEmpty( this.state[ field ] );
     }, false );
 
-    if( anySet ) {
+    if ( anySet ) {
       return WizardPage.transitions.next;
     } else {
       return WizardPage.transitions.skip;

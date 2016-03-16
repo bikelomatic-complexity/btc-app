@@ -12,12 +12,13 @@ describe( '<AddAlertDetails />', function() {
   it( 'should set the drawer on mount', function() {
     const setDrawer = sinon.spy();
     const newPoint = {
-      location: [0,0],
+      location: [ 0, 0 ],
       name: 'test'
     };
 
     const tree = sd.shallowRender( (
-      <AddAlertDetails newPoint={ newPoint } setDrawer={ setDrawer } />
+      <AddAlertDetails newPoint={ newPoint }
+        setDrawer={ setDrawer } />
       ) );
 
     tree.getMountedInstance().componentDidMount();
@@ -27,17 +28,18 @@ describe( '<AddAlertDetails />', function() {
   it( 'should set the name on onNameUpdate', function() {
     const setPointName = sinon.spy();
     const newPoint = {
-      location: [0,0],
+      location: [ 0, 0 ],
       name: 'test'
     };
 
-    const eventObject = { target: { value: 'test name' } } ;
+    const eventObject = { target: { value: 'test name' } };
 
     const tree = sd.shallowRender( (
-      <AddAlertDetails newPoint={ newPoint } setPointName={ setPointName } />
+      <AddAlertDetails newPoint={ newPoint }
+        setPointName={ setPointName } />
       ) );
 
-    tree.getMountedInstance().onNameUpdate(eventObject);
+    tree.getMountedInstance().onNameUpdate( eventObject );
 
     sinon.assert.called( setPointName );
   } );

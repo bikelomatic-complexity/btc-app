@@ -13,25 +13,23 @@ import { MockPoints } from '../../mock-data/mock-points';
 import sd from 'skin-deep';
 
 
-describe('<PointCardPeek />', function(){
-  beforeEach(function(){
-    this.mockPoint = MockPoints[0];
+describe( '<PointCardPeek />', function() {
+  beforeEach( function() {
+    this.mockPoint = MockPoints[ 0 ];
     const tree = sd.shallowRender(
-      <PeekPointCard
-        point={this.mockPoint}
-      />
+      <PeekPointCard point={ this.mockPoint } />
     );
     this.instance = tree.getMountedInstance();
-    this.vdom = tree.getRenderOutput();	
-  });
-  
-  it('should show see more', function(){
-    var leftButton = this.vdom.props.children[2].props.children[0];
-    expect ( leftButton.props.label ).to.be.equal( 'See More' );
-  });
+    this.vdom = tree.getRenderOutput();
+  } );
 
-  it('should show close', function(){
-    var rightButton = this.vdom.props.children[2].props.children[1];
-    expect ( rightButton.props.label ).to.be.equal( 'Close' );
-  });	
-});
+  it( 'should show see more', function() {
+    var leftButton = this.vdom.props.children[ 2 ].props.children[ 0 ];
+    expect( leftButton.props.label ).to.be.equal( 'See More' );
+  } );
+
+  it( 'should show close', function() {
+    var rightButton = this.vdom.props.children[ 2 ].props.children[ 1 ];
+    expect( rightButton.props.label ).to.be.equal( 'Close' );
+  } );
+} );

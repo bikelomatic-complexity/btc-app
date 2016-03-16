@@ -16,9 +16,9 @@ import '../../../css/wizard.css';
 // available.** The link function works off of the defaultValue prop, anything
 // else is needlessly complex.
 export class WizardPage extends Component {
-  constructor(props) {
-    super(props);
-    bindAll(this, 'link');
+  constructor( props ) {
+    super( props );
+    bindAll( this, 'link' );
   }
 
   // Return an array of field names that will be picked out of `this.state`
@@ -37,18 +37,18 @@ export class WizardPage extends Component {
   // with this.state.
   getPageContent() {
     return <div />;
-    console.error('WizardPage#getPageContent() is abstract');
+    console.error( 'WizardPage#getPageContent() is abstract' );
   }
 
   // Return an transition type from WizardPage.transitions to modify the
   // effect of the ``next'' action button.
   getPreferredTransition() {
     return WizardPage.transitions.disabled;
-    console.error('WizardPage#getPageContent() is abstract');
+    console.error( 'WizardPage#getPageContent() is abstract' );
   }
 
   getTransition() {
-    if( this.props.finalTab ) {
+    if ( this.props.finalTab ) {
       return WizardPage.transitions.submit;
     } else {
       return this.getPreferredTransition();
@@ -63,11 +63,11 @@ export class WizardPage extends Component {
   // When a page unmounts, persist the page values obtained via
   // `getpageValues()'. The `persist` function must be supplied by the
   // add point or update point pages.
-  componentWillUnmount( ) {
-    const { persist } = this.props;
+  componentWillUnmount() {
+    const {persist} = this.props;
 
     const values = this.getPageValues();
-    if( keys(values).length > 0 && isFunction( persist ) ) {
+    if ( keys( values ).length > 0 && isFunction( persist ) ) {
       persist( values );
     }
   }
@@ -93,13 +93,13 @@ export class WizardPage extends Component {
     // Add an event listener that sets state @ `field`. Different material-ui
     // components return the field value differently. It can either be in
     // `value` or `event.target.value`.
-    props[ method ] = (event, key, value) => {
+    props[ method ] = ( event, key, value ) => {
       this.setState( { [ field ]: value || event.target.value } );
     };
 
     // Set the input's default value at the `field` key in newPoint
-    const { newPoint } = this.props;
-    if( newPoint ) {
+    const {newPoint} = this.props;
+    if ( newPoint ) {
       props.defaultValue = newPoint[ field ] || '';
     }
 
@@ -107,8 +107,8 @@ export class WizardPage extends Component {
   }
 
   render() {
-    const { onNext } = this.props;
-    const { label } = this.getTransition();
+    const {onNext} = this.props;
+    const {label} = this.getTransition();
 
     return (
       <div className="tabs-content">
@@ -119,7 +119,7 @@ export class WizardPage extends Component {
           onClick={ onNext }
           label={ label } />
       </div>
-    );
+      );
   }
 }
 

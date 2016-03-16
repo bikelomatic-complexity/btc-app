@@ -8,7 +8,7 @@ import history from '../../history';
 
 export class UpdatePointPage extends PointPage {
   getPageUrl() {
-    const { _id } = this.props.newPoint;
+    const {_id} = this.props.newPoint;
     const id = encodeURIComponent( _id );
 
     return `/update-point/${id}`;
@@ -31,7 +31,7 @@ export class UpdatePointPage extends PointPage {
   }
 
   componentDidMount() {
-    const { params, newPoint } = this.props;
+    const {params, newPoint} = this.props;
     this.props.loadPoint( params.pointId );
   }
 }

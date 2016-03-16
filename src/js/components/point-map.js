@@ -145,7 +145,8 @@ export class PointMap extends Component {
     let tileLayer;
     if ( settings.onlineMode ) {
       tileLayer = (
-        <TileLayer url={ tileLayerInfo.url } attribution={ tileLayerInfo.attr } />
+        <TileLayer url={ tileLayerInfo.url }
+          attribution={ tileLayerInfo.attr } />
       );
     } else if ( availableTracks.length > 0 ) {
       const pkg = availableTracks[ 0 ].pkg;
@@ -176,10 +177,10 @@ export class PointMap extends Component {
           onLeafletMove={ this.props.onLeafletMove }
           onLeafletMoveEnd={ this.onMapMoved }
           onclick={ ( ) => {
-            if ( !this.props.addPoint ) {
-              deselectMarker();
-            }
-          } }>
+                      if ( !this.props.addPoint ) {
+                        deselectMarker();
+                      }
+                    } }>
           { circleMarker }
           { tileLayer }
           { markers }

@@ -25,7 +25,8 @@ describe( '<Block />', function() {
     expect( header.props.className ).to.not.match( /entry__header--error/ );
   } );
   it( 'should handle problem headers', function() {
-    const tree = sd.shallowRender( <Block header='problem' problem /> );
+    const tree = sd.shallowRender( <Block header='problem'
+                                     problem /> );
 
     const header = tree.subTree( 'div' );
     expect( header.props.className ).to.match( /entry__header--error/ );
@@ -76,7 +77,8 @@ describe( '<FormBlock />', function() {
   it( 'should display validation errors', function() {
     const validation = [ { dataPath: '.password', message: 'message' } ];
     const tree = sd.shallowRender( (
-      <FormBlock fields={ this.fields } validation={ validation } />
+      <FormBlock fields={ this.fields }
+        validation={ validation } />
       ) );
 
     const password = tree.subTree( 'TextField', node => node.errorText );
@@ -85,7 +87,8 @@ describe( '<FormBlock />', function() {
   it( 'should call `onAction()` with object as the only arg', function() {
     const onAction = sinon.spy();
     const tree = sd.shallowRender( (
-      <FormBlock fields={ this.fields } onAction={ onAction } />
+      <FormBlock fields={ this.fields }
+        onAction={ onAction } />
       ) );
 
     tree.subTree( 'RaisedButton' ).props.onClick();

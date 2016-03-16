@@ -14,21 +14,20 @@ export class PeekPointCard extends PointCard {
   }
 
   getCardAction() {
-    const { fullscreenMarker } = this.props;
-    return <FlatButton label="See More" onClick={ fullscreenMarker } />;
+    const {fullscreenMarker} = this.props;
+    return <FlatButton label="See More"
+             onClick={ fullscreenMarker } />;
   }
 
   getCardContent() {
-    const { point } = this.props;
+    const {point} = this.props;
     const uri = pointId( point._id );
 
     let openUntil;
-    if( uri.type === 'service' ) {
+    if ( uri.type === 'service' ) {
       const service = new ServiceViewModel( point );
       openUntil = (
-        <span className="point-card__open-until">
-          { service.openUntil() + ' — ' }
-        </span>
+        <span className="point-card__open-until">{ service.openUntil() + ' — ' }</span>
       );
     }
 
@@ -37,7 +36,7 @@ export class PeekPointCard extends PointCard {
         { openUntil }
         <span>{ point.description }</span>
       </CardText>
-    );
+      );
   }
 }
 

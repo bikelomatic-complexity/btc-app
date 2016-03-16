@@ -51,7 +51,7 @@ function mapStateToProps( state ) {
   return {
     ...PointPage.mapStateToProps.apply( this, arguments ),
     mapState: state.mapState, // You need a map to place a service
-    types: serviceTypes       // You need to select a service type
+    types: serviceTypes // You need to select a service type
   }
 }
 

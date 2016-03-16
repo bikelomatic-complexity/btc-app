@@ -8,10 +8,10 @@ import { toPairs, bindAll, isEmpty, isUndefined, pick } from 'lodash';
 import WizardPage from './wizard-page';
 
 export class AlertNameDescription extends WizardPage {
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
 
-    const { newPoint } = props;
+    const {newPoint} = props;
     this.state = {
       name: newPoint.name || '',
       type: newPoint.type || '',
@@ -39,7 +39,7 @@ export class AlertNameDescription extends WizardPage {
   }
 
   getPageFields() {
-    return ['name', 'location', 'type'];
+    return [ 'name', 'location', 'type' ];
   }
 
   getPageContent() {
@@ -49,34 +49,40 @@ export class AlertNameDescription extends WizardPage {
       latLngString = `(${lat.toFixed( 4 )}, ${lng.toFixed( 4 )})`;
     }
 
-    const { types } = this.props;
-    const options = toPairs( types ).map( ( [ type, values ] ) => (
+    const {types} = this.props;
+    const options = toPairs( types ).map( ( [type, values] ) => (
       <MenuItem key={ type }
-        value={ type } primaryText={ values.display } />
+        value={ type }
+        primaryText={ values.display } />
     ) );
 
-    const { imageSrc } = this.props.newPoint;
+    const {imageSrc} = this.props.newPoint;
     const image = isEmpty( imageSrc ) ? <div /> : <img src={ imageSrc } />;
 
     return (
       <div className="wizard-page">
-        <TextField fullWidth { ...this.link( 'name' ) }
+        <TextField fullWidth
+          { ...this.link( 'name' ) }
           floatingLabelText="Name" />
-        <TextField disabled fullWidth
+        <TextField disabled
+          fullWidth
           value={ latLngString }
           floatingLabelText="Location" />
-        <SelectField fullWidth { ...this.link( 'type' ) }
+        <SelectField fullWidth
+          { ...this.link( 'type' ) }
           floatingLabelText="Alert type">
           { options }
         </SelectField>
-        <TextField fullWidth { ...this.link( 'description' ) }
+        <TextField fullWidth
+          { ...this.link( 'description' ) }
           floatingLabelText="Description"
           multiLine
           rows={ 2 }
           rowsMax={ 4 } />
         <div className="wizard-page__spacer" />
         { image }
-        <RaisedButton fullWidth secondary
+        <RaisedButton fullWidth
+          secondary
           onClick={ this.onPhotoAdd }
           label="Upload Photo" />
       </div>
@@ -84,9 +90,9 @@ export class AlertNameDescription extends WizardPage {
   }
 
   getPreferredTransition() {
-    const { name, type } = this.state;
+    const {name, type} = this.state;
 
-    if( name && type ) {
+    if ( name && type ) {
       return WizardPage.transitions.next;
     } else {
       return WizardPage.transitions.disabled;

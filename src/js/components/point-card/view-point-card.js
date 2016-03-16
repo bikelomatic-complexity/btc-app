@@ -16,8 +16,9 @@ export class ViewPointCard extends PointCard {
   }
 
   getCardAction() {
-    const { peekMarker } = this.props;
-    return <FlatButton label="See Less" onClick={ peekMarker } />;
+    const {peekMarker} = this.props;
+    return <FlatButton label="See Less"
+             onClick={ peekMarker } />;
   }
 
   getCardContent() {
@@ -25,31 +26,37 @@ export class ViewPointCard extends PointCard {
     const uri = pointId( point._id );
 
     let content;
-    if( uri.type === 'alert' ) {
+    if ( uri.type === 'alert' ) {
       content = (
         <div className="point-card__content">
-          <CardText>{ point.description }</CardText>
+          <CardText>
+            { point.description }
+          </CardText>
         </div>
       )
-    } else if( uri.type === 'service' ) {
+    } else if ( uri.type === 'service' ) {
       const service = new ServiceViewModel( point );
 
       let hours, explanation;
-      if( service.hasSchedule() ) {
+      if ( service.hasSchedule() ) {
         hours = <HoursTable hours={ service.getWeekForCurrentSeason() } />;
 
-        explanation = <CardText>These hours are seasonal. Call or check online for more information.</CardText>;
+        explanation = (
+          <CardText>
+            These hours are seasonal. Call or check online for more information.
+          </CardText>
+        );
       }
 
       let website;
-      if( point.website ) {
+      if ( point.website ) {
         website = (
-          <span>Website: <a href={ point.website }>{ point.website }</a></span>
+          <span>Website: <a href={ point.website }> { point.website } </a></span>
         );
       }
 
       let phone;
-      if( point.phone ) {
+      if ( point.phone ) {
         phone = (
           <span>Phone: { point.phone }</span>
         )
@@ -58,12 +65,8 @@ export class ViewPointCard extends PointCard {
       content = (
         <div className="point-card__content">
           <CardText>
-            <span className="point-card__open-until">
-              { service.openUntil() + ' — ' }
-            </span>
-            <span>
-              { point.description }
-            </span>
+            <span className="point-card__open-until">{ service.openUntil() + ' — ' }</span>
+            <span>{ point.description }</span>
           </CardText>
           <CardText>
             { service.amenities() }

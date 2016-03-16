@@ -7,22 +7,22 @@ import { display, serviceTypes, alertTypes } from 'btc-models/lib/schema/types';
 
 export class PointList extends Component {
   render() {
-    const points = this.props.points.map((point) => {
+    const points = this.props.points.map( point => {
       return (
-        <Card key={ point._id } style={{margin:'10px'}} onClick={()=>{this.props.onPointClick(point);}}>
-          <CardHeader
-            title={point.name}
+        <Card key={ point._id }
+          style={ { margin: '10px' } }
+          onClick={ this.props.onPointClick.bind( this, point ) }>
+          <CardHeader title={ point.name }
             subtitle={ display( point.type ) }
-            avatar={point.coverUrl}
-            />
+            avatar={ point.coverUrl } />
         </Card>
-      );
-    });
+        );
+    } );
     return (
       <Paper>
         { points }
       </Paper>
-    );
+      );
   }
 }
 

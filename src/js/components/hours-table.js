@@ -23,8 +23,9 @@ export class HoursTable extends Component {
     } );
 
     return (
-      <Table style={ { overflowY: 'visible'} }>
-        <TableBody displayRowCheckbox={ false } adjustForCheckbox={ false }>
+      <Table style={ { overflowY: 'visible' } }>
+        <TableBody displayRowCheckbox={ false }
+          adjustForCheckbox={ false }>
           { hoursData }
         </TableBody>
       </Table>

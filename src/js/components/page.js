@@ -12,7 +12,7 @@ import '../../css/page.css';
 export class Page extends Component {
   render() {
     let className = 'page';
-    if( this.props.className ) {
+    if ( this.props.className ) {
       className += ' ' + this.props.className;
     }
     return (
@@ -29,12 +29,13 @@ export class Page extends Component {
 export class LetterheadPage extends Component {
   render() {
     let props = {};
-    if( this.props.className ) {
+    if ( this.props.className ) {
       props.className = this.props.className;
     }
     return (
       <Page { ...props }>
-        <img className='page__logo' src={ this.props.logo } />
+        <img className='page__logo'
+          src={ this.props.logo } />
         { this.props.children }
       </Page>
       );

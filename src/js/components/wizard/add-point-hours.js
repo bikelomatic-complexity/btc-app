@@ -15,7 +15,7 @@ const weekDays = [
 export class AddPointHours extends WizardPage {
   constructor( props ) {
     super( props );
-    bindAll(this, 'onDaySelect', 'addHours', 'removeHours');
+    bindAll( this, 'onDaySelect', 'addHours', 'removeHours' );
 
     this.state = { add: false };
   }
@@ -65,36 +65,38 @@ export class AddPointHours extends WizardPage {
       return weekDays.indexOf( dayA.day ) > weekDays.indexOf( dayB.day );
     } ).map( ( day, index ) => {
       return (
-        <div key={ day.day + day.opens + day.closes } className='form-row'>
+        <div key={ day.day + day.opens + day.closes }
+          className='form-row'>
           <RaisedButton onClick={ this.removeHours.bind( this, index ) }
             label={ `${day.day}: ${day.opens} - ${day.closes}` }
             labelPosition='before'
-            icon={ <FontIcon className='material-icons'>
-                     clear
-                   </FontIcon> } />
+            icon={ <FontIcon className='material-icons'>clear</FontIcon> } />
         </div>
         );
     } );
 
     return (
       <div className='wizard-page'>
-        <DropDown fullWidth ref='dayDropDown'
+        <DropDown fullWidth
+          ref='dayDropDown'
           text='Day(s)'
           onSelectFunction={ this.onDaySelect }
           options={ weekDays } />
         <div className='wizard-page__row'>
           <span>Opens at</span>
-          <TimePicker fullWidth ref='openPicker'
+          <TimePicker fullWidth
+            ref='openPicker'
             format='ampm'
             defaultTime={ midnight } />
         </div>
         <div className='wizard-page__row'>
           <span>Closes at</span>
-          <TimePicker fullWidth ref='closePicker'
+          <TimePicker fullWidth
+            ref='closePicker'
             format='ampm'
             defaultTime={ midnight } />
         </div>
-        { hours }
+        <__JSXExpression_0_4 />
         <div className="wizard-page__spacer"></div>
         <RaisedButton secondary
           disabled={ !this.state.add }
@@ -105,9 +107,9 @@ export class AddPointHours extends WizardPage {
   }
 
   getPreferredTransition() {
-    const { hours } = this.props.newPoint;
+    const {hours} = this.props.newPoint;
 
-    if( hours && hours.length > 0 ) {
+    if ( hours && hours.length > 0 ) {
       return WizardPage.transitions.next;
     } else {
       return WizardPage.transitions.skip;

@@ -28,7 +28,7 @@ export default function marker( state = initState, action ) {
     // If we have already loaded the specified marker, of if we are currently
     // fetching the specified marker, then don't modify the state. This avoids
     // re-render loops when a React component calls `loadMarker`
-    if( state._id === action.id ) {
+    if ( state._id === action.id ) {
       return state;
     } else {
       return assign( {}, { _id: action.id }, { isFetching: true } );
@@ -52,13 +52,13 @@ export default function marker( state = initState, action ) {
 // NOTE: If you want to set the map center to match the loaded point, you
 // need to enable that functionality in the map reducer.
 export function loadMarker( id ) {
-  return (dispatch, getState) => {
-    const { marker, points } = getState();
+  return ( dispatch, getState ) => {
+    const {marker, points} = getState();
     let cache;
 
-    if( isLoaded( marker, id ) ) {
+    if ( isLoaded( marker, id ) ) {
       return;
-    } else if( cache = isCached( points, id ) ) {
+    } else if ( cache = isCached( points, id ) ) {
       dispatch( recieveLoadMarker( cache ) );
     } else {
       dispatch( requestLoadMarker( id ) );

@@ -25,12 +25,12 @@ import '../../css/map.css';
 // point cards, if necessary. We expect the React Router to provide us at most
 // a single child. If it exists, the child will be the point card.
 class MapPage extends Component {
-  componentDidMount( ) {
+  componentDidMount() {
     this.props.pageActions.setDrawer( 'Map' );
   }
 
   // Navigating to the index route (the MapPage) deslects any marker
-  static deselectMarker( ) {
+  static deselectMarker() {
     history.push( '/' );
   }
 
@@ -51,14 +51,14 @@ class MapPage extends Component {
   //
   // This function will throw an error if there is more than one child.
   mapPropsOnCard() {
-    if( !this.props.children ) return;
-    const { marker } = this.props;
+    if ( !this.props.children ) return;
+    const {marker} = this.props;
 
     const cardState = { point: marker, heightOffset: 0 };
     const cardFunctions = {
       deselectMarker: MapPage.deselectMarker,
-      fullscreenMarker: () => MapPage.navigateWithId( 'view-point', marker ),
-      peekMarker: () => MapPage.navigateWithId( 'peek-point', marker ),
+      fullscreenMarker: ( ) => MapPage.navigateWithId( 'view-point', marker ),
+      peekMarker: ( ) => MapPage.navigateWithId( 'peek-point', marker ),
       navigateWithId: MapPage.navigateWithId
     }
 
@@ -88,10 +88,11 @@ class MapPage extends Component {
       <div className="layout__section">
         <ConnectedPointMap className="map map--browse-mode"
           { ...props } />
-        <MapButtons buttons={ buttons } history={ history } />
+        <MapButtons buttons={ buttons }
+          history={ history } />
         { this.mapPropsOnCard() }
       </div>
-    );
+      );
   }
 }
 
@@ -108,7 +109,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return {
     cardActions: bindActionCreators( {
-      'loadMarker': loadMarker  // Cards load markers on componentDidMount
+      'loadMarker': loadMarker // Cards load markers on componentDidMount
     }, dispatch ),
     pageActions: bindActionCreators( {
       'setDrawer': setDrawer

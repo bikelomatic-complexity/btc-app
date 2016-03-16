@@ -11,9 +11,9 @@ import '../../../css/map.css';
 import '../../../css/wizard.css';
 
 export class AddPointLocation extends WizardPage {
-  constructor(props) {
-    super(props);
-    bindAll(this, 'updateLocation');
+  constructor( props ) {
+    super( props );
+    bindAll( this, 'updateLocation' );
   }
 
   updateLocation( leaflet ) {
@@ -32,14 +32,15 @@ export class AddPointLocation extends WizardPage {
   getPageContent() {
     return (
       <div>
-        <ConnectedPointMap addPoint className="map map--wizard-mode"
+        <ConnectedPointMap addPoint
+          className="map map--wizard-mode"
           afterMoved={ this.updateLocation } />
         <div className="crosshairs">
           <div className="crosshairs__shadow" />
           <div className="crosshairs__marker" />
         </div>
       </div>
-    );
+      );
   }
 
   getPreferredTransition() {

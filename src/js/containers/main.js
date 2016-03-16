@@ -28,7 +28,7 @@ export class App extends Component {
         { page }
         <Notifications />
       </div>
-    );
+      );
   }
 }
 

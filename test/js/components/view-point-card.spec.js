@@ -13,23 +13,21 @@ import { MockPoints } from '../../mock-data/mock-points';
 import sd from 'skin-deep';
 
 describe( '<ViewPointCard />', function() {
-  beforeEach(function(){
-    this.mockPoint = MockPoints[0];
+  beforeEach( function() {
+    this.mockPoint = MockPoints[ 0 ];
     const tree = sd.shallowRender(
-      <ViewPointCard
-        point = {this.mockPoint}
-      />
+      <ViewPointCard point={ this.mockPoint } />
     );
     this.instance = tree.getMountedInstance();
-    this.vdom = tree.getRenderOutput();	
-  });
-  
-  it('should show see less', function(){
-    var leftButton = this.vdom.props.children[2].props.children[0];
+    this.vdom = tree.getRenderOutput();
+  } );
+
+  it( 'should show see less', function() {
+    var leftButton = this.vdom.props.children[ 2 ].props.children[ 0 ];
     expect( leftButton.props.label ).to.be.equal( 'See Less' );
-  });
-  it('should show close', function(){
-    var rightButton = this.vdom.props.children[2].props.children[1];
-    expect( rightButton.props.label ).to.be.equal( 'Close' );	
-  });
-});
+  } );
+  it( 'should show close', function() {
+    var rightButton = this.vdom.props.children[ 2 ].props.children[ 1 ];
+    expect( rightButton.props.label ).to.be.equal( 'Close' );
+  } );
+} );

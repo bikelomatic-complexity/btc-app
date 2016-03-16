@@ -9,8 +9,8 @@ import { connect } from 'react-redux';
 import * as actions from '../reducers/notifications';
 
 export class Notifications extends Component {
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
   }
 
   render() {
@@ -19,7 +19,7 @@ export class Notifications extends Component {
         <Snackbar { ...this.props.snackbar }
           onRequestClose={ this.props.closeSnackbar } />
       </div>
-    );
+      );
   }
 }
 

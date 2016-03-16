@@ -10,16 +10,21 @@ import { FloatingActionButton, FontIcon } from 'material-ui';
 */
 export class MapButtons extends Component {
   render() {
-    const buttons = this.props.buttons.map((button, index) => {
+    const buttons = this.props.buttons.map( ( button, index ) => {
       return (
-        <FloatingActionButton key={ button.page } mini={true} style={{position:'fixed', top: `${82 + 55 * index}px`, right: '10px'}}>
-          <FontIcon onClick={()=>{this.props.history.push(button.page);}} className="material-icons">{button.icon}</FontIcon>
+        <FloatingActionButton key={ button.page }
+          mini={ true }
+          style={ { position: 'fixed', top: `${82 + 55 * index}px`, right: '10px' } }>
+          <FontIcon onClick={ ( ) => this.props.history.push( button.page ) }
+            className="material-icons">
+            { button.icon }
+          </FontIcon>
         </FloatingActionButton>
-      );
-    });
+        );
+    } );
     return (
-      <span> {buttons} </span>
-    );
+      <span>{ buttons }</span>
+      );
   }
 }
 

@@ -8,8 +8,8 @@ import { toPairs } from 'lodash'
 import WizardPage from './wizard-page';
 
 export class AddPointName extends WizardPage {
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
 
     this.state = {
       name: this.props.newPoint.name || '',
@@ -23,7 +23,7 @@ export class AddPointName extends WizardPage {
   }
 
   getPageFields() {
-    return ['name', 'location', 'type'];
+    return [ 'name', 'location', 'type' ];
   }
 
   getPageContent() {
@@ -33,20 +33,24 @@ export class AddPointName extends WizardPage {
       latLngString = `(${lat.toFixed( 4 )}, ${lng.toFixed( 4 )})`;
     }
 
-    const { types } = this.props;
-    const options = toPairs( types ).map( ( [ type, values ] ) => (
+    const {types} = this.props;
+    const options = toPairs( types ).map( ( [type, values] ) => (
       <MenuItem key={ type }
-        value={ type } primaryText={ values.display } />
+        value={ type }
+        primaryText={ values.display } />
     ) );
 
     return (
       <div className="wizard-page">
-        <TextField fullWidth { ...this.link( 'name' ) }
+        <TextField fullWidth
+          { ...this.link( 'name' ) }
           floatingLabelText="Name" />
-        <TextField disabled fullWidth
+        <TextField disabled
+          fullWidth
           value={ latLngString }
           floatingLabelText="Location" />
-        <SelectField fullWidth { ...this.link( 'type' ) }
+        <SelectField fullWidth
+          { ...this.link( 'type' ) }
           floatingLabelText="Service type">
           { options }
         </SelectField>
@@ -55,9 +59,9 @@ export class AddPointName extends WizardPage {
   }
 
   getPreferredTransition() {
-    const { name, type } = this.state;
+    const {name, type} = this.state;
 
-    if( name && type ) {
+    if ( name && type ) {
       return WizardPage.transitions.next;
     } else {
       return WizardPage.transitions.disabled;

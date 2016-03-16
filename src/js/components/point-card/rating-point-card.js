@@ -39,7 +39,8 @@ export class RatingPointCard extends PointCard {
 
   getCardAction() {
     const goBack = history.goBack.bind( history );
-    return <FlatButton label="Go Back" onClick={ goBack } />;
+    return <FlatButton label="Go Back"
+             onClick={ goBack } />;
   }
 
   onCommentUpdate( event ) {
@@ -58,13 +59,14 @@ export class RatingPointCard extends PointCard {
   }
 
   getCommentList() {
-    const { point } = this.props;
+    const {point} = this.props;
 
     const comments = mockComments.map( comment => {
       const style = { fontSize: '16px' };
       const stars = (
-        <RatingSelector disabled rating={ comment.rating }
-          style={ style } />
+      <RatingSelector disabled
+        rating={ comment.rating }
+        style={ style } />
       );
       const date = this.formatDateTimeString( comment.date );
 
@@ -73,22 +75,23 @@ export class RatingPointCard extends PointCard {
           primaryText={ comment.user }
           secondaryTextLines={ comment.text ? 2 : 1 }
           secondaryText={ (
-            <span>
-              { stars } { date }<br />
-              { comment.text }
-            </span>
+            <span>{ stars } { date } <br /> { comment.text }</span>
           ) } />
-      );
+        );
     } );
 
-    return <List>{ comments }</List>;
+    return (
+      <List>
+        { comments }
+      </List>
+      );
   }
 
   onComment( values ) {
     const comment = {
       comment: values.comment,
       rating: values.rating,
-      date: (new Date().toISOString())
+      date: ( new Date().toISOString() )
     }
     console.log( comment );
   }
@@ -113,7 +116,7 @@ export class RatingPointCard extends PointCard {
         zDepth={ 0 }
         actionText="Comment"
         fields={ fields } />
-    );
+      );
   }
 
   // TODO: refactor this!

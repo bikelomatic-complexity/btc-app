@@ -7,15 +7,15 @@ export class ServiceViewModel {
   }
 
   amenities() {
-    const { amenities } = this.service;
-    if( !isEmpty( amenities ) ) {
+    const {amenities} = this.service;
+    if ( !isEmpty( amenities ) ) {
       let amenities_and = [ ...amenities.map( display ) ];
 
       let seperator;
-      if( amenities.length > 2 ) { // 1, 2, and 3
+      if ( amenities.length > 2 ) { // 1, 2, and 3
         amenities_and.push( 'and ' + amenities_and.pop() );
         seperator = ", ";
-      } else if( amenities.length > 1 ) { // 1 and 2
+      } else if ( amenities.length > 1 ) { // 1 and 2
         amenities_and.push( 'and ' + amenities_and.pop() );
         seperator = " ";
       } else {
@@ -33,7 +33,7 @@ export class ServiceViewModel {
   }
 
   openUntil() {
-    if( this.hasSchedule() ) {
+    if ( this.hasSchedule() ) {
       const week = this.getWeekForCurrentSeason( this.service.schedule );
       const hours = find( week, { day: ServiceViewModel.today() } );
 
@@ -50,7 +50,7 @@ export class ServiceViewModel {
     return dayNames[ dayIndex ];
   }
 
-  getWeekForCurrentSeason( ) {
+  getWeekForCurrentSeason() {
     const seasons = this.service.schedule;
 
     let seasonDays = seasons[ 0 ].days;
@@ -69,7 +69,7 @@ export class ServiceViewModel {
   }
 
   getSeasonExplanation() {
-    if( this.service.seasonal ) {
+    if ( this.service.seasonal ) {
       return 'These hours are seasonal. Call or check online for more information';
     } else {
       return

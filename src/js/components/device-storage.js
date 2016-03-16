@@ -22,16 +22,13 @@ export class DeviceStorage extends Component {
   render() {
     return (
       <div style={ { 'display': 'flex', 'flexDirection': 'row', 'alignItems': 'center', 'justifyContent': 'center' } }>
-        <div className='device-storage' style={ { 'margin': '10', 'maxWidth': '750' } }>
+        <div className='device-storage'
+          style={ { 'margin': '10', 'maxWidth': '750' } }>
           <div style={ { display: 'flex', 'flexDirection': 'row', 'justifyContent': 'flexStart', 'alignItems': 'center', 'marginBottom': '10px' } }>
-            <VisualBlock background='#3f51b5' noFlex={ true } />
-            <span style={ { 'marginLeft': '10px', 'marginRight': '10px' } }>
-              Stop Here!
-            </span>
-            <VisualBlock background='lightgray' noFlex={ true } />
-            <span style={ { 'marginLeft': '10px', 'marginRight': '10px' } }>
-              Free Space
-            </span>
+            <VisualBlock background='#3f51b5'
+              noFlex={ true } /> <span style={ { 'marginLeft': '10px', 'marginRight': '10px' } }>Stop Here!</span>
+            <VisualBlock background='lightgray'
+              noFlex={ true } /> <span style={ { 'marginLeft': '10px', 'marginRight': '10px' } }>Free Space</span>
           </div>
           <div style={ { display: 'flex', 'flexDirection': 'row', 'alignItems': 'center' } }>
             <VisualBlock background='#3f51b5'

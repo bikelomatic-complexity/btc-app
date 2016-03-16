@@ -95,6 +95,7 @@ document.addEventListener( 'deviceReady', ( ) => {
     store.dispatch( reloadPoints( points ) );
   } );
 
+/*esfmt-ignore-start*/
   ReactDOM.render( (
     <Provider store={ store }>
       <Router history={ history }>
@@ -135,5 +136,6 @@ document.addEventListener( 'deviceReady', ( ) => {
         </Route>
       </Router>
     </Provider>
-   ), document.getElementById( 'main' ) );
+  ), document.getElementById( 'main' ) );
+  /*esfmt-ignore-end*/
 } );

@@ -40,7 +40,8 @@ export class SettingsPage extends Component {
       onToggle: noop
     } ].map( item => {
       const tog = (
-      <Toggle toggled={ item.toggled } onToggle={ item.onToggle } />
+      <Toggle toggled={ item.toggled }
+        onToggle={ item.onToggle } />
       );
       return (
         <ListItem key={ item.text }

@@ -24,7 +24,7 @@ export class AddAlertPage extends PointPage {
   onFinal( blob = undefined ) {
     const point = this.props.newPoint;
 
-    console.error( 'implement AddAlertPage.onFinal()');
+    console.error( 'implement AddAlertPage.onFinal()' );
 
     // this.props.userAddAlert( {
     //
@@ -38,7 +38,7 @@ function mapStateToProps( state ) {
   return {
     ...PointPage.mapStateToProps.apply( this, arguments ),
     mapState: state.mapState, // You need a map to place an alert
-    types: alertTypes         // You need to choose an alert type
+    types: alertTypes // You need to choose an alert type
   }
 }
 
