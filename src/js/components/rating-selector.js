@@ -35,15 +35,6 @@ export class RatingSelector extends Component {
               </FontIcon>);
     } );
 
-    // let clearIcon;
-    // if ( !this.props.disabled && this.state.rating != 0 ) {
-    //   clearIcon = (<FontIcon className='material-icons'
-    //                  style={ this.props.style }
-    //                  onClick={ this.onSetRating.bind( this, 0 ) }>
-    //                  clear
-    //                </FontIcon>);
-    // }
-
     return (<div style={ { display: 'inline-flex' } }>
               { stars }
             </div>);

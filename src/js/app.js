@@ -60,7 +60,6 @@ import { reloadPoints } from './reducers/points';
 
 // Load global css used by any other js module.
 import '../../node_modules/leaflet/dist/leaflet.css';
-import '../css/app.css';
 
 // Fix tap events so material-ui components work
 import injectTapEventPlugin from 'react-tap-event-plugin';

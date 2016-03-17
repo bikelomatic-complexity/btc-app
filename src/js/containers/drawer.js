@@ -10,7 +10,7 @@ import bindAll from 'lodash/bindAll';
 
 import history from '../history';
 
-export class ACDrawer extends Component {
+export class Drawer extends Component {
   constructor( props ) {
     super( props );
     bindAll( this, 'onMenuItemTap', 'showNav', 'hideNav' );
@@ -109,4 +109,4 @@ function select( state ) {
     login: state.account.login
   };
 }
-export default connect( select )( ACDrawer );
+export default connect( select )( Drawer );

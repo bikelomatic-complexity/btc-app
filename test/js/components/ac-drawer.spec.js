@@ -5,13 +5,13 @@ import sd from 'skin-deep';
 
 import React from 'react';
 import ReactDom from 'react-dom';
-import { ACDrawer } from '../../../src/js/components/ac-drawer';
+import { Drawer } from '../../../src/js/containers/drawer';
 /*eslint-enable no-unused-vars*/
 
-describe( '<ACDrawer />', function() {
+describe( '<Drawer />', function() {
   it( 'should be closed by default', function() {
     const tree = sd.shallowRender( (
-      <ACDrawer drawer="New Page"
+      <Drawer drawer="New Page"
         login={ { loggedIn: false } } />
       ) );
 
@@ -21,7 +21,7 @@ describe( '<ACDrawer />', function() {
   } );
   it( 'should set the title from the drawer prop', function() {
     const tree = sd.shallowRender( (
-      <ACDrawer drawer="New Page"
+      <Drawer drawer="New Page"
         login={ { loggedIn: false } } />
       ) );
 
