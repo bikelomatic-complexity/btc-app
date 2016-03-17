@@ -156,7 +156,6 @@ export class FormBlock extends Component {
       actionProps.style = { alignSelf: 'center' };
     }
 
-    /*esfmt-ignore-start*/
     return (
       <Block { ...props }>
         { this.boxes() }
@@ -167,8 +166,7 @@ export class FormBlock extends Component {
           label={ this.props.actionText } />
       </Block>
       );
-    /*esfmt-ignore-end*/
-    /*eslint-enable no-unused-vars*/
+      /*eslint-enable no-unused-vars*/
   }
 }
 

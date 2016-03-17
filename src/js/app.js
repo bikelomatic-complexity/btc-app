@@ -92,47 +92,70 @@ document.addEventListener( 'deviceReady', ( ) => {
     store.dispatch( reloadPoints( points ) );
   } );
 
-/*esfmt-ignore-start*/
   ReactDOM.render( (
     <Provider store={ store }>
       <Router history={ history }>
-        <Route path="/" component={ Main }>
+        <Route path="/"
+          component={ Main }>
           <Route component={ MapPage }>
             <IndexRoute />
-            <Route path="peek-point/:pointId" component={ PeekPointCard } />
-            <Route path="view-point/:pointId" component={ ViewPointCard } />
-            <Route path="rate-point/:pointId" component={ RatingPointCard } />
+            <Route path="peek-point/:pointId"
+              component={ PeekPointCard } />
+            <Route path="view-point/:pointId"
+              component={ ViewPointCard } />
+            <Route path="rate-point/:pointId"
+              component={ RatingPointCard } />
           </Route>
-          <Route path="list" component={ ListPage } />
-          <Route path="settings" component={ SettingsPage } />
-          <Route path="login" component={ LoginPage } />
-          <Route path="register" component={ RegisterPage } />
-          <Route path="logout" component={ LogoutPage } />
-          <Route path="thanks" component={ ThanksPage } />
-          <Route path="add-point" component={ AddPointPage }>
+          <Route path="list"
+            component={ ListPage } />
+          <Route path="settings"
+            component={ SettingsPage } />
+          <Route path="login"
+            component={ LoginPage } />
+          <Route path="register"
+            component={ RegisterPage } />
+          <Route path="logout"
+            component={ LogoutPage } />
+          <Route path="thanks"
+            component={ ThanksPage } />
+          <Route path="add-point"
+            component={ AddPointPage }>
             <IndexRoute component={ PointLocation } />
-            <Route path="location" component={ PointLocation } />
-            <Route path="name" component={ ServiceName } />
-            <Route path="description" component={ ServiceDescription } />
-            <Route path="hours" component={ ServiceHours } />
-            <Route path="amenities" component={ ServiceAmenities } />
+            <Route path="location"
+              component={ PointLocation } />
+            <Route path="name"
+              component={ ServiceName } />
+            <Route path="description"
+              component={ ServiceDescription } />
+            <Route path="hours"
+              component={ ServiceHours } />
+            <Route path="amenities"
+              component={ ServiceAmenities } />
           </Route>
-          <Route path="/update-point/:pointId" component={ UpdatePointPage }>
+          <Route path="/update-point/:pointId"
+            component={ UpdatePointPage }>
             <IndexRoute component={ ServiceDescription } />
-            <Route path="description" component={ ServiceDescription } />
-            <Route path="hours" component={ ServiceHours } />
-            <Route path="amenities" component={ ServiceAmenities } />
+            <Route path="description"
+              component={ ServiceDescription } />
+            <Route path="hours"
+              component={ ServiceHours } />
+            <Route path="amenities"
+              component={ ServiceAmenities } />
           </Route>
-          <Route path="add-alert" component={ AddAlertPage }>
+          <Route path="add-alert"
+            component={ AddAlertPage }>
             <IndexRoute component={ PointLocation } />
-            <Route path="location" component={ PointLocation } />
-            <Route path="name" component={ AlertNameDescription } />
+            <Route path="location"
+              component={ PointLocation } />
+            <Route path="name"
+              component={ AlertNameDescription } />
           </Route>
-          <Route path="/download-track" component={ DownloadTrackPage } />
-          <Route path="/filter" component={ FilterPage } />
+          <Route path="/download-track"
+            component={ DownloadTrackPage } />
+          <Route path="/filter"
+            component={ FilterPage } />
         </Route>
       </Router>
     </Provider>
-  ), document.getElementById( 'main' ) );
-  /*esfmt-ignore-end*/
+    ), document.getElementById( 'main' ) );
 } );

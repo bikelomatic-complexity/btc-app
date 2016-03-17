@@ -20,8 +20,8 @@ export class ServiceDescription extends WizardPage {
     };
   }
 
-  componentDidMount( nextProps ) {
-    const {setDrawer, newPoint} = nextProps;
+  componentDidMount() {
+    const {setDrawer, newPoint} = this.props;
     setDrawer( newPoint._id ? 'Update Details' : 'Add Details' );
   }
 
