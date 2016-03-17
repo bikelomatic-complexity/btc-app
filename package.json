@@ -93,6 +93,7 @@
     "esformatter": "^0.9.2",
     "esformatter-ignore": "^0.1.3",
     "esformatter-jsx": "^4.1.4",
+    "esformatter-line-endings": "^1.0.1",
     "eslint": "^2.2.0",
     "eslint-plugin-react": "^4.1.0",
     "istanbul": "^0.4.2",
