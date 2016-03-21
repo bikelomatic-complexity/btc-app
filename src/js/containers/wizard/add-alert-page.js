@@ -1,13 +1,12 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
-import { alertTypes } from 'btc-models/lib/schema/types';
-
 import PointPage from './point-page';
 import * as tabs from './tabs';
-import { userAddPoint } from '../../reducers/points';
 
 import history from '../../history';
+import { addAlert } from '../../reducers/points';
+import { Alert, alertTypes } from 'btc-models/lib/schema/types';
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 export class AddAlertPage extends PointPage {
   getPageUrl() {
@@ -22,15 +21,13 @@ export class AddAlertPage extends PointPage {
   }
 
   onFinal( blob = undefined ) {
-    // const point = this.props.newPoint;
+    const { addAlert, newPoint } = this.props;
 
-    console.error( 'implement AddAlertPage.onFinal()' );
-
-    // this.props.userAddAlert( {
-    //
-    // } );
-
-    history.push( '/' );
+    const alert = new Alert( newPoint );
+    if( alert.isValid() ) {
+      addAlert( alert, blob );
+      history.push( '/' );
+    }
   }
 }
 
@@ -46,7 +43,7 @@ function mapDispatchToProps( dispatch ) {
   return {
     ...PointPage.mapDispatchToProps.apply( this, arguments ),
     ...bindActionCreators( {
-      'userAddPoint': userAddPoint
+      'addAlert': addAlert
     }, dispatch )
   };
 }

@@ -5,7 +5,7 @@ import LocationIcon from 'material-ui/lib/svg-icons/maps/place';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 /*eslint-enable no-unused-vars*/
 
-import { display } from 'btc-models/lib/schema/types';
+import { Point, display } from 'btc-models';
 import '../../../css/point-card.css';
 
 // The PointCard is the base class for all the states of a point card. These
@@ -18,6 +18,11 @@ import '../../../css/point-card.css';
 // When a card mounts or updates, the card is responsible for dispatching the
 // action to load the marker indicated within the React Router params.
 export class PointCard extends Component {
+  constructor( props ) {
+    super( props );
+    this.type = Point.uri( props.point._id ).type;
+  }
+
   // Return content do display in the card
   getCardContent() {
     return (

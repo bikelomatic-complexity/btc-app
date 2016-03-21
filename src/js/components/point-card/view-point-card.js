@@ -6,7 +6,6 @@ import PointCard from './point-card';
 import HoursTable from '../hours-table';
 /*eslint-enable no-unused-vars*/
 
-import { pointId } from 'btc-models/lib/model/point';
 import ServiceViewModel from './service-view-model';
 
 export class ViewPointCard extends PointCard {
@@ -22,10 +21,9 @@ export class ViewPointCard extends PointCard {
 
   getCardContent() {
     const {point} = this.props;
-    const uri = pointId( point._id );
 
     let content;
-    if ( uri.type === 'alert' ) {
+    if ( this.type === 'alert' ) {
       content = (
         <div className="point-card__content">
           <CardText>
@@ -33,7 +31,7 @@ export class ViewPointCard extends PointCard {
           </CardText>
         </div>
       );
-    } else if ( uri.type === 'service' ) {
+    } else if ( this.type === 'service' ) {
       const service = new ServiceViewModel( point );
 
       let hours, explanation;

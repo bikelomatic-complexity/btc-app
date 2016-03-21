@@ -1,13 +1,12 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
-import { serviceTypes } from 'btc-models/lib/schema/types';
-
 import PointPage from './point-page';
 import * as tabs from './tabs';
-import { userAddPoint } from '../../reducers/points';
 
 import history from '../../history';
+import { addService } from '../../reducers/points';
+import { Service, serviceTypes } from 'btc-models';
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 export class AddPointPage extends PointPage {
   getPageUrl() {
@@ -25,25 +24,28 @@ export class AddPointPage extends PointPage {
   }
 
   onFinal( blob = undefined ) {
-    const point = this.props.newPoint;
-    this.props.userAddPoint( {
-      'class': 'service',
-      'created_at': new Date().toISOString(),
-      'address': point.address,
+    const { addService, newPoint } = this.props;
+    const point = newPoint;
+
+    const service = new Service( {
       'name': point.name,
       'location': point.location,
       'type': point.type,
       'description': point.description,
       'flag': false,
       'amenities': point.amenities,
-      'seasonal': false,
       'schedule': [ { days: point.hours } ],
+      'seasonal': false,
+      'address': point.address,
       'phone': point.phoneNumber,
-      'website': point.website,
-      'rating': point.rating
-    }, blob );
-
-    history.push( '/' );
+      'website': point.website
+    } );
+    if( service.isValid() ) {
+      addService( service, blob );
+      history.push( '/' );
+    } else {
+      console.log( service.validationError );
+    }
   }
 }
 
@@ -59,7 +61,7 @@ function mapDispatchToProps( dispatch ) {
   return {
     ...PointPage.mapDispatchToProps.apply( this, arguments ),
     ...bindActionCreators( {
-      'userAddPoint': userAddPoint
+      'addService': addService
     }, dispatch )
   };
 }

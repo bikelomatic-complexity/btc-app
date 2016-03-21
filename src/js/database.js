@@ -1,4 +1,5 @@
 /*global process*/
+import { connectMut, models } from 'btc-models';
 import PouchDB from 'pouchdb';
 
 // If we are in development, set PouchDB on the window so we can use
@@ -9,3 +10,5 @@ if ( process.env.NODE_ENV === 'development' ) {
 
 export const database = new PouchDB( 'bicycle-touring-companion-db' );
 export default database;
+
+connectMut( database, models );

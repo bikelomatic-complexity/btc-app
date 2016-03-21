@@ -1,14 +1,13 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
-
 import PointMap from '../components/point-map';
 /*eslint-enable no-unused-vars*/
 
-import { pick } from 'lodash';
+import { setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
+
+import { pick, values } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-import { setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 
 // The ConnectedPointMap connects Redux to the PointMap
 //
@@ -36,8 +35,7 @@ export class ConnectedPointMap extends Component {
 function mapStateToProps( state ) {
   return {
     pointMapState: {
-      services: state.points,
-      alerts: [],
+      points: values( state.points ),
       tracks: state.tracks.toJS(),
       settings: state.settings.toJS(),
       mapState: state.mapState,

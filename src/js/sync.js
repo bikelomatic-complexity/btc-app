@@ -9,7 +9,6 @@ const {protocol, domain, port} = config.get( 'Client.couch' );
 const url = `${protocol}://${domain}:${port}/points`;
 
 export default class Sync {
-
   constructor( local, gateway, store, filter ) {
     this.local = local;
     this.remote = new PouchDB( url );
@@ -53,7 +52,7 @@ export default class Sync {
   sync() {
     this.syncing = true;
 
-    this.rep = PouchDB.sync( this.local, this.remote, {
+    this.rep = PouchDB.replicate( this.remote, this.local, {
       live: true,
       retry: false
     } ).on( 'change', ( info ) => {

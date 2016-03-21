@@ -7,7 +7,7 @@ const cleanState = {
   description: '',
   address: '',
   imageSrc: '',
-  website: '',
+  // website: '',
   phoneNumber: '',
   hours: [],
   amenities: [],

@@ -13,10 +13,10 @@ export class ServiceDescription extends WizardPage {
 
     const {newPoint} = props;
     this.state = {
-      description: newPoint.description || '',
-      phoneNumber: newPoint.phoneNumber || '',
-      address: newPoint.address || '',
-      website: newPoint.website || ''
+      description: newPoint.description,
+      phoneNumber: newPoint.phoneNumber,
+      address: newPoint.address,
+      website: newPoint.website
     };
   }
 

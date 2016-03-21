@@ -1,6 +1,5 @@
-import { find, assign } from 'lodash';
-import gateway from '../gateway';
-import { withCover } from './points';
+import { Point } from 'btc-models';
+import { assign } from 'lodash';
 
 export const REQUEST_LOAD_MARKER = 'btc-app/marker/REQUEST_LOAD_MARKER';
 export const RECEIVE_LOAD_MARKER = 'btc-app/marker/RECEIVE_LOAD_MARKER';
@@ -65,11 +64,8 @@ export function loadMarker( id ) {
       dispatch( recieveLoadMarker( cache ) );
     } else {
       dispatch( requestLoadMarker( id ) );
-      return gateway.getPoint( id ).then(
-        point => {
-          dispatch( recieveLoadMarker( withCover( point, point.coverBlob ) ) );
-        }
-      );
+      const point = Point.for( id );
+      point.fetch().then( res => receiveLoadMarker( point.store() ) );
     }
   /*eslint-enable no-cond-assign*/
   };
@@ -82,7 +78,7 @@ function isLoaded( marker, id ) {
 
 // Return a cached marker with `id` if it exists in the cache
 function isCached( points, id ) {
-  return find( points, { _id: id } );
+  return points[ id ]
 }
 
 // Begin an async call to load the marker with `id` into the store

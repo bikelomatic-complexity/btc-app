@@ -41,31 +41,23 @@ import RatingPointCard from './components/point-card/rating-point-card';
 // Right now, it's hash based.
 import history from './history';
 
-// Builds a redux store given optional middleware.
-// TODO: refactor out this dependency once we only depend on redux-thunk.
-import StoreBuilder from './store';
-
 // Allow direct access to the local PouchDB instance and import the gateway
 // singleton to make working with the database easier.
 import database from './database';
 import gateway from './gateway';
+import store from './store';
 
 // Sync and NetworkManager allow us to automatically work with the remote
 // PouchDB when the user is online.
-import Sync from './sync';
 import { NetworkManager } from './reducers/network';
+import Sync from './sync';
 
 // Redux action creators used by app.js
 import { reloadPoints } from './reducers/points';
 
-// Load global css used by any other js module.
-import '../../node_modules/leaflet/dist/leaflet.css';
-
 // Fix tap events so material-ui components work
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-
-
 
 // When Cordova has loaded, assemble the application components and start them.
 //
@@ -79,18 +71,13 @@ injectTapEventPlugin();
 // a <script> tag. Also, a <div class="main" /> is required in the body. We
 // render the application into that div.
 document.addEventListener( 'deviceReady', ( ) => {
-  const storeBuilder = new StoreBuilder( [ gateway.getMiddleware() ] );
-  const store = storeBuilder.build();
-
   const network = new NetworkManager( store );
   network.monitor();
 
-  const sync = new Sync( database, gateway, store );
-  sync.start();
+  // const sync = new Sync( database, gateway, store );
+  // sync.start();
 
-  gateway.getPoints().then( points => {
-    store.dispatch( reloadPoints( points ) );
-  } );
+  store.dispatch( reloadPoints() );
 
   ReactDOM.render( (
     <Provider store={ store }>
