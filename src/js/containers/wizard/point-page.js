@@ -7,7 +7,7 @@ import { CircularProgress } from 'material-ui';
 import { findIndex, bindAll, last, merge, omit } from 'lodash';
 import { bindActionCreators } from 'redux';
 
-import { loadPoints } from '../../reducers/points';
+import { loadPoint } from '../../reducers/points';
 import * as mapActions from '../../actions/map-actions';
 import * as drawerActions from '../../reducers/drawer';
 
@@ -199,7 +199,7 @@ export default class PointPage extends Component {
   static mapDispatchToProps( dispatch ) {
     return {
       pageActions: bindActionCreators( {
-        loadPoints: loadPoints
+        loadPoint: loadPoint
       }, dispatch ),
       wizardActions: bindActionCreators( {
         ...mapActions,

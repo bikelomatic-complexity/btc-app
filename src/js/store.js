@@ -2,13 +2,11 @@
 /*esfmt-ignore-start*/
 import notifications from './reducers/notifications';
 import points        from './reducers/points';
-import marker        from './reducers/marker';
 import tracks        from './reducers/tracks';
 import settings      from './reducers/settings';
 import network       from './reducers/network';
-import map      from './reducers/map';
+import map           from './reducers/map';
 import filters       from './reducers/filter';
-import newPoint      from './reducers/new-point';
 import account       from './reducers/account';
 import drawer        from './reducers/drawer';
 
@@ -25,13 +23,11 @@ if ( process.env.NODE_ENV === 'development' ) {
 export default compose.apply( null, args )( createStore )( combineReducers( {
   notifications,
   points,
-  marker,
   tracks,
   settings,
   network,
   map,
   filters,
-  newPoint,
   account,
   drawer
 } ) );

@@ -5,22 +5,24 @@ import { CardText, FlatButton } from 'material-ui';
 import PointCard from './point-card';
 /*eslint-enable no-unused-vars*/
 
+import { Point } from 'btc-models';
+
 export class PeekPointCard extends PointCard {
   getCardState() {
     return 'point-card--peek';
   }
 
   getCardAction() {
-    const {fullscreenMarker} = this.props;
     return <FlatButton label="See More"
-             onClick={ fullscreenMarker } />;
+             onClick={ this.navigate( 'view-point' ) } />;
   }
 
   getCardContent() {
-    const {point} = this.props;
+    const point = this.point;
+    const {type} = Point.uri( point._id );
 
     let openUntil;
-    if ( this.type === 'service' ) {
+    if ( type === 'service' ) {
       openUntil = (
         <span className="point-card__open-until">{ PointCard.openUntil( point ) + ' — ' }</span>
       );

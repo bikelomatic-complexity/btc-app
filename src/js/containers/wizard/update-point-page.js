@@ -38,10 +38,9 @@ export class UpdatePointPage extends PointPage {
   // own state to match.
   componentDidMount() {
     const { pageActions, params, points } = this.props;
-    const id = params.pointId;
 
-    pageActions.loadPoint( id ).then( () => {
-      this.setState( { point: points[ id ] } );
+    pageActions.loadPoint( params.id ).then( () => {
+      this.setState( { point: points[ params.id ] } );
     });
   }
 

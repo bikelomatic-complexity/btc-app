@@ -43,7 +43,7 @@ import history from './history';
 
 // Allow direct access to the local PouchDB instance and import the gateway
 // singleton to make working with the database easier.
-// import database from './database';
+import database from './database';
 // import gateway from './gateway';
 import store from './store';
 
@@ -86,11 +86,11 @@ document.addEventListener( 'deviceReady', ( ) => {
           component={ Main }>
           <Route component={ MapPage }>
             <IndexRoute />
-            <Route path="peek-point/:pointId"
+            <Route path="peek-point/:id"
               component={ PeekPointCard } />
-            <Route path="view-point/:pointId"
+            <Route path="view-point/:id"
               component={ ViewPointCard } />
-            <Route path="rate-point/:pointId"
+            <Route path="rate-point/:id"
               component={ RatingPointCard } />
           </Route>
           <Route path="list"
@@ -119,7 +119,7 @@ document.addEventListener( 'deviceReady', ( ) => {
             <Route path="amenities"
               component={ ServiceAmenities } />
           </Route>
-          <Route path="/update-point/:pointId"
+          <Route path="/update-point/:id"
             component={ UpdatePointPage }>
             <IndexRoute component={ ServiceDescription } />
             <Route path="description"

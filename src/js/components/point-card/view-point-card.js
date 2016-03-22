@@ -6,22 +6,24 @@ import PointCard from './point-card';
 import HoursTable from '../hours-table';
 /*eslint-enable no-unused-vars*/
 
+import { Point } from 'btc-models';
+
 export class ViewPointCard extends PointCard {
   getCardState() {
     return 'point-card--view';
   }
 
   getCardAction() {
-    const {peekMarker} = this.props;
     return <FlatButton label="See Less"
-             onClick={ peekMarker } />;
+             onClick={ this.navigate( 'peek-point' ) } />;
   }
 
   getCardContent() {
-    const {point} = this.props;
+    const point = this.point;
+    const {type} = Point.uri( point._id );
 
     let content;
-    if ( this.type === 'alert' ) {
+    if ( type === 'alert' ) {
       content = (
         <div className="point-card__content">
           <CardText>
@@ -29,7 +31,7 @@ export class ViewPointCard extends PointCard {
           </CardText>
         </div>
       );
-    } else if ( this.type === 'service' ) {
+    } else if ( type === 'service' ) {
       let hours = <HoursTable hours={ point.schedule.default } />;
       let explanation;
       if( point.seasonal ) {

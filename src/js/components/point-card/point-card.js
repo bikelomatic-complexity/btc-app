@@ -20,11 +20,6 @@ import { isEmpty } from 'lodash';
 // When a card mounts or updates, the card is responsible for dispatching the
 // action to load the marker indicated within the React Router params.
 export class PointCard extends Component {
-  constructor( props ) {
-    super( props );
-    this.type = Point.uri( props.point._id ).type;
-  }
-
   // Return content do display in the card
   getCardContent() {
     return (
@@ -39,29 +34,50 @@ export class PointCard extends Component {
     console.error( 'PointCard#getCardState() is abstract' );
   }
 
-  componentDidMount() {
-    const {params} = this.props;
-    this.props.loadMarker( params.pointId );
+  // # componentDidMount
+  // The router passes point cards the id of the point to display in `params`.
+  // When the component mounts, we need to ensure that point is present in
+  // the store, so we dispatch `loadPoint`. However, `loadPoint` is not
+  // guaranteed to fetch the point synchronously. If the point is not found
+  // immediately, `this.point` will have { isFetching: true } so we can delay
+  // rendering the real card.
+  //
+  // Generally, you are not supposed to put data fetching calls in this
+  // method, but `loadPoint` synchronously puts some default data into
+  // points[ params.id ] that we need *before* render.
+  componentWillMount() {
+    const {params, points, loadPoint} = this.props;
+    loadPoint( params.id );
+    this.point = points[ params.id ];
   }
 
+  // # componentWillReceiveProps
+  // See componentDidMount. As we are potentially getting a new id to display
+  // from the router, we need to load the point for that id.
   componentWillReceiveProps( nextProps ) {
-    const {params} = nextProps;
-    this.props.loadMarker( params.pointId );
+    const {params, points, loadPoint} = nextProps;
+    loadPoint( params.id );
+    this.point = points[ params.id ];
   }
 
   // Return a function that navigates to a different page with the loaded
   // point's id as the parameter.
   navigate( prefix ) {
-    const {navigateWithId, point} = this.props;
+    const {navigateWithId} = this.props;
+    const point = this.point;
     return ( ) => navigateWithId( prefix, point );
   }
 
   static openUntil( service ) {
     const schedule = new Schedule( service.schedule );
-    const closes = new Date( schedule.getClosingToday() )
-      .toLocaleTimeString( [], { hour: 'numeric', minutes: 'numeric' } );
-
-    return closes ? `Open until: ${ closes }` : 'Not open today';
+    const closing = schedule.getClosingToday();
+    if( closing ) {
+      const time = new Date( schedule.getClosingToday() )
+        .toLocaleTimeString( [], { hour: 'numeric', minutes: 'numeric ' } );
+      return 'Open until: ' + time;
+    } else {
+      return 'Not open today';
+    }
   }
 
   // Get an english list of available amenities
@@ -107,17 +123,13 @@ export class PointCard extends Component {
         <MenuItem primaryText='Flag Service'
           onClick={ this.navigate( 'flag-point' ) } />
       </IconMenu>
-      );
+    );
   }
 
   // Display the card if the point is loaded. If not, show a spinner.
   render() {
-    const {deselectMarker, point} = this.props;
-
-    let coverUrlStyle = {};
-    if ( point.coverUrl ) {
-      coverUrlStyle.backgroundImage = `url(${point.coverUrl})`;
-    }
+    const {deselectMarker} = this.props;
+    const point = this.point;
 
     const state = this.getCardState();
     const className = 'point-card' + ( state ? ( ' ' + state ) : '' );
@@ -129,6 +141,11 @@ export class PointCard extends Component {
             size={ 2 } />
         </Card>
         );
+    }
+
+    let coverUrlStyle = {};
+    if ( point.coverUrl ) {
+      coverUrlStyle.backgroundImage = `url(${point.coverUrl})`;
     }
 
     return (
