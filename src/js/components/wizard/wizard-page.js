@@ -22,7 +22,7 @@ import '../../../css/wizard.css';
 export class WizardPage extends Component {
   constructor( props ) {
     super( props );
-    bindAll( this, 'link', 'onPhotoAdd', 'onClick' );
+    bindAll( this, 'link', 'onPhotoAdd', 'persistBefore' );
 
     this.state = {};
   }
@@ -78,14 +78,12 @@ export class WizardPage extends Component {
   //   }
   // }
 
-  onClick() {
-    const {persist, onNext} = this.props;
-
+  persistBefore( callback ) {
     const values = this.getPageValues();
-    if( keys( values ).length > 0 && isFunction( persist ) ) {
-      persist( values, onNext );
+    if( keys( values ).length > 0 && isFunction( this.props.persist ) ) {
+      this.props.persist( values, callback );
     } else {
-      onNext();
+      callback();
     }
   }
 
@@ -136,7 +134,7 @@ export class WizardPage extends Component {
         <RaisedButton className="tabs-content__action"
           secondary
           disabled={ this.isDisabled() }
-          onClick={ this.onClick }
+          onClick={ this.props.onNext }
           label={ label } />
       </div>
       );

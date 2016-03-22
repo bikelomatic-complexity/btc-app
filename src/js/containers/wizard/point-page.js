@@ -84,8 +84,15 @@ export default class PointPage extends Component {
   // Given a tab, navigate to the url that selects that tab. The url varies
   // based on the PointPage subclass.
   navigateToTab( tab ) {
-    const pageUrl = this.getPageUrl();
-    history.push( `/${pageUrl}/${tab.url}` );
+    const url = this.getPageUrl();
+    const nav = history.push.bind( null, `/${ url }/${ tab.url }` );
+
+    const {wizard} = this.refs;
+    if( wizard ) {
+      wizard.persistBefore( nav );
+    } else {
+      nav();
+    }
   }
 
   // When the wizard's form is submitted, we need to invoke the subclass'
@@ -94,7 +101,14 @@ export default class PointPage extends Component {
   // TODO: refactor out the blob conversion, it should not occur here.
   onSubmit() {
     const { point, coverBlob } = this.state;
-    this.onFinal( point, coverBlob );
+    const finalize = this.onFinal.bind( this, point, coverBlob );
+
+    const {wizard} = this.refs;
+    if( wizard ) {
+      wizard.persistBefore( finalize );
+    } else {
+      finalize();
+    }
   }
 
   // Override this method in your PointPage subclass to provide finalization
@@ -130,14 +144,15 @@ export default class PointPage extends Component {
   //
   // `persist` is called when a WizardPage is unmounted. This allows us to
   // save the user's data entry only at the time of unmount.
-  mapPropsOnTabContent( tabContent ) {
-    return React.cloneElement( tabContent, {
+  mapPropsOnWizardPage( wizardPage ) {
+    return React.cloneElement( wizardPage, {
+      ref: 'wizard',
       ...this.props,
       ...this.props.wizardActions,
       point: this.state.point,
       persist: this.persist,
-      onNext: this.onNext.bind( this, tabContent.type ),
-      finalTab: this.isFinalTab( tabContent.type )
+      onNext: this.onNext.bind( this, wizardPage.type ),
+      finalTab: this.isFinalTab( wizardPage.type )
     } );
   }
 
@@ -160,15 +175,15 @@ export default class PointPage extends Component {
         icon={ tab.icon } />
     ) );
 
-    const tabContent = React.Children.only( this.props.children );
-    const tabContentWithProps = this.mapPropsOnTabContent( tabContent );
+    const wizardPage = React.Children.only( this.props.children );
+    const wizardPageWithProps = this.mapPropsOnWizardPage( wizardPage );
 
     const spinner = <CircularProgress size={ 2 } />;
-    const content = this.isReady() ? tabContentWithProps : spinner;
+    const content = this.isReady() ? wizardPageWithProps : spinner;
 
     return (
       <div className='layout__section'>
-        <Tabs value={ tabContent.type }
+        <Tabs value={ wizardPage.type }
           className="tabs-bar">
           { tabs }
         </Tabs>
