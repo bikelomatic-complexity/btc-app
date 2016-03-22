@@ -5,8 +5,10 @@ import LocationIcon from 'material-ui/lib/svg-icons/maps/place';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 /*eslint-enable no-unused-vars*/
 
-import { Point, display } from 'btc-models';
+import { Point, Schedule, display } from 'btc-models';
 import '../../../css/point-card.css';
+
+import { isEmpty } from 'lodash';
 
 // The PointCard is the base class for all the states of a point card. These
 // include the peek, rate, and view cards.
@@ -52,6 +54,37 @@ export class PointCard extends Component {
   navigate( prefix ) {
     const {navigateWithId, point} = this.props;
     return ( ) => navigateWithId( prefix, point );
+  }
+
+  static openUntil( service ) {
+    const schedule = new Schedule( service.schedule );
+    const closes = new Date( schedule.getClosingToday() )
+      .toLocaleTimeString( [], { hour: 'numeric', minutes: 'numeric' } );
+
+    return closes ? `Open until: ${ closes }` : 'Not open today';
+  }
+
+  // Get an english list of available amenities
+  static amenities( service ) {
+    const {amenities} = service;
+    if ( !isEmpty( amenities ) ) {
+      let amenities_and = [ ...amenities.map( display ) ];
+
+      let seperator;
+      if ( amenities.length > 2 ) { // 1, 2, and 3
+        amenities_and.push( 'and ' + amenities_and.pop() );
+        seperator = ', ';
+      } else if ( amenities.length > 1 ) { // 1 and 2
+        amenities_and.push( 'and ' + amenities_and.pop() );
+        seperator = ' ';
+      } else {
+        seperator = '';
+      }
+
+      return 'Amenities include: ' + amenities_and.join( seperator );
+    } else {
+      return 'Amenities: none listed';
+    }
   }
 
   // The IconMenu at the top right of the card, in the header. It allows the

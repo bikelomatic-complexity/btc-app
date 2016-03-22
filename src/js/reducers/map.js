@@ -3,7 +3,7 @@ import { RECEIVE_LOAD_MARKER } from './marker';
 
 const USMap = { center: [ 39.8145, -99.9946 ], zoom: 3 };
 
-export default function mapState( state = { loading: true, center: USMap.center, zoom: USMap.zoom } , action ) {
+export default function map( state = { loading: true, center: USMap.center, zoom: USMap.zoom } , action ) {
   switch ( action.type ) {
   case RECEIVE_LOAD_MARKER:
     /*

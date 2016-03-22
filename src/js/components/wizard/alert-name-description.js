@@ -1,53 +1,35 @@
 /*eslint-disable no-unused-vars*/
 import React from 'react';
-
 import { TextField, RaisedButton, SelectField, MenuItem } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
-import { toPairs, isEmpty } from 'lodash';
 import WizardPage from './wizard-page';
 
-export class AlertNameDescription extends WizardPage {
-  constructor( props ) {
-    super( props );
+import { toPairs } from 'lodash';
 
-    const {newPoint} = props;
-    this.state = {
-      name: newPoint.name || '',
-      type: newPoint.type || '',
-      description: newPoint.description || ''
-    };
+export class AlertNameDescription extends WizardPage {
+  componentWillMount() {
+    const {point} = this.props;
+
+    this.setState( {
+      name: point.name,
+      type: point.type,
+      description: point.description,
+      coverUrl: point.coverUrl
+    } );
   }
 
   componentDidMount() {
-    const {setDrawer} = this.props;
-    setDrawer( 'Enter Information' ) ;
-  }
-
-  // This logic will not work on the browser:
-  // [CB-9852](https://issues.apache.org/jira/browse/CB-9852)
-  onPhotoAdd() {
-    navigator.camera.getPicture(
-      imageSrc => this.props.setPointImage( imageSrc ),
-      err => console.error( err ),
-      {
-        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
-        destinationType: navigator.camera.DestinationType.FILE_URI,
-        encodingType: navigator.camera.EncodingType.PNG
-      }
-    );
+    this.props.setDrawer( 'Enter Information' ) ;
   }
 
   getPageFields() {
-    return [ 'name', 'location', 'type' ];
+    return [ 'name', 'type', 'description', 'coverBlob' ];
   }
 
   getPageContent() {
-    let latLngString = '';
-    if ( this.props.newPoint.location.length !== 0 ) {
-      const [lat, lng] = this.props.newPoint.location;
-      latLngString = `(${lat.toFixed( 4 )}, ${lng.toFixed( 4 )})`;
-    }
+    const { location: [ lat, lng ] } = this.state.point;
+    const latlng = `(${ lat.toFixed( 4 ) }, ${ lng.toFixed( 4 ) })`;
 
     const {types} = this.props;
     const options = toPairs( types ).map( ( [type, values] ) => (
@@ -56,9 +38,8 @@ export class AlertNameDescription extends WizardPage {
         primaryText={ values.display } />
     ) );
 
-    const {imageSrc} = this.props.newPoint;
-    const image = isEmpty( imageSrc ) ? <div /> : <img src={ imageSrc } />;
-
+    const {coverUrl} = this.state;
+    const image = coverUrl ? <img src={ coverUrl } /> : <div />;
     return (
       <div className="wizard-page">
         <TextField fullWidth
@@ -66,7 +47,7 @@ export class AlertNameDescription extends WizardPage {
           floatingLabelText="Name" />
         <TextField disabled
           fullWidth
-          value={ latLngString }
+          value={ latlng }
           floatingLabelText="Location" />
         <SelectField fullWidth
           { ...this.link( 'type' ) }

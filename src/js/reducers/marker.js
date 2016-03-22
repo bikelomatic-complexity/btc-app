@@ -61,7 +61,7 @@ export function loadMarker( id ) {
     if ( isLoaded( marker, id ) ) {
       return;
     } else if ( cache = isCached( points, id ) ) {
-      dispatch( recieveLoadMarker( cache ) );
+      dispatch( receiveLoadMarker( cache ) );
     } else {
       dispatch( requestLoadMarker( id ) );
       const point = Point.for( id );
@@ -78,7 +78,7 @@ function isLoaded( marker, id ) {
 
 // Return a cached marker with `id` if it exists in the cache
 function isCached( points, id ) {
-  return points[ id ]
+  return points[ id ];
 }
 
 // Begin an async call to load the marker with `id` into the store
@@ -87,6 +87,6 @@ function requestLoadMarker( id ) {
 }
 
 // End an async call to load the marker with `id` into the store
-function recieveLoadMarker( marker ) {
+function receiveLoadMarker( marker ) {
   return { type: RECEIVE_LOAD_MARKER, marker };
 }

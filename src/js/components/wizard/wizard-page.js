@@ -4,6 +4,8 @@ import { keys, pick, assign, isFunction, bindAll, isEmpty } from 'lodash';
 import { RaisedButton } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
+import { imgSrcToBlob } from 'blob-util';
+
 import '../../../css/wizard.css';
 
 // The WizardPage is the base class for all the pages associated with a tab
@@ -20,7 +22,9 @@ import '../../../css/wizard.css';
 export class WizardPage extends Component {
   constructor( props ) {
     super( props );
-    bindAll( this, 'link' );
+    bindAll( this, 'link', 'onPhotoAdd', 'onClick' );
+
+    this.state = {};
   }
 
   // Return an array of field names that will be picked out of `this.state`
@@ -65,12 +69,24 @@ export class WizardPage extends Component {
   // When a page unmounts, persist the page values obtained via
   // `getpageValues()'. The `persist` function must be supplied by the
   // add point or update point pages.
-  componentWillUnmount() {
-    const {persist} = this.props;
+  // componentWillUnmount() {
+  //   const {persist} = this.props;
+  //
+  //   const values = this.getPageValues();
+  //   if ( keys( values ).length > 0 && isFunction( persist ) ) {
+  //     persist( values );
+  //   }
+  // }
+
+  onClick() {
+    const {persist, onNext} = this.props;
 
     const values = this.getPageValues();
-    if ( keys( values ).length > 0 && isFunction( persist ) ) {
-      persist( values );
+    console.log( values );
+    if( keys( values ).length > 0 && isFunction( persist ) ) {
+      persist( values, onNext );
+    } else {
+      onNext();
     }
   }
 
@@ -94,8 +110,12 @@ export class WizardPage extends Component {
 
     // Add an event listener that sets state @ `field`. Different material-ui
     // components return the field value differently. It can either be in
-    // `value` or `event.target.value`.
+    // `value` or `event.target.value`. In the case of TimePicker, a Date
+    // object is stored at the second argument.
     props[ method ] = ( event, key, value ) => {
+      if( key instanceof Date ) {
+        value = key;
+      }
       this.setState( { [ field ]: value || event.target.value } );
     };
 
@@ -109,7 +129,6 @@ export class WizardPage extends Component {
   }
 
   render() {
-    const {onNext} = this.props;
     const {label} = this.getTransition();
 
     return (
@@ -118,10 +137,26 @@ export class WizardPage extends Component {
         <RaisedButton className="tabs-content__action"
           secondary
           disabled={ this.isDisabled() }
-          onClick={ onNext }
+          onClick={ this.onClick }
           label={ label } />
       </div>
       );
+  }
+
+  // This logic will not work on the browser:
+  // [CB-9852](https://issues.apache.org/jira/browse/CB-9852)
+  onPhotoAdd() {
+    navigator.camera.getPicture( imageSrc => {
+      imgSrcToBlob( imageSrc ).then(
+        coverBlob => this.setState( { coverBlob } )
+      );
+    }, err => {
+      console.error( err );
+    }, {
+      sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: navigator.camera.DestinationType.FILE_URI,
+      encodingType: navigator.camera.EncodingType.PNG
+    } );
   }
 }
 

@@ -23,47 +23,46 @@ export class AddPointPage extends PointPage {
     ];
   }
 
-  onFinal( blob = undefined ) {
-    const { addService, newPoint } = this.props;
-    const point = newPoint;
+  componentWillMount() {
+    const point = new Service();
+    this.setState( { point: point.store() } );
+  }
 
-    const service = new Service( {
-      'name': point.name,
-      'location': point.location,
-      'type': point.type,
-      'description': point.description,
-      'flag': false,
-      'amenities': point.amenities,
-      'schedule': [ { days: point.hours } ],
-      'seasonal': false,
-      'address': point.address,
-      'phone': point.phoneNumber,
-      'website': point.website
-    } );
+  isReady() {
+    return true;
+  }
+
+  onFinal( point, blob = undefined ) {
+    const { addService } = this.props;
+
+    const service = new Service( point );
     if( service.isValid() ) {
       addService( service, blob );
       history.push( '/' );
     } else {
-      console.log( service.validationError );
+      console.error(service.validationError);
     }
+  }
+
+  static mapStateToProps( state ) {
+    return {
+      ...super.mapStateToProps( state ),
+      map: state.map, // You need a map to place a service
+      types: serviceTypes // You need to select a service type
+    };
+  }
+
+  static mapDispatchToProps( dispatch ) {
+    return {
+      ...super.mapDispatchToProps( dispatch ),
+      ...bindActionCreators( {
+        'addService': addService
+      }, dispatch )
+    };
   }
 }
 
-function mapStateToProps( state ) {
-  return {
-    ...PointPage.mapStateToProps.apply( this, arguments ),
-    mapState: state.mapState, // You need a map to place a service
-    types: serviceTypes // You need to select a service type
-  };
-}
-
-function mapDispatchToProps( dispatch ) {
-  return {
-    ...PointPage.mapDispatchToProps.apply( this, arguments ),
-    ...bindActionCreators( {
-      'addService': addService
-    }, dispatch )
-  };
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( AddPointPage );
+export default connect(
+  AddPointPage.mapStateToProps,
+  AddPointPage.mapDispatchToProps
+)( AddPointPage );

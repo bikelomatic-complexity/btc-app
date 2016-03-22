@@ -1,84 +1,78 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
-import { RaisedButton, CardText, FontIcon } from 'material-ui';
-
-import DropDown from '../drop-down';
+import { RaisedButton, CardText, FontIcon, MenuItem, SelectField } from 'material-ui';
+import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
 /*eslint-disable no-unused-vars*/
 
-import { keys } from 'lodash';
 import WizardPage from './wizard-page';
+import { display } from 'btc-models';
+
+import { keys, bindAll, union, without, toPairs } from 'lodash';
 
 export class ServiceAmenities extends WizardPage {
   constructor( props ) {
     super( props );
-    this.state = {
+    bindAll( this, 'addAmenity', 'removeAmenity');
+  }
+
+  componentWillMount() {
+    const {point} = this.props;
+    this.setState( {
+      amenities: point.amenities,
       amenity: null
-    };
+    } );
   }
 
   componentDidMount() {
-    const {setDrawer, newPoint} = this.props;
-    setDrawer( newPoint._id ? 'Update Amenities' : 'Add Amenities' );
+    this.props.setDrawer( 'Add Amenities' );
+  }
+
+  getPageFields() {
+    return [ 'amenities' ];
   }
 
   addAmenity() {
-    const {addPointAmenity} = this.props;
-    addPointAmenity( this.state.amenity );
+    const amenities = union( this.state.amenities, [ this.state.amenity ] );
+    this.setState( { amenities } );
   }
 
-  removeAmenity( index ) {
-    const {removePointAmenity} = this.props;
-    removePointAmenity( index );
-  }
-
-  selectAmenity( amenity ) {
-    this.setState( { amenity } );
+  removeAmenity( amenity ) {
+    const amenities = without( this.state.amenities, amenity );
+    this.setState( { amenities } );
   }
 
   getPageContent() {
-    let addAmenityButton = (
-    <RaisedButton secondary
-      disabled={ !( this.state.amenity || this.props.newPoint.amenities.indexOf( this.state.amenity ) !== -1 ) }
-      onClick={ this.addAmenity.bind( this ) }
-      label="Add Amenity" />
-    );
-    if ( this.props.newPoint.amenities && this.props.newPoint.amenities.indexOf( this.state.amenity ) !== -1 ) {
-      addAmenityButton = (
-        <RaisedButton secondary
-          disabled
-          label="Add Amenity" />
-      );
-    }
-
-    const amenities = this.props.newPoint.amenities.map( ( amenity, index ) => {
-      return (
-        <RaisedButton key={ amenity }
-          style={ { margin: 8 } }
-          onClick={ this.removeAmenity.bind( this, amenity ) }
-          label={ displayType( amenity ) }
-          labelPosition="before"
-          icon={ <FontIcon className="material-icons">clear</FontIcon> } />
-        );
-    } );
-
-
     const {types} = this.props;
-    const displayType = type => types[ type ].display;
-    const amenityTypes = keys( types );
-
+    const options = toPairs( types ).map( ( [ type, values ] ) => (
+      <MenuItem key={ type }
+        value={ type }
+        primaryText={ values.display } />
+    ) );
+    const amenities = this.state.amenities.map( amenity => (
+      <RaisedButton key={ amenity }
+        label={ display( amenity ) }
+        onClick={ this.removeAmenity.bind( this, amenity ) }
+        icon={ <ClearIcon /> }
+        style={ { margin: 8 } }
+        labelPosition="before" />
+    ) );
     return (
       <div className="wizard-page">
-        <DropDown options={ amenityTypes }
-          text="Amenity"
-          textTransform={ displayType }
-          onSelectFunction={ this.selectAmenity.bind( this ) } />
+        <SelectField fullWidth
+          { ...this.link( 'amenity' ) }
+          floatingLabelText="Choose an amenity" >
+          { options }
+        </SelectField>
         <div>
           { amenities }
         </div>
         <div className="wizard-page__spacer" />
-        { addAmenityButton }
+        <RaisedButton secondary
+          label="Add amenity"
+          disabled={ !this.state.amenity }
+          onClick={ this.addAmenity } />
       </div>
-      );
+    );
   }
 
   getPreferredTransition() {

@@ -19,18 +19,18 @@ setIconDefaultImagePath( 'img/icons' );
 export class PointMap extends Component {
   constructor( props ) {
     super( props );
-    const {mapState} = this.props;
+    const {map} = this.props;
     this.state = {
-      startCenter: mapState.center,
-      center: mapState.center,
-      zoom: mapState.zoom
+      startCenter: map.center,
+      center: map.center,
+      zoom: map.zoom
     };
     bindAll( this, 'onMapMoved' );
   }
 
   componentDidMount() {
-    const {mapState, setGeoLocation, setMapCenter, setMapLoading} = this.props;
-    if ( mapState.loading ) {
+    const {map, setGeoLocation, setMapCenter, setMapLoading} = this.props;
+    if ( map.loading ) {
       navigator.geolocation.getCurrentPosition(
         ( pos ) => {
           const {latitude, longitude} = pos.coords;
@@ -62,16 +62,16 @@ export class PointMap extends Component {
   }
 
   componentWillReceiveProps( nextProps ) {
-    const {mapState} = nextProps;
+    const {map} = nextProps;
     this.setState( {
-      startCenter: mapState.center
+      startCenter: map.center
     } );
   }
 
   shouldComponentUpdate( nextProps, nextState ) {
-    return ( this.props.mapState.loading !== nextProps.mapState.loading ) ||
+    return ( this.props.map.loading !== nextProps.map.loading ) ||
       ( this.state.startCenter !== nextState.startCenter ) ||
-      ( this.state.startCenter !== nextProps.mapState.center ) ||
+      ( this.state.startCenter !== nextProps.map.center ) ||
       ( this.props.points.length !== nextProps.points.length );
   }
 
@@ -86,7 +86,7 @@ export class PointMap extends Component {
   }
 
   render() {
-    const {points, tracks, settings, mapState, deselectMarker, selectMarker, filters, children} = this.props;
+    const {points, tracks, settings, map, deselectMarker, selectMarker, filters, children} = this.props;
 
     let markers = points.filter( point => {
       if ( Point.uri( point._id ).type === 'alert' && filters.hideAlert ) {
@@ -159,12 +159,12 @@ export class PointMap extends Component {
     }
 
     let circleMarker = '';
-    if ( mapState.geolocation ) {
-      circleMarker = <CircleMarker center={ mapState.geolocation } />;
+    if ( map.geolocation ) {
+      circleMarker = <CircleMarker center={ map.geolocation } />;
     }
 
     let view;
-    if ( mapState.loading ) {
+    if ( map.loading ) {
       view = (
         <div style={ { margin: 'auto' } }>
           <CircularProgress size={ 2 } />

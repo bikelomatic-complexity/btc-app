@@ -20,32 +20,41 @@ export class AddAlertPage extends PointPage {
     ];
   }
 
-  onFinal( blob = undefined ) {
-    const { addAlert, newPoint } = this.props;
+  isReady() {
+    return true;
+  }
 
-    const alert = new Alert( newPoint );
+  onFinal( point, blob = undefined ) {
+    const { addAlert } = this.props;
+
+    const alert = new Alert( point );
     if( alert.isValid() ) {
       addAlert( alert, blob );
       history.push( '/' );
+    } else {
+      console.error(alert.validationError);
     }
+  }
+
+  static mapStateToProps( state ) {
+    return {
+      ...super.mapStateToProps( state ),
+      map: state.map, // You need a map to place an alert
+      types: alertTypes // You need to choose an alert type
+    };
+  }
+
+  static mapDispatchToProps( dispatch ) {
+    return {
+      ...super.mapDispatchToProps( dispatch ),
+      ...bindActionCreators( {
+        'addAlert': addAlert
+      }, dispatch )
+    };
   }
 }
 
-function mapStateToProps( state ) {
-  return {
-    ...PointPage.mapStateToProps.apply( this, arguments ),
-    mapState: state.mapState, // You need a map to place an alert
-    types: alertTypes // You need to choose an alert type
-  };
-}
-
-function mapDispatchToProps( dispatch ) {
-  return {
-    ...PointPage.mapDispatchToProps.apply( this, arguments ),
-    ...bindActionCreators( {
-      'addAlert': addAlert
-    }, dispatch )
-  };
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( AddAlertPage );
+export default connect(
+  AddAlertPage.mapStateToProps,
+  AddAlertPage.mapDispatchToProps
+)( AddAlertPage );

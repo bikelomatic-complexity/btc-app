@@ -1,115 +1,110 @@
 /*eslint-disable no-unused-vars*/
 import React from 'react';
 import DropDown from '../drop-down';
-import { RaisedButton, CardText, FontIcon, TimePicker } from 'material-ui';
+import { RaisedButton, CardText, FontIcon, TimePicker, SelectField, MenuItem } from 'material-ui';
+import { HoursTable } from '../hours-table';
 /*eslint-enable no-unused-vars*/
 
-import { bindAll } from 'lodash';
 import WizardPage from './wizard-page';
+import { Schedule, days, nextDay } from 'btc-models';
 
-const weekDays = [
-  'Weekdays', 'Weekends', 'Monday', 'Tuesday',
-  'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
-];
+import { bindAll, keys, toPairs } from 'lodash';
+
+// The pickers default to 8 AM and 5 PM respectively
+const defaultOpens = new Date( 1970, 0, 1, 8, 0, 0, 0 );
+const defaultClose = new Date( 1970, 0, 1, 17, 0, 0, 0 );
 
 export class ServiceHours extends WizardPage {
   constructor( props ) {
     super( props );
-    bindAll( this, 'onDaySelect', 'addHours', 'removeHours' );
+    bindAll( this, 'addHours', 'removeHours', 'onRowSelection' );
+  }
 
-    this.state = { add: false };
+  componentWillMount() {
+    const {point} = this.props;
+    this.setState( {
+      schedule: point.schedule,
+      selectedRows: [],
+      day: null,
+      opens: defaultOpens,
+      closes: defaultClose
+    } );
   }
 
   componentDidMount() {
-    const {setDrawer, newPoint} = this.props;
-    setDrawer( newPoint._id ? 'Update Hours' : 'Add Hours' );
+    this.props.setDrawer( 'Add Hours' );
   }
 
-  onDaySelect() {
-    this.setState( { add: true } );
+  getPageFields() {
+    return [ 'schedule' ];
+  }
+
+  onRowSelection( selectedRows ) {
+    this.setState( { selectedRows } );
   }
 
   addHours() {
-    const {addPointHours} = this.props;
-    const {openPicker, closePicker, dayDropDown} = this.refs;
-    const {formatTime} = openPicker;
+    const { day, opens, closes } = this.state;
 
-    const day = dayDropDown.getSelected();
-    const opens = formatTime( openPicker.getTime() );
-    const closes = formatTime( closePicker.getTime() );
+    const model = new Schedule( this.state.schedule );
+    model.addHoursIn( day, opens, closes );
 
-    let days = [];
-    if ( day == 'Weekdays' ) {
-      days = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday' ];
-    } else if ( day == 'Weekends' ) {
-      days = [ 'Saturday', 'Sunday' ];
-    } else {
-      days = [ day ];
-    }
-    days.forEach( ( day ) => {
-      addPointHours( { day, opens, closes } );
+    this.setState( {
+      schedule: model.get( 'schedule' ),
+      day: nextDay( day )
     } );
-    dayDropDown.setSelected( weekDays[ ( weekDays.indexOf( day ) + 1 ) % weekDays.length ] );
   }
 
   removeHours( index ) {
-    const {removePointHours} = this.props;
-    removePointHours( index );
+    const model = new Schedule( this.state.schedule );
+    model.delHoursIn( index );
+
+    this.setState( {
+      schedule: model.get( 'schedule' )
+    } );
   }
 
   getPageContent() {
-    const midnight = new Date();
-    midnight.setHours( 0, 0, 0, 0 );
-
-    const hours = this.props.newPoint.hours.sort( ( dayA, dayB ) => {
-      return weekDays.indexOf( dayA.day ) > weekDays.indexOf( dayB.day );
-    } ).map( ( day, index ) => {
-      return (
-        <div key={ day.day + day.opens + day.closes }
-          className='form-row'>
-          <RaisedButton onClick={ this.removeHours.bind( this, index ) }
-            label={ `${day.day}: ${day.opens} - ${day.closes}` }
-            labelPosition='before'
-            icon={ <FontIcon className='material-icons'>clear</FontIcon> } />
-        </div>
-        );
-    } );
-
+    const options = toPairs( days ).map( ( [ day, values ] ) => (
+      <MenuItem key={ day }
+        value={ day }
+        primaryText={ values.display } />
+    ) );
     return (
       <div className='wizard-page'>
-        <DropDown fullWidth
-          ref='dayDropDown'
-          text='Day(s)'
-          onSelectFunction={ this.onDaySelect }
-          options={ weekDays } />
+        <SelectField fullWidth
+          { ...this.link( 'day' ) }
+          hintText="Day(s)" >
+          { options }
+        </SelectField>
         <div className='wizard-page__row'>
           <span>Opens at</span>
           <TimePicker fullWidth
-            ref='openPicker'
+            { ...this.link( 'opens' ) }
             format='ampm'
-            defaultTime={ midnight } />
-        </div>
-        <div className='wizard-page__row'>
+            defaultTime={ defaultOpens } />
           <span>Closes at</span>
           <TimePicker fullWidth
-            ref='closePicker'
+            { ...this.link( 'closes' ) }
             format='ampm'
-            defaultTime={ midnight } />
+            defaultTime={ defaultClose } />
         </div>
-        { hours }
+        <HoursTable removable
+          onRowRemove={ this.removeHours }
+          hours={ this.state.schedule.default } />
         <div className="wizard-page__spacer"></div>
         <RaisedButton secondary
-          disabled={ !this.state.add }
+          disabled={ !this.state.day }
           onClick={ this.addHours }
-          label='Add Hours' />
+          label="Add Hours" />
       </div>
       );
   }
 
   getPreferredTransition() {
-    const {hours} = this.props.newPoint;
+    const {schedule} = this.state;
 
-    if ( hours && hours.length > 0 ) {
+    if ( keys( schedule ).length > 0 ) {
       return WizardPage.transitions.next;
     } else {
       return WizardPage.transitions.skip;

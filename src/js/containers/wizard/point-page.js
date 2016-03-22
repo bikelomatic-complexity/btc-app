@@ -4,11 +4,10 @@ import { RaisedButton, Tabs, Tab } from 'material-ui';
 import { CircularProgress } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
-import BlobUtil from 'blob-util';
-import { findIndex, bindAll, isEmpty, last } from 'lodash';
+import { findIndex, bindAll, last, merge, omit } from 'lodash';
 import { bindActionCreators } from 'redux';
 
-import * as pointActions from '../../actions/new-point-actions';
+import { loadPoints } from '../../reducers/points';
 import * as mapActions from '../../actions/map-actions';
 import * as drawerActions from '../../reducers/drawer';
 
@@ -25,12 +24,9 @@ import '../../../css/layout.css';
 export default class PointPage extends Component {
   constructor( props ) {
     super( props );
-    bindAll( this, 'onSubmit', 'onNext' );
-  }
+    bindAll( this, 'onSubmit', 'onNext', 'persist' );
 
-  // When the user navigates from the add/update point pages, reset all fields.
-  componentWillUnmount() {
-    this.props.pageActions.clearPointProps();
+    this.state = { point: {} };
   }
 
   // Override this method in your PointPage subclass to match the url you
@@ -49,6 +45,17 @@ export default class PointPage extends Component {
   getTabSet() {
     console.error( 'PointPage#getTabs() is abstract' );
     return [];
+  }
+
+  // By default, a point page does not need to fetch any data,
+  // and should just start out with a blank point.
+  componentWillMount() {
+    console.error('PointPage subclasses must implement componentWillMount()');
+  }
+
+  isReady() {
+    console.error( 'PointPage#isReady() is abstract' );
+    return false;
   }
 
   // When we are on the last WizardPage, we want to submit the form. Otherwise,
@@ -86,15 +93,9 @@ export default class PointPage extends Component {
   //
   // TODO: refactor out the blob conversion, it should not occur here.
   onSubmit() {
-    const {imageSrc} = this.props.newPoint;
-
-    if ( isEmpty( imageSrc ) ) {
-      this.onFinal.call( this );
-    } else {
-      BlobUtil.imgSrcToBlob( imageSrc ).then( blob => {
-        this.onFinal.call( this, blob );
-      } );
-    }
+    const { point, coverBlob } = this.state;
+    console.log( 'onSubmit', point, coverBlob );
+    this.onFinal( point, coverBlob );
   }
 
   // Override this method in your PointPage subclass to provide finalization
@@ -102,6 +103,18 @@ export default class PointPage extends Component {
   // last page in the wizard.
   onFinal() {
     console.error( 'PointPage#onFinal() is abstract' );
+  }
+
+  persist( fields, after ) {
+    const attributes = omit( fields, 'coverBlob' );
+
+    this.setState( ( state, props ) => {
+      const ret = merge( {}, state, {
+        point: attributes,
+        coverBlob: fields.coverBlob
+      } );
+      return ret;
+    }, after );
   }
 
   // The wizard page supplied as the only child in `tabContent` will be a
@@ -122,9 +135,10 @@ export default class PointPage extends Component {
     return React.cloneElement( tabContent, {
       ...this.props,
       ...this.props.wizardActions,
+      point: this.state.point,
+      persist: this.persist,
       onNext: this.onNext.bind( this, tabContent.type ),
-      finalTab: this.isFinalTab( tabContent.type ),
-      persist: this.props.pageActions.updatePointProps
+      finalTab: this.isFinalTab( tabContent.type )
     } );
   }
 
@@ -151,8 +165,7 @@ export default class PointPage extends Component {
     const tabContentWithProps = this.mapPropsOnTabContent( tabContent );
 
     const spinner = <CircularProgress size={ 2 } />;
-    const {newPoint} = this.props;
-    const content = newPoint.isFetching ? spinner : tabContentWithProps;
+    const content = this.isReady() ? tabContentWithProps : spinner;
 
     return (
       <div className='layout__section'>
@@ -172,27 +185,23 @@ export default class PointPage extends Component {
   // should extend this function when making their own `mapStateToProps`.
   static mapStateToProps( state ) {
     return {
-      newPoint: state.newPoint
+      points: state.points
     };
   }
 
-  // This funciton is used by react-redux's `connect` to supply our React
-  // component with bound action creators.
+  // This function is used by react-redux's connect() to supply our React
+  // component with bound action creators. All the actions in `wizardActions`
+  // will be passed to the underlying wizard pages. The actions in
+  // `pageActions` will be available to the page itself.
   //
   // **subclasses are expected to connect to redux themselves**. Subclasses
   // should extend this function when making their own `mapDispatchToProps`.
   static mapDispatchToProps( dispatch ) {
     return {
-      // These actions will be available in `this.props.pageActions`
       pageActions: bindActionCreators( {
-        'updatePointProps': pointActions.updatePointProps,
-        'clearPointProps': pointActions.clearPointProps
+        loadPoints: loadPoints
       }, dispatch ),
-
-      // These actions are meant for the selected tab and are available in
-      // `this.props.wizardActions`
       wizardActions: bindActionCreators( {
-        ...pointActions,
         ...mapActions,
         ...drawerActions
       }, dispatch )

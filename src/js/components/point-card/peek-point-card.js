@@ -5,8 +5,6 @@ import { CardText, FlatButton } from 'material-ui';
 import PointCard from './point-card';
 /*eslint-enable no-unused-vars*/
 
-import ServiceViewModel from './service-view-model';
-
 export class PeekPointCard extends PointCard {
   getCardState() {
     return 'point-card--peek';
@@ -23,9 +21,8 @@ export class PeekPointCard extends PointCard {
 
     let openUntil;
     if ( this.type === 'service' ) {
-      const service = new ServiceViewModel( point );
       openUntil = (
-        <span className="point-card__open-until">{ service.openUntil() + ' — ' }</span>
+        <span className="point-card__open-until">{ PointCard.openUntil( point ) + ' — ' }</span>
       );
     }
 

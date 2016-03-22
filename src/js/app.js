@@ -43,14 +43,14 @@ import history from './history';
 
 // Allow direct access to the local PouchDB instance and import the gateway
 // singleton to make working with the database easier.
-import database from './database';
-import gateway from './gateway';
+// import database from './database';
+// import gateway from './gateway';
 import store from './store';
 
 // Sync and NetworkManager allow us to automatically work with the remote
 // PouchDB when the user is online.
 import { NetworkManager } from './reducers/network';
-import Sync from './sync';
+// import Sync from './sync';
 
 // Redux action creators used by app.js
 import { reloadPoints } from './reducers/points';

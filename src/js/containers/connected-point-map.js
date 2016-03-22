@@ -26,7 +26,7 @@ export class ConnectedPointMap extends Component {
     ] );
     return (
       <PointMap { ...props }
-        { ...this.props.pointMapState }
+        { ...this.props.pointmap }
         { ...this.props.pointMapActions } />
       );
   }
@@ -34,11 +34,11 @@ export class ConnectedPointMap extends Component {
 
 function mapStateToProps( state ) {
   return {
-    pointMapState: {
+    pointmap: {
       points: values( state.points ),
       tracks: state.tracks.toJS(),
       settings: state.settings.toJS(),
-      mapState: state.mapState,
+      map: state.map,
       filters: state.filters
     }
   };

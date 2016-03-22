@@ -1,12 +1,18 @@
+import PointPage from './point-page';
+import * as tabs from './tabs';
+import { Service } from 'btc-models';
+import { updateService } from '../../reducers/points';
+
+import history from '../../history';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import PointPage from './point-page';
-import * as tabs from './tabs';
-import { loadPoint } from '../../actions/new-point-actions';
-import history from '../../history';
-
 export class UpdatePointPage extends PointPage {
+  constructor(props) {
+    super(props);
+  }
+
   getPageUrl() {
     const {_id} = this.props.newPoint;
     const id = encodeURIComponent( _id );
@@ -22,32 +28,52 @@ export class UpdatePointPage extends PointPage {
     ];
   }
 
-  onFinal( blob = undefined ) {
-    // const point = this.props.newPoint;
-
-    console.log( 'implement UpdatePointPage#onFinal()' );
-
-    history.push( '/' );
+  // The update service page needs to get data to display upon mount.
+  // We need to assume that we'll be asynchronously fetching that data.
+  componentWillMount() {
+    this.setState( { point: { isFetching: true } } );
   }
 
+  // Upon mount, we need to load the service into the store, then set our
+  // own state to match.
   componentDidMount() {
-    this.props.loadPoint( this.props.params.pointId );
+    const { pageActions, params, points } = this.props;
+    const id = params.pointId;
+
+    pageActions.loadPoint( id ).then( () => {
+      this.setState( { point: points[ id ] } );
+    });
+  }
+
+  // The update service page is ready to display once we're done
+  // asynchronously fetching.
+  isReady() {
+    return !this.state.point.isFetching;
+  }
+
+  onFinal( point, blob = undefined ) {
+    const { updateService } = this.props;
+
+    const service = new Service( point );
+    if( service.isValid() ) {
+      updateService( service, blob );
+      history.push( '/' );
+    } else {
+      console.error( service.validationError )
+    }
+  }
+
+  static mapDispatchToProps( dispatch ) {
+    return {
+      ...super.mapDispatchToProps( dispatch ),
+      ...bindActionCreators( {
+        'updateService': updateService
+      } )
+    };
   }
 }
 
-function mapStateToProps( state ) {
-  return {
-    ...PointPage.mapStateToProps.apply( this, arguments )
-  };
-}
-
-function mapDispatchToProps( dispatch ) {
-  return {
-    ...PointPage.mapDispatchToProps.apply( this, arguments ),
-    ...bindActionCreators( {
-      'loadPoint': loadPoint
-    }, dispatch )
-  };
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( UpdatePointPage );
+export default connect(
+  UpdatePointPage.mapStateToProps,
+  UpdatePointPage.mapDispatchToProps
+)( UpdatePointPage );

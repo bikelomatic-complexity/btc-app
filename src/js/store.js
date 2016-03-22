@@ -6,7 +6,7 @@ import marker        from './reducers/marker';
 import tracks        from './reducers/tracks';
 import settings      from './reducers/settings';
 import network       from './reducers/network';
-import mapState      from './reducers/map';
+import map      from './reducers/map';
 import filters       from './reducers/filter';
 import newPoint      from './reducers/new-point';
 import account       from './reducers/account';
@@ -29,7 +29,7 @@ export default compose.apply( null, args )( createStore )( combineReducers( {
   tracks,
   settings,
   network,
-  mapState,
+  map,
   filters,
   newPoint,
   account,

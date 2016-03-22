@@ -6,8 +6,6 @@ import PointCard from './point-card';
 import HoursTable from '../hours-table';
 /*eslint-enable no-unused-vars*/
 
-import ServiceViewModel from './service-view-model';
-
 export class ViewPointCard extends PointCard {
   getCardState() {
     return 'point-card--view';
@@ -32,12 +30,9 @@ export class ViewPointCard extends PointCard {
         </div>
       );
     } else if ( this.type === 'service' ) {
-      const service = new ServiceViewModel( point );
-
-      let hours, explanation;
-      if ( service.hasSchedule() ) {
-        hours = <HoursTable hours={ service.getWeekForCurrentSeason() } />;
-
+      let hours = <HoursTable hours={ point.schedule.default } />;
+      let explanation;
+      if( point.seasonal ) {
         explanation = (
           <CardText>
             These hours are seasonal. Call or check online for more information.
@@ -62,11 +57,11 @@ export class ViewPointCard extends PointCard {
       content = (
         <div className="point-card__content">
           <CardText>
-            <span className="point-card__open-until">{ service.openUntil() + ' — ' }</span>
+            <span className="point-card__open-until">{ PointCard.openUntil( point ) + ' — ' }</span>
             <span>{ point.description }</span>
           </CardText>
           <CardText>
-            { service.amenities() }
+            { PointCard.amenities( point ) }
           </CardText>
           <CardText className="point-card__contact">
             { phone }

@@ -66,11 +66,20 @@
     flex-wrap: nowrap;
 }
 
+.wizard-page__row > * {
+    margin-right: 10px;
+}
+
+.wizard-page__row > :last-child {
+    margin-right: 0px;
+}
+
 /*
  * The <span> child of the row must be separated from the field
  */
 .wizard-page__row > span {
-    margin-right: 20px;
+    flex-shrink: 0;
+    margin-right: 10px;
 }
 
 /*
@@ -78,4 +87,8 @@
  */
 .wizard-page__row > div {
     flex-grow: 1;
+}
+
+.wizard-page__row input {
+    text-align: center;
 }
