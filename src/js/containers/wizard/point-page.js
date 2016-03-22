@@ -94,7 +94,6 @@ export default class PointPage extends Component {
   // TODO: refactor out the blob conversion, it should not occur here.
   onSubmit() {
     const { point, coverBlob } = this.state;
-    console.log( 'onSubmit', point, coverBlob );
     this.onFinal( point, coverBlob );
   }
 

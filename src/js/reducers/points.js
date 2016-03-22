@@ -39,9 +39,11 @@ const factory = ( model, type ) => {
       console.error( 'the submitted point was not valid!' );
     } else {
       point.specify();
-      if( coverBlob ) {
-        point.attach( coverBlob );
-      }
+      point.save().then( res => {
+        if( coverBlob ) {
+          return point.attach( coverBlob );
+        }
+      } );
       return { type, id: point.id, point: point.store() };
     }
   };
@@ -61,7 +63,7 @@ export function rescindPoint( id ) {
 // the user scrolls to a new area of the map.
 export function reloadPoints( ) {
   return dispatch => new PointCollection().fetch().then( res => {
-    return { type: RELOAD_POINTS, points: res.collection.store() };
+    dispatch( { type: RELOAD_POINTS, points: res.collection.store() } );
   } );
 }
 

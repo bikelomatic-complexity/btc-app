@@ -82,7 +82,6 @@ export class WizardPage extends Component {
     const {persist, onNext} = this.props;
 
     const values = this.getPageValues();
-    console.log( values );
     if( keys( values ).length > 0 && isFunction( persist ) ) {
       persist( values, onNext );
     } else {
