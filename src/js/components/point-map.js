@@ -89,6 +89,9 @@ export class PointMap extends Component {
     const {points, tracks, settings, map, deselectMarker, selectMarker, filters, children} = this.props;
 
     let markers = points.filter( point => {
+      if ( point.isFetching ) {
+        return false;
+      }
       if ( Point.uri( point._id ).type === 'alert' && filters.hideAlert ) {
         return false;
       }

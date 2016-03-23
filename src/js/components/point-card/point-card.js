@@ -34,6 +34,16 @@ export class PointCard extends Component {
     console.error( 'PointCard#getCardState() is abstract' );
   }
 
+  // # componentWillMount
+  // Right before we render, check if the point we're trying to load is already
+  // in the store. If it's not, we need to load the point in
+  // componentDidMount. Until that happens, the render method needs to know
+  // the point is fetching.
+  componentWillMount() {
+    const {params, points} = this.props;
+    this.point = points[ params.id ] || { isFetching: true };
+  }
+
   // # componentDidMount
   // The router passes point cards the id of the point to display in `params`.
   // When the component mounts, we need to ensure that point is present in
@@ -45,7 +55,7 @@ export class PointCard extends Component {
   // Generally, you are not supposed to put data fetching calls in this
   // method, but `loadPoint` synchronously puts some default data into
   // points[ params.id ] that we need *before* render.
-  componentWillMount() {
+  componentDidMount() {
     const {params, points, loadPoint} = this.props;
     loadPoint( params.id );
     this.point = points[ params.id ];
@@ -134,6 +144,7 @@ export class PointCard extends Component {
     const state = this.getCardState();
     const className = 'point-card' + ( state ? ( ' ' + state ) : '' );
 
+    console.log( 'render', this.point );
     if ( point.isFetching ) {
       return (
         <Card className={ className }>

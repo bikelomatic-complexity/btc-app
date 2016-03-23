@@ -21,6 +21,7 @@ export default function reducer( state = {}, action ) {
   case RELOAD_POINTS:
     return action.points;
   case REQUEST_LOAD_POINT:
+    console.log( action.id );
     return merge( {}, state, { [ action.id ]: {
       isFetching: true
     } } );
