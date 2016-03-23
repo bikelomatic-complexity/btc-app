@@ -38,7 +38,7 @@ export class UpdatePointPage extends PointPage {
   // own state to match.
   componentDidMount() {
     const {pageActions, params} = this.props;
-    pageActions.loadPoint( params.id )
+    pageActions.loadPoint( params.id );
   }
 
   // #componentWillReceiveProps
@@ -67,7 +67,7 @@ export class UpdatePointPage extends PointPage {
       updateService( service, coverBlob );
       history.push( '/' );
     } else {
-      console.error( service.validationError )
+      console.error( service.validationError );
     }
   }
 
@@ -75,7 +75,7 @@ export class UpdatePointPage extends PointPage {
     return {
       ...super.mapStateToProps( state ),
       types: serviceTypes
-    }
+    };
   }
 
   static mapDispatchToProps( dispatch ) {

@@ -102,7 +102,7 @@ export default class PointPage extends Component {
   // completed.
   onSubmit() {
     const {pageActions} = this.props;
-    const {point, coverBlob} = this.state;
+    const {point} = this.state;
     const onFinal = this.onFinal.bind( this );
 
     if ( point.location ) {

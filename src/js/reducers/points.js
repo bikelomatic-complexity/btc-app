@@ -1,5 +1,5 @@
 
-import { Point, Service, Alert, PointCollection } from 'btc-models';
+import { Point, PointCollection } from 'btc-models';
 import { assign, merge, omit } from 'lodash';
 
 export const ADD_SERVICE = 'btc-app/points/ADD_SERVICE';
@@ -107,7 +107,7 @@ export function reloadPoints() {
     } ).then( res => {
       dispatch( { type: RELOAD_POINTS, points: points.store() } );
     } );
-  }
+  };
 }
 
 // # Load Point
