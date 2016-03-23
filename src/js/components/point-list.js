@@ -8,13 +8,18 @@ import { display } from 'btc-models/lib/schema/types';
 export class PointList extends Component {
   render() {
     const points = this.props.points.map( point => {
+      const avatar = {};
+      if( point.coverUrl ) {
+        avatar.coverUrl = point.coverUrl;
+      }
+
       return (
         <Card key={ point._id }
           style={ { margin: '10px' } }
           onClick={ this.props.onPointClick.bind( this, point ) }>
           <CardHeader title={ point.name }
             subtitle={ display( point.type ) }
-            avatar={ point.coverUrl } />
+            { ...avatar } />
         </Card>
         );
     } );

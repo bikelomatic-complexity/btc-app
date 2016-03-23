@@ -1,26 +1,26 @@
 /*eslint-disable no-unused-vars*/
+import PointList from '../components/point-list';
+
 import React, { Component } from 'react';
 import { Paper, RaisedButton, FontIcon } from 'material-ui';
 import FilterIcon from 'material-ui/lib/svg-icons/content/filter-list';
 import MapIcon from 'material-ui/lib/svg-icons/maps/map';
-
-import PointList from '../components/point-list';
 /*eslint-enable no-unused-vars*/
 
-import { selectMarker } from '../actions/map-actions';
 import { setDrawer } from '../reducers/drawer';
-import { connect } from 'react-redux';
-
 import history from '../history';
+
+import { connect } from 'react-redux';
+import { values } from 'lodash';
 
 class ListPage extends Component {
   componentDidMount() {
-    this.props.dispatch( setDrawer( 'List of Services' ) );
+    this.props.dispatch( setDrawer( 'Alerts & Services' ) );
   }
 
   onPointClick( point ) {
-    this.props.dispatch( selectMarker( point ) );
-    history.push( `/view-point/${encodeURIComponent( point._id )}` );
+    const id = encodeURIComponent( point._id );
+    history.push( `/view-point/${ id }` );
   }
 
   render() {
@@ -38,24 +38,24 @@ class ListPage extends Component {
           labelPosition="after"
           primary={ true }
           icon={ <MapIcon /> }
-          onClick={ ( ) => history.push( '/' ) } />
+          onClick={ history.push.bind( null, '/' ) } />
         <RaisedButton style={ buttonStyles[ 1 ] }
           label="Filter"
           labelPosition="after"
           primary={ true }
           icon={ <FilterIcon /> }
-          onClick={ ( ) => history.push( 'filter' ) } />
-        <PointList points={ this.props.services }
-          onPointClick={ this.onPointClick.bind( this ) } />
+          onClick={ history.push.bind( null, 'filter' ) } />
+        <PointList points={ this.props.points }
+          onPointClick={ this.onPointClick } />
       </div>
       );
   }
 }
 
-function select( state ) {
+function mapStateToProps( state ) {
   return {
-    services: state.points
+    points: values( state.points )
   };
 }
 
-export default connect( select )( ListPage );
+export default connect( mapStateToProps )( ListPage );
