@@ -23,12 +23,28 @@ export class ServiceDescription extends WizardPage {
   }
 
   getPageFields() {
-    return [ 'description', 'phone', 'address', 'website', 'coverBlob' ];
+    return [
+      'description',
+      'phone',
+      'address',
+      'website',
+      'coverBlob',
+      'coverUrl'
+    ];
   }
 
   getPageContent() {
     const {coverUrl} = this.state;
-    const image = coverUrl ? <img src={ coverUrl } /> : <div />;
+
+    let image;
+    if( coverUrl ) {
+      image = (
+        <div>
+          <image style={ { width: '100%' } }
+            src={ coverUrl } />
+        </div>
+      );
+    }
 
     return (
       <div className="wizard-page">

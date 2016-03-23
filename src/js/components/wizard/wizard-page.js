@@ -4,7 +4,8 @@ import { keys, pick, assign, isFunction, bindAll, isEmpty } from 'lodash';
 import { RaisedButton } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
-import { imgSrcToBlob } from 'blob-util';
+import Device, { PHOTO_ENCODING_METHODS } from '../../util/device';
+import { imgSrcToBlob, createObjectURL, base64StringToBlob } from 'blob-util';
 
 import '../../../css/wizard.css';
 
@@ -46,13 +47,18 @@ export class WizardPage extends Component {
     return <div />;
   }
 
-  // Return an transition type from WizardPage.transitions to modify the
-  // effect of the ``next'' action button.
+  // Return the preferred transition type, to modify the effect of the "next"
+  // button.
   getPreferredTransition() {
     console.error( 'WizardPage#getPageContent() is abstract' );
     return WizardPage.transitions.disabled;
   }
 
+  // Returns a transition type from WizardPage.transitions to modify the
+  // effect of the "next" button. This method takes in the wizard page
+  // subclass' preference into account. However, we override the preference
+  // when the wizard page is the last in the list of tabs, in which case
+  // the action should always be submit.
   getTransition() {
     if ( this.props.finalTab ) {
       return WizardPage.transitions.submit;
@@ -143,10 +149,24 @@ export class WizardPage extends Component {
   // This logic will not work on the browser:
   // [CB-9852](https://issues.apache.org/jira/browse/CB-9852)
   onPhotoAdd() {
-    navigator.camera.getPicture( imageSrc => {
-      imgSrcToBlob( imageSrc ).then(
-        coverBlob => this.setState( { coverBlob } )
-      );
+    navigator.camera.getPicture( photo => {
+      let promise;
+      const device = Device.getDevice();
+      switch( device.getPhotoEncodingMethod() ) {
+        case PHOTO_ENCODING_METHODS.IMG_SRC:
+          promise = imgSrcToBlob( photo );
+          break;
+        case PHOTO_ENCODING_METHODS.BASE_64_STRING:
+          promise = base64StringToBlob( photo );
+          break;
+        case PHOTO_ENCODING_METHODS.NONE:
+        default:
+          promise = null;
+      }
+      if( promise ) promise.then( coverBlob => {
+        const coverUrl = createObjectURL( coverBlob );
+        this.setState( { coverBlob, coverUrl } );
+      } );
     }, err => {
       console.error( err );
     }, {

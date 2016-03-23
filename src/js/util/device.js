@@ -1,6 +1,12 @@
 /*global Connection device*/
 import { contains } from 'underscore';
 
+export const PHOTO_ENCODING_METHODS = {
+  BASE_64_STRING: 'BASE_64_STRING',
+  IMG_SRC: 'IMG_SRC',
+  NONE: 'NONE'
+};
+
 /**
  * The base device, used for extension by known devices and as the fallback
  * point for uknown devices. If the device is unknown, network connectivity is
@@ -32,6 +38,9 @@ export default class Device {
     return false;
   }
 
+  getPhotoEncodingMethod() {
+    return PHOTO_ENCODING_METHODS.NONE;
+  }
 }
 
 /**
@@ -52,6 +61,9 @@ class AndroidDevice extends Device {
     ], connection );
   }
 
+  getPhotoEncodingMethod() {
+    return PHOTO_ENCODING_METHODS.IMG_SRC;
+  }
 }
 
 /**
@@ -72,6 +84,9 @@ class IOSDevice extends Device {
     ], connection );
   }
 
+  getPhotoEncodingMethod() {
+    return PHOTO_ENCODING_METHODS.IMG_SRC;
+  }
 }
 
 /**
@@ -89,4 +104,7 @@ class BrowserDevice extends Device {
     return false;
   }
 
+  getPhotoEncodingMethod() {
+    return PHOTO_ENCODING_METHODS.BASE_64_STRING;
+  }
 }

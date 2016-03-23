@@ -101,7 +101,7 @@ export class PointMap extends Component {
 
       return filters.activeFilters.some( filterElement => {
         // join the service amenities with the service type
-        let serviceTypes = point.amenities.concat( point.type );
+        let serviceTypes = (point.amenities || []).concat( point.type );
         if ( serviceTypes.indexOf( filterElement ) !== -1 ) {
           return true;
         }
