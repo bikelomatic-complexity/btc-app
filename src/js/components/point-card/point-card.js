@@ -119,19 +119,40 @@ export class PointCard extends Component {
   //  - rate and comment on a point
   //  - flag the point
   getIconMenu() {
-    return (
-      <IconMenu className="point-card__icon-menu"
-        iconButtonElement={ <IconButton>
-                              <MoreVertIcon />
-                            </IconButton> }
-        anchorOrigin={ { horizontal: 'right', vertical: 'top' } }
-        targetOrigin={ { horizontal: 'right', vertical: 'top' } }>
+    const point = this.point;
+    const {type} = Point.uri( point._id );
+
+    let update, rate;
+    if( type === 'service' ) {
+      update = (
         <MenuItem primaryText='Update Information'
           onClick={ this.navigate( 'update-point' ) } />
+      );
+      rate = (
         <MenuItem primaryText='Rate Service'
           onClick={ this.navigate( 'rate-point' ) } />
-        <MenuItem primaryText='Flag Service'
-          onClick={ this.navigate( 'flag-point' ) } />
+      );
+    }
+
+    const flag = (
+      <MenuItem primaryText='Flag'
+        onClick={ this.navigate( 'flag-point' ) } />
+    );
+
+    const button = (
+      <IconButton>
+        <MoreVertIcon />
+      </IconButton>
+    );
+
+    return (
+      <IconMenu className="point-card__icon-menu"
+        iconButtonElement={ button }
+        anchorOrigin={ { horizontal: 'right', vertical: 'top' } }
+        targetOrigin={ { horizontal: 'right', vertical: 'top' } }>
+        { update }
+        { rate }
+        { flag }
       </IconMenu>
     );
   }
