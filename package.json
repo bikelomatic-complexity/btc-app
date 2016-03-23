@@ -6,7 +6,7 @@
     "build": "browserify src/js/app.js -o www/bundle.js",
     "debug:android": "cordova build --browserify android",
     "dev": "shell-exec --colored-output \"npm run watch\" \"npm run livereload\"",
-    "doc": "docco src/js/*.js src/js/*/*.js",
+    "doc": "docco src/js/*.js src/js/*/*.js -o docs/generated",
     "format": "esformatter --diff \"?(src|test)/js/**/*.js\"",
     "format:replace": "esformatter -i \"?(src|test)/js/**/*.js\"",
     "lint": "eslint \"?(src|test)/js/**/*.js\"",

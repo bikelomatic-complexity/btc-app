@@ -2,7 +2,7 @@ platforms/
 plugins/
 www/
 
-docs/
+docs/generated
 
 *.apk
 
