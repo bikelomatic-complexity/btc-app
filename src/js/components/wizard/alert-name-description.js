@@ -29,7 +29,7 @@ export class AlertNameDescription extends WizardPage {
   }
 
   getPageContent() {
-    const [ lat, lng ] = this.state.location;
+    const [lat, lng] = this.state.location;
     const latlng = `(${ lat.toFixed( 4 ) }, ${ lng.toFixed( 4 ) })`;
 
     const {types} = this.props;
@@ -41,7 +41,7 @@ export class AlertNameDescription extends WizardPage {
 
     const {coverUrl} = this.state;
     let image;
-    if( coverUrl ) {
+    if ( coverUrl ) {
       image = (
         <div>
           <image style={ { width: '100%' } }

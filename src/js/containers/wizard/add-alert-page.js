@@ -30,15 +30,15 @@ export class AddAlertPage extends PointPage {
   }
 
   onFinal() {
-    const { addAlert } = this.props;
-    const { point, coverBlob } = this.state;
+    const {addAlert} = this.props;
+    const {point, coverBlob} = this.state;
 
     const alert = new Alert( point );
-    if( alert.isValid() ) {
+    if ( alert.isValid() ) {
       addAlert( alert, coverBlob );
       history.push( '/' );
     } else {
-      console.error(alert.validationError);
+      console.error( alert.validationError );
     }
   }
 

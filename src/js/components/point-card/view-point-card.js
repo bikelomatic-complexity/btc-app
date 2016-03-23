@@ -34,7 +34,7 @@ export class ViewPointCard extends PointCard {
     } else if ( type === 'service' ) {
       let hours = <HoursTable hours={ point.schedule.default } />;
       let explanation;
-      if( point.seasonal ) {
+      if ( point.seasonal ) {
         explanation = (
           <CardText>
             These hours are seasonal. Call or check online for more information.

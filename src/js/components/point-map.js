@@ -101,7 +101,7 @@ export class PointMap extends Component {
 
       return filters.activeFilters.some( filterElement => {
         // join the service amenities with the service type
-        let serviceTypes = (point.amenities || []).concat( point.type );
+        let serviceTypes = ( point.amenities || [] ).concat( point.type );
         if ( serviceTypes.indexOf( filterElement ) !== -1 ) {
           return true;
         }
@@ -180,8 +180,7 @@ export class PointMap extends Component {
           zoom={ this.state.zoom }
           onLeafletMove={ this.props.onLeafletMove }
           onLeafletMoveEnd={ this.onMapMoved }
-          onclick={ this.props.addPoint ? noop : deselectMarker }
-        >
+          onclick={ this.props.addPoint ? noop : deselectMarker }>
           { circleMarker }
           { tileLayer }
           { markers }

@@ -44,7 +44,7 @@ export class ServiceHours extends WizardPage {
   }
 
   addHours() {
-    const { day, opens, closes } = this.state;
+    const {day, opens, closes} = this.state;
 
     const model = new Schedule( this.state.schedule );
     model.addHoursIn( day, opens, closes );
@@ -65,7 +65,7 @@ export class ServiceHours extends WizardPage {
   }
 
   getPageContent() {
-    const options = toPairs( days ).map( ( [ day, values ] ) => (
+    const options = toPairs( days ).map( ( [day, values] ) => (
       <MenuItem key={ day }
         value={ day }
         primaryText={ values.display } />
@@ -74,7 +74,7 @@ export class ServiceHours extends WizardPage {
       <div className='wizard-page'>
         <SelectField fullWidth
           { ...this.link( 'day' ) }
-          hintText="Day(s)" >
+          hintText="Day(s)">
           { options }
         </SelectField>
         <div className='wizard-page__row'>

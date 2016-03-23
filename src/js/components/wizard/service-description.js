@@ -37,7 +37,7 @@ export class ServiceDescription extends WizardPage {
     const {coverUrl} = this.state;
 
     let image;
-    if( coverUrl ) {
+    if ( coverUrl ) {
       image = (
         <div>
           <image style={ { width: '100%' } }

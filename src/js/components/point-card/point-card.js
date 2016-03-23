@@ -81,7 +81,7 @@ export class PointCard extends Component {
   static openUntil( service ) {
     const schedule = new Schedule( service.schedule );
     const closing = schedule.getClosingToday();
-    if( closing ) {
+    if ( closing ) {
       const time = new Date( schedule.getClosingToday() )
         .toLocaleTimeString( [], { hour: 'numeric', minutes: 'numeric ' } );
       return 'Open until: ' + time;
@@ -123,7 +123,7 @@ export class PointCard extends Component {
     const {type} = Point.uri( point._id );
 
     let update, rate;
-    if( type === 'service' ) {
+    if ( type === 'service' ) {
       update = (
         <MenuItem primaryText='Update Information'
           onClick={ this.navigate( 'update-point' ) } />
@@ -135,14 +135,14 @@ export class PointCard extends Component {
     }
 
     const flag = (
-      <MenuItem primaryText='Flag'
-        onClick={ this.navigate( 'flag-point' ) } />
+    <MenuItem primaryText='Flag'
+      onClick={ this.navigate( 'flag-point' ) } />
     );
 
     const button = (
-      <IconButton>
-        <MoreVertIcon />
-      </IconButton>
+    <IconButton>
+      <MoreVertIcon />
+    </IconButton>
     );
 
     return (
@@ -154,7 +154,7 @@ export class PointCard extends Component {
         { rate }
         { flag }
       </IconMenu>
-    );
+      );
   }
 
   // Display the card if the point is loaded. If not, show a spinner.

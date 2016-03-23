@@ -33,15 +33,15 @@ export class AddPointPage extends PointPage {
   }
 
   onFinal() {
-    const { addService } = this.props;
-    const { point, coverBlob } = this.state;
+    const {addService} = this.props;
+    const {point, coverBlob} = this.state;
 
     const service = new Service( point );
-    if( service.isValid() ) {
+    if ( service.isValid() ) {
       addService( service, coverBlob );
       history.push( '/' );
     } else {
-      console.error(service.validationError);
+      console.error( service.validationError );
     }
   }
 

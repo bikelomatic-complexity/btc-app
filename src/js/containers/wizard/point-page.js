@@ -50,7 +50,7 @@ export default class PointPage extends Component {
   // By default, a point page does not need to fetch any data,
   // and should just start out with a blank point.
   componentWillMount() {
-    console.error('PointPage subclasses must implement componentWillMount()');
+    console.error( 'PointPage subclasses must implement componentWillMount()' );
   }
 
   isReady() {
@@ -88,7 +88,7 @@ export default class PointPage extends Component {
     const nav = history.push.bind( null, `/${ url }/${ tab.url }` );
 
     const {wizard} = this.refs;
-    if( wizard ) {
+    if ( wizard ) {
       wizard.persistBefore( nav );
     } else {
       nav();
@@ -101,16 +101,16 @@ export default class PointPage extends Component {
   // to make sure the map page is in the right place after the wizard is
   // completed.
   onSubmit() {
-    const { pageActions } = this.props;
-    const { point, coverBlob } = this.state;
+    const {pageActions} = this.props;
+    const {point, coverBlob} = this.state;
     const onFinal = this.onFinal.bind( this );
 
-    if( point.location ) {
+    if ( point.location ) {
       pageActions.setMapCenter( point.location );
     }
 
     const {wizard} = this.refs;
-    if( wizard ) {
+    if ( wizard ) {
       wizard.persistBefore( onFinal );
     } else {
       onFinal();

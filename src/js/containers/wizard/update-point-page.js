@@ -9,12 +9,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 export class UpdatePointPage extends PointPage {
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super( props );
   }
 
   getPageUrl() {
-    const { params } = this.props;
+    const {params} = this.props;
     const id = encodeURIComponent( params.id );
     return `/update-point/${ id }`;
   }
@@ -30,14 +30,14 @@ export class UpdatePointPage extends PointPage {
   // The update service page needs to get data to display upon mount.
   // We need to assume that we'll be asynchronously fetching that data.
   componentWillMount() {
-    const { params, points } = this.props;
+    const {params, points} = this.props;
     this.setState( { point: points[ params.id ] || { isFetching: true } } );
   }
 
   // Upon mount, we need to load the service into the store, then set our
   // own state to match.
   componentDidMount() {
-    const { pageActions, params } = this.props;
+    const {pageActions, params} = this.props;
     pageActions.loadPoint( params.id )
   }
 
@@ -46,8 +46,8 @@ export class UpdatePointPage extends PointPage {
   // asynchronously fetch a point, the points prop will change. TODO: this
   // function might be called every time we use this.setState().
   componentWillReceiveProps( nextProps ) {
-    if( this.state.point.isFetching ) {
-      const { params, points } = nextProps;
+    if ( this.state.point.isFetching ) {
+      const {params, points} = nextProps;
       this.setState( { point: points[ params.id ] } );
     }
   }
@@ -59,11 +59,11 @@ export class UpdatePointPage extends PointPage {
   }
 
   onFinal() {
-    const { updateService } = this.props;
-    const { point, coverBlob } = this.state;
+    const {updateService} = this.props;
+    const {point, coverBlob} = this.state;
 
     const service = new Service( point );
-    if( service.isValid() ) {
+    if ( service.isValid() ) {
       updateService( service, coverBlob );
       history.push( '/' );
     } else {

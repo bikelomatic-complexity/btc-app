@@ -86,7 +86,7 @@ export class WizardPage extends Component {
 
   persistBefore( callback ) {
     const values = this.getPageValues();
-    if( keys( values ).length > 0 && isFunction( this.props.persist ) ) {
+    if ( keys( values ).length > 0 && isFunction( this.props.persist ) ) {
       this.props.persist( values, callback );
     } else {
       callback();
@@ -116,7 +116,7 @@ export class WizardPage extends Component {
     // `value` or `event.target.value`. In the case of TimePicker, a Date
     // object is stored at the second argument.
     props[ method ] = ( event, key, value ) => {
-      if( key instanceof Date ) {
+      if ( key instanceof Date ) {
         value = key;
       }
       this.setState( { [ field ]: value || event.target.value } );
@@ -152,21 +152,21 @@ export class WizardPage extends Component {
     navigator.camera.getPicture( photo => {
       let promise;
       const device = Device.getDevice();
-      switch( device.getPhotoEncodingMethod() ) {
-        case PHOTO_ENCODING_METHODS.IMG_SRC:
-          promise = imgSrcToBlob( photo );
-          break;
-        case PHOTO_ENCODING_METHODS.BASE_64_STRING:
-          promise = base64StringToBlob( photo );
-          break;
-        case PHOTO_ENCODING_METHODS.NONE:
-        default:
-          promise = null;
+      switch ( device.getPhotoEncodingMethod() ) {
+      case PHOTO_ENCODING_METHODS.IMG_SRC:
+        promise = imgSrcToBlob( photo );
+        break;
+      case PHOTO_ENCODING_METHODS.BASE_64_STRING:
+        promise = base64StringToBlob( photo );
+        break;
+      case PHOTO_ENCODING_METHODS.NONE:
+      default:
+        promise = null;
       }
-      if( promise ) promise.then( coverBlob => {
-        const coverUrl = createObjectURL( coverBlob );
-        this.setState( { coverBlob, coverUrl } );
-      } );
+      if ( promise ) promise.then( coverBlob => {
+          const coverUrl = createObjectURL( coverBlob );
+          this.setState( { coverBlob, coverUrl } );
+        } );
     }, err => {
       console.error( err );
     }, {

@@ -8,8 +8,8 @@ import { Table, TableBody, TableHeader, TableRow, TableHeaderColumn, TableRowCol
 
 import { days } from 'btc-models';
 
-function format(date) {
-  return new Date(date).toLocaleTimeString( [], {
+function format( date ) {
+  return new Date( date ).toLocaleTimeString( [], {
     hour: 'numeric',
     minute: 'numeric'
   } );
@@ -17,58 +17,68 @@ function format(date) {
 
 export class HoursTable extends Component {
   render() {
-    const { removable, onRowRemove } = this.props;
+    const {removable, onRowRemove} = this.props;
 
     let keyCounter = 0;
     const hoursData = this.props.hours.map( ( row, index ) => {
       let remove;
-      if( removable ) {
+      if ( removable ) {
         const button = (
-          <IconButton onClick={ () => onRowRemove( index ) }>
-            <ClearIcon />
-          </IconButton>
+        <IconButton onClick={ ( ) => onRowRemove( index ) }>
+          <ClearIcon />
+        </IconButton>
         );
-        remove = <TableRowColumn>{ button }</TableRowColumn>;
+        remove = (
+          <TableRowColumn>
+            { button }
+          </TableRowColumn>
+        );
       }
       return (
         <TableRow key={ keyCounter++ }>
-          <TableRowColumn>{ days[ row.day ].display }</TableRowColumn>
-          <TableRowColumn>{ format(row.opens) }</TableRowColumn>
-          <TableRowColumn>{ format(row.closes) }</TableRowColumn>
+          <TableRowColumn>
+            { days[ row.day ].display }
+          </TableRowColumn>
+          <TableRowColumn>
+            { format( row.opens ) }
+          </TableRowColumn>
+          <TableRowColumn>
+            { format( row.closes ) }
+          </TableRowColumn>
           { remove }
         </TableRow>
         );
     } );
 
-    // const table = {};
-    // const header = {};
-    // const body = {}
-    // if( removable ) {
-    //   table.selectable = table.multiSelectable = true;
-    //   // table.onRowSelection = onRowSelection;
-    //   header.adjustForCheckbox = true;
-    //   body.displayRowCheckbox = true;
-    //   body.deselectOnClickaway = false;
-    //   // body.onRowSelection = onRowSelection;
-    // }
-
     let remove;
-    if( removable ) {
-      remove = <TableHeaderColumn>Remove</TableHeaderColumn>;
+    if ( removable ) {
+      remove = (
+        <TableHeaderColumn>
+          Remove
+        </TableHeaderColumn>
+      );
     }
 
     return (
-      <Table style={ { overflowY: 'visible' } } selectable={ false }>
+      <Table style={ { overflowY: 'visible' } }
+        selectable={ false }>
         <TableHeader displaySelectAll={ false }
           adjustForCheckbox={ false }>
           <TableRow>
-            <TableHeaderColumn>Day</TableHeaderColumn>
-            <TableHeaderColumn>Opens</TableHeaderColumn>
-            <TableHeaderColumn>Closes</TableHeaderColumn>
+            <TableHeaderColumn>
+              Day
+            </TableHeaderColumn>
+            <TableHeaderColumn>
+              Opens
+            </TableHeaderColumn>
+            <TableHeaderColumn>
+              Closes
+            </TableHeaderColumn>
             { remove }
           </TableRow>
         </TableHeader>
-        <TableBody displayRowCheckbox={ false } adjustForCheckbox={ false }>
+        <TableBody displayRowCheckbox={ false }
+          adjustForCheckbox={ false }>
           { hoursData }
         </TableBody>
       </Table>

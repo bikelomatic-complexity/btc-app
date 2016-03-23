@@ -22,11 +22,11 @@ export default function reducer( state = {}, action ) {
     return action.points;
   case REQUEST_LOAD_POINT:
     return merge( {}, state, { [ action.id ]: {
-      isFetching: true
+        isFetching: true
     } } );
   case RECEIVE_LOAD_POINT:
     return merge( {}, state, { [ action.id ]: {
-      isFetching: false, ...action.point
+        isFetching: false, ...action.point
     } } );
   default:
     return state;
@@ -61,23 +61,23 @@ export default function reducer( state = {}, action ) {
 //    will return before the promises resolve.
 const factory = type => {
   return ( point, coverBlob ) => {
-    if( !point.isValid() ) {
+    if ( !point.isValid() ) {
       console.error( 'the submitted point was not valid!' );
     } else {
       point.specify();
 
       let promise;
-      if( type === UPDATE_SERVICE ) {
+      if ( type === UPDATE_SERVICE ) {
         const attributes = point.attributes;
         promise = point.fetch().then( res => point.save( attributes ) );
       } else {
         promise = point.save();
       }
 
-      if( coverBlob ) {
+      if ( coverBlob ) {
         point.setCover( coverBlob );
         promise.then(
-          () => point.attach( coverBlob, 'cover.png', 'image/png' )
+          ( ) => point.attach( coverBlob, 'cover.png', 'image/png' )
         );
       }
       return { type, id: point.id, point: point.store() };
@@ -99,7 +99,7 @@ export function rescindPoint( id ) {
 // Creates an action to replace all points in the store. This is useful to
 // load the store with initial point data and to refresh the store when
 // the user scrolls to a new area of the map.
-export function reloadPoints( ) {
+export function reloadPoints() {
   const points = new PointCollection();
   return dispatch => {
     points.fetch().then( res => {

@@ -9,7 +9,7 @@ export class PointList extends Component {
   render() {
     const points = this.props.points.map( point => {
       const avatar = {};
-      if( point.coverUrl ) {
+      if ( point.coverUrl ) {
         avatar.coverUrl = point.coverUrl;
       }
 

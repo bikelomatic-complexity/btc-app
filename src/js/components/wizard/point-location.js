@@ -30,7 +30,7 @@ export class PointLocation extends WizardPage {
 
   updateLocation( leaflet ) {
     const {lat, lng} = leaflet.target.getCenter();
-    
+
     this.setState( { location: [ lat, lng ] } );
   }
 

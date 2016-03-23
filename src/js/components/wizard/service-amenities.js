@@ -12,7 +12,7 @@ import { keys, bindAll, union, without, toPairs } from 'lodash';
 export class ServiceAmenities extends WizardPage {
   constructor( props ) {
     super( props );
-    bindAll( this, 'addAmenity', 'removeAmenity');
+    bindAll( this, 'addAmenity', 'removeAmenity' );
   }
 
   componentWillMount() {
@@ -43,7 +43,7 @@ export class ServiceAmenities extends WizardPage {
 
   getPageContent() {
     const {types} = this.props;
-    const options = toPairs( types ).map( ( [ type, values ] ) => (
+    const options = toPairs( types ).map( ( [type, values] ) => (
       <MenuItem key={ type }
         value={ type }
         primaryText={ values.display } />
@@ -60,7 +60,7 @@ export class ServiceAmenities extends WizardPage {
       <div className="wizard-page">
         <SelectField fullWidth
           { ...this.link( 'amenity' ) }
-          floatingLabelText="Choose an amenity" >
+          floatingLabelText="Choose an amenity">
           { options }
         </SelectField>
         <div>
@@ -72,7 +72,7 @@ export class ServiceAmenities extends WizardPage {
           disabled={ !this.state.amenity }
           onClick={ this.addAmenity } />
       </div>
-    );
+      );
   }
 
   getPreferredTransition() {

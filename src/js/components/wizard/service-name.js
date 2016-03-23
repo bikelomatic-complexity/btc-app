@@ -26,7 +26,7 @@ export class ServiceName extends WizardPage {
   }
 
   getPageContent() {
-    const [ lat, lng ] = this.state.location;
+    const [lat, lng] = this.state.location;
     const latlng = `(${ lat.toFixed( 4 ) }, ${ lng.toFixed( 4 ) })`;
 
     const {types} = this.props;
