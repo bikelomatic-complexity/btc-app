@@ -1,6 +1,6 @@
 import PointPage from './point-page';
 import * as tabs from './tabs';
-import { Service } from 'btc-models';
+import { Service, serviceTypes } from 'btc-models';
 import { updateService } from '../../reducers/points';
 
 import history from '../../history';
@@ -14,10 +14,9 @@ export class UpdatePointPage extends PointPage {
   }
 
   getPageUrl() {
-    const {_id} = this.props.newPoint;
-    const id = encodeURIComponent( _id );
-
-    return `/update-point/${id}`;
+    const { params } = this.props;
+    const id = encodeURIComponent( params.id );
+    return `/update-point/${ id }`;
   }
 
   getTabSet() {
@@ -31,17 +30,26 @@ export class UpdatePointPage extends PointPage {
   // The update service page needs to get data to display upon mount.
   // We need to assume that we'll be asynchronously fetching that data.
   componentWillMount() {
-    this.setState( { point: { isFetching: true } } );
+    const { params, points } = this.props;
+    this.setState( { point: points[ params.id ] || { isFetching: true } } );
   }
 
   // Upon mount, we need to load the service into the store, then set our
   // own state to match.
   componentDidMount() {
-    const { pageActions, params, points } = this.props;
+    const { pageActions, params } = this.props;
+    pageActions.loadPoint( params.id )
+  }
 
-    pageActions.loadPoint( params.id ).then( () => {
+  // #componentWillReceiveProps
+  // When the page mounted, we dispatched loadPoint. If it needed to
+  // asynchronously fetch a point, the points prop will change. TODO: this
+  // function might be called every time we use this.setState().
+  componentWillReceiveProps( nextProps ) {
+    if( this.state.point.isFetching ) {
+      const { params, points } = nextProps;
       this.setState( { point: points[ params.id ] } );
-    });
+    }
   }
 
   // The update service page is ready to display once we're done
@@ -50,15 +58,23 @@ export class UpdatePointPage extends PointPage {
     return !this.state.point.isFetching;
   }
 
-  onFinal( point, blob = undefined ) {
+  onFinal() {
     const { updateService } = this.props;
+    const { point, coverBlob } = this.state;
 
     const service = new Service( point );
     if( service.isValid() ) {
-      updateService( service, blob );
+      updateService( service, coverBlob );
       history.push( '/' );
     } else {
       console.error( service.validationError )
+    }
+  }
+
+  static mapStateToProps( state ) {
+    return {
+      ...super.mapStateToProps( state ),
+      types: serviceTypes
     }
   }
 
@@ -67,7 +83,7 @@ export class UpdatePointPage extends PointPage {
       ...super.mapDispatchToProps( dispatch ),
       ...bindActionCreators( {
         'updateService': updateService
-      } )
+      }, dispatch )
     };
   }
 }

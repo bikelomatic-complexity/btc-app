@@ -3,7 +3,7 @@ import * as tabs from './tabs';
 
 import history from '../../history';
 import { addAlert } from '../../reducers/points';
-import { Alert, alertTypes } from 'btc-models/lib/schema/types';
+import { Alert, alertTypes } from 'btc-models';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -20,16 +20,22 @@ export class AddAlertPage extends PointPage {
     ];
   }
 
+  componentWillMount() {
+    const alert = new Alert();
+    this.setState( { point: alert.store() } );
+  }
+
   isReady() {
     return true;
   }
 
-  onFinal( point, blob = undefined ) {
+  onFinal() {
     const { addAlert } = this.props;
+    const { point, coverBlob } = this.state;
 
     const alert = new Alert( point );
     if( alert.isValid() ) {
-      addAlert( alert, blob );
+      addAlert( alert, coverBlob );
       history.push( '/' );
     } else {
       console.error(alert.validationError);

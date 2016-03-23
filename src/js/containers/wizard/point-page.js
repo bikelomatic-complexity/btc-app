@@ -96,18 +96,24 @@ export default class PointPage extends Component {
   }
 
   // When the wizard's form is submitted, we need to invoke the subclass'
-  // `onFinal` method. We provide `onFinal` with a blob.
-  //
-  // TODO: refactor out the blob conversion, it should not occur here.
+  // onFinal method. Also, set the map's center to our point's location. The
+  // user will have moved the map around while choosing a location. We want
+  // to make sure the map page is in the right place after the wizard is
+  // completed.
   onSubmit() {
+    const { pageActions } = this.props;
     const { point, coverBlob } = this.state;
-    const finalize = this.onFinal.bind( this, point, coverBlob );
+    const onFinal = this.onFinal.bind( this );
+
+    if( point.location ) {
+      pageActions.setMapCenter( point.location );
+    }
 
     const {wizard} = this.refs;
     if( wizard ) {
-      wizard.persistBefore( finalize );
+      wizard.persistBefore( onFinal );
     } else {
-      finalize();
+      onFinal();
     }
   }
 
@@ -213,7 +219,8 @@ export default class PointPage extends Component {
   static mapDispatchToProps( dispatch ) {
     return {
       pageActions: bindActionCreators( {
-        loadPoint: loadPoint
+        loadPoint: loadPoint,
+        setMapCenter: mapActions.setMapCenter
       }, dispatch ),
       wizardActions: bindActionCreators( {
         ...mapActions,

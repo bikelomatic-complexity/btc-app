@@ -14,6 +14,7 @@ export class AlertNameDescription extends WizardPage {
     this.setState( {
       name: point.name,
       type: point.type,
+      location: point.location,
       description: point.description,
       coverUrl: point.coverUrl
     } );
@@ -28,7 +29,7 @@ export class AlertNameDescription extends WizardPage {
   }
 
   getPageContent() {
-    const { location: [ lat, lng ] } = this.state.point;
+    const [ lat, lng ] = this.state.location;
     const latlng = `(${ lat.toFixed( 4 ) }, ${ lng.toFixed( 4 ) })`;
 
     const {types} = this.props;

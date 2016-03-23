@@ -24,20 +24,21 @@ export class AddPointPage extends PointPage {
   }
 
   componentWillMount() {
-    const point = new Service();
-    this.setState( { point: point.store() } );
+    const service = new Service();
+    this.setState( { point: service.store() } );
   }
 
   isReady() {
     return true;
   }
 
-  onFinal( point, blob = undefined ) {
+  onFinal() {
     const { addService } = this.props;
+    const { point, coverBlob } = this.state;
 
     const service = new Service( point );
     if( service.isValid() ) {
-      addService( service, blob );
+      addService( service, coverBlob );
       history.push( '/' );
     } else {
       console.error(service.validationError);

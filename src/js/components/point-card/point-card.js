@@ -144,7 +144,6 @@ export class PointCard extends Component {
     const state = this.getCardState();
     const className = 'point-card' + ( state ? ( ' ' + state ) : '' );
 
-    console.log( 'render', this.point );
     if ( point.isFetching ) {
       return (
         <Card className={ className }>

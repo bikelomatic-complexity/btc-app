@@ -21,7 +21,6 @@ export default function reducer( state = {}, action ) {
   case RELOAD_POINTS:
     return action.points;
   case REQUEST_LOAD_POINT:
-    console.log( action.id );
     return merge( {}, state, { [ action.id ]: {
       isFetching: true
     } } );
@@ -34,24 +33,34 @@ export default function reducer( state = {}, action ) {
   }
 }
 
-const factory = ( model, type ) => {
+const factory = ( type ) => {
   return ( point, coverBlob ) => {
     if( !point.isValid() ) {
       console.error( 'the submitted point was not valid!' );
     } else {
       point.specify();
-      point.save().then( res => {
+      
+      let promise;
+      if( type === UPDATE_SERVICE ) {
+        const attributes = point.attributes;
+        promise = point.fetch().then( res => point.save( attributes ) );
+      } else {
+        promise = point.save();
+      }
+
+      promise.then( res => {
         if( coverBlob ) {
           return point.attach( coverBlob );
         }
       } );
+
       return { type, id: point.id, point: point.store() };
     }
   };
 };
-export const addService = factory( Service, ADD_SERVICE );
-export const addAlert = factory( Alert, ADD_ALERT );
-export const updateService = factory( Service, UPDATE_SERVICE );
+export const addService = factory( ADD_SERVICE );
+export const addAlert = factory( ADD_ALERT );
+export const updateService = factory( UPDATE_SERVICE );
 
 // Allows the user to delete points that haven't yet been synced to another
 // database. After a point is synced the first time, it cannot be deleted
