@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PointMap from '../components/point-map';
 /*eslint-enable no-unused-vars*/
 
-import { setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
+import * as mapActions from '../reducers/map';
 
 import { pick, values } from 'lodash';
 import { bindActionCreators } from 'redux';
@@ -26,7 +26,7 @@ export class ConnectedPointMap extends Component {
     ] );
     return (
       <PointMap { ...props }
-        { ...this.props.pointmap }
+        { ...this.props.pointMap }
         { ...this.props.pointMapActions } />
       );
   }
@@ -34,7 +34,7 @@ export class ConnectedPointMap extends Component {
 
 function mapStateToProps( state ) {
   return {
-    pointmap: {
+    pointMap: {
       points: values( state.points ),
       tracks: state.tracks.toJS(),
       settings: state.settings.toJS(),
@@ -46,12 +46,7 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
   return {
-    pointMapActions: bindActionCreators( {
-      'setMapCenter': setMapCenter,
-      'setGeoLocation': setGeoLocation,
-      'setMapZoom': setMapZoom,
-      'setMapLoading': setMapLoading
-    }, dispatch )
+    pointMapActions: bindActionCreators( mapActions, dispatch )
   };
 }
 

@@ -8,7 +8,7 @@ import { findIndex, bindAll, last, merge, omit } from 'lodash';
 import { bindActionCreators } from 'redux';
 
 import { loadPoint } from '../../reducers/points';
-import * as mapActions from '../../actions/map-actions';
+import { setMapCenter } from '../../reducers/map';
 import * as drawerActions from '../../reducers/drawer';
 
 import history from '../../history';
@@ -220,10 +220,9 @@ export default class PointPage extends Component {
     return {
       pageActions: bindActionCreators( {
         loadPoint: loadPoint,
-        setMapCenter: mapActions.setMapCenter
+        setMapCenter: setMapCenter
       }, dispatch ),
       wizardActions: bindActionCreators( {
-        ...mapActions,
         ...drawerActions
       }, dispatch )
     };
