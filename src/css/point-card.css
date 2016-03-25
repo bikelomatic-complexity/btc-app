@@ -130,6 +130,14 @@
     padding: 0px !important;
 }
 
+.point-card__scroll {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow-y: auto;
+}
+
 /*
  * The point's cover image. The image and the rest of the content should
  * grow equally. So they both have flex-grow: 1.
@@ -179,7 +187,6 @@
 .point-card__content {
     flex-grow: 1;
     flex-shrink: 5;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: stretch;

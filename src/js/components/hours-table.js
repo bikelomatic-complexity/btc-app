@@ -7,6 +7,7 @@ import { Table, TableBody, TableHeader, TableRow, TableHeaderColumn, TableRowCol
 /*eslint-enable no-unused-vars*/
 
 import { days } from 'btc-models';
+import '../../css/hours-table.css';
 
 function format( date ) {
   return new Date( date ).toLocaleTimeString( [], {
@@ -60,8 +61,8 @@ export class HoursTable extends Component {
     }
 
     return (
-      <Table style={ { overflowY: 'visible' } }
-        selectable={ false }>
+      <div className="hours-table">
+      <Table selectable={ false }>
         <TableHeader displaySelectAll={ false }
           adjustForCheckbox={ false }>
           <TableRow>
@@ -82,6 +83,7 @@ export class HoursTable extends Component {
           { hoursData }
         </TableBody>
       </Table>
+      </div>
       );
   }
 }

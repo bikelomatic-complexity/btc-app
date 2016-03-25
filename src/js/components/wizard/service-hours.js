@@ -1,7 +1,7 @@
 /*eslint-disable no-unused-vars*/
 import React from 'react';
 import DropDown from '../drop-down';
-import { RaisedButton, CardText, FontIcon, TimePicker, SelectField, MenuItem } from 'material-ui';
+import { RaisedButton, FlatButton, CardText, FontIcon, TimePicker, SelectField, MenuItem } from 'material-ui';
 import { HoursTable } from '../hours-table';
 /*eslint-enable no-unused-vars*/
 
@@ -92,13 +92,17 @@ export class ServiceHours extends WizardPage {
         <HoursTable removable
           onRowRemove={ this.removeHours }
           hours={ this.state.schedule.default } />
-        <div className="wizard-page__spacer"></div>
-        <RaisedButton secondary
-          disabled={ !this.state.day }
-          onClick={ this.addHours }
-          label="Add Hours" />
       </div>
       );
+  }
+
+  getPageSecondaryActions() {
+    return (
+      <FlatButton
+        disabled={ !this.state.day }
+        onClick={ this.addHours }
+        label="Add Hours" />
+    )
   }
 
   getPreferredTransition() {

@@ -1,6 +1,6 @@
 /*eslint-disable no-unused-vars*/
 import React from 'react';
-import { TextField, RaisedButton, SelectField, MenuItem } from 'material-ui';
+import { TextField, RaisedButton, FlatButton, SelectField, MenuItem } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
 import WizardPage from './wizard-page';
@@ -70,14 +70,17 @@ export class AlertNameDescription extends WizardPage {
           multiLine
           rows={ 2 }
           rowsMax={ 4 } />
-        <div className="wizard-page__spacer" />
         { image }
-        <RaisedButton fullWidth
-          secondary
-          onClick={ this.onPhotoAdd }
-          label="Upload Photo" />
       </div>
       );
+  }
+
+  getPageSecondaryActions() {
+    return (
+      <FlatButton
+        onClick={ this.onPhotoAdd }
+        label="Upload Photo" />
+    );
   }
 
   getPreferredTransition() {

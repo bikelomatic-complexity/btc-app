@@ -1,7 +1,7 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { keys, pick, assign, isFunction, bindAll, isEmpty } from 'lodash';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, FlatButton } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
 import Device, { PHOTO_ENCODING_METHODS } from '../../util/device';
@@ -47,6 +47,10 @@ export class WizardPage extends Component {
     return <div />;
   }
 
+  getPageSecondaryActions() {
+    return;
+  }
+
   // Return the preferred transition type, to modify the effect of the "next"
   // button.
   getPreferredTransition() {
@@ -71,18 +75,6 @@ export class WizardPage extends Component {
   isDisabled() {
     return this.getTransition() === WizardPage.transitions.disabled;
   }
-
-  // When a page unmounts, persist the page values obtained via
-  // `getpageValues()'. The `persist` function must be supplied by the
-  // add point or update point pages.
-  // componentWillUnmount() {
-  //   const {persist} = this.props;
-  //
-  //   const values = this.getPageValues();
-  //   if ( keys( values ).length > 0 && isFunction( persist ) ) {
-  //     persist( values );
-  //   }
-  // }
 
   persistBefore( callback ) {
     const values = this.getPageValues();
@@ -136,12 +128,18 @@ export class WizardPage extends Component {
 
     return (
       <div className="tabs-content">
-        { this.getPageContent() }
-        <RaisedButton className="tabs-content__action"
-          secondary
-          disabled={ this.isDisabled() }
-          onClick={ this.props.onNext }
-          label={ label } />
+        <div className="tabs-content__form">
+          { this.getPageContent() }
+        </div>
+        <div className="tabs-content__action" >
+          <div>
+            { this.getPageSecondaryActions() }
+            <RaisedButton primary
+              disabled={ this.isDisabled() }
+              onClick={ this.props.onNext }
+              label={ label } />
+          </div>
+        </div>
       </div>
       );
   }

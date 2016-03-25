@@ -56,6 +56,16 @@ export class ViewPointCard extends PointCard {
         );
       }
 
+      let contact;
+      if( website || phone ) {
+        contact = (
+          <CardText className="point-card__contact">
+            { phone }
+            { website }
+          </CardText>
+        );
+      }
+
       content = (
         <div className="point-card__content">
           <CardText>
@@ -65,10 +75,7 @@ export class ViewPointCard extends PointCard {
           <CardText>
             { PointCard.amenities( point ) }
           </CardText>
-          <CardText className="point-card__contact">
-            { phone }
-            { website }
-          </CardText>
+          { contact }
           { hours }
           { explanation }
         </div>

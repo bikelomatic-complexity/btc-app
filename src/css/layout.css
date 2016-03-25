@@ -42,7 +42,7 @@ body, html {
     flex-direction: column;
     flex-grow: 1;
     align-items: stretch;
-    overflow-y: auto;
+    overflow-y: visible;
 }
 
 h1, h2, h3, h4, h5, h6, div, span {

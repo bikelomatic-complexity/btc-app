@@ -1,6 +1,6 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
-import { RaisedButton, CardText, FontIcon, MenuItem, SelectField } from 'material-ui';
+import { RaisedButton, FlatButton, CardText, FontIcon, MenuItem, SelectField } from 'material-ui';
 import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
 /*eslint-disable no-unused-vars*/
 
@@ -66,13 +66,17 @@ export class ServiceAmenities extends WizardPage {
         <div>
           { amenities }
         </div>
-        <div className="wizard-page__spacer" />
-        <RaisedButton secondary
-          label="Add amenity"
-          disabled={ !this.state.amenity }
-          onClick={ this.addAmenity } />
       </div>
       );
+  }
+
+  getPageSecondaryActions() {
+    return (
+      <FlatButton
+        label="Add amenity"
+        disabled={ !this.state.amenity }
+        onClick={ this.addAmenity } />
+    )
   }
 
   getPreferredTransition() {

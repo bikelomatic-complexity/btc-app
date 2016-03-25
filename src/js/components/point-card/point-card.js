@@ -187,9 +187,11 @@ export class PointCard extends Component {
           avatar={ <LocationIcon className="point-card__avatar" /> }>
           { this.getIconMenu() }
         </CardHeader>
-        <CardMedia className="point-card__media"
-          style={ coverUrlStyle } />
-        { this.getCardContent() }
+        <div className="point-card__scroll">
+          <CardMedia className="point-card__media"
+            style={ coverUrlStyle } />
+          { this.getCardContent() }
+        </div>
         <CardActions className="point-card__actions">
           { this.getCardAction() }
           <FlatButton label="Close"

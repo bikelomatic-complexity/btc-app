@@ -1,6 +1,6 @@
 /*eslint-disable no-unused-vars*/
 import React from 'react';
-import { RaisedButton, TextField } from 'material-ui';
+import { RaisedButton, FlatButton, TextField } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
 import { isEmpty } from 'lodash';
@@ -66,13 +66,16 @@ export class ServiceDescription extends WizardPage {
           rows={ 2 }
           rowsMax={ 4 } />
         { image }
-        <div className="wizard-page__spacer" />
-        <RaisedButton fullWidth
-          secondary
-          onClick={ this.onPhotoAdd }
-          label="Upload Photo" />
       </div>
       );
+  }
+
+  getPageSecondaryActions() {
+    return (
+      <FlatButton
+        onClick={ this.onPhotoAdd }
+        label="Upload Photo" />
+    )
   }
 
   getPreferredTransition() {
