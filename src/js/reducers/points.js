@@ -16,7 +16,12 @@ export const REQUEST_REPLICATION = 'btc-app/points/REQUEST_REPLICATION';
 export const RECEIVE_REPLICATION = 'btc-app/points/RECEIVE_REPLICATION';
 export const RESET_POINTS = 'btc-app/points/RESET_POINTS';
 
-export default function reducer( state = {}, action ) {
+const initState = {
+  points: {},
+  replication: {}
+};
+
+export default function reducer( state = initState, action ) {
   switch ( action.type ) {
   case UPDATE_SERVICE:
   case ADD_SERVICE:
