@@ -67,6 +67,7 @@
     "react-tap-event-plugin": "^0.2.2",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.3",
+    "redux-watch": "^1.1.0",
     "superagent": "^1.7.2",
     "to-id": "^1.0.5",
     "underscore": "^1.8.3"

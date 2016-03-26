@@ -35,9 +35,9 @@ export class ConnectedPointMap extends Component {
 function mapStateToProps( state ) {
   return {
     pointMap: {
-      points: values( state.points ),
+      points: values( state.points.points ),
       tracks: state.tracks.toJS(),
-      settings: state.settings.toJS(),
+      settings: state.settings,
       map: state.map,
       filters: state.filters
     }

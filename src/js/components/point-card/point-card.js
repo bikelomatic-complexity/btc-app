@@ -115,7 +115,7 @@ export class PointCard extends Component {
 
   // The IconMenu at the top right of the card, in the header. It allows the
   // user to:
-  //  - update a point's information
+  //  - update a point's infomation
   //  - rate and comment on a point
   //  - flag the point
   getIconMenu() {

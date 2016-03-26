@@ -54,7 +54,7 @@ class ListPage extends Component {
 
 function mapStateToProps( state ) {
   return {
-    points: values( state.points )
+    points: values( state.points.points )
   };
 }
 

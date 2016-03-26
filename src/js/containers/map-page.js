@@ -95,7 +95,7 @@ class MapPage extends Component {
 
 function mapStateToProps( state ) {
   return {
-    points: state.points // PointCards are built for this marker
+    points: state.points.points // PointCards are built for this marker
   };
 }
 

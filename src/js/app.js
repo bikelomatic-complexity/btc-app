@@ -49,11 +49,11 @@ import store from './store';
 
 // Sync and NetworkManager allow us to automatically work with the remote
 // PouchDB when the user is online.
-import { NetworkManager } from './reducers/network';
+import { NetworkStateAgent } from './reducers/network';
 // import Sync from './sync';
 
 // Redux action creators used by app.js
-import { reloadPoints } from './reducers/points';
+import { ReplicationAgent, reloadPoints } from './reducers/points';
 
 // Fix tap events so material-ui components work
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -71,11 +71,11 @@ injectTapEventPlugin();
 // a <script> tag. Also, a <div class="main" /> is required in the body. We
 // render the application into that div.
 document.addEventListener( 'deviceReady', ( ) => {
-  const network = new NetworkManager( store );
-  network.monitor();
+  const network = new NetworkStateAgent( store );
+  network.run();
 
-  // const sync = new Sync( database, gateway, store );
-  // sync.start();
+  const replicator = new ReplicationAgent( store );
+  replicator.run();
 
   store.dispatch( reloadPoints() );
 
