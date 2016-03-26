@@ -46,6 +46,7 @@ export class ServiceName extends WizardPage {
           floatingLabelText="Location" />
         <SelectField fullWidth
           { ...this.link( 'type' ) }
+          menuStyle={ { maxWidth: 500 } }
           floatingLabelText="Service type">
           { options }
         </SelectField>

@@ -74,6 +74,7 @@ export class ServiceHours extends WizardPage {
       <div className='wizard-page'>
         <SelectField fullWidth
           { ...this.link( 'day' ) }
+          menuStyle={ { maxWidth: 500 } }
           hintText="Day(s)">
           { options }
         </SelectField>

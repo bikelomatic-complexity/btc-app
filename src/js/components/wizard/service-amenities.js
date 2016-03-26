@@ -60,6 +60,7 @@ export class ServiceAmenities extends WizardPage {
       <div className="wizard-page">
         <SelectField fullWidth
           { ...this.link( 'amenity' ) }
+          menuStyle={ { maxWidth: 500 } }
           floatingLabelText="Choose an amenity">
           { options }
         </SelectField>

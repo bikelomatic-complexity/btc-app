@@ -61,6 +61,7 @@ export class AlertNameDescription extends WizardPage {
           floatingLabelText="Location" />
         <SelectField fullWidth
           { ...this.link( 'type' ) }
+          menuStyle={ { maxWidth: 500 } }
           floatingLabelText="Alert type">
           { options }
         </SelectField>
