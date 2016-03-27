@@ -1,0 +1,50 @@
+
+/*
+ * Both the body and html sections should fill the entire screen.
+ */
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * The react app is rendered into the main div. It should fill the entire
+ * screen as well.
+ */
+#main {
+    height: 100%;
+    width: 100%;
+}
+
+/*
+ * The layout div contains the app bar and the rest of the page content.
+ * It lays out both of those componenets with a columnar flexbox.
+ */
+.layout {
+    height: inherit;
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout__header {
+
+}
+
+/*
+ * The rest of the page content, besides the app bar. It should fill the
+ * remaining space of the layour container.
+ */
+.layout__section {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: stretch;
+    overflow-y: visible;
+}
+
+h1, h2, h3, h4, h5, h6, div, span {
+    font-family: 'Roboto', sans-serif;
+}

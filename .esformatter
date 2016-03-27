@@ -1,22 +1,26 @@
 {
   "plugins": [
     "esformatter-jsx",
-    "esformatter-ignore"
+    "esformatter-ignore",
+    "esformatter-line-endings"
   ],
 
   "jsx": {
     "formatJSX": true,
     "attrsOnSameLineAsTag": false,
-    "maxAttrsOnTag": 2,
+    "maxAttrsOnTag": 1,
     "firstAttributeOnSameLine": true,
     "alignWithFirstAttribute": false,
     "htmlOptions": {
       "brace-style": "collapse-preserve-inline",
       "unformatted": [
-        "inline",
-        "block"
+        "inline", "span", "Link", "FontIcon", "TableRowColumn"
       ]
     }
+  },
+
+  "line_endings": {
+    "example": "./src/js/app.js"
   },
 
   "preset" : "default",
