@@ -6,15 +6,15 @@ import React from 'react';
 import { ViewPointCard } from '../../../../src/js/components/point-card/view-point-card';
 /*eslint-enable no-unused-vars*/
 
-import { MockPoints } from '../../../mock-data/mock-points';
+import { mockPoints } from '../../../mock-data/mock-points';
 
 import sd from 'skin-deep';
 
 describe( '<ViewPointCard />', function() {
   beforeEach( function() {
-    this.mockPoint = MockPoints[ 0 ];
     const tree = sd.shallowRender(
-      <ViewPointCard point={ this.mockPoint } />
+      <ViewPointCard points={ mockPoints }
+        params={ { id: 'point/service/rit/abcdef' } } />
     );
     this.tree = tree.dive( [ 'CardActions' ] );
   } );
