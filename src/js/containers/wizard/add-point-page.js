@@ -23,11 +23,13 @@ export class AddPointPage extends PointPage {
     ];
   }
 
+  // Get the defaults for a service
   componentWillMount() {
     const service = new Service();
     this.setState( { point: service.store() } );
   }
 
+  // The defaults are obtained synchronously, we are ready right now.
   isReady() {
     return true;
   }

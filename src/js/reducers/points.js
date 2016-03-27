@@ -3,7 +3,7 @@ import { local, remote, reset } from '../database';
 import { setSnackbar } from './notifications/snackbar';
 
 import { Point, PointCollection } from 'btc-models';
-import { assign, merge, omit, bindAll } from 'lodash';
+import { assign, merge, omit, bindAll, cloneDeep } from 'lodash';
 
 export const ADD_SERVICE = 'btc-app/points/ADD_SERVICE';
 export const ADD_ALERT = 'btc-app/points/ADD_ALERT';
@@ -14,11 +14,16 @@ export const REQUEST_LOAD_POINT = 'btc-app/points/REQUEST_LOAD_POINT';
 export const RECEIVE_LOAD_POINT = 'btc-app/points/RECEIVE_LOAD_POINT';
 export const REQUEST_REPLICATION = 'btc-app/points/REQUEST_REPLICATION';
 export const RECEIVE_REPLICATION = 'btc-app/points/RECEIVE_REPLICATION';
-export const RESET_POINTS = 'btc-app/points/RESET_POINTS';
+
+// # Points Reducer
+// The points reducer holds the points, their comments, and relevant metadata
+//
+// The point structure is augmented with an `isFetching` field that is true
+// while the database fetch is running.
 
 const initState = {
-  points: {},
-  replication: {}
+  points: {}, // mapping of point ids to point objects
+  replication: {} // replication metadata
 };
 
 export default function reducer( state = initState, action ) {
@@ -37,8 +42,6 @@ export default function reducer( state = initState, action ) {
     return assign( {}, state, {
       points: action.points
     } );
-  case RESET_POINTS:
-    return assign( {}, state, { points: {} } );
   case REQUEST_LOAD_POINT:
     return merge( {}, state, {
       points: {
@@ -79,17 +82,13 @@ export default function reducer( state = initState, action ) {
 // without delay. We must also persist the change to the database. The flow
 // goes as follows:
 //
-//  - Check if the point is valid. If not, do not dispatch anything
-//  - Specify the point's id, based on name, location, and type.
-//  - Generate a promise that persists the point to the database
-//    * If we are creating a new point, just use save.
-//    * If we are updating a point, re-fetch it before saving because we need
-//      to obtain the latest `_rev`
-//  - If the user has supplied an image blob, extend the promise to attach
-//    the blob after saving is complete. Also, make the blob synchronously
-//    available to the point (so `point.store` works below)
-//  - Return an action containing the rexux-representation of the point. This
-//    will return before the promises resolve.
+//  - Check if the point is valid
+//  - Make a promise to save the point to the database
+//    * By default, just save it
+//    * For UPDATE_SERVICE, re-fetch the point to get our `_rev`
+//  - If there's a coverBlob, attach it
+//  - Serialize the point and return the action
+
 const factory = type => {
   return ( point, coverBlob ) => {
     if ( !point.isValid() ) {
@@ -99,7 +98,7 @@ const factory = type => {
 
       let promise;
       if ( type === UPDATE_SERVICE ) {
-        const attributes = point.attributes;
+        const attributes = cloneDeep( point.attributes );
         promise = point.fetch().then( res => point.save( attributes ) );
       } else {
         promise = point.save();
@@ -108,7 +107,7 @@ const factory = type => {
       if ( coverBlob ) {
         point.setCover( coverBlob );
         promise.then(
-          ( ) => point.attach( coverBlob, 'cover.png', 'image/png' )
+          () => point.attach( coverBlob, 'cover.png', 'image/png' )
         );
       }
       return { type, id: point.id, point: point.store() };
@@ -122,6 +121,7 @@ export const updateService = factory( UPDATE_SERVICE );
 // # Rescind Point
 // Allows the user to delete points that haven't yet been synced to another
 // database. After a point is synced the first time, it cannot be deleted
+
 export function rescindPoint( id ) {
   return { type: RESCIND_POINT, id };
 }
@@ -130,6 +130,7 @@ export function rescindPoint( id ) {
 // Creates an action to replace all points in the store. This is useful to
 // load the store with initial point data and to refresh the store when
 // the user scrolls to a new area of the map.
+
 export function reloadPoints() {
   const points = new PointCollection();
   return dispatch => {
@@ -141,8 +142,11 @@ export function reloadPoints() {
   };
 }
 
+// # Reset Points
+// Reset the points database then reload the (empty) database.
+
 export function resetPoints() {
-  return dispatch => reset().then( database => dispatch( reloadPoints() ) );
+  return dispatch => reset().then( () => dispatch( reloadPoints() ) );
 }
 
 // # Load Point
@@ -154,6 +158,7 @@ export function resetPoints() {
 //
 // Otherwise, fetch the point from the database, and mark the point as fetching
 // while it is being retrieved.
+
 export function loadPoint( id ) {
   return ( dispatch, getState ) => {
     const {points} = getState().points;
@@ -168,6 +173,9 @@ export function loadPoint( id ) {
     }
   };
 }
+
+// # Replicate Points
+// Start a replication job from the remote points database.
 
 export function replicatePoints() {
   return dispatch => {
@@ -188,12 +196,13 @@ export function replicatePoints() {
 // The agent's job is to continually dispatch a replication action at the
 // specified interval from settings, but only if we're online. We restart
 // the interval whenever:
+//
 //  1. The network state changes
 //  2. The user specifies a new replication interval
 //  3. The app resumes from sleep
 //
-// After the agent is run, you can stop the subscription on store by calling
-// `stop()`.
+// Stop the agent with stop().
+
 export class ReplicationAgent extends Agent {
   constructor( store ) {
     super( store );
@@ -228,7 +237,6 @@ export class ReplicationAgent extends Agent {
         () => this.store.dispatch( replicatePoints() ),
         repIvalM * 60 * 1000
       );
-
     }
   }
 }

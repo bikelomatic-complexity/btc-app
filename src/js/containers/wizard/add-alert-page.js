@@ -20,11 +20,13 @@ export class AddAlertPage extends PointPage {
     ];
   }
 
+  // Get the defaults for an alert
   componentWillMount() {
     const alert = new Alert();
     this.setState( { point: alert.store() } );
   }
 
+  // The defaults are obtained synchronously, we are ready right now.
   isReady() {
     return true;
   }

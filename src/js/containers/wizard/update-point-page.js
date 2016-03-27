@@ -9,13 +9,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 export class UpdatePointPage extends PointPage {
-  constructor( props ) {
-    super( props );
-  }
-
   getPageUrl() {
-    const {params} = this.props;
-    const id = encodeURIComponent( params.id );
+    const id = encodeURIComponent( this.props.params.id );
     return `/update-point/${ id }`;
   }
 
@@ -27,24 +22,19 @@ export class UpdatePointPage extends PointPage {
     ];
   }
 
-  // The update service page needs to get data to display upon mount.
-  // We need to assume that we'll be asynchronously fetching that data.
+  // Try to get our point from the cache, then assume it's fetching.
   componentWillMount() {
     const {params, points} = this.props;
     this.setState( { point: points[ params.id ] || { isFetching: true } } );
   }
 
-  // Upon mount, we need to load the service into the store, then set our
-  // own state to match.
+  // Once the component mounts, load the point into the store.
   componentDidMount() {
     const {pageActions, params} = this.props;
     pageActions.loadPoint( params.id );
   }
 
-  // #componentWillReceiveProps
-  // When the page mounted, we dispatched loadPoint. If it needed to
-  // asynchronously fetch a point, the points prop will change. TODO: this
-  // function might be called every time we use this.setState().
+  // If we were fetching our point and it has arrived, set it in state.
   componentWillReceiveProps( nextProps ) {
     if ( this.state.point.isFetching ) {
       const {params, points} = nextProps;
@@ -52,17 +42,20 @@ export class UpdatePointPage extends PointPage {
     }
   }
 
-  // The update service page is ready to display once we're done
-  // asynchronously fetching.
+  // We're only ready once the point is done fetching.
   isReady() {
     return !this.state.point.isFetching;
   }
 
+  // # onFinal
+  // Before calling `updateService`, transfer our original coverUrl to the
+  // new service in case we don't have a new one to attach.
   onFinal() {
     const {updateService} = this.props;
     const {point, coverBlob} = this.state;
 
     const service = new Service( point );
+    service.coverUrl = point.coverUrl;
     if ( service.isValid() ) {
       updateService( service, coverBlob );
       history.push( '/' );
