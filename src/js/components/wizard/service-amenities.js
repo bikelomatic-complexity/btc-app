@@ -50,27 +50,26 @@ export class ServiceAmenities extends WizardPage {
       );
     }
 
+    const {types} = this.props;
+    const display = type => types[ type ].display;
+    const amenityTypes = keys( types );
+
     const amenities = this.props.newPoint.amenities.map( ( amenity, index ) => {
       return (
         <RaisedButton key={ amenity }
           style={ { margin: 8 } }
           onClick={ this.removeAmenity.bind( this, amenity ) }
-          label={ displayType( amenity ) }
+          label={ display( amenity ) }
           labelPosition="before"
           icon={ <FontIcon className="material-icons">clear</FontIcon> } />
         );
     } );
 
-
-    const {types} = this.props;
-    const displayType = type => types[ type ].display;
-    const amenityTypes = keys( types );
-
     return (
       <div className="wizard-page">
         <DropDown options={ amenityTypes }
           text="Amenity"
-          textTransform={ displayType }
+          textTransform={ display }
           onSelectFunction={ this.selectAmenity.bind( this ) } />
         <div>
           { amenities }

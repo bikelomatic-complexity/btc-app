@@ -1,6 +1,6 @@
 export const MockPoints = [
   {
-    _id: '0',
+    _id: 'point/service/rit/abcdef',
 	name: 'Rochester Institute of Technology',
 	description: 'Rochester Institute of Technology is a private university',
 	type: 'School',
@@ -21,7 +21,7 @@ export const MockPoints = [
 		  {day:'Thursday', opens:'8:00 AM', closes: '10:00 PM'},
 		  {day:'Friday', opens:'8:00 AM', closes: '10:00 PM'},
 		  {day:'Saturday', opens:'10:00 AM', closes: '4:00 PM'}
-		] 
+		]
 	  },
 	  {
 		//november 1st to december 31st
