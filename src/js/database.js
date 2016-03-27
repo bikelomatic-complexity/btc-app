@@ -17,10 +17,10 @@ connectMut( local, models );
 
 export function reset() {
   return local.destroy().then(
-    () => assignIn( local, new PouchDB( 'points' ), { _destroyed: false } )
+    ( ) => assignIn( local, new PouchDB( 'points' ), { _destroyed: false } )
   );
 }
 
-const { protocol, domain, port } = config.get( 'Client.couch' );
+const {protocol, domain, port} = config.get( 'Client.couch' );
 const url = `${ protocol }://${ domain }:${ port }/points`;
 export const remote = new PouchDB( url );

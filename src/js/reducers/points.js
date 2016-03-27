@@ -107,7 +107,7 @@ const factory = type => {
       if ( coverBlob ) {
         point.setCover( coverBlob );
         promise.then(
-          () => point.attach( coverBlob, 'cover.png', 'image/png' )
+          ( ) => point.attach( coverBlob, 'cover.png', 'image/png' )
         );
       }
       return { type, id: point.id, point: point.store() };
@@ -146,7 +146,7 @@ export function reloadPoints() {
 // Reset the points database then reload the (empty) database.
 
 export function resetPoints() {
-  return dispatch => reset().then( () => dispatch( reloadPoints() ) );
+  return dispatch => reset().then( ( ) => dispatch( reloadPoints() ) );
 }
 
 // # Load Point
@@ -220,7 +220,7 @@ export class ReplicationAgent extends Agent {
   }
 
   run() {
-    const { store, select, update } = this;
+    const {store, select, update} = this;
     this.stop = observeStore( store, select, update );
 
     document.addEventListener( 'resume', update );
@@ -228,13 +228,13 @@ export class ReplicationAgent extends Agent {
   }
 
   update() {
-    const { isOnline, repIvalM } = this.select( this.store.getState() );
+    const {isOnline, repIvalM} = this.select( this.store.getState() );
 
     clearTimeout( this.interval );
-    if( isOnline ) {
+    if ( isOnline ) {
       this.store.dispatch( replicatePoints() );
       this.interval = setInterval(
-        () => this.store.dispatch( replicatePoints() ),
+        ( ) => this.store.dispatch( replicatePoints() ),
         repIvalM * 60 * 1000
       );
     }

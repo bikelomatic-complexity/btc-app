@@ -131,7 +131,7 @@ export class WizardPage extends Component {
         <div className="tabs-content__form">
           { this.getPageContent() }
         </div>
-        <div className="tabs-content__action" >
+        <div className="tabs-content__action">
           <div>
             { this.getPageSecondaryActions() }
             <RaisedButton primary

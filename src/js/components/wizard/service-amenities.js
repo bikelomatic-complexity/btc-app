@@ -73,8 +73,7 @@ export class ServiceAmenities extends WizardPage {
 
   getPageSecondaryActions() {
     return (
-      <FlatButton
-        label="Add amenity"
+      <FlatButton label="Add amenity"
         disabled={ !this.state.amenity }
         onClick={ this.addAmenity } />
     )

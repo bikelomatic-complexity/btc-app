@@ -57,7 +57,7 @@ export class ViewPointCard extends PointCard {
       }
 
       let contact;
-      if( website || phone ) {
+      if ( website || phone ) {
         contact = (
           <CardText className="point-card__contact">
             { phone }

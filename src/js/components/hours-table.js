@@ -62,27 +62,27 @@ export class HoursTable extends Component {
 
     return (
       <div className="hours-table">
-      <Table selectable={ false }>
-        <TableHeader displaySelectAll={ false }
-          adjustForCheckbox={ false }>
-          <TableRow>
-            <TableHeaderColumn>
-              Day
-            </TableHeaderColumn>
-            <TableHeaderColumn>
-              Opens
-            </TableHeaderColumn>
-            <TableHeaderColumn>
-              Closes
-            </TableHeaderColumn>
-            { remove }
-          </TableRow>
-        </TableHeader>
-        <TableBody displayRowCheckbox={ false }
-          adjustForCheckbox={ false }>
-          { hoursData }
-        </TableBody>
-      </Table>
+        <Table selectable={ false }>
+          <TableHeader displaySelectAll={ false }
+            adjustForCheckbox={ false }>
+            <TableRow>
+              <TableHeaderColumn>
+                Day
+              </TableHeaderColumn>
+              <TableHeaderColumn>
+                Opens
+              </TableHeaderColumn>
+              <TableHeaderColumn>
+                Closes
+              </TableHeaderColumn>
+              { remove }
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={ false }
+            adjustForCheckbox={ false }>
+            { hoursData }
+          </TableBody>
+        </Table>
       </div>
       );
   }

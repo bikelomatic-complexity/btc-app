@@ -110,7 +110,7 @@ export default class PointPage extends Component {
       const nextState = {
         point: assign( {}, state.point, attributes )
       };
-      if( coverBlob ) {
+      if ( coverBlob ) {
         nextState.coverBlob = coverBlob;
       }
       return nextState;
