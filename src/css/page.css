@@ -1,0 +1,28 @@
+/*
+ * A page block may be used as the root of a page that you can navigate to
+ * via the React router.
+ *
+ * It may or may not contain a letterhead logo for Adventure Cycling.
+ */
+.page {
+    margin-right: auto;
+    margin-left: auto;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+}
+
+.page__paper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.page__logo {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 75%;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}

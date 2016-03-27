@@ -1,0 +1,49 @@
+
+/* TODO: rename `entry` to `block` */
+
+/*
+ * The block is a generic piece of paper with a header and footer. The
+ * form block extends this concept with a group of fields and an action
+ * button.
+ */
+.entry {
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    flex-shrink: 0;
+}
+
+.entry__row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.entry__header {
+    margin-bottom: 0px;
+    text-align: center;
+}
+
+.entry__header--error {
+    color: red;
+}
+
+.entry__action {
+}
+
+.entry__footer {
+    width: inherit;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.entry__spacer {
+    height: 15px;
+}

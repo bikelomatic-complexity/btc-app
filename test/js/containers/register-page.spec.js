@@ -5,19 +5,22 @@ import sd from 'skin-deep';
 /*eslint-disable no-unused-vars*/
 import React from 'react';
 import ReactDom from 'react-dom';
-import { RegisterPage } from '../../../www/js/containers/register-page';
+import { RegisterPage } from '../../../src/js/containers/register-page';
 /*eslint-enable no-unused-vars*/
 
-import * as registration from '../../../www/js/reducers/account/registration';
+import * as registration from '../../../src/js/reducers/account/registration';
+import * as drawer from '../../../src/js/reducers/drawer';
 
 describe( '<RegisterPage />', function() {
   beforeEach( function() {
+    this.setDrawer = sinon.stub( drawer, 'setDrawer' );
     this.register = sinon.stub( registration, 'register' );
     this.dispatch = sinon.stub();
     this.history = { push: sinon.stub() };
   } );
   afterEach( function() {
     this.register.restore();
+    this.setDrawer.restore();
   } );
   it( 'should dispatch login when an action occurs', function() {
     const account = { registration: {} };
@@ -37,15 +40,16 @@ describe( '<RegisterPage />', function() {
     sinon.assert.called( this.dispatch );
   } );
   it( 'should set the drawer on mount', function() {
-    const setDrawer = sinon.spy();
-
     const account = { registration: {} };
     const tree = sd.shallowRender( (
-      <RegisterPage account={ account } setDrawer={ setDrawer } />
+      <RegisterPage account={ account }
+        dispatch={ this.dispatch } />
       ) );
 
     tree.getMountedInstance().componentDidMount();
 
-    sinon.assert.called( setDrawer );
+    this.dispatch.callsArg( 1 );
+    sinon.assert.called( this.dispatch );
+    sinon.assert.called( this.setDrawer );
   } );
 } );

@@ -5,27 +5,29 @@ import sd from 'skin-deep';
 
 import React from 'react';
 import ReactDom from 'react-dom';
-import { ACDrawer } from '../../../www/js/components/ac-drawer';
+import { Drawer } from '../../../src/js/containers/drawer';
 /*eslint-enable no-unused-vars*/
 
-describe( '<ACDrawer />', function() {
+describe( '<Drawer />', function() {
   it( 'should be closed by default', function() {
     const tree = sd.shallowRender( (
-      <ACDrawer page='New Page' account={ {login: {}} } />
-    ) );
+      <Drawer drawer="New Page"
+        login={ { loggedIn: false } } />
+      ) );
 
     const instance = tree.getMountedInstance();
 
-    expect(instance.state.open).to.be.false;
+    expect( instance.state.open ).to.be.false;
   } );
-  it( 'should make the title the page property', function() {
+  it( 'should set the title from the drawer prop', function() {
     const tree = sd.shallowRender( (
-      <ACDrawer page='New Page' account={ {login: {}} } />
-    ) );
+      <Drawer drawer="New Page"
+        login={ { loggedIn: false } } />
+      ) );
 
-    const appBar = tree.dive(['AppBar']);
+    const appBar = tree.dive( [ 'AppBar' ] );
     const appBarInstance = appBar.getMountedInstance();
 
-    expect(appBarInstance.props.title).to.be.equal('New Page');
+    expect( appBarInstance.props.title ).to.be.equal( 'New Page' );
   } );
 } );

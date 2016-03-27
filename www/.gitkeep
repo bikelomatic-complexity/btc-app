@@ -1,0 +1,3 @@
+# www/ must exist on checkout, otherwise you get this error:
+# Error: Current working directory is not a Cordova-based project
+!.gitignore
