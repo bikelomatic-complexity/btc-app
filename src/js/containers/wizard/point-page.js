@@ -23,7 +23,7 @@ import '../../../css/layout.css';
 // wizard page all the props it needs to render correctly, since WizardPages
 // are stateless.
 //
-// The AddAlertPage, AddServicePage, and UpdatePointPage extend this base
+// The AddAlertPage, AddServicePage, and UpdateServicePage extend this base
 // class by implementing some template methods.
 //
 //  - getPageUrl()                Url back to this page

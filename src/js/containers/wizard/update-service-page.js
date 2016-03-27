@@ -8,7 +8,7 @@ import history from '../../history';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-export class UpdatePointPage extends PointPage {
+export class UpdateServicePage extends PointPage {
   getPageUrl() {
     const id = encodeURIComponent( this.props.params.id );
     return `/update-point/${ id }`;
@@ -82,6 +82,6 @@ export class UpdatePointPage extends PointPage {
 }
 
 export default connect(
-  UpdatePointPage.mapStateToProps,
-  UpdatePointPage.mapDispatchToProps
-)( UpdatePointPage );
+  UpdateServicePage.mapStateToProps,
+  UpdateServicePage.mapDispatchToProps
+)( UpdateServicePage );

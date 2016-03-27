@@ -8,7 +8,7 @@ import { Service, serviceTypes } from 'btc-models';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-export class AddPointPage extends PointPage {
+export class AddServicePage extends PointPage {
   getPageUrl() {
     return '/add-point';
   }
@@ -66,6 +66,6 @@ export class AddPointPage extends PointPage {
 }
 
 export default connect(
-  AddPointPage.mapStateToProps,
-  AddPointPage.mapDispatchToProps
-)( AddPointPage );
+  AddServicePage.mapStateToProps,
+  AddServicePage.mapDispatchToProps
+)( AddServicePage );

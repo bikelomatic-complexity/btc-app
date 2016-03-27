@@ -22,8 +22,8 @@ import DownloadTrackPage from './containers/download-track-page';
 import FilterPage from './containers/filter-page';
 import SettingsPage from './containers/settings-page';
 
-import AddPointPage from './containers/wizard/add-point-page';
-import UpdatePointPage from './containers/wizard/update-point-page';
+import AddServicePage from './containers/wizard/add-service-page';
+import UpdateServicePage from './containers/wizard/update-service-page';
 import AddAlertPage from './containers/wizard/add-alert-page';
 
 import PointLocation from './components/wizard/point-location';
@@ -104,7 +104,7 @@ document.addEventListener( 'deviceReady', ( ) => {
           <Route path="thanks"
             component={ ThanksPage } />
           <Route path="add-point"
-            component={ AddPointPage }>
+            component={ AddServicePage }>
             <IndexRoute component={ PointLocation } />
             <Route path="location"
               component={ PointLocation } />
@@ -118,7 +118,7 @@ document.addEventListener( 'deviceReady', ( ) => {
               component={ ServiceAmenities } />
           </Route>
           <Route path="/update-point/:id"
-            component={ UpdatePointPage }>
+            component={ UpdateServicePage }>
             <IndexRoute component={ ServiceDescription } />
             <Route path="description"
               component={ ServiceDescription } />
