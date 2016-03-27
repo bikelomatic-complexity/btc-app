@@ -34,7 +34,8 @@
   },
   "browserify-css": {
     "autoInject": true,
-    "minify": false
+    "minify": false,
+    "rootDir": "./src"
   },
   "repository": {
     "type": "git",
