@@ -1,16 +1,16 @@
+import { merge } from 'lodash';
 
-import { fromJS } from 'immutable';
+const ONLINE_MODE = 'btc-app/settings/ONLINE_MODE';
 
-const ONLINE_MODE = 'pannier/settings/ONLINE_MODE';
-
-const initState = fromJS( {
-  onlineMode: true
-} );
+const initState = {
+  onlineMode: true,
+  repIvalM: 10
+};
 
 export default function reducer( state = initState, action ) {
   switch ( action.type ) {
   case ONLINE_MODE:
-    return state.set( 'onlineMode', action.onlineMode );
+    return merge( {}, state, { onlineMode: action.onlineMode } );
   default:
     return state;
   }

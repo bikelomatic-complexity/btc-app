@@ -1,51 +1,50 @@
 /*eslint-disable no-unused-vars*/
 import React from 'react';
-import { RaisedButton, TextField } from 'material-ui';
+import { RaisedButton, FlatButton, TextField } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
-import { bindAll, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import WizardPage from './wizard-page';
 
 export class ServiceDescription extends WizardPage {
-  constructor( props ) {
-    super( props );
-    bindAll( this, 'onPhotoAdd' );
-
-    const {newPoint} = props;
-    this.state = {
-      description: newPoint.description || '',
-      phoneNumber: newPoint.phoneNumber || '',
-      address: newPoint.address || '',
-      website: newPoint.website || ''
-    };
+  componentWillMount() {
+    const {point} = this.props;
+    this.setState( {
+      description: point.description,
+      phone: point.phone,
+      address: point.address,
+      website: point.website,
+      coverUrl: point.coverUrl
+    } );
   }
 
   componentDidMount() {
-    const {setDrawer, newPoint} = this.props;
-    setDrawer( newPoint._id ? 'Update Details' : 'Add Details' );
-  }
-
-  // This logic will not work on the browser:
-  // [CB-9852](https://issues.apache.org/jira/browse/CB-9852)
-  onPhotoAdd() {
-    navigator.camera.getPicture(
-      imageSrc => this.props.setPointImage( imageSrc ),
-      err => console.error( err ),
-      {
-        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
-        destinationType: navigator.camera.DestinationType.FILE_URI,
-        encodingType: navigator.camera.EncodingType.PNG
-      }
-    );
+    this.props.setDrawer( 'Add Details' );
   }
 
   getPageFields() {
-    return [ 'description', 'phoneNumber', 'address', 'website' ];
+    return [
+      'description',
+      'phone',
+      'address',
+      'website',
+      'coverBlob',
+      'coverUrl'
+    ];
   }
 
   getPageContent() {
-    const {imageSrc} = this.props.newPoint;
-    const image = isEmpty( imageSrc ) ? <div /> : <img src={ imageSrc } />;
+    const {coverUrl} = this.state;
+
+    let image;
+    if ( coverUrl ) {
+      image = (
+        <div>
+          <image style={ { width: '100%' } }
+            src={ coverUrl } />
+        </div>
+      );
+    }
 
     return (
       <div className="wizard-page">
@@ -67,12 +66,14 @@ export class ServiceDescription extends WizardPage {
           rows={ 2 }
           rowsMax={ 4 } />
         { image }
-        <div className="wizard-page__spacer" />
-        <RaisedButton fullWidth
-          secondary
-          onClick={ this.onPhotoAdd }
-          label="Upload Photo" />
       </div>
+      );
+  }
+
+  getPageSecondaryActions() {
+    return (
+      <FlatButton onClick={ this.onPhotoAdd }
+        label="Upload Photo" />
       );
   }
 

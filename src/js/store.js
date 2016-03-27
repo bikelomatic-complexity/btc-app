@@ -1,31 +1,34 @@
 /*global process*/
-import { createStore, applyMiddleware, compose } from 'redux';
+/*esfmt-ignore-start*/
+import notifications from './reducers/notifications';
+import points        from './reducers/points';
+import tracks        from './reducers/tracks';
+import settings      from './reducers/settings';
+import network       from './reducers/network';
+import map           from './reducers/map';
+import filters       from './reducers/filter';
+import account       from './reducers/account';
+import drawer        from './reducers/drawer';
+
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-
-import reducers from './reducers';
-
-const reqMiddleware = [ thunk ];
 
 const devTools = typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f;
 
-export default class StoreBuilder {
-  constructor( extMiddleware ) {
-    const all = [ ...reqMiddleware, ...extMiddleware ];
-
-    if ( process.env.NODE_ENV === 'development' ) {
-      this.finalCreateStore = compose(
-        applyMiddleware( ...all ),
-        devTools
-      )( createStore );
-
-    } else {
-      this.finalCreateStore = compose(
-        applyMiddleware( ...all )
-      )( createStore );
-    }
-  }
-
-  build( initState = {} ) {
-    return this.finalCreateStore( reducers, initState );
-  }
+const args = [ applyMiddleware( thunk ) ];
+if ( process.env.NODE_ENV === 'development' ) {
+  args.push( devTools );
 }
+
+export default compose.apply( null, args )( createStore )( combineReducers( {
+  notifications,
+  points,
+  tracks,
+  settings,
+  network,
+  map,
+  filters,
+  account,
+  drawer
+} ) );
+/*esfmt-ignore-end*/

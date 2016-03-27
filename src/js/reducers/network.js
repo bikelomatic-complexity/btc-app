@@ -1,5 +1,7 @@
-import { bindAll } from 'underscore';
+import { Agent } from '../util/agent';
 import Device from '../util/device';
+
+import { bindAll } from 'underscore';
 
 export const CONNECTION = 'pannier/network/CONNECTION';
 
@@ -30,18 +32,19 @@ export function setConnection( status ) {
  * NetworkManager intelligently cleans connection information, since the
  * cordova plugin has many quirks to work around.
  */
-export class NetworkManager {
-
+export class NetworkStateAgent extends Agent {
   constructor( store ) {
+    super();
     this.store = store;
     this.device = Device.getDevice();
 
     bindAll( this, 'update' );
   }
 
-  monitor() {
+  run() {
     document.addEventListener( 'online', this.update );
     document.addEventListener( 'offline', this.update );
+    document.addEventListener( 'resume', this.update );
 
     this.update();
   }
@@ -50,9 +53,8 @@ export class NetworkManager {
     const connection = navigator.connection.type;
 
     this.store.dispatch( setConnection( {
-      online: this.device.isOnline( connection ),
-      onMobileData: this.device.isOnMobileData( connection )
+      isOnline: this.device.isOnline( connection ),
+      isOnMobileData: this.device.isOnMobileData( connection )
     } ) );
   }
-
 }

@@ -8,7 +8,7 @@ import { includes, assign, keys } from 'lodash';
 import { connect } from 'react-redux';
 import { display, serviceTypes, alertTypes } from 'btc-models/lib/schema/types';
 
-import { setFilters } from '../actions/map-actions';
+import { setFilters } from '../reducers/filter';
 import { setDrawer } from '../reducers/drawer';
 
 import history from '../history';

@@ -8,16 +8,16 @@ import ReactDom from 'react-dom';
 import { AlertNameDescription } from '../../../../src/js/components/wizard/alert-name-description';
 /*eslint-enable no-unused-vars*/
 
+const point = {
+  location: [ 0, 0 ],
+  name: 'test'
+};
+
 describe( '<AlertNameDescription />', function() {
   it( 'should set the drawer on mount', function() {
     const setDrawer = sinon.spy();
-    const newPoint = {
-      location: [ 0, 0 ],
-      name: 'test'
-    };
-
     const tree = sd.shallowRender( (
-      <AlertNameDescription newPoint={ newPoint }
+      <AlertNameDescription point={ point }
         setDrawer={ setDrawer } />
       ) );
 
@@ -25,11 +25,12 @@ describe( '<AlertNameDescription />', function() {
 
     sinon.assert.called( setDrawer );
   } );
-  it( 'should persist the alert name on componentWillUnmount', function( done ) {
-    const persist = sinon.spy();
+  it( 'should persist the alert name on persistBefore', function( done ) {
+    const persist = sinon.stub();
+    persist.callsArg( 1 );
 
     const tree = sd.shallowRender( (
-      <AlertNameDescription newPoint={ { location: [ 0, 0 ] } }
+      <AlertNameDescription point={ point }
         persist={ persist } />
       ) );
 
@@ -37,9 +38,10 @@ describe( '<AlertNameDescription />', function() {
     instance.setState( {
       name: 'some alert'
     }, ( ) => {
-      instance.componentWillUnmount();
-      sinon.assert.calledWithMatch( persist, { name: 'some alert' } );
-      done();
+      instance.persistBefore( ( ) => {
+        sinon.assert.calledWithMatch( persist, { name: 'some alert' } );
+        done();
+      } );
     } );
   } );
 } );

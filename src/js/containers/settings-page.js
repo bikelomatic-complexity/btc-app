@@ -13,6 +13,7 @@ import Delete from 'material-ui/lib/svg-icons/action/delete';
 
 import noop from 'lodash/noop';
 
+import { resetPoints } from '../reducers/points';
 import { setOnlineMode } from '../reducers/settings';
 import { connect } from 'react-redux';
 
@@ -20,19 +21,17 @@ import { setDrawer } from '../reducers/drawer';
 
 export class SettingsPage extends Component {
   componentDidMount() {
-    this.props.dispatch( setDrawer( 'Settings' ) );
+    this.props.setDrawer( 'Settings' );
   }
 
   render() {
-    const {dispatch, settings} = this.props;
+    const {setOnlineMode, resetPoints, settings} = this.props;
 
     const toggleItems = [ {
       text: 'Offline mode',
       subtext: 'Don\'t connect to the internet',
       toggled: !settings.onlineMode,
-      onToggle: offline => {
-        return dispatch( setOnlineMode( !settings.onlineMode ) );
-      }
+      onToggle: offline => setOnlineMode( !settings.onlineMode )
     }, {
       text: 'Download on mobile',
       subtext: 'Use 3G or 4G data',
@@ -60,6 +59,7 @@ export class SettingsPage extends Component {
 
     const clearPoints = (
     <ListItem primaryText='Delete cache'
+      onClick={ resetPoints }
       secondaryText='80 MB'
       leftIcon={ <Delete /> } />
     );
@@ -97,10 +97,13 @@ export class SettingsPage extends Component {
   }
 }
 
-function select( state ) {
+function mapStateToProps( state ) {
   return {
-    settings: state.settings.toJS(),
+    settings: state.settings,
     login: state.account.login
   };
 }
-export default connect( select )( SettingsPage );
+
+const actions = { resetPoints, setOnlineMode, setDrawer };
+
+export default connect( mapStateToProps, actions )( SettingsPage );

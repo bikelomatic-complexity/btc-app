@@ -8,18 +8,17 @@ import { toPairs } from 'lodash';
 import WizardPage from './wizard-page';
 
 export class ServiceName extends WizardPage {
-  constructor( props ) {
-    super( props );
-
-    this.state = {
-      name: this.props.newPoint.name || '',
-      type: this.props.newPoint.type || ''
-    };
+  componentWillMount() {
+    const {point} = this.props;
+    this.setState( {
+      name: point.name,
+      type: point.type,
+      location: point.location
+    } );
   }
 
   componentDidMount() {
-    const {setDrawer} = this.props;
-    setDrawer( 'Enter Information' ) ;
+    this.props.setDrawer( 'Enter Information' ) ;
   }
 
   getPageFields() {
@@ -27,11 +26,8 @@ export class ServiceName extends WizardPage {
   }
 
   getPageContent() {
-    let latLngString = '';
-    if ( this.props.newPoint.location.length !== 0 ) {
-      const [lat, lng] = this.props.newPoint.location;
-      latLngString = `(${lat.toFixed( 4 )}, ${lng.toFixed( 4 )})`;
-    }
+    const [lat, lng] = this.state.location;
+    const latlng = `(${ lat.toFixed( 4 ) }, ${ lng.toFixed( 4 ) })`;
 
     const {types} = this.props;
     const options = toPairs( types ).map( ( [type, values] ) => (
@@ -39,7 +35,6 @@ export class ServiceName extends WizardPage {
         value={ type }
         primaryText={ values.display } />
     ) );
-
     return (
       <div className="wizard-page">
         <TextField fullWidth
@@ -47,10 +42,11 @@ export class ServiceName extends WizardPage {
           floatingLabelText="Name" />
         <TextField disabled
           fullWidth
-          value={ latLngString }
+          value={ latlng }
           floatingLabelText="Location" />
         <SelectField fullWidth
           { ...this.link( 'type' ) }
+          menuStyle={ { maxWidth: 500 } }
           floatingLabelText="Service type">
           { options }
         </SelectField>
