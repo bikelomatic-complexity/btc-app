@@ -1,10 +1,10 @@
 /*global Connection device*/
 import { contains } from 'underscore';
 
-export const PHOTO_ENCODING_METHODS = {
-  BASE_64_STRING: 'BASE_64_STRING',
-  IMG_SRC: 'IMG_SRC',
-  NONE: 'NONE'
+export const PhotoEncodingMethods = {
+  Base64String: 'Base64String',
+  ImgSrc: 'ImgSrc',
+  None: 'None'
 };
 
 /**
@@ -39,7 +39,7 @@ export default class Device {
   }
 
   getPhotoEncodingMethod() {
-    return PHOTO_ENCODING_METHODS.NONE;
+    return PhotoEncodingMethods.NONE;
   }
 }
 
@@ -62,7 +62,7 @@ class AndroidDevice extends Device {
   }
 
   getPhotoEncodingMethod() {
-    return PHOTO_ENCODING_METHODS.IMG_SRC;
+    return PhotoEncodingMethods.ImgSrc;
   }
 }
 
@@ -85,7 +85,7 @@ class IOSDevice extends Device {
   }
 
   getPhotoEncodingMethod() {
-    return PHOTO_ENCODING_METHODS.IMG_SRC;
+    return PhotoEncodingMethods.ImgSrc;
   }
 }
 
@@ -105,6 +105,6 @@ class BrowserDevice extends Device {
   }
 
   getPhotoEncodingMethod() {
-    return PHOTO_ENCODING_METHODS.BASE_64_STRING;
+    return PhotoEncodingMethods.Base64String;
   }
 }

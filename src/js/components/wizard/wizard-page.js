@@ -4,11 +4,12 @@ import { keys, pick, assign, isFunction, bindAll, isEmpty } from 'lodash';
 import { RaisedButton, FlatButton } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
-import Device, { PHOTO_ENCODING_METHODS } from '../../util/device';
+import Device, { PhotoEncodingMethods } from '../../util/device';
 import { imgSrcToBlob, createObjectURL, base64StringToBlob } from 'blob-util';
 
 import '../../../css/wizard.css';
 
+// # Wizard Page
 // The WizardPage is the base class for all the pages associated with a tab
 // in the add point or update point flows.
 //
@@ -28,17 +29,20 @@ export class WizardPage extends Component {
     this.state = {};
   }
 
+  // # getPageFields
   // Return an array of field names that will be picked out of `this.state`
   // for serialization.
   getPageFields() {
     return [];
   }
 
+  // # getPageValues
   // Pick the values for fields in `getPageFields()` for serialization;
   getPageValues() {
     return assign( {}, pick( this.state, this.getPageFields() ) );
   }
 
+  // # getPageContent
   // Get the content to display in the wizard page. These should usually be
   // form fields. The content should be controlled, where fields are linked
   // with this.state.
@@ -47,19 +51,27 @@ export class WizardPage extends Component {
     return <div />;
   }
 
+  // # getPageSecondaryActions
+  // If the wizard page should have other buttons that don't really fit with
+  // the flow of the other fields, you can put them in the same row as the
+  // "next" button.
   getPageSecondaryActions() {
     return;
   }
 
+  // # getPreferredTransition
   // Return the preferred transition type, to modify the effect of the "next"
-  // button.
+  // button. This may be overriden.
   getPreferredTransition() {
     console.error( 'WizardPage#getPageContent() is abstract' );
     return WizardPage.transitions.disabled;
   }
 
+  // # getTransition
   // Returns a transition type from WizardPage.transitions to modify the
-  // effect of the "next" button. This method takes in the wizard page
+  // effect of the "next" button.
+  //
+  // This method takes in the wizard page
   // subclass' preference into account. However, we override the preference
   // when the wizard page is the last in the list of tabs, in which case
   // the action should always be submit.
@@ -71,11 +83,16 @@ export class WizardPage extends Component {
     }
   }
 
+  // # isDisabled
   // The action button should be disabled if that transition is selected.
   isDisabled() {
     return this.getTransition() === WizardPage.transitions.disabled;
   }
 
+  // # persistBefore
+  // Causes the wizard page to serialize its form, then call persist with the
+  // forms' values. If a callback is provided, it will be called after
+  // persistence is completed.
   persistBefore( callback ) {
     const values = this.getPageValues();
     if ( keys( values ).length > 0 && isFunction( this.props.persist ) ) {
@@ -85,6 +102,7 @@ export class WizardPage extends Component {
     }
   }
 
+  // # link
   // Links state and input value. Tuned to work with Material UI.
   //
   // This method returns a props object you can expand on on the react
@@ -97,28 +115,22 @@ export class WizardPage extends Component {
   // ```
   // <TextField { ...this.link( 'name', 'onBlur' ) }
   // ```
+  //
+  // Different material-ui
+  // components return the field value differently. It can either be in
+  // `value` or `event.target.value`. In the case of TimePicker, a Date
+  // object is stored at the second argument.
   link( field, method = 'onChange' ) {
     const props = {};
 
-    // Set the input to the value at the `field` key in state
     props.value = this.state[ field ];
 
-    // Add an event listener that sets state @ `field`. Different material-ui
-    // components return the field value differently. It can either be in
-    // `value` or `event.target.value`. In the case of TimePicker, a Date
-    // object is stored at the second argument.
     props[ method ] = ( event, key, value ) => {
       if ( key instanceof Date ) {
         value = key;
       }
       this.setState( { [ field ]: value || event.target.value } );
     };
-
-    // Set the input's default value at the `field` key in newPoint
-    const {newPoint} = this.props;
-    if ( newPoint ) {
-      props.defaultValue = newPoint[ field ] || '';
-    }
 
     return props;
   }
@@ -144,27 +156,29 @@ export class WizardPage extends Component {
       );
   }
 
-  // This logic will not work on the browser:
+  // There is a bug in capturing a photo from the browser:
   // [CB-9852](https://issues.apache.org/jira/browse/CB-9852)
   onPhotoAdd() {
     navigator.camera.getPicture( photo => {
       let promise;
       const device = Device.getDevice();
       switch ( device.getPhotoEncodingMethod() ) {
-      case PHOTO_ENCODING_METHODS.IMG_SRC:
+      case PhotoEncodingMethods.ImgSrc:
         promise = imgSrcToBlob( photo );
         break;
-      case PHOTO_ENCODING_METHODS.BASE_64_STRING:
+      case PhotoEncodingMethods.Base64String:
         promise = base64StringToBlob( photo );
         break;
-      case PHOTO_ENCODING_METHODS.NONE:
+      case PhotoEncodingMethods.None:
       default:
         promise = null;
       }
-      if ( promise ) promise.then( coverBlob => {
+      if ( promise ) {
+        promise.then( coverBlob => {
           const coverUrl = createObjectURL( coverBlob );
           this.setState( { coverBlob, coverUrl } );
         } );
+      }
     }, err => {
       console.error( err );
     }, {

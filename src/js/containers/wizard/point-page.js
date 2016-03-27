@@ -199,6 +199,7 @@ export default class PointPage extends Component {
   mapPropsOnWizardPage( wizardPage ) {
     return React.cloneElement( wizardPage, {
       ref: 'wizard',
+      ...this.props,
       ...this.props.wizardActions,
       point: this.state.point,
       persist: this.persist,

@@ -27,7 +27,7 @@ describe( '<AlertNameDescription />', function() {
   } );
   it( 'should persist the alert name on persistBefore', function( done ) {
     const persist = sinon.stub();
-    persist.callsArg(1);
+    persist.callsArg( 1 );
 
     const tree = sd.shallowRender( (
       <AlertNameDescription point={ point }
@@ -38,7 +38,7 @@ describe( '<AlertNameDescription />', function() {
     instance.setState( {
       name: 'some alert'
     }, ( ) => {
-      instance.persistBefore( () => {
+      instance.persistBefore( ( ) => {
         sinon.assert.calledWithMatch( persist, { name: 'some alert' } );
         done();
       } );
