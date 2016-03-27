@@ -102,7 +102,7 @@ export class ServiceHours extends WizardPage {
       <FlatButton disabled={ !this.state.day }
         onClick={ this.addHours }
         label="Add Hours" />
-    )
+      );
   }
 
   getPreferredTransition() {

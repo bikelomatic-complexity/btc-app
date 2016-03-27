@@ -4,7 +4,7 @@ import { RaisedButton, Tabs, Tab } from 'material-ui';
 import { CircularProgress } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
-import { findIndex, bindAll, last, merge, assign, omit } from 'lodash';
+import { findIndex, bindAll, last, assign, omit } from 'lodash';
 import { bindActionCreators } from 'redux';
 
 import { loadPoint } from '../../reducers/points';

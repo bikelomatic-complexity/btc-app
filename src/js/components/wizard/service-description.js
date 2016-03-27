@@ -74,7 +74,7 @@ export class ServiceDescription extends WizardPage {
     return (
       <FlatButton onClick={ this.onPhotoAdd }
         label="Upload Photo" />
-    )
+      );
   }
 
   getPreferredTransition() {

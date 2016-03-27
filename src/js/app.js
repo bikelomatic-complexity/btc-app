@@ -41,10 +41,8 @@ import RatingPointCard from './components/point-card/rating-point-card';
 // Right now, it's hash based.
 import history from './history';
 
-// Allow direct access to the local PouchDB instance and import the gateway
-// singleton to make working with the database easier.
-import database from './database';
-// import gateway from './gateway';
+// Import the database to connect it to our models
+import './database';
 import store from './store';
 
 // Sync and NetworkManager allow us to automatically work with the remote

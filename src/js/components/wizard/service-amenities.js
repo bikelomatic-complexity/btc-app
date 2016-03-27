@@ -76,7 +76,7 @@ export class ServiceAmenities extends WizardPage {
       <FlatButton label="Add amenity"
         disabled={ !this.state.amenity }
         onClick={ this.addAmenity } />
-    )
+      );
   }
 
   getPreferredTransition() {
