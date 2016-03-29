@@ -1,6 +1,8 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { Paper, FontIcon, RaisedButton } from 'material-ui';
+import ClearIcon from 'material-ui/lib/svg-icons/content/clear'
+
 import { Page } from '../components/page';
 
 import PointList from '../components/point-list';
@@ -14,7 +16,7 @@ import history from '../history';
 
 class PublishPage extends Component {
   componentDidMount() {
-    this.props.dispatch( setDrawer( 'Publish Services' ) );
+    this.props.dispatch( setDrawer( 'Publish' ) );
   }
 
   onPointClick( point ) {
@@ -23,13 +25,12 @@ class PublishPage extends Component {
   }
 
   onPointRemove( point ) {
-    console.log( 'REMOVE THE POINT!' );
+    // TODO: implement onPointRemove
   }
 
   render() {
-    const clear = (<FontIcon className="material-icons"
-                     style={ { fontSize: 'inherit', margin: '0px 0.1em' } }
-                     color='red'>clear</FontIcon>);
+    const clear = (<ClearIcon style={ { fontSize: 'inherit', margin: '0px 0.1em' } }
+                     color='red'/>);
 
     const instructionsStyle = {
       display: 'flex',
@@ -43,23 +44,23 @@ class PublishPage extends Component {
       margin: '5px 10px 0px 5px'
     };
 
+    const instructions = (<div style={ instructionsStyle }>
+      Click on
+      { clear } to delete a point.
+    </div>);
+
     return (
       <Page className="layout__section">
         <Paper>
-          <div style={ instructionsStyle }>
-            Click on
-            { clear } to delete a point.
-          </div>
-          <PointList points={ this.props.services }
+          <PointList instructions={ instructions }
+            points={ this.props.services }
             buttonIcon='clear'
             buttonAction={ this.onPointRemove.bind( this ) }
             clickAction={ this.onPointClick.bind( this ) } />
           <div style={ instructionsStyle }>
             <RaisedButton style={ buttonStyle }
               label="Publish"
-              primary={ true }
-              onClick={ ( ) => {
-                        } } />
+              primary={ true }/>
           </div>
         </Paper>
       </Page>

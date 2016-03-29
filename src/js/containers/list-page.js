@@ -34,7 +34,7 @@ class ListPage extends Component {
     } ];
     return (
       <Page className="layout__section">
-        <Paper>
+        <div>
           <RaisedButton style={ buttonStyles[ 0 ] }
             label="Map"
             labelPosition="after"
@@ -49,7 +49,7 @@ class ListPage extends Component {
             onClick={ ( ) => history.push( 'filter' ) } />
           <PointList points={ this.props.services }
             clickAction={ this.onPointClick.bind( this ) } />
-        </Paper>
+        </div>
       </Page>
       );
   }
