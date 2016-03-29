@@ -28,10 +28,8 @@ class PublishPage extends Component {
 
   render() {
     const clear = (<FontIcon className="material-icons"
-      style={ { fontSize: 'inherit', margin:'0px 0.1em' } }
-      color='red' >
-      clear
-    </FontIcon>);
+                     style={ { fontSize: 'inherit', margin: '0px 0.1em' } }
+                     color='red'>clear</FontIcon>);
 
     const instructionsStyle = {
       display: 'flex',
@@ -49,7 +47,8 @@ class PublishPage extends Component {
       <Page className="layout__section">
         <Paper>
           <div style={ instructionsStyle }>
-            Click on {clear} to delete a point.
+            Click on
+            { clear } to delete a point.
           </div>
           <PointList points={ this.props.services }
             buttonIcon='clear'
@@ -59,7 +58,8 @@ class PublishPage extends Component {
             <RaisedButton style={ buttonStyle }
               label="Publish"
               primary={ true }
-              onClick={ ( ) => {} } />
+              onClick={ ( ) => {
+                        } } />
           </div>
         </Paper>
       </Page>

@@ -20,7 +20,7 @@ describe( '<PointList />', function() {
     const tree = sd.shallowRender( (
       <PointList points={ points }
         clickAction={ function() {} } />
-    ) );
+      ) );
 
     const listItems = tree.everySubTree( 'ListItem' );
 
@@ -32,7 +32,7 @@ describe( '<PointList />', function() {
   it( 'should have an icon if an icon is passed down', function() {
     const points = [
       { _id: 'PointA', name: 'PointA', type: 'other' },
-      { _id: 'PointB', name: 'PointB', type: 'other' },
+      { _id: 'PointB', name: 'PointB', type: 'other' }
     ];
 
     const tree = sd.shallowRender( (
@@ -40,9 +40,9 @@ describe( '<PointList />', function() {
         buttonIcon='clear'
         buttonAction={ function() {} }
         clickAction={ function() {} } />
-    ) );
+      ) );
 
-    const iconButtons = tree.dive(['ListItem']).subTree( 'IconButton' );
+    const iconButtons = tree.dive( [ 'ListItem' ] ).subTree( 'IconButton' );
 
     expect( iconButtons ).to.not.be.false;
   } );
@@ -50,15 +50,15 @@ describe( '<PointList />', function() {
   it( 'should not have an icon if no icons are passed down', function() {
     const points = [
       { _id: 'PointA', name: 'PointA', type: 'other' },
-      { _id: 'PointB', name: 'PointB', type: 'other' },
+      { _id: 'PointB', name: 'PointB', type: 'other' }
     ];
 
     const tree = sd.shallowRender( (
       <PointList points={ points }
         clickAction={ function() {} } />
-    ) );
+      ) );
 
-    const iconButtons = tree.dive(['ListItem']).subTree( 'IconButton' );
+    const iconButtons = tree.dive( [ 'ListItem' ] ).subTree( 'IconButton' );
 
     expect( iconButtons ).to.be.false;
   } );
