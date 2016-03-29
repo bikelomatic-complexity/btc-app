@@ -126,7 +126,7 @@ export class PointCard extends Component {
     if ( type === 'service' ) {
       update = (
         <MenuItem primaryText='Update Information'
-          onClick={ this.navigate( 'update-point' ) } />
+          onClick={ this.navigate( 'update-service' ) } />
       );
       rate = (
         <MenuItem primaryText='Rate Service'

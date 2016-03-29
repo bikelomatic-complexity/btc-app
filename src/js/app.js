@@ -37,20 +37,16 @@ import PeekPointCard from './components/point-card/peek-point-card';
 import ViewPointCard from './components/point-card/view-point-card';
 import RatingPointCard from './components/point-card/rating-point-card';
 
-// Exposes the history object for navigating with the React Router.
-// Right now, it's hash based.
+// A hash-based history module for use with the react router
 import history from './history';
 
-// Import the database to connect it to our models
+// Import the database (which implicitly connects our models)
 import './database';
 import store from './store';
 
-// Sync and NetworkManager allow us to automatically work with the remote
-// PouchDB when the user is online.
+// These allow us to automatically handle network state changes and to
+// maintain the period of replication.
 import { NetworkStateAgent } from './reducers/network';
-// import Sync from './sync';
-
-// Redux action creators used by app.js
 import { ReplicationAgent, reloadPoints } from './reducers/points';
 
 // Fix tap events so material-ui components work
@@ -59,9 +55,7 @@ injectTapEventPlugin();
 
 // When Cordova has loaded, assemble the application components and start them.
 //
-//  1. Create the redux store
-//  2. Start the NetworkManager to reflect network state in the store
-//  3. Start syncing the local PouchDB with the remote CouchDB
+//  2. Start the NetworkStateAgent and ReplicationAgent
 //  4. Pull all locally available points into the store
 //  5. Start the React Router
 //
@@ -103,7 +97,7 @@ document.addEventListener( 'deviceReady', ( ) => {
             component={ LogoutPage } />
           <Route path="thanks"
             component={ ThanksPage } />
-          <Route path="add-point"
+          <Route path="add-service"
             component={ AddServicePage }>
             <IndexRoute component={ PointLocation } />
             <Route path="location"
@@ -117,7 +111,7 @@ document.addEventListener( 'deviceReady', ( ) => {
             <Route path="amenities"
               component={ ServiceAmenities } />
           </Route>
-          <Route path="/update-point/:id"
+          <Route path="/update-service/:id"
             component={ UpdateServicePage }>
             <IndexRoute component={ ServiceDescription } />
             <Route path="description"

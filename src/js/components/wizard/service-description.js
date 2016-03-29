@@ -49,7 +49,7 @@ export class ServiceDescription extends WizardPage {
     return (
       <div className="wizard-page">
         <TextField fullWidth
-          { ...this.link( 'phoneNumber' ) }
+          { ...this.link( 'phone' ) }
           floatingLabelText="Phone Number"
           type="tel" />
         <TextField fullWidth
