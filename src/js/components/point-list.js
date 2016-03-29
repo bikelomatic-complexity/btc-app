@@ -23,11 +23,8 @@ export class PointList extends Component {
       }
 
       if ( point.coverUrl != undefined ) {
-        listProps.leftAvatar = <Avatar src={point.coverUrl} />;
+        listProps.leftAvatar = <Avatar src={ point.coverUrl } />;
       }
-
-      console.log("FOOOO");
-      console.log(point.coverUrl);
 
       return (
         <div key={ point._id }>
