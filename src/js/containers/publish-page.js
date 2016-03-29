@@ -1,7 +1,7 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { Paper, FontIcon, RaisedButton } from 'material-ui';
-import ClearIcon from 'material-ui/lib/svg-icons/content/clear'
+import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
 
 import { Page } from '../components/page';
 
@@ -30,7 +30,7 @@ class PublishPage extends Component {
 
   render() {
     const clear = (<ClearIcon style={ { fontSize: 'inherit', margin: '0px 0.1em' } }
-                     color='red'/>);
+                     color='red' /> );
 
     const instructionsStyle = {
       display: 'flex',
@@ -45,9 +45,9 @@ class PublishPage extends Component {
     };
 
     const instructions = (<div style={ instructionsStyle }>
-      Click on
-      { clear } to delete a point.
-    </div>);
+                            Click on
+                            { clear } to delete a point.
+                          </div>);
 
     return (
       <Page className="layout__section">
@@ -60,7 +60,7 @@ class PublishPage extends Component {
           <div style={ instructionsStyle }>
             <RaisedButton style={ buttonStyle }
               label="Publish"
-              primary={ true }/>
+              primary={ true } />
           </div>
         </Paper>
       </Page>

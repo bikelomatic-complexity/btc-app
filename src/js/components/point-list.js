@@ -1,6 +1,6 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component, PropTypes } from 'react';
-import { List, ListItem, IconButton, FontIcon, Divider } from 'material-ui';
+import { List, ListItem, IconButton, FontIcon, Divider, Avatar } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
 import { display } from 'btc-models/lib/schema/types';
@@ -9,9 +9,9 @@ export class PointList extends Component {
   render() {
     const points = this.props.points.map( point => {
 
-      const actionProps = {};
-      if( this.props.buttonIcon && this.props.buttonAction ) {
-        actionProps.rightIconButton = (
+      const listProps = {};
+      if ( this.props.buttonIcon && this.props.buttonAction ) {
+        listProps.rightIconButton = (
           <IconButton onClick={ this.props.buttonAction.bind( this, point ) }>
             <FontIcon className="material-icons"
               style={ { fontSize: '36px' } }
@@ -22,14 +22,20 @@ export class PointList extends Component {
         );
       }
 
+      if ( point.coverUrl != undefined ) {
+        listProps.leftAvatar = <Avatar src={point.coverUrl} />;
+      }
+
+      console.log("FOOOO");
+      console.log(point.coverUrl);
+
       return (
         <div key={ point._id }>
           <ListItem style={ { margin: '10px' } }
             onTouchTap={ this.props.clickAction.bind( this, point ) }
-            leftAvatar={ point.coverUrl }
             primaryText={ point.name }
             secondaryText={ display( point.type ) }
-            { ...actionProps } />
+            { ...listProps } />
           <Divider/>
         </div>
         );
@@ -42,7 +48,7 @@ export class PointList extends Component {
           { points }
         </List>
       </div>
-    );
+      );
   }
 }
 
