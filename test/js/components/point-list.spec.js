@@ -11,10 +11,10 @@ import { PointList } from '../../../src/js/components/point-list';
 describe( '<PointList />', function() {
   it( 'should have list of points from points props', function() {
     const points = [
-      { _id: 'PointA', name: 'PointA', type: 'other', coverUrl: '' },
-      { _id: 'PointB', name: 'PointB', type: 'other', coverUrl: '' },
-      { _id: 'PointC', name: 'PointC', type: 'other', coverUrl: '' },
-      { _id: 'PointD', name: 'PointD', type: 'other', coverUrl: '' }
+      { _id: 'PointA', name: 'PointA', type: 'other' },
+      { _id: 'PointB', name: 'PointB', type: 'other' },
+      { _id: 'PointC', name: 'PointC', type: 'other' },
+      { _id: 'PointD', name: 'PointD', type: 'other' }
     ];
 
     const tree = sd.shallowRender( (
@@ -29,10 +29,10 @@ describe( '<PointList />', function() {
     } );
   } );
 
-  it( 'should have a button if an icon is passed down', function() {
+  it( 'should have an icon if an icon is passed down', function() {
     const points = [
-      { _id: 'PointA', name: 'PointA', type: 'other', coverUrl: '' },
-      { _id: 'PointB', name: 'PointB', type: 'other', coverUrl: '' },
+      { _id: 'PointA', name: 'PointA', type: 'other' },
+      { _id: 'PointB', name: 'PointB', type: 'other' },
     ];
 
     const tree = sd.shallowRender( (
@@ -42,15 +42,15 @@ describe( '<PointList />', function() {
         clickAction={ function() {} } />
     ) );
 
-    const iconButtons = tree.everySubTree( 'IconButton' );
+    const iconButtons = tree.dive(['ListItem']).subTree( 'IconButton' );
 
-    expect( iconButtons.length ).to.be.greaterThan( 0 );
+    expect( iconButtons ).to.not.be.false;
   } );
 
-  it( 'should not have a button if no icons are passed down', function() {
+  it( 'should not have an icon if no icons are passed down', function() {
     const points = [
-      { _id: 'PointA', name: 'PointA', type: 'other', coverUrl: '' },
-      { _id: 'PointB', name: 'PointB', type: 'other', coverUrl: '' },
+      { _id: 'PointA', name: 'PointA', type: 'other' },
+      { _id: 'PointB', name: 'PointB', type: 'other' },
     ];
 
     const tree = sd.shallowRender( (
@@ -58,9 +58,8 @@ describe( '<PointList />', function() {
         clickAction={ function() {} } />
     ) );
 
-    const iconButtons = tree.everySubTree( 'IconButton' );
+    const iconButtons = tree.dive(['ListItem']).subTree( 'IconButton' );
 
-
-    expect( iconButtons.length ).to.be.equal( 0 );
+    expect( iconButtons ).to.be.false;
   } );
 } );
