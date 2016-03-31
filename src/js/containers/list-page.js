@@ -1,27 +1,27 @@
 /*eslint-disable no-unused-vars*/
+import PointList from '../components/point-list';
+import { Page } from '../components/page';
+
 import React, { Component } from 'react';
 import { Paper, RaisedButton } from 'material-ui';
 import FilterIcon from 'material-ui/lib/svg-icons/content/filter-list';
 import MapIcon from 'material-ui/lib/svg-icons/maps/map';
-
-import { Page } from '../components/page';
-import PointList from '../components/point-list';
 /*eslint-enable no-unused-vars*/
 
-import { selectMarker } from '../actions/map-actions';
 import { setDrawer } from '../reducers/drawer';
-import { connect } from 'react-redux';
-
 import history from '../history';
+
+import { connect } from 'react-redux';
+import { values } from 'lodash';
 
 class ListPage extends Component {
   componentDidMount() {
-    this.props.dispatch( setDrawer( 'List of Services' ) );
+    this.props.dispatch( setDrawer( 'Alerts & Services' ) );
   }
 
   onPointClick( point ) {
-    this.props.dispatch( selectMarker( point ) );
-    history.push( `/view-point/${encodeURIComponent( point._id )}` );
+    const id = encodeURIComponent( point._id );
+    history.push( `/view-point/${ id }` );
   }
 
   render() {
@@ -47,7 +47,7 @@ class ListPage extends Component {
             primary={ true }
             icon={ <FilterIcon /> }
             onClick={ ( ) => history.push( 'filter' ) } />
-          <PointList points={ this.props.services }
+          <PointList points={ this.props.points }
             clickAction={ this.onPointClick.bind( this ) } />
         </div>
       </Page>
@@ -55,10 +55,10 @@ class ListPage extends Component {
   }
 }
 
-function select( state ) {
+function mapStateToProps( state ) {
   return {
-    services: state.points
+    points: values( state.points.points )
   };
 }
 
-export default connect( select )( ListPage );
+export default connect( mapStateToProps )( ListPage );

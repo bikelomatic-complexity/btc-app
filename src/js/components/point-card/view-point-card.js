@@ -6,8 +6,7 @@ import PointCard from './point-card';
 import HoursTable from '../hours-table';
 /*eslint-enable no-unused-vars*/
 
-import { pointId } from 'btc-models/lib/model/point';
-import ServiceViewModel from './service-view-model';
+import { Point } from 'btc-models';
 
 export class ViewPointCard extends PointCard {
   getCardState() {
@@ -15,17 +14,16 @@ export class ViewPointCard extends PointCard {
   }
 
   getCardAction() {
-    const {peekMarker} = this.props;
     return <FlatButton label="See Less"
-             onClick={ peekMarker } />;
+             onClick={ this.navigate( 'peek-point' ) } />;
   }
 
   getCardContent() {
-    const {point} = this.props;
-    const uri = pointId( point._id );
+    const point = this.point;
+    const {type} = Point.uri( point._id );
 
     let content;
-    if ( uri.type === 'alert' ) {
+    if ( type === 'alert' ) {
       content = (
         <div className="point-card__content">
           <CardText>
@@ -33,13 +31,10 @@ export class ViewPointCard extends PointCard {
           </CardText>
         </div>
       );
-    } else if ( uri.type === 'service' ) {
-      const service = new ServiceViewModel( point );
-
-      let hours, explanation;
-      if ( service.hasSchedule() ) {
-        hours = <HoursTable hours={ service.getWeekForCurrentSeason() } />;
-
+    } else if ( type === 'service' ) {
+      let hours = <HoursTable hours={ point.schedule.default } />;
+      let explanation;
+      if ( point.seasonal ) {
         explanation = (
           <CardText>
             These hours are seasonal. Call or check online for more information.
@@ -61,19 +56,26 @@ export class ViewPointCard extends PointCard {
         );
       }
 
-      content = (
-        <div className="point-card__content">
-          <CardText>
-            <span className="point-card__open-until">{ service.openUntil() + ' — ' }</span>
-            <span>{ point.description }</span>
-          </CardText>
-          <CardText>
-            { service.amenities() }
-          </CardText>
+      let contact;
+      if ( website || phone ) {
+        contact = (
           <CardText className="point-card__contact">
             { phone }
             { website }
           </CardText>
+        );
+      }
+
+      content = (
+        <div className="point-card__content">
+          <CardText>
+            <span className="point-card__open-until">{ PointCard.openUntil( point ) + ' — ' }</span>
+            <span>{ point.description }</span>
+          </CardText>
+          <CardText>
+            { PointCard.amenities( point ) }
+          </CardText>
+          { contact }
           { hours }
           { explanation }
         </div>

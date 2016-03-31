@@ -14,7 +14,7 @@
     "htmlOptions": {
       "brace-style": "collapse-preserve-inline",
       "unformatted": [
-        "inline", "span", "Link", "FontIcon"
+        "inline", "span", "Link", "FontIcon", "TableRowColumn"
       ]
     }
   },

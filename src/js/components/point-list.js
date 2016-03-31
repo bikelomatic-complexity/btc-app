@@ -8,7 +8,6 @@ import { display } from 'btc-models/lib/schema/types';
 export class PointList extends Component {
   render() {
     const points = this.props.points.map( point => {
-
       const listProps = {};
       if ( this.props.buttonIcon && this.props.buttonAction ) {
         listProps.rightIconButton = (
@@ -22,7 +21,7 @@ export class PointList extends Component {
         );
       }
 
-      if ( point.coverUrl != undefined ) {
+      if ( point.coverUrl ) {
         listProps.leftAvatar = <Avatar src={ point.coverUrl } />;
       }
 

@@ -8,9 +8,10 @@ const {Marker, Popup, Map, TileLayer, CircleMarker, MultiPolyline, setIconDefaul
 import MBTilesLayer from './mbtiles-layer';
 /*eslint-enable no-unused-vars*/
 
-import { values, bindAll } from 'underscore';
-import noop from 'lodash/noop';
+import { values, bindAll, noop } from 'lodash';
+import { Point } from 'btc-models';
 
+import '../../../node_modules/leaflet/dist/leaflet.css';
 import '../../css/map.css';
 
 setIconDefaultImagePath( 'img/icons' );
@@ -18,18 +19,18 @@ setIconDefaultImagePath( 'img/icons' );
 export class PointMap extends Component {
   constructor( props ) {
     super( props );
-    const {mapState} = this.props;
+    const {map} = this.props;
     this.state = {
-      startCenter: mapState.center,
-      center: mapState.center,
-      zoom: mapState.zoom
+      startCenter: map.center,
+      center: map.center,
+      zoom: map.zoom
     };
     bindAll( this, 'onMapMoved' );
   }
 
   componentDidMount() {
-    const {mapState, setGeoLocation, setMapCenter, setMapLoading} = this.props;
-    if ( mapState.loading ) {
+    const {map, setGeoLocation, setMapCenter, setMapLoading} = this.props;
+    if ( map.loading ) {
       navigator.geolocation.getCurrentPosition(
         ( pos ) => {
           const {latitude, longitude} = pos.coords;
@@ -61,17 +62,17 @@ export class PointMap extends Component {
   }
 
   componentWillReceiveProps( nextProps ) {
-    const {mapState} = nextProps;
+    const {map} = nextProps;
     this.setState( {
-      startCenter: mapState.center
+      startCenter: map.center
     } );
   }
 
   shouldComponentUpdate( nextProps, nextState ) {
-    return ( this.props.mapState.loading !== nextProps.mapState.loading ) ||
+    return ( this.props.map.loading !== nextProps.map.loading ) ||
       ( this.state.startCenter !== nextState.startCenter ) ||
-      ( this.state.startCenter !== nextProps.mapState.center ) ||
-      ( this.props.services.length !== nextProps.services.length );
+      ( this.state.startCenter !== nextProps.map.center ) ||
+      ( this.props.points.length !== nextProps.points.length );
   }
 
   onMapMoved( leaflet ) {
@@ -85,10 +86,13 @@ export class PointMap extends Component {
   }
 
   render() {
-    const {tracks, settings, mapState, deselectMarker, selectMarker, filters, children} = this.props;
+    const {points, tracks, settings, map, deselectMarker, selectMarker, filters, children} = this.props;
 
-    let markers = this.props.services.filter( ( service ) => {
-      if ( service.class == 'alert' && filters.hideAlert ) {
+    let markers = points.filter( point => {
+      if ( point.isFetching ) {
+        return false;
+      }
+      if ( Point.uri( point._id ).type === 'alert' && filters.hideAlert ) {
         return false;
       }
       if ( filters.activeFilters.length == 0 ) {
@@ -97,22 +101,22 @@ export class PointMap extends Component {
 
       return filters.activeFilters.some( filterElement => {
         // join the service amenities with the service type
-        let serviceTypes = service.amenities.concat( service.type );
+        let serviceTypes = ( point.amenities || [] ).concat( point.type );
         if ( serviceTypes.indexOf( filterElement ) !== -1 ) {
           return true;
         }
       } );
-    } ).map( ( service ) => {
+    } ).map( point => {
       // TODO: Don't even include the onClick listener if we're in addPoint mode
       const onClick = ( ) => {
         if ( !this.props.addPoint ) {
-          selectMarker( service );
+          selectMarker( point );
         }
       };
       return (
-        <Marker key={ service._id }
+        <Marker key={ point._id }
           radius={ 10 }
-          position={ service.location }
+          position={ point.location }
           onclick={ onClick } />
         );
     } );
@@ -158,12 +162,12 @@ export class PointMap extends Component {
     }
 
     let circleMarker = '';
-    if ( mapState.geolocation ) {
-      circleMarker = <CircleMarker center={ mapState.geolocation } />;
+    if ( map.geolocation ) {
+      circleMarker = <CircleMarker center={ map.geolocation } />;
     }
 
     let view;
-    if ( mapState.loading ) {
+    if ( map.loading ) {
       view = (
         <div style={ { margin: 'auto' } }>
           <CircularProgress size={ 2 } />
@@ -176,11 +180,7 @@ export class PointMap extends Component {
           zoom={ this.state.zoom }
           onLeafletMove={ this.props.onLeafletMove }
           onLeafletMoveEnd={ this.onMapMoved }
-          onclick={ ( ) => {
-                      if ( !this.props.addPoint ) {
-                        deselectMarker();
-                      }
-                    } }>
+          onclick={ this.props.addPoint ? noop : deselectMarker }>
           { circleMarker }
           { tileLayer }
           { markers }

@@ -1,194 +1,242 @@
+import { Agent, observeStore } from '../util/agent';
+import { local, remote, reset } from '../database';
+import { setSnackbar } from './notifications/snackbar';
 
-import { findIndex, omit, values, has } from 'underscore';
-import { defaults } from 'lodash';
-import { createObjectURL } from 'blob-util';
-import toId from 'to-id';
-import ngeohash from 'ngeohash';
-import db from '../database';
+import { Point, PointCollection } from 'btc-models';
+import { assign, merge, omit, bindAll, cloneDeep } from 'lodash';
 
-import attach from '../util/attach';
+export const ADD_SERVICE = 'btc-app/points/ADD_SERVICE';
+export const ADD_ALERT = 'btc-app/points/ADD_ALERT';
+export const UPDATE_SERVICE = 'btc-app/points/UPDATE_SERVICE';
+export const RESCIND_POINT = 'btc-app/points/RESCIND_POINT';
+export const RELOAD_POINTS = 'btc-app/points/RELOAD_POINTS';
+export const REQUEST_LOAD_POINT = 'btc-app/points/REQUEST_LOAD_POINT';
+export const RECEIVE_LOAD_POINT = 'btc-app/points/RECEIVE_LOAD_POINT';
+export const REQUEST_REPLICATION = 'btc-app/points/REQUEST_REPLICATION';
+export const RECEIVE_REPLICATION = 'btc-app/points/RECEIVE_REPLICATION';
 
-export const USER_ADD = 'pannier/points/USER_ADD';
-export const USER_RESCIND = 'pannier/points/DELETE_POINT';
-export const USER_UPDATE = 'pannier/points/USER_UPDATE';
-export const SYNC_RECEIVE = 'pannier/points/SYNC_RECEIVE';
-export const SYNC_DELETE = 'pannier/points/DELETE';
-export const RELOAD = 'pannier/points/RELOAD';
+// # Points Reducer
+// The points reducer holds the points, their comments, and relevant metadata
+//
+// The point structure is augmented with an `isFetching` field that is true
+// while the database fetch is running.
 
-function helpSyncReceive( state, action ) {
-  const pointIdx = findIndex( state, point => point._id === action.id );
+const initState = {
+  points: {}, // mapping of point ids to point objects
+  replication: {} // replication metadata
+};
 
-  if ( pointIdx === -1 ) { // Replicated point is new
-    return [ ...state, action.point ];
-  } else { // Replicated point is an edit
-    return values( Object.assign( {}, state, { [pointIdx]: action.point } ) );
-  }
-}
-
-function helpSyncDelete( state, action ) {
-  const pointIdx = findIndex( state, point => point._id === action.id );
-  return values( omit( state, pointIdx ) );
-}
-
-export default function reducer( state = [], action ) {
+export default function reducer( state = initState, action ) {
   switch ( action.type ) {
-  case USER_ADD:
-    return [ ...state, action.point ];
-  case USER_UPDATE:
-    return state;
-  case USER_RESCIND:
-    return state;
-  case SYNC_RECEIVE:
-    return helpSyncReceive( state, action );
-  case SYNC_DELETE:
-    return helpSyncDelete( state, action );
-  case RELOAD:
-    return action.points;
+  case UPDATE_SERVICE:
+  case ADD_SERVICE:
+  case ADD_ALERT:
+    return merge( {}, state, {
+      points: { [ action.id ]: action.point }
+    } );
+  case RESCIND_POINT:
+    return assign( {}, state, {
+      points: omit( state, action.id )
+    } );
+  case RELOAD_POINTS:
+    return assign( {}, state, {
+      points: action.points
+    } );
+  case REQUEST_LOAD_POINT:
+    return merge( {}, state, {
+      points: {
+        [ action.id ]: { isFetching: true }
+      }
+    } );
+  case RECEIVE_LOAD_POINT:
+    return merge( {}, state, {
+      points: {
+        [ action.id ]: { isFetching: false, ...action.point }
+      }
+    } );
+  case REQUEST_REPLICATION:
+    return assign( {}, state, {
+      replication: { time: action.time, inProgress: true }
+    } );
+  case RECEIVE_REPLICATION:
+    return assign( {}, state, {
+      replication: { time: action.time, inProgress: false }
+    } );
   default:
     return state;
-
   }
 }
 
-function pointId( cls, name, location ) {
-  const [lat, lon] = location;
-  return `point/${cls}/${toId( name )}/${ngeohash.encode( lat, lon )}`;
-}
+// # Generic Add & Update Logic
+//
+// This function makes an action creator suitable for adding and updating
+// alerts and services.
+//
+// The returned action creator function takes two arguments:
+//
+//  1. point -- the alert or service model instance to save, from btc-models
+//  2. coverBlob -- an optional image to attach to the point
+//
+// Action creators (that do not utilize redux-thunk) must return an action.
+// When the user adds an alert or service, this should be done synchronously,
+// without delay. We must also persist the change to the database. The flow
+// goes as follows:
+//
+//  - Check if the point is valid
+//  - Make a promise to save the point to the database
+//    * By default, just save it
+//    * For UPDATE_SERVICE, re-fetch the point to get our `_rev`
+//  - If there's a coverBlob, attach it
+//  - Serialize the point and return the action
 
-/*
- * Creates an action to add a new point on behalf of the user. If a cover
- * image for the point is provided as a blob, it will be converted to an
- * object url at this point.
- */
-export function userAddPoint( point, coverBlob ) {
-  point._id = pointId( point.class, point.name, point.location );
-  return {
-    type: USER_ADD,
-    point: withCover( point, coverBlob )
+const factory = type => {
+  return ( point, coverBlob ) => {
+    if ( !point.isValid() ) {
+      console.error( 'the submitted point was not valid!' );
+    } else {
+      point.specify();
+
+      let promise;
+      if ( type === UPDATE_SERVICE ) {
+        const attributes = cloneDeep( point.attributes );
+        promise = point.fetch().then( res => point.save( attributes ) );
+      } else {
+        promise = point.save();
+      }
+
+      if ( coverBlob ) {
+        point.setCover( coverBlob );
+        promise.then(
+          ( ) => point.attach( coverBlob, 'cover.png', 'image/png' )
+        );
+      }
+      return { type, id: point.id, point: point.store() };
+    }
   };
+};
+export const addService = factory( ADD_SERVICE );
+export const addAlert = factory( ADD_ALERT );
+export const updateService = factory( UPDATE_SERVICE );
+
+// # Rescind Point
+// Allows the user to delete points that haven't yet been synced to another
+// database. After a point is synced the first time, it cannot be deleted
+
+export function rescindPoint( id ) {
+  return { type: RESCIND_POINT, id };
 }
 
-/*
- * Allows the user to delete points that haven't yet been synced to another
- * database. After a point is synced the first time, it cannot be deleted
- */
-export function userRescindPoint( id ) {
-  return { type: USER_RESCIND, id };
-}
+// # Reload Points
+// Creates an action to replace all points in the store. This is useful to
+// load the store with initial point data and to refresh the store when
+// the user scrolls to a new area of the map.
 
-/*
- * Bring a point up do date with the latest information, or, check in.
- */
-export function userUpdatePoint( id, point ) {
-  return { type: USER_UPDATE, id, point };
-}
-
-/*
- * Create a PouchDB instance for the local database. This is a hack for now
- * so we can get attachments in syncRecieve point. PouchDB isn't returning
- * a blob along with change notifications in sync.js
- *
- * TODO: figure that out
- *
- * Creates an action on behalf of the database sync agent to insert a point
- * into the store that has just been recieved from a remote database.
- */
-export function syncRecievePointHack( id, point ) {
-  if ( point.coverBlob ) {
-    return dispatch => {
-      return db.getAttachment( id, 'cover.png' ).then( blob => {
-        point.coverBlob = blob;
-        dispatch( syncRecievePoint( id, point ) );
-      } ).catch( err => {
-        point.coverBlob = undefined;
-        dispatch( syncRecievePoint( id, point ) );
-      } );
-    };
-  } else {
-    return syncRecievePoint( id, point );
-  }
-}
-
-export function syncRecievePoint( id, point ) {
-  return {
-    type: SYNC_RECEIVE,
-    id,
-    point: withCover( point, point.coverBlob )
-  };
-}
-
-/*
- * Creates an action on behalf of the database sync agent to delete a point
- * from the store that has just been deleted upon sync with a remote database.
- */
-export function syncDeletePoint( id ) {
-  return { type: SYNC_DELETE, id };
-}
-
-/*
- * Creates an action to replace all points in the store. This is useful to
- * load the store with initial point data and to refresh the store when
- * the user scrolls to a new area of the map.
- */
-export function reloadPoints( points ) {
-  return {
-    type: RELOAD,
-    points: points.map( point => withCover( point, point.coverBlob ) )
-  };
-}
-
-/*
- * Utility function to convert a point to its document representation.
- * internally, this coverts coverBlob into PouchDB attachment format. Since
- * we store the cover image as an attachment, we don't want to store
- * the `coverBlob` and `coverUrl` properties of the point.
- */
-export function pointToDoc( point ) {
-  let doc;
-  if ( point.coverBlob ) {
-    doc = attach( point, 'cover.png', 'image/png', point.coverBlob );
-  } else {
-    doc = point;
-  }
-
-  return omit( doc, 'coverBlob', 'coverUrl' );
-}
-
-/*
- * Utility function to convert a PouchDB document to a point that can be
- * ingested by the store.
- */
-export function docToPoint( doc ) {
-  let point;
-  if ( has( doc, '_attachments' ) && has( doc[ '_attachments' ], 'cover.png' ) ) {
-    point = Object.assign( {}, doc, {
-      coverBlob: doc[ '_attachments' ][ 'cover.png' ].data
+export function reloadPoints() {
+  const points = new PointCollection();
+  return dispatch => {
+    points.fetch().then( res => {
+      return points.getCovers();
+    } ).then( res => {
+      dispatch( { type: RELOAD_POINTS, points: points.store() } );
     } );
-  } else {
-    point = Object.assign( {}, doc );
-  }
-
-  // TODO: move this to btc-models eventually
-  defaults( point, {
-    amenities: []
-  } );
-
-  return point;
+  };
 }
 
-/*
- * Utility function to convert a cover image blob to an object url and then
- * merge that url with the point.
- */
-export function withCover( point, coverBlob ) {
-  let withCover;
+// # Reset Points
+// Reset the points database then reload the (empty) database.
 
-  if ( coverBlob ) {
-    const coverUrl = createObjectURL( coverBlob );
-    withCover = Object.assign( {}, point, { coverBlob, coverUrl } );
-  } else {
-    withCover = Object.assign( {}, point );
+export function resetPoints() {
+  return dispatch => reset().then( ( ) => dispatch( reloadPoints() ) );
+}
+
+// # Load Point
+// Load a point into the store.
+//
+// If the point's id is already in the store, it is either already loaded, or it
+// is currently being fetched. In either case, return immediately to avoid
+// stack overflow.
+//
+// Otherwise, fetch the point from the database, and mark the point as fetching
+// while it is being retrieved.
+
+export function loadPoint( id ) {
+  return ( dispatch, getState ) => {
+    const {points} = getState().points;
+
+    if ( !points[ id ] ) {
+      dispatch( { type: REQUEST_LOAD_POINT, id } );
+
+      const point = Point.for( id );
+      return point.fetch().then( res => {
+        dispatch( { type: RECEIVE_LOAD_POINT, point: point.store() } );
+      } );
+    }
+  };
+}
+
+// # Replicate Points
+// Start a replication job from the remote points database.
+
+export function replicatePoints() {
+  return dispatch => {
+    const time = new Date().toISOString();
+    dispatch( { type: REQUEST_REPLICATION, time } );
+
+    local.replicate.from( remote ).then( result => {
+      dispatch( { type: RECEIVE_REPLICATION, time: result.end_time } );
+      dispatch( reloadPoints() );
+    } ).catch( err => {
+      dispatch( { type: RECEIVE_REPLICATION, time: err.end_time } );
+      dispatch( setSnackbar( { message: 'Replication error' } ) );
+    } );
+  };
+}
+
+// # Replication Agent
+// The agent's job is to continually dispatch a replication action at the
+// specified interval from settings, but only if we're online. We restart
+// the interval whenever:
+//
+//  1. The network state changes
+//  2. The user specifies a new replication interval
+//  3. The app resumes from sleep
+//
+// Stop the agent with stop().
+
+export class ReplicationAgent extends Agent {
+  constructor( store ) {
+    super( store );
+    this.store = store;
+    this.interval = false;
+
+    bindAll( this, 'update' );
   }
 
-  return withCover;
+  select( state ) {
+    return {
+      isOnline: state.network.isOnline,
+      repIvalM: state.settings.repIvalM || 10
+    };
+  }
+
+  run() {
+    const {store, select, update} = this;
+    this.stop = observeStore( store, select, update );
+
+    document.addEventListener( 'resume', update );
+    update();
+  }
+
+  update() {
+    const {isOnline, repIvalM} = this.select( this.store.getState() );
+
+    clearTimeout( this.interval );
+    if ( isOnline ) {
+      this.store.dispatch( replicatePoints() );
+      this.interval = setInterval(
+        ( ) => this.store.dispatch( replicatePoints() ),
+        repIvalM * 60 * 1000
+      );
+    }
+  }
 }

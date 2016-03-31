@@ -1,4 +1,4 @@
-import { SET_FILTERS } from '../actions/map-actions';
+const SET_FILTERS = 'SET_FILTERS';
 
 const initState = {
   activeFilters: [],
@@ -17,4 +17,8 @@ export default function filters( state = initState, action ) {
   default:
     return state;
   }
+}
+
+export function setFilters( filters ) {
+  return { type: SET_FILTERS, filters };
 }

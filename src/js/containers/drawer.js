@@ -43,8 +43,8 @@ export class Drawer extends Component {
       title: 'Filter',
       icon: 'filter_list'
     }, {
-      link: 'add-point',
-      title: 'Add Point',
+      link: 'add-service',
+      title: 'Add Service',
       icon: 'add_location'
     }, {
       link: 'add-alert',

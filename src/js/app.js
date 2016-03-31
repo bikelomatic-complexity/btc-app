@@ -23,8 +23,8 @@ import FilterPage from './containers/filter-page';
 import SettingsPage from './containers/settings-page';
 import PublishPage from './containers/publish-page';
 
-import AddPointPage from './containers/wizard/add-point-page';
-import UpdatePointPage from './containers/wizard/update-point-page';
+import AddServicePage from './containers/wizard/add-service-page';
+import UpdateServicePage from './containers/wizard/update-service-page';
 import AddAlertPage from './containers/wizard/add-alert-page';
 
 import PointLocation from './components/wizard/point-location';
@@ -38,41 +38,25 @@ import PeekPointCard from './components/point-card/peek-point-card';
 import ViewPointCard from './components/point-card/view-point-card';
 import RatingPointCard from './components/point-card/rating-point-card';
 
-// Exposes the history object for navigating with the React Router.
-// Right now, it's hash based.
+// A hash-based history module for use with the react router
 import history from './history';
 
-// Builds a redux store given optional middleware.
-// TODO: refactor out this dependency once we only depend on redux-thunk.
-import StoreBuilder from './store';
+// Import the database (which implicitly connects our models)
+import './database';
+import store from './store';
 
-// Allow direct access to the local PouchDB instance and import the gateway
-// singleton to make working with the database easier.
-import database from './database';
-import gateway from './gateway';
-
-// Sync and NetworkManager allow us to automatically work with the remote
-// PouchDB when the user is online.
-import Sync from './sync';
-import { NetworkManager } from './reducers/network';
-
-// Redux action creators used by app.js
-import { reloadPoints } from './reducers/points';
-
-// Load global css used by any other js module.
-import '../../node_modules/leaflet/dist/leaflet.css';
+// These allow us to automatically handle network state changes and to
+// maintain the period of replication.
+import { NetworkStateAgent } from './reducers/network';
+import { ReplicationAgent, reloadPoints } from './reducers/points';
 
 // Fix tap events so material-ui components work
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-
-
 // When Cordova has loaded, assemble the application components and start them.
 //
-//  1. Create the redux store
-//  2. Start the NetworkManager to reflect network state in the store
-//  3. Start syncing the local PouchDB with the remote CouchDB
+//  2. Start the NetworkStateAgent and ReplicationAgent
 //  4. Pull all locally available points into the store
 //  5. Start the React Router
 //
@@ -80,18 +64,13 @@ injectTapEventPlugin();
 // a <script> tag. Also, a <div class="main" /> is required in the body. We
 // render the application into that div.
 document.addEventListener( 'deviceReady', ( ) => {
-  const storeBuilder = new StoreBuilder( [ gateway.getMiddleware() ] );
-  const store = storeBuilder.build();
+  const network = new NetworkStateAgent( store );
+  network.run();
 
-  const network = new NetworkManager( store );
-  network.monitor();
+  const replicator = new ReplicationAgent( store );
+  replicator.run();
 
-  const sync = new Sync( database, gateway, store );
-  sync.start();
-
-  gateway.getPoints().then( points => {
-    store.dispatch( reloadPoints( points ) );
-  } );
+  store.dispatch( reloadPoints() );
 
   ReactDOM.render( (
     <Provider store={ store }>
@@ -100,11 +79,11 @@ document.addEventListener( 'deviceReady', ( ) => {
           component={ Main }>
           <Route component={ MapPage }>
             <IndexRoute />
-            <Route path="peek-point/:pointId"
+            <Route path="peek-point/:id"
               component={ PeekPointCard } />
-            <Route path="view-point/:pointId"
+            <Route path="view-point/:id"
               component={ ViewPointCard } />
-            <Route path="rate-point/:pointId"
+            <Route path="rate-point/:id"
               component={ RatingPointCard } />
           </Route>
           <Route path="list"
@@ -121,8 +100,8 @@ document.addEventListener( 'deviceReady', ( ) => {
             component={ LogoutPage } />
           <Route path="thanks"
             component={ ThanksPage } />
-          <Route path="add-point"
-            component={ AddPointPage }>
+          <Route path="add-service"
+            component={ AddServicePage }>
             <IndexRoute component={ PointLocation } />
             <Route path="location"
               component={ PointLocation } />
@@ -135,8 +114,8 @@ document.addEventListener( 'deviceReady', ( ) => {
             <Route path="amenities"
               component={ ServiceAmenities } />
           </Route>
-          <Route path="/update-point/:pointId"
-            component={ UpdatePointPage }>
+          <Route path="/update-service/:id"
+            component={ UpdateServicePage }>
             <IndexRoute component={ ServiceDescription } />
             <Route path="description"
               component={ ServiceDescription } />

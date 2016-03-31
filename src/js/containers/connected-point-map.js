@@ -1,14 +1,13 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
-
 import PointMap from '../components/point-map';
 /*eslint-enable no-unused-vars*/
 
-import { pick } from 'lodash';
+import * as mapActions from '../reducers/map';
+
+import { pick, values } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-import { setMapCenter, setGeoLocation, setMapZoom, setMapLoading } from '../actions/map-actions';
 
 // The ConnectedPointMap connects Redux to the PointMap
 //
@@ -27,7 +26,7 @@ export class ConnectedPointMap extends Component {
     ] );
     return (
       <PointMap { ...props }
-        { ...this.props.pointMapState }
+        { ...this.props.pointMap }
         { ...this.props.pointMapActions } />
       );
   }
@@ -35,12 +34,11 @@ export class ConnectedPointMap extends Component {
 
 function mapStateToProps( state ) {
   return {
-    pointMapState: {
-      services: state.points,
-      alerts: [],
+    pointMap: {
+      points: values( state.points.points ),
       tracks: state.tracks.toJS(),
-      settings: state.settings.toJS(),
-      mapState: state.mapState,
+      settings: state.settings,
+      map: state.map,
       filters: state.filters
     }
   };
@@ -48,12 +46,7 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
   return {
-    pointMapActions: bindActionCreators( {
-      'setMapCenter': setMapCenter,
-      'setGeoLocation': setGeoLocation,
-      'setMapZoom': setMapZoom,
-      'setMapLoading': setMapLoading
-    }, dispatch )
+    pointMapActions: bindActionCreators( mapActions, dispatch )
   };
 }
 

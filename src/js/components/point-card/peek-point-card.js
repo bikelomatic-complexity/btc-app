@@ -5,8 +5,7 @@ import { CardText, FlatButton } from 'material-ui';
 import PointCard from './point-card';
 /*eslint-enable no-unused-vars*/
 
-import ServiceViewModel from './service-view-model';
-import { pointId } from 'btc-models/lib/model/point';
+import { Point } from 'btc-models';
 
 export class PeekPointCard extends PointCard {
   getCardState() {
@@ -14,20 +13,18 @@ export class PeekPointCard extends PointCard {
   }
 
   getCardAction() {
-    const {fullscreenMarker} = this.props;
     return <FlatButton label="See More"
-             onClick={ fullscreenMarker } />;
+             onClick={ this.navigate( 'view-point' ) } />;
   }
 
   getCardContent() {
-    const {point} = this.props;
-    const uri = pointId( point._id );
+    const point = this.point;
+    const {type} = Point.uri( point._id );
 
     let openUntil;
-    if ( uri.type === 'service' ) {
-      const service = new ServiceViewModel( point );
+    if ( type === 'service' ) {
       openUntil = (
-        <span className="point-card__open-until">{ service.openUntil() + ' — ' }</span>
+        <span className="point-card__open-until">{ PointCard.openUntil( point ) + ' — ' }</span>
       );
     }
 

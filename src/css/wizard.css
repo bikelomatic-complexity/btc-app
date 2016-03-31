@@ -6,6 +6,7 @@
     z-index: 1;
 }
 
+
 /*
  * The div right below the row of tabs. It is a columnar flexbox that takes
  * up all remaining space on the screen (below the row of tabs and the
@@ -18,19 +19,43 @@
     justify-content: space-between;
     align-items: stretch;
     width: 100%;
-    max-width: 500px;
-    padding: 10px;
-    margin: auto;
     box-sizing: border-box;
+}
+
+.tabs-content__form {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: center;
+    overflow-y: auto;
+    align-items: flex-start;
+}
+
+
+.tabs-content__action {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
 /*
  * Raise the wizard's action button above the map on the add location page
  */
-.tabs-content__action {
+.tabs-content__action > div {
+    flex-grow: 1;
+    max-width: 500px;
     z-index: 2;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
 }
 
+.tabs-content__action > div > button {
+    margin-right: 10px !important;
+}
 
 /*
  * The wizard-page is a div that contains fields for a wizard tab.
@@ -45,10 +70,8 @@
     align-items: stretch;
     justify-content: flex-start;
     flex-grow: 1;
-    margin-bottom: 10px;
-    height: 0px;
-    overflow-x: hidden;
-    overflow-y: auto;
+    max-width: 500px;
+    padding: 10px;
 }
 
 .wizard-page__spacer {
@@ -66,11 +89,20 @@
     flex-wrap: nowrap;
 }
 
+.wizard-page__row > * {
+    margin-right: 10px;
+}
+
+.wizard-page__row > :last-child {
+    margin-right: 0px;
+}
+
 /*
  * The <span> child of the row must be separated from the field
  */
 .wizard-page__row > span {
-    margin-right: 20px;
+    flex-shrink: 0;
+    margin-right: 10px;
 }
 
 /*
@@ -78,4 +110,13 @@
  */
 .wizard-page__row > div {
     flex-grow: 1;
+}
+
+.wizard-page__row input {
+    text-align: center;
+}
+
+.wizard-page .hours-table {
+    margin-left: -10px;
+    margin-right: -10px;
 }

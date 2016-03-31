@@ -8,11 +8,11 @@ import { Page } from '../components/page';
 import PointList from '../components/point-list';
 /*eslint-enable no-unused-vars*/
 
-import { selectMarker } from '../actions/map-actions';
 import { setDrawer } from '../reducers/drawer';
-import { connect } from 'react-redux';
-
 import history from '../history';
+
+import { connect } from 'react-redux';
+import { values } from 'lodash';
 
 class PublishPage extends Component {
   componentDidMount() {
@@ -20,7 +20,6 @@ class PublishPage extends Component {
   }
 
   onPointClick( point ) {
-    this.props.dispatch( selectMarker( point ) );
     history.push( `/view-point/${encodeURIComponent( point._id )}` );
   }
 
@@ -29,8 +28,10 @@ class PublishPage extends Component {
   }
 
   render() {
-    const clear = (<ClearIcon style={ { fontSize: 'inherit', margin: '0px 0.1em' } }
-                     color='red' /> );
+    const clear = (
+    <ClearIcon style={ { fontSize: 'inherit', margin: '0px 0.1em' } }
+      color='red' />
+    );
 
     const instructionsStyle = {
       display: 'flex',
@@ -44,16 +45,18 @@ class PublishPage extends Component {
       margin: '5px 10px 0px 5px'
     };
 
-    const instructions = (<div style={ instructionsStyle }>
-                            Click on
-                            { clear } to delete a point.
-                          </div>);
+    const instructions = (
+    <div style={ instructionsStyle }>
+      Click on
+      { clear } to delete a point.
+    </div>
+    );
 
     return (
       <Page className="layout__section">
         <Paper>
           <PointList instructions={ instructions }
-            points={ this.props.services }
+            points={ this.props.points }
             buttonIcon='clear'
             buttonAction={ this.onPointRemove.bind( this ) }
             clickAction={ this.onPointClick.bind( this ) } />
@@ -70,7 +73,7 @@ class PublishPage extends Component {
 
 function select( state ) {
   return {
-    services: state.points
+    points: values( state.points.points )
   };
 }
 

@@ -8,16 +8,16 @@ import { renderIntoDocument } from 'react-addons-test-utils';
 import { PeekPointCard } from '../../../../src/js/components/point-card/peek-point-card';
 /*eslint-enable no-unused-vars*/
 
-import { MockPoints } from '../../../mock-data/mock-points';
+import { mockPoints } from '../../../mock-data/mock-points';
 
 import sd from 'skin-deep';
 
 
 describe( '<PeekPointCard />', function() {
   beforeEach( function() {
-    this.mockPoint = MockPoints[ 0 ];
     const tree = sd.shallowRender(
-      <PeekPointCard point={ this.mockPoint } />
+      <PeekPointCard points={ mockPoints }
+        params={ { id: 'point/service/rit/abcdef' } } />
     );
     this.tree = tree.dive( [ 'CardActions' ] );
   } );

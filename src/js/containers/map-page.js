@@ -11,7 +11,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { setDrawer } from '../reducers/drawer';
-import { loadMarker } from '../reducers/marker';
+import { loadPoint } from '../reducers/points';
 
 import history from '../history';
 
@@ -36,8 +36,8 @@ class MapPage extends Component {
   // Navigate to the path with `prefix` specific to the provided marker.
   // This is used by MapPage and its child PointCard to open PointCards in
   // various states (peek, view, rate).
-  static navigateWithId( prefix, marker ) {
-    const encodedId = encodeURIComponent( marker._id );
+  static navigateWithId( prefix, point ) {
+    const encodedId = encodeURIComponent( point._id );
     history.push( `/${prefix}/${encodedId}` );
   }
 
@@ -51,13 +51,11 @@ class MapPage extends Component {
   // This function will throw an error if there is more than one child.
   mapPropsOnCard() {
     if ( !this.props.children ) return;
-    const {marker} = this.props;
+    const {points} = this.props;
 
-    const cardState = { point: marker, heightOffset: 0 };
+    const cardState = { points, heightOffset: 0 };
     const cardFunctions = {
       deselectMarker: MapPage.deselectMarker,
-      fullscreenMarker: ( ) => MapPage.navigateWithId( 'view-point', marker ),
-      peekMarker: ( ) => MapPage.navigateWithId( 'peek-point', marker ),
       navigateWithId: MapPage.navigateWithId
     };
 
@@ -97,7 +95,7 @@ class MapPage extends Component {
 
 function mapStateToProps( state ) {
   return {
-    marker: state.marker // PointCards are built for this marker
+    points: state.points.points // PointCards are built for this marker
   };
 }
 
@@ -108,7 +106,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
   return {
     cardActions: bindActionCreators( {
-      'loadMarker': loadMarker // Cards load markers on componentDidMount
+      'loadPoint': loadPoint // Cards load markers on componentDidMount
     }, dispatch ),
     pageActions: bindActionCreators( {
       'setDrawer': setDrawer
