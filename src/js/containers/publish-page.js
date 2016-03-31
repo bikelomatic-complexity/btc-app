@@ -29,8 +29,8 @@ class PublishPage extends Component {
 
   render() {
     const clear = (
-      <ClearIcon style={ { fontSize: 'inherit', margin: '0px 0.1em' } }
-        color='red' />
+    <ClearIcon style={ { fontSize: 'inherit', margin: '0px 0.1em' } }
+      color='red' />
     );
 
     const instructionsStyle = {
@@ -46,9 +46,10 @@ class PublishPage extends Component {
     };
 
     const instructions = (
-      <div style={ instructionsStyle }>
-        Click on { clear } to delete a point.
-      </div>
+    <div style={ instructionsStyle }>
+      Click on
+      { clear } to delete a point.
+    </div>
     );
 
     return (
