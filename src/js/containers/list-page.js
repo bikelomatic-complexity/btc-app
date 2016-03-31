@@ -1,9 +1,10 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
-import { Paper, RaisedButton, FontIcon } from 'material-ui';
+import { Paper, RaisedButton } from 'material-ui';
 import FilterIcon from 'material-ui/lib/svg-icons/content/filter-list';
 import MapIcon from 'material-ui/lib/svg-icons/maps/map';
 
+import { Page } from '../components/page';
 import PointList from '../components/point-list';
 /*eslint-enable no-unused-vars*/
 
@@ -32,22 +33,24 @@ class ListPage extends Component {
       margin: '5px 10px 0px 5px'
     } ];
     return (
-      <div className="page-content">
-        <RaisedButton style={ buttonStyles[ 0 ] }
-          label="Map"
-          labelPosition="after"
-          primary={ true }
-          icon={ <MapIcon /> }
-          onClick={ ( ) => history.push( '/' ) } />
-        <RaisedButton style={ buttonStyles[ 1 ] }
-          label="Filter"
-          labelPosition="after"
-          primary={ true }
-          icon={ <FilterIcon /> }
-          onClick={ ( ) => history.push( 'filter' ) } />
-        <PointList points={ this.props.services }
-          onPointClick={ this.onPointClick.bind( this ) } />
-      </div>
+      <Page className="layout__section">
+        <div>
+          <RaisedButton style={ buttonStyles[ 0 ] }
+            label="Map"
+            labelPosition="after"
+            primary={ true }
+            icon={ <MapIcon /> }
+            onClick={ ( ) => history.push( '/' ) } />
+          <RaisedButton style={ buttonStyles[ 1 ] }
+            label="Filter"
+            labelPosition="after"
+            primary={ true }
+            icon={ <FilterIcon /> }
+            onClick={ ( ) => history.push( 'filter' ) } />
+          <PointList points={ this.props.services }
+            clickAction={ this.onPointClick.bind( this ) } />
+        </div>
+      </Page>
       );
   }
 }

@@ -21,6 +21,7 @@ import ThanksPage from './containers/thanks-page';
 import DownloadTrackPage from './containers/download-track-page';
 import FilterPage from './containers/filter-page';
 import SettingsPage from './containers/settings-page';
+import PublishPage from './containers/publish-page';
 
 import AddPointPage from './containers/wizard/add-point-page';
 import UpdatePointPage from './containers/wizard/update-point-page';
@@ -110,6 +111,8 @@ document.addEventListener( 'deviceReady', ( ) => {
             component={ ListPage } />
           <Route path="settings"
             component={ SettingsPage } />
+          <Route path="publish"
+            component={ PublishPage } />
           <Route path="login"
             component={ LoginPage } />
           <Route path="register"
