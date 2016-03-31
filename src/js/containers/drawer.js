@@ -55,7 +55,7 @@ export class Drawer extends Component {
       title: 'Download Track',
       icon: 'timeline'
     }, {
-      link: '/',
+      link: 'publish',
       title: 'Publish',
       icon: 'cloud_upload'
     }, {
