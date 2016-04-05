@@ -89,6 +89,20 @@ export default class PointPage extends Component {
     return curTab === last( set ).value;
   }
 
+  // # isValid
+  // Returns an object with valid property (bool) and a list
+  // of validation errors.
+  // By default, it returns valid as true.
+  //
+  // isValid is called before navigating from the current tab,
+  // and stops the navigation if the state would be malformed / invalid.
+  isValid() {
+    return {
+      valid: true,
+      validationErrors: []
+    };
+  }
+
   // # persist
   // Callback for wizard pages to help save their data.
   //
@@ -136,11 +150,40 @@ export default class PointPage extends Component {
     const tabIndex = findIndex( set, { value: curTab } );
     const nextTab = set[ tabIndex + 1 ];
 
-    if ( nextTab ) {
-      this.navigateToTab( nextTab );
-    } else {
-      this.onSubmit();
+    // commit the current state to check if the fields 
+    // are valid before navigating forward
+    const {wizard} = this.refs;
+    if ( wizard ) {
+      wizard.persistBefore( () => {
+        const check = this.isValid();
+
+        // if the tab fields are invalid, and we are not on the first index
+        if ( ( !check.valid ) && ( tabIndex > 0 ) ) {
+          // submit the current validation errors to state
+
+          // format the errors into a coherent shape
+          validationErrors = check.validationErrors.reduce( ( error, allErrors )=>{
+            allErrors[error.datapath] = error;
+            return allErrors;
+          }, {});
+
+          // set and submit  the state to the wizard page
+          this.setState( {...this.state, validationErrors: validationErrors} );
+          wizard.persistBefore();
+          console.error(validationErrors);
+          // shortcircuit the page
+          return;
+        }
+
+        if ( nextTab ) {
+          this.navigateToTab( nextTab );
+        } else {
+          this.onSubmit();
+        }
+
+      } );
     }
+    
   }
 
   // # navigateToTab
@@ -203,6 +246,7 @@ export default class PointPage extends Component {
       ...this.props.wizardActions,
       point: this.state.point,
       persist: this.persist,
+      validationErrors: this.state.validationErrors,
       onNext: this.onNext.bind( this, wizardPage.type ),
       finalTab: this.isFinalTab( wizardPage.type )
     } );
@@ -252,7 +296,7 @@ export default class PointPage extends Component {
   // should extend this function when making their own `mapStateToProps`.
   static mapStateToProps( state ) {
     return {
-      points: state.points.points
+      points: state.points.points,
     };
   }
 
