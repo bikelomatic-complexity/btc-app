@@ -150,7 +150,7 @@ export default class PointPage extends Component {
     const tabIndex = findIndex( set, { value: curTab } );
     const nextTab = set[ tabIndex + 1 ];
 
-    // commit the current state to check if the fields 
+    // commit the current state to check if the fields
     // are valid before navigating forward
     const {wizard} = this.refs;
     if ( wizard ) {
@@ -161,9 +161,10 @@ export default class PointPage extends Component {
         if ( ( !check.valid ) && ( tabIndex > 0 ) ) {
           // submit the current validation errors to state
 
-          // format the errors into a coherent shape
-          validationErrors = check.validationErrors.reduce( ( error, allErrors )=>{
-            allErrors[error.datapath] = error;
+          // format the errors so that components receive them as an object
+          // where the key is the type of error, and the value is the error obj
+          const validationErrors = check.validationErrors.reduce( ( allErrors, error )=>{
+            allErrors[error.dataPath] = error;
             return allErrors;
           }, {});
 
@@ -183,7 +184,7 @@ export default class PointPage extends Component {
 
       } );
     }
-    
+
   }
 
   // # navigateToTab

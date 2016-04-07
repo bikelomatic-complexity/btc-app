@@ -35,6 +35,10 @@ export class ServiceDescription extends WizardPage {
 
   getPageContent() {
     const {coverUrl} = this.state;
+    let {validationErrors} = this.props;
+    if validationErrors == undefined {
+      validationErrors = {};
+    }
 
     let image;
     if ( coverUrl ) {
@@ -51,17 +55,21 @@ export class ServiceDescription extends WizardPage {
         <TextField fullWidth
           { ...this.link( 'phone' ) }
           floatingLabelText="Phone Number"
+          errorText={validationErrors['.phone'] ? validationErrors['.phone'] : ""}
           type="tel" />
         <TextField fullWidth
           { ...this.link( 'address' ) }
           floatingLabelText="Address" />
+          errorText={validationErrors['.address'] ? validationErrors['.address'] : ""}
         <TextField fullWidth
           { ...this.link( 'website' ) }
           floatingLabelText="Website"
+          errorText={validationErrors['.website'] ? validationErrors['.website'] : ""}
           type="url" />
         <TextField fullWidth
           { ...this.link( 'description' ) }
           floatingLabelText="Description"
+          errorText={validationErrors['.description'] ? validationErrors['.description'] : ""}
           multiLine={ true }
           rows={ 2 }
           rowsMax={ 4 } />
