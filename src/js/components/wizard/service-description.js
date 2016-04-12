@@ -36,7 +36,7 @@ export class ServiceDescription extends WizardPage {
   getPageContent() {
     const {coverUrl} = this.state;
     let {validationErrors} = this.props;
-    if validationErrors == undefined {
+    if (validationErrors == undefined) {
       validationErrors = {};
     }
 
@@ -55,21 +55,21 @@ export class ServiceDescription extends WizardPage {
         <TextField fullWidth
           { ...this.link( 'phone' ) }
           floatingLabelText="Phone Number"
-          errorText={validationErrors['.phone'] ? validationErrors['.phone'] : ""}
+          errorText={validationErrors['.phone'] ? validationErrors['.phone'].message : ""}
           type="tel" />
         <TextField fullWidth
           { ...this.link( 'address' ) }
-          floatingLabelText="Address" />
-          errorText={validationErrors['.address'] ? validationErrors['.address'] : ""}
+          floatingLabelText="Address" 
+          errorText={validationErrors['.address'] ? validationErrors['.address'].message : ""} />
         <TextField fullWidth
           { ...this.link( 'website' ) }
           floatingLabelText="Website"
-          errorText={validationErrors['.website'] ? validationErrors['.website'] : ""}
+          errorText={validationErrors['.website'] ? validationErrors['.website'].message : ""}
           type="url" />
         <TextField fullWidth
           { ...this.link( 'description' ) }
           floatingLabelText="Description"
-          errorText={validationErrors['.description'] ? validationErrors['.description'] : ""}
+          errorText={validationErrors['.description'] ? validationErrors['.description'].message : ""}
           multiLine={ true }
           rows={ 2 }
           rowsMax={ 4 } />

@@ -145,10 +145,39 @@ export default class PointPage extends Component {
   // The underlying methods, `navigateToTab` and `onSubmit` are responsible
   // on their own for persisting data before navigation.
   onNext( curTab ) {
-    const set = this.getTabSet();
 
+    // determine current and next tab index
+    const set = this.getTabSet();
     const tabIndex = findIndex( set, { value: curTab } );
     const nextTab = set[ tabIndex + 1 ];
+
+    // commit the current state to check if the fields
+    // are valid before navigating forward
+    const {wizard} = this.refs;
+    if ( wizard ) {
+      if ( nextTab ) {
+        this.navigateToTab( nextTab );
+      } else {
+        this.onSubmit();
+      }
+    }
+
+  }
+
+  // # navigateToTab
+  // Given a new tab, persist the data in the current tab, then navigate to the
+  // url that selects that new tab. The url varies based on what `getPageUrl`
+  // returns.
+  navigateToTab( tab ) {
+
+    // determine current tab index
+    const set = this.getTabSet();
+    const tabIndex = findIndex( set, { value: tab.value } );
+    const tabObj = set[tabIndex];
+
+    const url = this.getPageUrl();
+    const nav = history.push.bind( null, `/${ url }/${ tab.url }` );
+
 
     // commit the current state to check if the fields
     // are valid before navigating forward
@@ -157,8 +186,8 @@ export default class PointPage extends Component {
       wizard.persistBefore( () => {
         const check = this.isValid();
 
-        // if the tab fields are invalid, and we are not on the first index
-        if ( ( !check.valid ) && ( tabIndex > 0 ) ) {
+        // if the tab fields are invalid, and we are not moving from location
+        if ( ( !check.valid ) && ( tabIndex > 1 ) ) {
           // submit the current validation errors to state
 
           // format the errors so that components receive them as an object
@@ -173,34 +202,16 @@ export default class PointPage extends Component {
           wizard.persistBefore();
           console.error(validationErrors);
           // shortcircuit the page
+          console.log("STOP!");
           return;
         }
 
-        if ( nextTab ) {
-          this.navigateToTab( nextTab );
-        } else {
-          this.onSubmit();
-        }
+        console.log("NAVIGATING");
+        nav();
 
       } );
     }
 
-  }
-
-  // # navigateToTab
-  // Given a new tab, persist the data in the current tab, then navigate to the
-  // url that selects that new tab. The url varies based on what `getPageUrl`
-  // returns.
-  navigateToTab( tab ) {
-    const url = this.getPageUrl();
-    const nav = history.push.bind( null, `/${ url }/${ tab.url }` );
-
-    const {wizard} = this.refs;
-    if ( wizard ) {
-      wizard.persistBefore( nav );
-    } else {
-      nav();
-    }
   }
 
   // # onSubmit
