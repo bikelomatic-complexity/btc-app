@@ -6,7 +6,7 @@ import { HoursTable } from '../hours-table';
 /*eslint-enable no-unused-vars*/
 
 import WizardPage from './wizard-page';
-import { Schedule, days, nextDay } from 'btc-models';
+import { Schedule, days, nextDay, timezones } from 'btc-models';
 
 import { bindAll, keys, toPairs } from 'lodash';
 
@@ -27,7 +27,8 @@ export class ServiceHours extends WizardPage {
       selectedRows: [],
       day: null,
       opens: defaultOpens,
-      closes: defaultClose
+      closes: defaultClose,
+      timezone: null
     } );
   }
 
@@ -70,14 +71,27 @@ export class ServiceHours extends WizardPage {
         value={ day }
         primaryText={ values.display } />
     ) );
+    const timezoneOptions = timezones.map( timezone => (
+      <MenuItem key={ timezone.display }
+        value={ timezone.display }
+        primaryText={ timezone.longName } />
+    ) );
     return (
       <div className='wizard-page'>
-        <SelectField fullWidth
-          { ...this.link( 'day' ) }
-          menuStyle={ { maxWidth: 500 } }
-          hintText="Day(s)">
-          { options }
-        </SelectField>
+        <div className='wizard-page__row'>
+          <SelectField fullWidth
+            { ...this.link( 'day' ) }
+            menuStyle={ { maxWidth: 500 } }
+            hintText="Day(s)">
+            { options }
+          </SelectField>
+          <SelectField fullWidth
+            { ...this.link( 'timezone' ) }
+            menuStyle={ { maxWidth: 300 } }
+            hintText="Timezone">
+            { timezoneOptions }
+          </SelectField>
+        </div>
         <div className='wizard-page__row'>
           <span>Opens at</span>
           <TimePicker fullWidth
