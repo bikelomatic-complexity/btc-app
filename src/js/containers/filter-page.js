@@ -6,7 +6,7 @@ import DropDown from '../components/drop-down';
 
 import { includes, assign, keys } from 'lodash';
 import { connect } from 'react-redux';
-import { display, serviceTypes, alertTypes } from 'btc-models/lib/schema/types';
+import { display, serviceTypes, alertTypes } from 'btc-models';
 
 import { setFilters } from '../reducers/filter';
 import { setDrawer } from '../reducers/drawer';
