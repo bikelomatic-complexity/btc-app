@@ -29,6 +29,11 @@ export class ServiceName extends WizardPage {
     const [lat, lng] = this.state.location;
     const latlng = `(${ lat.toFixed( 4 ) }, ${ lng.toFixed( 4 ) })`;
 
+    let {validationErrors} = this.props;
+    if (validationErrors == undefined) {
+      validationErrors = {};
+    }
+
     const {types} = this.props;
     const options = toPairs( types ).map( ( [type, values] ) => (
       <MenuItem key={ type }
@@ -36,18 +41,21 @@ export class ServiceName extends WizardPage {
         primaryText={ values.display } />
     ) );
     return (
-      <div className="wizard-page">
+      <div className='wizard-page'>
         <TextField fullWidth
           { ...this.link( 'name' ) }
-          floatingLabelText="Name" />
+          errorText={validationErrors['.name'] ? validationErrors['.name'].message : ''}
+          floatingLabelText='Name' />
         <TextField disabled
           fullWidth
           value={ latlng }
-          floatingLabelText="Location" />
+          errorText={validationErrors['.location'] ? validationErrors['.location'].message : ''}
+          floatingLabelText='Location' />
         <SelectField fullWidth
           { ...this.link( 'type' ) }
           menuStyle={ { maxWidth: 500 } }
-          floatingLabelText="Service type">
+          errorText={validationErrors['.type'] ? validationErrors['.type'].message : ''}
+          floatingLabelText='Service type'>
           { options }
         </SelectField>
       </div>

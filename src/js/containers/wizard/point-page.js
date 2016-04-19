@@ -149,17 +149,64 @@ export default class PointPage extends Component {
     // determine current and next tab index
     const set = this.getTabSet();
     const tabIndex = findIndex( set, { value: curTab } );
+    const thisTab = set[ tabIndex ];
     const nextTab = set[ tabIndex + 1 ];
 
     // commit the current state to check if the fields
     // are valid before navigating forward
     const {wizard} = this.refs;
     if ( wizard ) {
+      wizard.persistBefore( () => {
+        const check = this.isValid();
+
+        if ( !check.valid ) {
+          // submit the current validation errors to state
+
+          // format the errors so that components receive them as an object
+          // where the key is the type of error, and the value is the error obj
+          const validationErrors = check.validationErrors.reduce( ( allErrors, error )=>{
+            if (error.dataPath !== "") {
+              allErrors[error.dataPath] = error;
+            }
+            else {
+              allErrors[`.${error.params.missingProperty}`] = error;
+            }
+            return allErrors;
+          }, {});
+
+          // if the tab fields are invalid, and we are not moving from location
+          let isValid = thisTab.fields.reduce( (isValid, currField) => {
+            isValid = isValid && (check.validationErrors[currField] == undefined);
+          }, true);
+
+          // set and submit  the state to the wizard page
+          this.setState( {...this.state, validationErrors: validationErrors} );
+
+          if (!isValid) {
+            wizard.persistBefore();
+            console.error(validationErrors);
+            // shortcircuit the page
+            console.log("STOP!");
+            return;
+          }
+        }
+
+        if ( nextTab ) {
+          this.navigateToTab( nextTab );
+        } else {
+          this.onSubmit();
+        }
+
+      } );
+
+    } else {
+      // if we weren't in a wizard, just navigate as you would
       if ( nextTab ) {
         this.navigateToTab( nextTab );
       } else {
         this.onSubmit();
       }
+
     }
 
   }
@@ -170,46 +217,14 @@ export default class PointPage extends Component {
   // returns.
   navigateToTab( tab ) {
 
-    // determine current tab index
-    const set = this.getTabSet();
-    const tabIndex = findIndex( set, { value: tab.value } );
-    const tabObj = set[tabIndex];
-
     const url = this.getPageUrl();
-    const nav = history.push.bind( null, `/${ url }/${ tab.url }` );
+    const nav = history.push.bind( null, `${ url }/${ tab.url }` );
 
-
-    // commit the current state to check if the fields
-    // are valid before navigating forward
     const {wizard} = this.refs;
     if ( wizard ) {
-      wizard.persistBefore( () => {
-        const check = this.isValid();
-
-        // if the tab fields are invalid, and we are not moving from location
-        if ( ( !check.valid ) && ( tabIndex > 1 ) ) {
-          // submit the current validation errors to state
-
-          // format the errors so that components receive them as an object
-          // where the key is the type of error, and the value is the error obj
-          const validationErrors = check.validationErrors.reduce( ( allErrors, error )=>{
-            allErrors[error.dataPath] = error;
-            return allErrors;
-          }, {});
-
-          // set and submit  the state to the wizard page
-          this.setState( {...this.state, validationErrors: validationErrors} );
-          wizard.persistBefore();
-          console.error(validationErrors);
-          // shortcircuit the page
-          console.log("STOP!");
-          return;
-        }
-
-        console.log("NAVIGATING");
-        nav();
-
-      } );
+      wizard.persistBefore( nav );
+    } else {
+      nav();
     }
 
   }

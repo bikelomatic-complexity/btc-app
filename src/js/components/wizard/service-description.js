@@ -51,25 +51,25 @@ export class ServiceDescription extends WizardPage {
     }
 
     return (
-      <div className="wizard-page">
+      <div className='wizard-page'>
         <TextField fullWidth
           { ...this.link( 'phone' ) }
-          floatingLabelText="Phone Number"
-          errorText={validationErrors['.phone'] ? validationErrors['.phone'].message : ""}
-          type="tel" />
+          floatingLabelText='Phone Number'
+          errorText={validationErrors['.phone'] ? validationErrors['.phone'].message : ''}
+          type='tel' />
         <TextField fullWidth
           { ...this.link( 'address' ) }
-          floatingLabelText="Address" 
-          errorText={validationErrors['.address'] ? validationErrors['.address'].message : ""} />
+          floatingLabelText='Address'
+          errorText={validationErrors['.address'] ? validationErrors['.address'].message : ''} />
         <TextField fullWidth
           { ...this.link( 'website' ) }
-          floatingLabelText="Website"
-          errorText={validationErrors['.website'] ? validationErrors['.website'].message : ""}
-          type="url" />
+          floatingLabelText='Website'
+          errorText={validationErrors['.website'] ? validationErrors['.website'].message : ''}
+          type='url' />
         <TextField fullWidth
           { ...this.link( 'description' ) }
-          floatingLabelText="Description"
-          errorText={validationErrors['.description'] ? validationErrors['.description'].message : ""}
+          floatingLabelText='Description'
+          errorText={validationErrors['.description'] ? validationErrors['.description'].message : ''}
           multiLine={ true }
           rows={ 2 }
           rowsMax={ 4 } />
@@ -81,7 +81,7 @@ export class ServiceDescription extends WizardPage {
   getPageSecondaryActions() {
     return (
       <FlatButton onClick={ this.onPhotoAdd }
-        label="Upload Photo" />
+        label='Upload Photo' />
       );
   }
 

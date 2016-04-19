@@ -1,7 +1,7 @@
 {
   "plugins": [
-    "esformatter-jsx",
     "esformatter-ignore",
+    "esformatter-jsx",
     "esformatter-line-endings"
   ],
 
