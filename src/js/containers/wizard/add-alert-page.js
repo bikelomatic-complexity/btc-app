@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 
 export class AddAlertPage extends PointPage {
   getPageUrl() {
-    return '/add-alert';
+    return 'add-alert';
   }
 
   getTabSet() {
