@@ -35,9 +35,9 @@ export class ServiceHours extends WizardPage {
 
   componentDidMount() {
     this.props.setDrawer( 'Add Hours' );
-    this.setState({
-      timezone: moment.tz(moment.tz.guess()).format("z")
-    })
+    this.setState( {
+      timezone: moment.tz( moment.tz.guess() ).format( 'z' )
+    } );
   }
 
   getPageFields() {
