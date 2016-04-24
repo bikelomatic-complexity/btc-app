@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 export class UpdateServicePage extends PointPage {
   getPageUrl() {
     const id = encodeURIComponent( this.props.params.id );
-    return `/update-service/${ id }`;
+    return `update-service/${ id }`;
   }
 
   getTabSet() {

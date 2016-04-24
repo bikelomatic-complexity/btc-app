@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 
 export class AddServicePage extends PointPage {
   getPageUrl() {
-    return '/add-service';
+    return 'add-service';
   }
 
   getTabSet() {
