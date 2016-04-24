@@ -3,6 +3,7 @@ import React from 'react';
 import DropDown from '../drop-down';
 import { RaisedButton, FlatButton, CardText, FontIcon, TimePicker, SelectField, MenuItem } from 'material-ui';
 import { HoursTable } from '../hours-table';
+import moment from 'moment-timezone';
 /*eslint-enable no-unused-vars*/
 
 import WizardPage from './wizard-page';
@@ -34,6 +35,9 @@ export class ServiceHours extends WizardPage {
 
   componentDidMount() {
     this.props.setDrawer( 'Add Hours' );
+    this.setState({
+      timezone: moment.tz(moment.tz.guess()).format("z")
+    })
   }
 
   getPageFields() {
@@ -45,10 +49,10 @@ export class ServiceHours extends WizardPage {
   }
 
   addHours() {
-    const {day, opens, closes} = this.state;
+    const {day, opens, closes, timezone} = this.state;
 
     const model = new Schedule( this.state.schedule );
-    model.addHoursIn( day, opens, closes );
+    model.addHoursIn( day, opens, closes, timezone );
 
     this.setState( {
       schedule: model.get( 'schedule' ),
@@ -71,10 +75,10 @@ export class ServiceHours extends WizardPage {
         value={ day }
         primaryText={ values.display } />
     ) );
-    const timezoneOptions = timezones.map( timezone => (
-      <MenuItem key={ timezone.display }
-        value={ timezone.display }
-        primaryText={ timezone.longName } />
+    const timezoneOptions = toPairs( timezones ).map( ( [timezone, values] ) => (
+      <MenuItem key={ values.display }
+        value={ values.display }
+        primaryText={ values.display } />
     ) );
     return (
       <div className='wizard-page'>
