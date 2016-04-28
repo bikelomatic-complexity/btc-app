@@ -198,15 +198,18 @@ export default class PointPage extends Component {
   navigateToTab( tab ) {
     const url = this.getPageUrl();
     const nav = history.push.bind( null, `/${ url }/${ tab.url }` );
+    this.navAttempt = true;
 
     const {wizard} = this.refs;
     if ( wizard ) {
       wizard.persistBefore( ( ) => {
         if ( this.isTabValid() ) {
+          this.navAttempt = false;
           nav();
         }
       } );
     } else {
+      this.navAttempt = false;
       nav();
     }
   }
@@ -221,6 +224,7 @@ export default class PointPage extends Component {
     const {pageActions} = this.props;
     const {point} = this.state;
     const onFinal = this.onFinal.bind( this );
+    this.navAttempt = true;
 
     if ( point.location ) {
       pageActions.setMapCenter( point.location );
@@ -228,6 +232,7 @@ export default class PointPage extends Component {
 
     const {wizard} = this.refs;
     if ( this.isPointValid() ) {
+      this.navAttempt = false;
       if ( wizard ) {
         wizard.persistBefore( onFinal );
       } else {
@@ -260,7 +265,7 @@ export default class PointPage extends Component {
       persist: this.persist,
       onNext: this.onNext.bind( this, wizardPage.type ),
       finalTab: this.isFinalTab( wizardPage.type ),
-      validationErrors: this.errorObject()
+      validationErrors: this.navAttempt ? this.errorObject() : {},
     } );
   }
 
