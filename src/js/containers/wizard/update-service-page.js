@@ -47,6 +47,22 @@ export class UpdateServicePage extends PointPage {
     return !this.state.point.isFetching;
   }
 
+  isPointValid() {
+    const {point} = this.state;
+    const service = new Service( point );
+    if ( service.isValid() ) {
+      return {
+        valid: true,
+        validationErrors: []
+      };
+    } else {
+      return {
+        valid: false,
+        validationErrors: service.validationError
+      };
+    }
+  }
+
   // # onFinal
   // Before calling `updateService`, transfer our original coverUrl to the
   // new service in case we don't have a new one to attach.
