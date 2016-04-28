@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { RaisedButton, Checkbox, FontIcon } from 'material-ui';
 import DropDown from '../components/drop-down';
+import { Page } from '../components/page';
 /*eslint-enable no-unused-vars*/
 
 import { includes, assign, keys } from 'lodash';
@@ -10,7 +11,6 @@ import { display, serviceTypes, alertTypes } from 'btc-models';
 
 import { setFilters } from '../reducers/filter';
 import { setDrawer } from '../reducers/drawer';
-import { Page } from '../components/page';
 
 import history from '../history';
 
