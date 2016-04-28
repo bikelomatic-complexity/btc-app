@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 
 import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
-import { Table, TableBody, TableHeader, TableRow, TableHeaderColumn, TableRowColumn, IconButton } from 'material-ui';
+import { CardText, Table, TableBody, TableHeader, TableRow, TableHeaderColumn, TableRowColumn, IconButton } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
 import { days } from 'btc-models';
@@ -60,29 +60,37 @@ export class HoursTable extends Component {
       );
     }
 
+    let timezone = '';
+    if (this.props.hours[0].timezone) {
+      timezone = <CardText style={{textAlign:'right'}}> *{this.props.hours[0].timezone} TIMEZONE </CardText>
+    }
+
     return (
-      <div className="hours-table">
-        <Table selectable={ false }>
-          <TableHeader displaySelectAll={ false }
-            adjustForCheckbox={ false }>
-            <TableRow>
-              <TableHeaderColumn>
-                Day
-              </TableHeaderColumn>
-              <TableHeaderColumn>
-                Opens
-              </TableHeaderColumn>
-              <TableHeaderColumn>
-                Closes
-              </TableHeaderColumn>
-              { remove }
-            </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={ false }
-            adjustForCheckbox={ false }>
-            { hoursData }
-          </TableBody>
-        </Table>
+      <div>
+        <div className="hours-table">
+          <Table selectable={ false }>
+            <TableHeader displaySelectAll={ false }
+              adjustForCheckbox={ false }>
+              <TableRow>
+                <TableHeaderColumn>
+                  Day
+                </TableHeaderColumn>
+                <TableHeaderColumn>
+                  Opens
+                </TableHeaderColumn>
+                <TableHeaderColumn>
+                  Closes
+                </TableHeaderColumn>
+                { remove }
+              </TableRow>
+            </TableHeader>
+            <TableBody displayRowCheckbox={ false }
+              adjustForCheckbox={ false }>
+              { hoursData }
+            </TableBody>
+          </Table>
+        </div>
+        { timezone }
       </div>
       );
   }
