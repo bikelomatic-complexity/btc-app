@@ -76,6 +76,54 @@ export default class PointPage extends Component {
     return false;
   }
 
+  // # isPointValid
+  // Returns an object with valid property (bool) and a list
+  // of validation errors.
+  // By default, it returns valid as true.
+  //
+  // isPointValid is called before navigating from the current tab,
+  // and stops the navigation if the state would be malformed / invalid.
+  isPointValid() {
+    return {
+      valid: true,
+      validationErrors: []
+    };
+  }
+
+  // # validationErrorObject
+  // Returns an Object where the key is the dataPath, and the value is the error
+  errorObject() {
+    const validationErrors = this.isPointValid().validationErrors;
+    return validationErrors.reduce( ( errorObject, error ) => {
+      let field = '';
+      if ( error.dataPath === '' ) {
+        field = error.params.missingProperty;
+      } else {
+        const errorPath = error.dataPath.split( '.' );
+        field = errorPath[ errorPath.length - 1 ];
+      }
+      errorObject[ field ] = error;
+      return errorObject;
+    }, {} );
+  }
+
+  // # isTabValid
+  // Returns (bool) if the tab's current fields are valid
+  isTabValid() {
+    const pointCheck = this.isPointValid();
+    const errorObject = this.errorObject();
+    const {wizard} = this.refs;
+    if ( !pointCheck.valid && wizard ) {
+      // iterate over the wizard's fields,
+      // and see if any of them are in the error object
+      return wizard.getPageFields().reduce( ( tabIsValid, field ) => {
+        return tabIsValid && ( errorObject[ field ] === undefined );
+      }, true );
+    }
+
+    return true;
+  }
+
   // # onFinal
   // Handle the submitted form data.
   onFinal() {
@@ -153,7 +201,11 @@ export default class PointPage extends Component {
 
     const {wizard} = this.refs;
     if ( wizard ) {
-      wizard.persistBefore( nav );
+      wizard.persistBefore( ( ) => {
+        if ( this.isTabValid() ) {
+          nav();
+        }
+      } );
     } else {
       nav();
     }
@@ -175,11 +227,14 @@ export default class PointPage extends Component {
     }
 
     const {wizard} = this.refs;
-    if ( wizard ) {
-      wizard.persistBefore( onFinal );
-    } else {
-      onFinal();
+    if ( this.isPointValid() ) {
+      if ( wizard ) {
+        wizard.persistBefore( onFinal );
+      } else {
+        onFinal();
+      }
     }
+
   }
 
   // # mapPropsOnWizardPage
@@ -204,7 +259,8 @@ export default class PointPage extends Component {
       point: this.state.point,
       persist: this.persist,
       onNext: this.onNext.bind( this, wizardPage.type ),
-      finalTab: this.isFinalTab( wizardPage.type )
+      finalTab: this.isFinalTab( wizardPage.type ),
+      validationErrors: this.errorObject()
     } );
   }
 
@@ -236,7 +292,7 @@ export default class PointPage extends Component {
     return (
       <div className='layout__section'>
         <Tabs value={ wizardPage.type }
-          className="tabs-bar">
+          className='tabs-bar'>
           { tabs }
         </Tabs>
         { content }
