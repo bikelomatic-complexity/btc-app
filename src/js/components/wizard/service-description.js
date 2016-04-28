@@ -46,7 +46,10 @@ export class ServiceDescription extends WizardPage {
       );
     }
 
-    const {validationErrors} = this.props;
+    let {validationErrors} = this.props;
+    if ( !validationErrors ) {
+      validationErrors = {};
+    }
 
     return (
       <div className="wizard-page">
@@ -54,23 +57,23 @@ export class ServiceDescription extends WizardPage {
           { ...this.link( 'phone' ) }
           floatingLabelText="Phone Number"
           type="tel"
-          errorText={validationErrors['phone'] ? validationErrors['phone'].message : ''} />
+          errorText={ validationErrors[ 'phone' ] ? validationErrors[ 'phone' ].message : '' } />
         <TextField fullWidth
           { ...this.link( 'address' ) }
           floatingLabelText="Address"
-          errorText={validationErrors['address'] ? validationErrors['address'].message : ''} />
+          errorText={ validationErrors[ 'address' ] ? validationErrors[ 'address' ].message : '' } />
         <TextField fullWidth
           { ...this.link( 'website' ) }
           floatingLabelText="Website"
           type="url"
-          errorText={validationErrors['website'] ? validationErrors['website'].message : ''} />
+          errorText={ validationErrors[ 'website' ] ? validationErrors[ 'website' ].message : '' } />
         <TextField fullWidth
           { ...this.link( 'description' ) }
           floatingLabelText="Description"
           multiLine={ true }
           rows={ 2 }
           rowsMax={ 4 }
-          errorText={validationErrors['description'] ? validationErrors['description'].message : ''} />
+          errorText={ validationErrors[ 'description' ] ? validationErrors[ 'description' ].message : '' } />
         { image }
       </div>
       );

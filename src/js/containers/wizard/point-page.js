@@ -239,7 +239,6 @@ export default class PointPage extends Component {
         onFinal();
       }
     }
-
   }
 
   // # mapPropsOnWizardPage
@@ -257,6 +256,7 @@ export default class PointPage extends Component {
   // button at the bottom of the page. The behavior of `onNext` changes based
   // on the user's progress through the wizard.
   mapPropsOnWizardPage( wizardPage ) {
+    const errorObject = this.errorObject();
     return React.cloneElement( wizardPage, {
       ref: 'wizard',
       ...this.props,
@@ -265,7 +265,7 @@ export default class PointPage extends Component {
       persist: this.persist,
       onNext: this.onNext.bind( this, wizardPage.type ),
       finalTab: this.isFinalTab( wizardPage.type ),
-      validationErrors: this.navAttempt ? this.errorObject() : {},
+      validationErrors: this.navAttempt && errorObject ? errorObject : {}
     } );
   }
 

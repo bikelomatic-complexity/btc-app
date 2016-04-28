@@ -36,24 +36,27 @@ export class ServiceName extends WizardPage {
         primaryText={ values.display } />
     ) );
 
-    const {validationErrors} = this.props;
+    let {validationErrors} = this.props;
+    if ( !validationErrors ) {
+      validationErrors = {};
+    }
 
     return (
       <div className="wizard-page">
         <TextField fullWidth
           { ...this.link( 'name' ) }
           floatingLabelText="Name"
-          errorText={validationErrors['name'] ? validationErrors['name'].message : ''} />
+          errorText={ validationErrors[ 'name' ] ? validationErrors[ 'name' ].message : '' } />
         <TextField disabled
           fullWidth
           value={ latlng }
           floatingLabelText="Location"
-          errorText={validationErrors['location'] ? validationErrors['location'].message : ''} />
+          errorText={ validationErrors[ 'location' ] ? validationErrors[ 'location' ].message : '' } />
         <SelectField fullWidth
           { ...this.link( 'type' ) }
           menuStyle={ { maxWidth: 500 } }
           floatingLabelText="Service type"
-          errorText={validationErrors['type'] ? validationErrors['type'].message : ''} >
+          errorText={ validationErrors[ 'type' ] ? validationErrors[ 'type' ].message : '' }>
           { options }
         </SelectField>
       </div>
