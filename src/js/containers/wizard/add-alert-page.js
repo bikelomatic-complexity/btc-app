@@ -34,10 +34,17 @@ export class AddAlertPage extends PointPage {
   isPointValid() {
     const {point} = this.state;
     const alert = new Alert( point );
-    return {
-      valid: alert.isValid(),
-      validationErrors: alert.validationError
-    };
+    if ( alert.isValid() ) {
+      return {
+        valid: true,
+        validationErrors: []
+      };
+    } else {
+      return {
+        valid: false,
+        validationErrors: alert.validationError
+      };
+    }
   }
 
   onFinal() {

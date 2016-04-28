@@ -90,7 +90,7 @@ export default class PointPage extends Component {
     };
   }
 
-  // # validationErrorObject
+  // # errorObject
   // Returns an Object where the key is the dataPath, and the value is the error
   errorObject() {
     const validationErrors = this.isPointValid().validationErrors;

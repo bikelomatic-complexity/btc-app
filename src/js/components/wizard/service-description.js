@@ -46,25 +46,31 @@ export class ServiceDescription extends WizardPage {
       );
     }
 
+    const {validationErrors} = this.props;
+
     return (
       <div className="wizard-page">
         <TextField fullWidth
           { ...this.link( 'phone' ) }
           floatingLabelText="Phone Number"
-          type="tel" />
+          type="tel"
+          errorText={validationErrors['phone'] ? validationErrors['phone'].message : ''} />
         <TextField fullWidth
           { ...this.link( 'address' ) }
-          floatingLabelText="Address" />
+          floatingLabelText="Address"
+          errorText={validationErrors['address'] ? validationErrors['address'].message : ''} />
         <TextField fullWidth
           { ...this.link( 'website' ) }
           floatingLabelText="Website"
-          type="url" />
+          type="url"
+          errorText={validationErrors['website'] ? validationErrors['website'].message : ''} />
         <TextField fullWidth
           { ...this.link( 'description' ) }
           floatingLabelText="Description"
           multiLine={ true }
           rows={ 2 }
-          rowsMax={ 4 } />
+          rowsMax={ 4 }
+          errorText={validationErrors['description'] ? validationErrors['description'].message : ''} />
         { image }
       </div>
       );
