@@ -61,8 +61,11 @@ export class HoursTable extends Component {
         </TableHeaderColumn>
       );
     } else {
-      if (this.props.hours[0]) {
-        timezone = <CardText style={{textAlign:'right'}}> *{this.props.hours[0].timezone} TIMEZONE </CardText>
+      if ( this.props.hours[ 0 ] ) {
+        timezone = <CardText style={ { textAlign: 'right' } }>
+                     *
+                     { this.props.hours[ 0 ].timezone } TIMEZONE
+                   </CardText>;
       }
     }
 

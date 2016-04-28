@@ -67,8 +67,8 @@ export class ViewPointCard extends PointCard {
       }
 
       let timezone = '';
-      if (point.schedule.default[0].timezone) {
-        timezone = '(' + point.schedule.default[0].timezone + ')';
+      if ( point.schedule.default[ 0 ] ) {
+        timezone = '(' + point.schedule.default[ 0 ].timezone + ')';
       }
 
       content = (
