@@ -68,13 +68,13 @@ export class ViewPointCard extends PointCard {
 
       let timezone = '';
       if (point.schedule.default[0].timezone) {
-        timezone = point.schedule.default[0].timezone;
+        timezone = '(' + point.schedule.default[0].timezone + ')';
       }
 
       content = (
         <div className="point-card__content">
           <CardText>
-            <span className="point-card__open-until">{ `${PointCard.openUntil( point )} (${timezone}) — ` }</span>
+            <span className="point-card__open-until">{ `${PointCard.openUntil( point )} ${timezone} — ` }</span>
             <span>{ point.description }</span>
           </CardText>
           <CardText>

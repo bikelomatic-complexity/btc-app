@@ -51,6 +51,8 @@ export class HoursTable extends Component {
         );
     } );
 
+    let timezone = '';
+
     let remove;
     if ( removable ) {
       remove = (
@@ -58,11 +60,10 @@ export class HoursTable extends Component {
           Remove
         </TableHeaderColumn>
       );
-    }
-
-    let timezone = '';
-    if (this.props.hours[0].timezone) {
-      timezone = <CardText style={{textAlign:'right'}}> *{this.props.hours[0].timezone} TIMEZONE </CardText>
+    } else {
+      if (this.props.hours[0]) {
+        timezone = <CardText style={{textAlign:'right'}}> *{this.props.hours[0].timezone} TIMEZONE </CardText>
+      }
     }
 
     return (
