@@ -11,7 +11,7 @@ import Refresh from 'material-ui/lib/svg-icons/navigation/refresh';
 import Delete from 'material-ui/lib/svg-icons/action/delete';
 /*eslint-enable no-unused-vars*/
 
-import noop from 'lodash/noop';
+//import noop from 'lodash/noop'; // not used for alpha release
 
 import { resetPoints } from '../reducers/points';
 import { setOnlineMode } from '../reducers/settings';
@@ -32,12 +32,12 @@ export class SettingsPage extends Component {
       subtext: 'Don\'t connect to the internet',
       toggled: !settings.onlineMode,
       onToggle: offline => setOnlineMode( !settings.onlineMode )
-    }, {
+    } /*, { // hidden for alpha release
       text: 'Download on mobile',
       subtext: 'Use 3G or 4G data',
       toggled: false,
       onToggle: noop
-    } ].map( item => {
+    }*/ ].map( item => {
       const tog = (
       <Toggle toggled={ item.toggled }
         onToggle={ item.onToggle } />
@@ -50,12 +50,14 @@ export class SettingsPage extends Component {
         );
     } );
 
+    /* hidden for alpha release
     const date = 'Last updated: ' + new Date().toLocaleDateString();
     const lastUpdated = (
     <ListItem primaryText='Update now'
       secondaryText={ date }
       leftIcon={ <Refresh /> } />
     );
+    */
 
     const clearPoints = (
     <ListItem primaryText='Delete cache'
@@ -85,7 +87,7 @@ export class SettingsPage extends Component {
           </List>
           <Divider />
           <List subheader='Services and Alerts'>
-            { lastUpdated }
+            { /*lastUpdated*/ /*hidden for alpha release*/ }
             { clearPoints }
           </List>
           <Divider />

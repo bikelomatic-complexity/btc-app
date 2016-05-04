@@ -1,7 +1,6 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { Snackbar } from 'material-ui';
 import { LetterheadPage } from '../components/page';
 import { FormBlock, Block, BlockFooter, errorProps } from '../components/block';
 /*eslint-enable no-unused-vars*/

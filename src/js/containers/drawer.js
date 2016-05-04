@@ -50,11 +50,11 @@ export class Drawer extends Component {
       link: 'add-alert',
       title: 'Add Alert',
       icon: 'warning'
-    }, {
+    } /*, { // hidden for alpha release
       link: 'download-track',
       title: 'Download Track',
       icon: 'timeline'
-    }, {
+    }*/ , {
       link: 'publish',
       title: 'Publish',
       icon: 'cloud_upload'
