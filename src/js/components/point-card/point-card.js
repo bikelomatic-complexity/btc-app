@@ -136,6 +136,11 @@ export class PointCard extends Component {
       );
     }
 
+    if ( type === 'alert' ) {
+      // disabled menu for alert for alpha release
+      return '';
+    }
+
     /* disabled for alpha release
     const flag = (
     <MenuItem primaryText='Flag'
