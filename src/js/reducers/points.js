@@ -1,4 +1,5 @@
-import { request } from '../util/server';
+/*global XMLHttpRequest FormData*/
+import { baseUrl } from '../util/server';
 import { Agent, observeStore } from '../util/agent';
 
 import { local, remote, reset } from '../database';
@@ -260,22 +261,22 @@ export function publishPoints() {
     return publish.fetch().then( res => {
       return publish.getCovers();
     } ).then( res => {
-      return serialize( publish.models );
-    } ).then( serialized => {
+      return buildFormData( publish.models );
+    } ).then( formData => {
       return new Promise( ( resolve, reject ) => {
-        request.post( '/publish' )
-          .set( 'Content-Type', 'application/json' )
-          .send( serialized )
-          .end( ( error, response ) => {
-            switch ( response.statusCode ) {
-            case 200:
-              resolve();
-              break;
-            case 400:
-            default:
-              reject();
-            }
-          } );
+        const request = new XMLHttpRequest();
+        request.open( 'POST', baseUrl + '/publish' );
+        request.onload = event => {
+          if ( request.status === 200 ) {
+            resolve( request.statusText );
+          } else {
+            reject( request.statusText );
+          }
+        };
+        request.onerror = event => {
+          reject( request.statusText );
+        };
+        request.send( formData );
       } );
     } ).then( res => {
       dispatch( { type: RECEIVE_PUBLISH } );
@@ -285,12 +286,29 @@ export function publishPoints() {
   };
 }
 
-function serialize( models = [] ) {
-  return JSON.stringify(
-    models.filter(
-      model => [ Service, Alert, Comment ].some( ctr => model instanceof ctr )
-    ).map(
-      model => model.toJSON()
-    )
+function buildFormData( models ) {
+  const serialized = [];
+  const covers = [];
+
+  models.filter(
+    model => [ Service, Alert, Comment ].some( ctr => model instanceof ctr )
+  ).forEach(
+    model => {
+      const json = model.toJSON();
+      if ( model.coverBlob ) {
+        json.index = covers.length;
+        covers.push( model.coverBlob );
+      }
+      serialized.push( json );
+    }
   );
+  const stringified = JSON.stringify( serialized );
+
+  const formData = new FormData();
+  formData.append( 'models', stringified );
+  covers.forEach( cover => {
+    formData.append( 'covers', cover, 'cover.png' );
+  } );
+
+  return formData;
 }
