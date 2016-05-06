@@ -1,14 +1,14 @@
 /*global process*/
 /*esfmt-ignore-start*/
 import notifications from './reducers/notifications';
-import points        from './reducers/points';
-import tracks        from './reducers/tracks';
-import settings      from './reducers/settings';
-import network       from './reducers/network';
-import map           from './reducers/map';
-import filters       from './reducers/filter';
-import account       from './reducers/account';
-import drawer        from './reducers/drawer';
+import points from './reducers/points';
+import tracks from './reducers/tracks';
+import settings from './reducers/settings';
+import network from './reducers/network';
+import map from './reducers/map';
+import filters from './reducers/filter';
+import account from './reducers/account';
+import drawer from './reducers/drawer';
 
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
@@ -29,6 +29,5 @@ export default compose.apply( null, args )( createStore )( combineReducers( {
   map,
   filters,
   account,
-  drawer
-} ) );
+drawer } ) );
 /*esfmt-ignore-end*/

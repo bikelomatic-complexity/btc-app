@@ -3,10 +3,11 @@ import React from 'react';
 import DropDown from '../drop-down';
 import { RaisedButton, FlatButton, CardText, FontIcon, TimePicker, SelectField, MenuItem } from 'material-ui';
 import { HoursTable } from '../hours-table';
+import moment from 'moment-timezone';
 /*eslint-enable no-unused-vars*/
 
 import WizardPage from './wizard-page';
-import { Schedule, days, nextDay } from 'btc-models';
+import { Schedule, days, nextDay, timezones } from 'btc-models';
 
 import { bindAll, keys, toPairs } from 'lodash';
 
@@ -27,12 +28,16 @@ export class ServiceHours extends WizardPage {
       selectedRows: [],
       day: null,
       opens: defaultOpens,
-      closes: defaultClose
+      closes: defaultClose,
+      timezone: null
     } );
   }
 
   componentDidMount() {
     this.props.setDrawer( 'Add Hours' );
+    this.setState( {
+      timezone: moment.tz( moment.tz.guess() ).format( 'z' )
+    } );
   }
 
   getPageFields() {
@@ -44,10 +49,10 @@ export class ServiceHours extends WizardPage {
   }
 
   addHours() {
-    const {day, opens, closes} = this.state;
+    const {day, opens, closes, timezone} = this.state;
 
     const model = new Schedule( this.state.schedule );
-    model.addHoursIn( day, opens, closes );
+    model.addHoursIn( day, opens, closes, timezone );
 
     this.setState( {
       schedule: model.get( 'schedule' ),
@@ -70,14 +75,27 @@ export class ServiceHours extends WizardPage {
         value={ day }
         primaryText={ values.display } />
     ) );
+    const timezoneOptions = toPairs( timezones ).map( ( [timezone, values] ) => (
+      <MenuItem key={ values.display }
+        value={ values.display }
+        primaryText={ values.display } />
+    ) );
     return (
       <div className='wizard-page'>
-        <SelectField fullWidth
-          { ...this.link( 'day' ) }
-          menuStyle={ { maxWidth: 500 } }
-          hintText="Day(s)">
-          { options }
-        </SelectField>
+        <div className='wizard-page__row'>
+          <SelectField fullWidth
+            { ...this.link( 'day' ) }
+            menuStyle={ { maxWidth: 500 } }
+            hintText="Day(s)">
+            { options }
+          </SelectField>
+          <SelectField fullWidth
+            { ...this.link( 'timezone' ) }
+            menuStyle={ { maxWidth: 300 } }
+            hintText="Timezone">
+            { timezoneOptions }
+          </SelectField>
+        </div>
         <div className='wizard-page__row'>
           <span>Opens at</span>
           <TimePicker fullWidth
