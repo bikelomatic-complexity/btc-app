@@ -4,8 +4,9 @@ Step Zero: Before running and testing the application make sure to run `npm inst
 
 ### running on android device
 1. Make sure your device shows up on `adb devices`
-2. `npm run start:android`
-3. profit  
+2. `cordova platform add android`
+3. `npm run start:android`
+4. profit  
 
 You can inspect the android view by going to `chrome://inspect`!  
 
