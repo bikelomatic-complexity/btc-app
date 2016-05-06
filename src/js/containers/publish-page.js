@@ -8,15 +8,17 @@ import { Page } from '../components/page';
 import PointList from '../components/point-list';
 /*eslint-enable no-unused-vars*/
 
+import { publishPoints } from '../reducers/points';
 import { setDrawer } from '../reducers/drawer';
 import history from '../history';
 
 import { connect } from 'react-redux';
-import { values } from 'lodash';
+import { bindAll } from 'lodash';
 
 class PublishPage extends Component {
   componentDidMount() {
-    this.props.dispatch( setDrawer( 'Publish' ) );
+    this.props.setDrawer( 'Publish' );
+    bindAll( this, 'onPublish', 'onPointClick', 'onPointRemove' );
   }
 
   onPointClick( point ) {
@@ -25,6 +27,10 @@ class PublishPage extends Component {
 
   onPointRemove( point ) {
     // TODO: implement onPointRemove
+  }
+
+  onPublish() {
+    this.props.publishPoints();
   }
 
   render() {
@@ -62,6 +68,7 @@ class PublishPage extends Component {
             clickAction={ this.onPointClick.bind( this ) } />
           <div style={ instructionsStyle }>
             <RaisedButton style={ buttonStyle }
+              onClick={ this.onPublish }
               label="Publish"
               primary={ true } />
           </div>
@@ -71,10 +78,12 @@ class PublishPage extends Component {
   }
 }
 
-function select( state ) {
+function mapStateToProps( state ) {
   return {
-    points: values( state.points.points )
+    points: state.points.publish.updated.map( id => state.points.points[ id ] )
   };
 }
 
-export default connect( select )( PublishPage );
+const mapDispatchToProps = { publishPoints, setDrawer };
+
+export default connect( mapStateToProps, mapDispatchToProps )( PublishPage );

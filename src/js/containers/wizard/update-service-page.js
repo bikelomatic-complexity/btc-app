@@ -55,6 +55,7 @@ export class UpdateServicePage extends PointPage {
     const {point, coverBlob} = this.state;
 
     const service = new Service( point );
+    service.update();
     service.coverUrl = point.coverUrl;
     if ( service.isValid() ) {
       updateService( service, coverBlob );

@@ -13,7 +13,7 @@ import Delete from 'material-ui/lib/svg-icons/action/delete';
 
 import noop from 'lodash/noop';
 
-import { resetPoints } from '../reducers/points';
+import { resetPoints, replicatePoints } from '../reducers/points';
 import { setOnlineMode } from '../reducers/settings';
 import { connect } from 'react-redux';
 
@@ -25,7 +25,7 @@ export class SettingsPage extends Component {
   }
 
   render() {
-    const {setOnlineMode, resetPoints, settings} = this.props;
+    const {setOnlineMode, replicatePoints, resetPoints, settings} = this.props;
 
     const toggleItems = [ {
       text: 'Offline mode',
@@ -53,6 +53,7 @@ export class SettingsPage extends Component {
     const date = 'Last updated: ' + new Date().toLocaleDateString();
     const lastUpdated = (
     <ListItem primaryText='Update now'
+      onClick={ replicatePoints }
       secondaryText={ date }
       leftIcon={ <Refresh /> } />
     );
@@ -104,6 +105,6 @@ function mapStateToProps( state ) {
   };
 }
 
-const actions = { resetPoints, setOnlineMode, setDrawer };
+const actions = { resetPoints, replicatePoints, setOnlineMode, setDrawer };
 
 export default connect( mapStateToProps, actions )( SettingsPage );

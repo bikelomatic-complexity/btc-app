@@ -1,10 +1,13 @@
-import request from 'superagent';
+import { fromPairs } from 'lodash';
 import config from 'config';
+
+import superagent from 'superagent';
 
 const {protocol, domain, port} = config.get( 'Client.server' );
 const baseUrl = `${protocol}://${domain}:${port}`;
 
-export const server = route => request
-  .post( baseUrl + route )
-  .set( 'Accept', 'application/json' )
-  .set( 'Content-Type', 'application/json' );
+export const request = fromPairs(
+  [ 'post', 'get', 'put', 'delete' ].map(
+    method => [ method, route => superagent[ method ].call( null, baseUrl + route ) ]
+  )
+);
