@@ -17,35 +17,35 @@ import AmenitiesIcon from 'material-ui/lib/svg-icons/maps/local-bar';
 export const PointLocationTab = {
   value: PointLocation,
   icon: <LocationIcon />,
-  url: '/'
+  url: ''
 };
 
 export const ServiceNameTab = {
   value: ServiceName,
   icon: <NameIcon />,
-  url: '/name'
+  url: 'name'
 };
 
 export const ServiceDescriptionTab = {
   value: ServiceDescription,
   icon: <DescIcon />,
-  url: '/description'
+  url: 'description'
 };
 
 export const AlertNameDescriptionTab = {
   value: AlertNameDescription,
   icon: <NameIcon />,
-  url: '/name'
+  url: 'name'
 };
 
 export const ServiceHoursTab = {
   value: ServiceHours,
   icon: <HoursIcon />,
-  url: '/hours'
+  url: 'hours'
 };
 
 export const ServiceAmenitiesTab = {
   value: ServiceAmenities,
   icon: <AmenitiesIcon />,
-  url: '/amenities'
+  url: 'amenities'
 };

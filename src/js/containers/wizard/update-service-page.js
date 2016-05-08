@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 export class UpdateServicePage extends PointPage {
   getPageUrl() {
     const id = encodeURIComponent( this.props.params.id );
-    return `/update-service/${ id }`;
+    return `update-service/${ id }`;
   }
 
   getTabSet() {
@@ -45,6 +45,22 @@ export class UpdateServicePage extends PointPage {
   // We're only ready once the point is done fetching.
   isReady() {
     return !this.state.point.isFetching;
+  }
+
+  isPointValid() {
+    const {point} = this.state;
+    const service = new Service( point );
+    if ( service.isValid() ) {
+      return {
+        valid: true,
+        validationErrors: []
+      };
+    } else {
+      return {
+        valid: false,
+        validationErrors: service.validationError
+      };
+    }
   }
 
   // # onFinal
