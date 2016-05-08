@@ -1,5 +1,4 @@
 /*global process*/
-/*esfmt-ignore-start*/
 import notifications from './reducers/notifications';
 import points from './reducers/points';
 import tracks from './reducers/tracks';
@@ -29,5 +28,5 @@ export default compose.apply( null, args )( createStore )( combineReducers( {
   map,
   filters,
   account,
-drawer } ) );
-/*esfmt-ignore-end*/
+  drawer
+} ) );
