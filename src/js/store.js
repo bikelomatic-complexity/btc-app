@@ -28,5 +28,4 @@ export default compose.apply( null, args )( createStore )( combineReducers( {
   map,
   filters,
   account,
-  drawer
-} ) );
+drawer } ) );
