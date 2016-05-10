@@ -1,9 +1,12 @@
+/*global XMLHttpRequest FormData*/
+import { baseUrl } from '../util/server';
 import { Agent, observeStore } from '../util/agent';
+
 import { local, remote, reset } from '../database';
 import { setSnackbar } from './notifications/snackbar';
 
-import { Point, PointCollection } from 'btc-models';
-import { assign, merge, omit, bindAll, cloneDeep } from 'lodash';
+import { Point, Service, Alert, Comment, PointCollection } from 'btc-models';
+import { set, unset, bindAll, cloneDeep } from 'lodash';
 
 export const ADD_SERVICE = 'btc-app/points/ADD_SERVICE';
 export const ADD_ALERT = 'btc-app/points/ADD_ALERT';
@@ -14,57 +17,65 @@ export const REQUEST_LOAD_POINT = 'btc-app/points/REQUEST_LOAD_POINT';
 export const RECEIVE_LOAD_POINT = 'btc-app/points/RECEIVE_LOAD_POINT';
 export const REQUEST_REPLICATION = 'btc-app/points/REQUEST_REPLICATION';
 export const RECEIVE_REPLICATION = 'btc-app/points/RECEIVE_REPLICATION';
+export const REQUEST_PUBLISH = 'btc-app/points/REQUEST_PUBLISH';
+export const RECEIVE_PUBLISH = 'btc-app/points/RECEIVE_PUBLISH';
 
 // # Points Reducer
 // The points reducer holds the points, their comments, and relevant metadata
 //
 // The point structure is augmented with an `isFetching` field that is true
 // while the database fetch is running.
-
 const initState = {
-  points: {}, // mapping of point ids to point objects
-  replication: {} // replication metadata
+  points: {},
+  replication: {
+    inProgress: false,
+    time: null
+  },
+  publish: {
+    inProgress: false,
+    updated: []
+  }
 };
 
 export default function reducer( state = initState, action ) {
+  state = cloneDeep( state );
+  const idPath = 'points.' + action.id;
   switch ( action.type ) {
   case UPDATE_SERVICE:
   case ADD_SERVICE:
   case ADD_ALERT:
-    return merge( {}, state, {
-      points: { [ action.id ]: action.point }
-    } );
+    state.publish.updated.push( action.id );
+    set( state, idPath, action.point );
+    break;
   case RESCIND_POINT:
-    return assign( {}, state, {
-      points: omit( state, action.id )
-    } );
+    unset( state, idPath );
+    break;
   case RELOAD_POINTS:
-    return assign( {}, state, {
-      points: action.points
-    } );
+    set( state, 'points', action.points );
+    break;
   case REQUEST_LOAD_POINT:
-    return merge( {}, state, {
-      points: {
-        [ action.id ]: { isFetching: true }
-      }
-    } );
+    set( state, idPath, { isFetching: true } );
+    break;
   case RECEIVE_LOAD_POINT:
-    return merge( {}, state, {
-      points: {
-        [ action.id ]: { isFetching: false, ...action.point }
-      }
-    } );
+    set( state, idPath, { isFetching: false, ...action.point } );
+    break;
   case REQUEST_REPLICATION:
-    return assign( {}, state, {
-      replication: { time: action.time, inProgress: true }
-    } );
+    set( state, 'replication', { time: action.time, inProgress: true } );
+    break;
   case RECEIVE_REPLICATION:
-    return assign( {}, state, {
-      replication: { time: action.time, inProgress: false }
-    } );
-  default:
-    return state;
+    set( state, 'replication', { time: action.time, inProgress: false } );
+    break;
+  case REQUEST_PUBLISH:
+    set( state, 'publish.inProgress', true );
+    break;
+  case RECEIVE_PUBLISH:
+    set( state, 'publish.inProgress', false );
+    if ( !action.err ) {
+      state.publish.updated = [];
+    }
+    break;
   }
+  return state;
 }
 
 // # Generic Add & Update Logic
@@ -83,12 +94,12 @@ export default function reducer( state = initState, action ) {
 // goes as follows:
 //
 //  - Check if the point is valid
+//  - If this is an update, mark the point as updated
 //  - Make a promise to save the point to the database
 //    * By default, just save it
 //    * For UPDATE_SERVICE, re-fetch the point to get our `_rev`
 //  - If there's a coverBlob, attach it
 //  - Serialize the point and return the action
-
 const factory = type => {
   return ( point, coverBlob ) => {
     if ( !point.isValid() ) {
@@ -98,6 +109,8 @@ const factory = type => {
 
       let promise;
       if ( type === UPDATE_SERVICE ) {
+        point.set( 'updated', true );
+
         const attributes = cloneDeep( point.attributes );
         promise = point.fetch().then( res => point.save( attributes ) );
       } else {
@@ -121,7 +134,6 @@ export const updateService = factory( UPDATE_SERVICE );
 // # Rescind Point
 // Allows the user to delete points that haven't yet been synced to another
 // database. After a point is synced the first time, it cannot be deleted
-
 export function rescindPoint( id ) {
   return { type: RESCIND_POINT, id };
 }
@@ -130,7 +142,6 @@ export function rescindPoint( id ) {
 // Creates an action to replace all points in the store. This is useful to
 // load the store with initial point data and to refresh the store when
 // the user scrolls to a new area of the map.
-
 export function reloadPoints() {
   const points = new PointCollection();
   return dispatch => {
@@ -144,7 +155,6 @@ export function reloadPoints() {
 
 // # Reset Points
 // Reset the points database then reload the (empty) database.
-
 export function resetPoints() {
   return dispatch => reset().then( ( ) => dispatch( reloadPoints() ) );
 }
@@ -158,7 +168,6 @@ export function resetPoints() {
 //
 // Otherwise, fetch the point from the database, and mark the point as fetching
 // while it is being retrieved.
-
 export function loadPoint( id ) {
   return ( dispatch, getState ) => {
     const {points} = getState().points;
@@ -176,7 +185,6 @@ export function loadPoint( id ) {
 
 // # Replicate Points
 // Start a replication job from the remote points database.
-
 export function replicatePoints() {
   return dispatch => {
     const time = new Date().toISOString();
@@ -202,7 +210,6 @@ export function replicatePoints() {
 //  3. The app resumes from sleep
 //
 // Stop the agent with stop().
-
 export class ReplicationAgent extends Agent {
   constructor( store ) {
     super( store );
@@ -239,4 +246,69 @@ export class ReplicationAgent extends Agent {
       );
     }
   }
+}
+
+export function publishPoints() {
+  return ( dispatch, getState ) => {
+    const {points} = getState();
+
+    dispatch( { type: REQUEST_PUBLISH } );
+
+    const publish = new PointCollection( [], {
+      keys: points.publish.updated
+    } );
+
+    return publish.fetch().then( res => {
+      return publish.getCovers();
+    } ).then( res => {
+      return buildFormData( publish.models );
+    } ).then( formData => {
+      return new Promise( ( resolve, reject ) => {
+        const request = new XMLHttpRequest();
+        request.open( 'POST', baseUrl + '/publish' );
+        request.onload = event => {
+          if ( request.status === 200 ) {
+            resolve( request.statusText );
+          } else {
+            reject( request.statusText );
+          }
+        };
+        request.onerror = event => {
+          reject( request.statusText );
+        };
+        request.send( formData );
+      } );
+    } ).then( res => {
+      dispatch( { type: RECEIVE_PUBLISH } );
+    } ).catch( err => {
+      dispatch( { type: RECEIVE_PUBLISH, err } );
+    } );
+  };
+}
+
+function buildFormData( models ) {
+  const serialized = [];
+  const covers = [];
+
+  models.filter(
+    model => [ Service, Alert, Comment ].some( ctr => model instanceof ctr )
+  ).forEach(
+    model => {
+      const json = model.toJSON();
+      if ( model.coverBlob ) {
+        json.index = covers.length;
+        covers.push( model.coverBlob );
+      }
+      serialized.push( json );
+    }
+  );
+  const stringified = JSON.stringify( serialized );
+
+  const formData = new FormData();
+  formData.append( 'models', stringified );
+  covers.forEach( cover => {
+    formData.append( 'covers', cover, 'cover.png' );
+  } );
+
+  return formData;
 }

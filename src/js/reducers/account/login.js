@@ -1,7 +1,7 @@
 import assign from 'lodash/assign';
 
 import { Login } from 'btc-models';
-import { server } from '../../util/server';
+import { request } from '../../util/server';
 
 const REQUEST_LOGIN = 'btc-app/account/REQUEST_LOGIN';
 const RECEIVE_LOGIN = 'btc-app/account/RECEIVE_LOGIN';
@@ -67,7 +67,8 @@ export function login( attrs, success ) {
     dispatch( requestLogin( attrs.email, attrs.password ) );
 
     return new Promise( ( resolve, reject ) => {
-      server( '/authenticate' )
+      request.post( '/authenticate' )
+        .set( 'Content-Type', 'application/json' )
         .send( attrs )
         .end( ( error, response ) => {
           switch ( response.statusCode ) {

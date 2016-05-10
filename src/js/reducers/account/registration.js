@@ -1,7 +1,7 @@
 import assign from 'lodash/assign';
 
 import { User } from 'btc-models';
-import { server } from '../../util/server';
+import { request } from '../../util/server';
 
 const REQUEST_REGISTRATION = 'btc-app/account/REQUEST_REGISTRATION';
 const RECEIVE_REGISTRATION = 'btc-app/account/RECEIVE_REGISTRATION';
@@ -51,7 +51,8 @@ export function register( attrs, success ) {
     dispatch( requestRegistration( attrs ) );
 
     const promise = new Promise( ( resolve, reject ) => {
-      server( '/register' )
+      request.post( '/register' )
+        .set( 'Content-Type', 'application/json' )
         .send( attrs )
         .end( ( error, response ) => {
           switch ( response.statusCode ) {
