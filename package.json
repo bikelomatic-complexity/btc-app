@@ -19,7 +19,7 @@
     "prestart:browser": "npm run build",
     "release:android": "cordova build --browserify android --release",
     "release:browser": "cordova build --browserify browser",
-    "start:android": "cordova run --browserify android",
+    "start:android": "cordova run android",
     "start:browser": "cordova serve 8000",
     "test": "karma start",
     "watch": "nodemon -e js,html,css --watch \"src\" --exec \"npm run start:browser\""
