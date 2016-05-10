@@ -49,7 +49,7 @@
   "homepage": "https://github.com/bikelomatic-complexity/btc-app#readme",
   "dependencies": {
     "blob-util": "^1.2.0",
-    "btc-models": "^0.3.0",
+    "btc-models": "^0.4.1",
     "classnames": "^2.2.3",
     "docuri": "^4.2.1",
     "history": "^1.17.0",
