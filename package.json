@@ -1,6 +1,6 @@
 {
   "name": "bicycle-touring-companion",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Bicycle Touring Companion",
   "scripts": {
     "build": "browserify src/js/app.js -o www/bundle.js",
@@ -49,7 +49,7 @@
   "homepage": "https://github.com/bikelomatic-complexity/btc-app#readme",
   "dependencies": {
     "blob-util": "^1.2.0",
-    "btc-models": "^0.4.1",
+    "btc-models": "^0.4.2",
     "classnames": "^2.2.3",
     "docuri": "^4.2.1",
     "history": "^1.17.0",
