@@ -68,6 +68,7 @@ class PublishPage extends Component {
             clickAction={ this.onPointClick.bind( this ) } />
           <div style={ instructionsStyle }>
             <RaisedButton style={ buttonStyle }
+              disabled={ this.props.points.length === 0 }
               onClick={ this.onPublish }
               label="Publish"
               primary={ true } />

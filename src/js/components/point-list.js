@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { List, ListItem, IconButton, FontIcon, Divider, Avatar } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
-import { display } from 'btc-models/lib/schema/types';
+import { display } from 'btc-models';
 
 export class PointList extends Component {
   render() {
