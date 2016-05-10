@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { RaisedButton, Checkbox, FontIcon } from 'material-ui';
 import DropDown from '../components/drop-down';
+import { Page } from '../components/page';
 /*eslint-enable no-unused-vars*/
 
 import { includes, assign, keys } from 'lodash';
@@ -88,6 +89,14 @@ class FilterPage extends Component {
   }
 
   render() {
+    const buttonStyles = [ {
+      width: 'calc(50% - 15px)',
+      margin: '10px 5px 0px 10px'
+    }, {
+      width: 'calc(50% - 15px)',
+      margin: '5px 10px 0px 5px'
+    } ];
+
     const filtersDropDowns = this.state.activeFilters.map(
       ( filterService, index ) => {
         return (
@@ -102,35 +111,39 @@ class FilterPage extends Component {
     );
 
     return (
-      <div className="page-content">
-        { filtersDropDowns }
+      <Page className="layout__section">
         <div>
-          <DropDown className="form-row"
-            text="Filter"
-            options={ this.state.filters }
-            textTransform={ display }
-            onSelectFunction={ this.addFilter.bind( this ) } />
+          <div className="form-row">
+            <RaisedButton style={ buttonStyles[ 0 ] }
+              onClick={ this.clearFilters.bind( this ) }
+              label="Clear" />
+            <RaisedButton style={ buttonStyles[ 1 ] }
+              onClick={ this.onFilter.bind( this ) }
+              secondary
+              label="Filter" />
+          </div>
+          <div>
+            <DropDown className="form-row"
+              text="Filter"
+              options={ this.state.filters }
+              textTransform={ display }
+              onSelectFunction={ this.addFilter.bind( this ) } />
+          </div>
+          <div className="form-row">
+            <Checkbox label="Only Show Open Services"
+              onCheck={ this.toggleOpenServices.bind( this ) }
+              style={ { marginBotton: 16 } }
+              checked={ this.state.openServices } />
+          </div>
+          <div className="form-row">
+            <Checkbox label="Hide Alerts"
+              onCheck={ this.toggleAlert.bind( this ) }
+              style={ { marginBotton: 16 } }
+              checked={ this.state.hideAlert } />
+          </div>
+          { filtersDropDowns }
         </div>
-        <div className="form-row">
-          <Checkbox label="Only Show Open Services"
-            onCheck={ this.toggleOpenServices.bind( this ) }
-            style={ { marginBotton: 16 } }
-            checked={ this.state.openServices } />
-        </div>
-        <div className="form-row">
-          <Checkbox label="Hide Alerts"
-            onCheck={ this.toggleAlert.bind( this ) }
-            style={ { marginBotton: 16 } }
-            checked={ this.state.hideAlert } />
-        </div>
-        <div className="form-row">
-          <RaisedButton onClick={ this.clearFilters.bind( this ) }
-            label="Clear" />
-          <RaisedButton onClick={ this.onFilter.bind( this ) }
-            secondary
-            label="Filter" />
-        </div>
-      </div>
+      </Page>
       );
   }
 }

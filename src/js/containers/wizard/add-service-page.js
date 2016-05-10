@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 
 export class AddServicePage extends PointPage {
   getPageUrl() {
-    return '/add-service';
+    return 'add-service';
   }
 
   getTabSet() {
@@ -32,6 +32,22 @@ export class AddServicePage extends PointPage {
   // The defaults are obtained synchronously, we are ready right now.
   isReady() {
     return true;
+  }
+
+  isPointValid() {
+    const {point} = this.state;
+    const service = new Service( point );
+    if ( service.isValid() ) {
+      return {
+        valid: true,
+        validationErrors: []
+      };
+    } else {
+      return {
+        valid: false,
+        validationErrors: service.validationError
+      };
+    }
   }
 
   onFinal() {

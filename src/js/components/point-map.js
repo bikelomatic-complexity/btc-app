@@ -29,7 +29,7 @@ export class PointMap extends Component {
   }
 
   componentDidMount() {
-    const {map, setGeoLocation, setMapCenter, setMapLoading} = this.props;
+    const {map, setGeoLocation, setMapCenter, setMapLoading, setMapZoom} = this.props;
     if ( map.loading ) {
       navigator.geolocation.getCurrentPosition(
         ( pos ) => {
@@ -37,12 +37,13 @@ export class PointMap extends Component {
           const coords = [ latitude, longitude ];
           setGeoLocation( coords );
           setMapCenter( coords );
-          setMapLoading( false );
+          setMapZoom( 13 );
           this.setState( {
             startCenter: coords,
             center: coords,
             zoom: 13
           } );
+          setMapLoading( false );
         },
         ( err ) => {
           console.error( err );

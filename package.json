@@ -1,6 +1,6 @@
 {
   "name": "bicycle-touring-companion",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Bicycle Touring Companion",
   "scripts": {
     "build": "browserify src/js/app.js -o www/bundle.js",
@@ -12,9 +12,9 @@
     "lint": "eslint \"?(src|test)/js/**/*.js\"",
     "livereload": "livereload \"platforms/browser/www/\"",
     "postbuild": "cp -r src/index.html src/img www/",
-    "postdebug:android": "node scripts/postdebug-android.js",
+    "postdebug:android": "cp \"./platforms/android/build/outputs/apk/android-debug.apk\" \"./bicycle-touring-companion-debug.apk\"",
     "postinstall": "cordova prepare --browserify",
-    "postrelease:android": "node scripts/postrelease-android.js",
+    "postrelease:android": "cp \"./platforms/android/build/outputs/apk/android-release-unsigned.apk\" \"./bicycle-touring-companion.apk\"",
     "prestart:android": "npm run build",
     "prestart:browser": "npm run build",
     "release:android": "cordova build --browserify android --release",
@@ -49,7 +49,7 @@
   "homepage": "https://github.com/bikelomatic-complexity/btc-app#readme",
   "dependencies": {
     "blob-util": "^1.2.0",
-    "btc-models": "^0.2.0",
+    "btc-models": "^0.3.0",
     "classnames": "^2.2.3",
     "docuri": "^4.2.1",
     "history": "^1.17.0",
@@ -57,6 +57,7 @@
     "leaflet": "^0.7.7",
     "lodash": "^4.5.1",
     "material-ui": "^0.14.4",
+    "moment-timezone": "^0.5.3",
     "ngeohash": "^0.6.0",
     "pouchdb": "^5.1.0",
     "react": "^0.14.0",

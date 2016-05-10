@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 
 export class AddAlertPage extends PointPage {
   getPageUrl() {
-    return '/add-alert';
+    return 'add-alert';
   }
 
   getTabSet() {
@@ -29,6 +29,22 @@ export class AddAlertPage extends PointPage {
   // The defaults are obtained synchronously, we are ready right now.
   isReady() {
     return true;
+  }
+
+  isPointValid() {
+    const {point} = this.state;
+    const alert = new Alert( point );
+    if ( alert.isValid() ) {
+      return {
+        valid: true,
+        validationErrors: []
+      };
+    } else {
+      return {
+        valid: false,
+        validationErrors: alert.validationError
+      };
+    }
   }
 
   onFinal() {
