@@ -1,7 +1,7 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 
-import { AppBar, MenuItem, LeftNav, FontIcon } from 'material-ui';
+import { AppBar, MenuItem, LeftNav, FontIcon, Badge } from 'material-ui';
 import { Link } from 'react-router';
 /*eslint-enable no-unused-vars*/
 
@@ -32,7 +32,7 @@ export class Drawer extends Component {
   }
 
   render() {
-    const {login} = this.props;
+    const {login, publishable} = this.props;
 
     let pages = [ {
       link: '/',
@@ -50,14 +50,15 @@ export class Drawer extends Component {
       link: 'add-alert',
       title: 'Add Alert',
       icon: 'warning'
-    }, {
+    } /*, { // hidden for alpha release
       link: 'download-track',
       title: 'Download Track',
       icon: 'timeline'
-    }, {
+    }*/ , {
       link: 'publish',
       title: 'Publish',
-      icon: 'cloud_upload'
+      icon: 'cloud_upload',
+      badge: publishable
     }, {
       link: 'settings',
       title: 'Settings',
@@ -79,13 +80,19 @@ export class Drawer extends Component {
     }
 
     let navs = pages.map( page => {
+      const icon = (
+      <FontIcon className="material-icons">
+        { page.icon }
+      </FontIcon>
+      );
+
+      const text = page.title + ( page.badge ? ` (${page.badge})` : '' );
+
       return (
         <MenuItem key={ page.title }
-          leftIcon={ <FontIcon className="material-icons">
-                       { page.icon }
-                     </FontIcon> }
+          leftIcon={ icon }
           onTouchTap={ this.onMenuItemTap.bind( this, page ) }>
-        { page.title }
+        { text }
         </MenuItem>
         );
     } );
@@ -103,10 +110,11 @@ export class Drawer extends Component {
   }
 }
 
-function select( state ) {
+function mapStateToProps( state ) {
   return {
     drawer: state.drawer,
-    login: state.account.login
+    login: state.account.login,
+    publishable: state.points.publish.updated.length
   };
 }
-export default connect( select )( Drawer );
+export default connect( mapStateToProps )( Drawer );
