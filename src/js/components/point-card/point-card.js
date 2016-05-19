@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Card, CardActions, CardText, FlatButton, CardMedia, CardTitle, CardHeader, IconButton, IconMenu, MenuItem, CircularProgress } from 'material-ui';
 import LocationIcon from 'material-ui/lib/svg-icons/maps/place';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
+import { setSnackbar } from '../../reducers/notifications';
+
 /*eslint-enable no-unused-vars*/
 
 import { Point, Schedule, display } from 'btc-models';
@@ -136,7 +138,7 @@ export class PointCard extends Component {
 
     const flag = (
     <MenuItem primaryText='Flag'
-      onClick={ this.navigate( 'flag-point' ) } />
+      onClick={ this.navigate( '' ) } />
     );
 
     const button = (

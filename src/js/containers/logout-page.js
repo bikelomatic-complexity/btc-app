@@ -8,13 +8,14 @@ import { Block } from '../components/block';
 import { connect } from 'react-redux';
 
 import { logout } from '../reducers/account';
+import { setDrawer } from '../reducers/drawer';
 
 // The logout page serves two purposes.
 //  1. to let the user they are logged out
 //  2. to actually perform the logout action when the page is loaded.
 class LogoutPage extends Component {
   componentDidMount() {
-    this.props.setDrawer( 'Logout' );
+    this.props.dispatch( setDrawer( 'Logout' ) );
     this.props.dispatch( logout() );
   }
 
@@ -27,9 +28,9 @@ class LogoutPage extends Component {
   }
 }
 
-function select( state ) {
+function mapStateToProps( state ) {
   return {
     account: state.account
   };
 }
-export default connect( select )( LogoutPage );
+export default connect( mapStateToProps )( LogoutPage );

@@ -4,7 +4,7 @@ The Application! Bicycle Touring Companion! Uses [React](https://facebook.github
 
 Have [npm](https://nodejs.org/en/) installed on your development machine (available when installing [node](https://nodejs.org/)).
 
-**Run `npm install`** 
+**Run `npm install`**
 ### running on android device
 1. Install [android studio](https://developer.android.com/studio/index.html) (required for having the resources to deploy to a phone)
 2. Make sure your device shows up on `adb devices`
