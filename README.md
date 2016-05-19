@@ -7,8 +7,7 @@ The Application! Bicycle Touring Companion! Uses [React](https://facebook.github
 2. `cordova platform add android`
 3. `npm run start:android`
 4. profit  
-H
-ave [npm](https://nodejs.org/en/) installed on your development machine (available when installing [node](https://nodejs.org/)).
+Have [npm](https://nodejs.org/en/) installed on your development machine (available when installing [node](https://nodejs.org/)).
 
 **Run `npm install`**
 ### running on android device
