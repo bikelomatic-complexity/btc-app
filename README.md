@@ -2,11 +2,6 @@
 
 The Application! Bicycle Touring Companion! Uses [React](https://facebook.github.io/react/) and [Cordova](https://cordova.apache.org) to build a native android application.
 
-### running on android device
-1. Make sure your device shows up on `adb devices`
-2. `cordova platform add android`
-3. `npm run start:android`
-4. profit  
 Have [npm](https://nodejs.org/en/) installed on your development machine (available when installing [node](https://nodejs.org/)).
 
 **Run `npm install`**
