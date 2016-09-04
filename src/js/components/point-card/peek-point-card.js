@@ -22,7 +22,7 @@ export class PeekPointCard extends PointCard {
     const {type} = Point.uri( point._id );
 
     let timezone = '';
-    if ( point.schedule.default[ 0 ] ) {
+    if ( point.schedule && point.schedule.default && point.schedule.default[ 0 ]) {
       timezone = '(' + point.schedule.default[ 0 ].timezone + ')';
     }
 
