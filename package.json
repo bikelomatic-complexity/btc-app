@@ -106,6 +106,7 @@
     "esformatter-line-endings": "^1.0.1",
     "eslint": "^2.2.0",
     "eslint-plugin-react": "^4.1.0",
+    "ios-deploy": "^1.9.0",
     "istanbul": "^0.4.2",
     "js-yaml": "^3.5.3",
     "karma": "^0.13.21",
