@@ -1,3 +1,5 @@
+import objectAssign from 'object-assign';
+
 export const SET_DIALOG = 'btc-app/dialog/SET_DIALOG';
 export const CLOSE_DIALOG = 'btc-app/dialog/CLOSE_DIALOG';
 
@@ -12,7 +14,7 @@ const initialState = {
 export default function dialog( state = initialState, action ) {
   switch ( action.type ) {
   case SET_DIALOG:
-    return Object.assign( state, action.dialog, { open: true } );
+    return objectAssign( state, action.dialog, { open: true } );
   case CLOSE_DIALOG:
     return {
       title: '',
