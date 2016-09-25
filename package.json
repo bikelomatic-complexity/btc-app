@@ -19,7 +19,7 @@
     "postrelease:android": "cp \"./platforms/android/build/outputs/apk/android-release-unsigned.apk\" \"./bicycle-touring-companion.apk\"",
     "prestart:android": "npm run build",
     "prestart:browser": "npm run build",
-    "prestart:ios-device": "npm run build",
+    "prestart:ios-device": "env NODE_ENV=production npm run build",
     "prestart:ios-sim": "npm run build",
     "release:android": "cordova build android --release",
     "release:browser": "cordova build browser",
