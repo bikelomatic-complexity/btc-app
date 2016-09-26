@@ -57,7 +57,7 @@
   "homepage": "https://github.com/bikelomatic-complexity/btc-app#readme",
   "dependencies": {
     "blob-util": "^1.2.0",
-    "btc-models": "^0.4.2",
+    "btc-models": "https://github.com/tour-de-force/btc-models",
     "classnames": "^2.2.3",
     "docuri": "^4.2.1",
     "history": "^1.17.0",
@@ -67,6 +67,7 @@
     "material-ui": "^0.14.4",
     "moment-timezone": "^0.5.3",
     "ngeohash": "^0.6.0",
+    "object-assign": "^4.1.0",
     "pouchdb": "^5.1.0",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",

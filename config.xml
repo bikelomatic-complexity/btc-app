@@ -26,6 +26,12 @@
     <engine name="android" spec="~4.1.1" />
     <engine name="ios" spec="~4.2.1" />
 
+    <!-- Set's Android's minimum -->
+    <preference name="android-minSdkVersion" value="19" />
+
+    <!-- Set's iOS's minimum -->
+    <preference name="deployment-target" value="8.0" />
+
     <platform name="android">
         <allow-intent href="market:*" />
         <icon src="src/img/app-icons/android/icon-36-ldpi.png" density="ldpi" />
