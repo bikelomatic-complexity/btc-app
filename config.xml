@@ -44,4 +44,11 @@
     <plugin name="cordova-plugin-file-transfer" spec="~1.5.0" />
     <plugin name="cordova-plugin-whitelist" version="1" />
     <allow-navigation href="*" />
+
+    <!-- Set's Android's minimum -->
+    <preference name="android-minSdkVersion" value="19" />
+
+    <!-- Set's iOS's minimum -->
+    <preference name="deployment-target" value="8.0" />
+
 </widget>
