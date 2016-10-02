@@ -148,7 +148,7 @@ export class WizardPage extends Component {
             { this.getPageSecondaryActions() }
             <RaisedButton primary
               disabled={ this.isDisabled() }
-              onClick={ this.props.onNext }
+              onTouchTap={ this.props.onNext }
               label={ label } />
           </div>
         </div>

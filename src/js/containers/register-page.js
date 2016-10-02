@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import bindAll from 'lodash/bindAll';
 
 import { register } from '../reducers/account';
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 
 const fields = [ {
   hint: 'Email',

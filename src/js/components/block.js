@@ -162,7 +162,7 @@ export class FormBlock extends Component {
         <div className='entry__spacer' />
         <ButtonClass { ...actionProps }
           className='entry__action'
-          onClick={ this.onAction }
+          onTouchTap={ this.onAction }
           label={ this.props.actionText } />
       </Block>
       );

@@ -8,7 +8,7 @@ import { Page } from '../components/page';
 import { connect } from 'react-redux';
 import { isFinite } from 'underscore';
 
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 import { fetchTrack, clearTrack, activateTrack, deactivateTrack } from '../reducers/tracks';
 
 class DownloadTrackPage extends Component {
@@ -87,13 +87,13 @@ class DownloadTrackPage extends Component {
           <CardActions>
             <RaisedButton secondary={ isSave }
               primary={ !isSave }
-              onClick={ action }
+              onTouchTap={ action }
               label={ downloadButtonText }
               icon={ <FontIcon className='material-icons'>cloud_download</FontIcon> } />
             <RaisedButton id={ id }
               label='Show Track'
               secondary={ track.active }
-              onClick={ this.onActivationTrack.bind( this, id, !track.active ) }
+              onTouchTap={ this.onActivationTrack.bind( this, id, !track.active ) }
               icon={ <FontIcon className='material-icons'>visibility</FontIcon> } />
           </CardActions>
         </Card>

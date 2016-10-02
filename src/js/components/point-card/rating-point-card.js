@@ -40,7 +40,7 @@ export class RatingPointCard extends PointCard {
   getCardAction() {
     const goBack = history.goBack.bind( history );
     return <FlatButton label="Go Back"
-             onClick={ goBack } />;
+             onTouchTap={ goBack } />;
   }
 
   onCommentUpdate( event ) {
