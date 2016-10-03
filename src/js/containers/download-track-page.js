@@ -34,6 +34,7 @@ class DownloadTrackPage extends Component {
   }
 
   render() {
+    const scrollStyle = {'overflow-y':'scroll'};
     const {tracks} = this.props;
 
     const downloaded = Object.keys( tracks ).reduce( ( pre, cur ) => {
@@ -76,7 +77,7 @@ class DownloadTrackPage extends Component {
 
       return (
         <Card key={ id }
-          style={ { margin: 16 } }>
+          style={ { margin: 24 } }>
           <CardMedia overlay={ <CardTitle title={ track.name }
                                  subtitle={ `${track.sizeMiB} MiB` } /> }>
             <img src='./img/usbr20.png' />
@@ -103,7 +104,9 @@ class DownloadTrackPage extends Component {
     return (
       <Page className="layout__section">
         <DeviceStorage downloaded={ downloaded } />
-        { rows }
+        <div style={scrollStyle}>
+          { rows }
+        </div>
       </Page>
       );
   }

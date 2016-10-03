@@ -132,13 +132,13 @@ class FilterPage extends Component {
           <div className="form-row">
             <Checkbox label="Only Show Open Services"
               onCheck={ this.toggleOpenServices.bind( this ) }
-              style={ { marginBotton: 16 } }
+              style={ { marginBottom: 16 } }
               checked={ this.state.openServices } />
           </div>
           <div className="form-row">
             <Checkbox label="Hide Alerts"
               onCheck={ this.toggleAlert.bind( this ) }
-              style={ { marginBotton: 16 } }
+              style={ { marginBottom: 16 } }
               checked={ this.state.hideAlert } />
           </div>
           { filtersDropDowns }
