@@ -22,10 +22,7 @@ const fields = [ {
 }, {
   hint: 'Last name',
   name: 'last'
-}, {
-  hint: 'Username',
-  name: 'username'
-} ];
+}];
 
 export class RegisterPage extends Component {
   constructor( props ) {
