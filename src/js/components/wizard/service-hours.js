@@ -118,7 +118,7 @@ export class ServiceHours extends WizardPage {
   getPageSecondaryActions() {
     return (
       <FlatButton disabled={ !this.state.day }
-        onClick={ this.addHours }
+        onTouchTap={ this.addHours }
         label="Add Hours" />
       );
   }

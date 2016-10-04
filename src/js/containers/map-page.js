@@ -10,7 +10,7 @@ import MapButtons from '../components/map-buttons';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 import { loadPoint } from '../reducers/points';
 
 import history from '../history';

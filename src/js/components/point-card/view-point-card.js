@@ -15,7 +15,7 @@ export class ViewPointCard extends PointCard {
 
   getCardAction() {
     return <FlatButton label="See Less"
-             onClick={ this.navigate( 'peek-point' ) } />;
+             onTouchTap={ this.navigate( 'peek-point' ) } />;
   }
 
   getCardContent() {

@@ -11,7 +11,7 @@ export class PointList extends Component {
       const listProps = {};
       if ( this.props.buttonIcon && this.props.buttonAction ) {
         listProps.rightIconButton = (
-          <IconButton onClick={ this.props.buttonAction.bind( this, point ) }>
+          <IconButton onTouchTap={ this.props.buttonAction.bind( this, point ) }>
             <FontIcon className="material-icons"
               style={ { fontSize: '36px' } }
               color="red">

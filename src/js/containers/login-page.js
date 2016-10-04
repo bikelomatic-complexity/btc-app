@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import bindAll from 'lodash/bindAll';
 
 import { login } from '../reducers/account';
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 import { setSnackbar } from '../reducers/notifications';
 
 const fields = [ {

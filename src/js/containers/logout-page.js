@@ -8,7 +8,7 @@ import { Block } from '../components/block';
 import { connect } from 'react-redux';
 
 import { logout } from '../reducers/account';
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 
 // The logout page serves two purposes.
 //  1. to let the user they are logged out

@@ -1,7 +1,7 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { Paper, FontIcon, RaisedButton } from 'material-ui';
-import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 
 import { Page } from '../components/page';
 
@@ -9,7 +9,7 @@ import PointList from '../components/point-list';
 /*eslint-enable no-unused-vars*/
 
 import { publishPoints } from '../reducers/points';
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 import history from '../history';
 
 import { connect } from 'react-redux';
@@ -69,7 +69,7 @@ class PublishPage extends Component {
           <div style={ instructionsStyle }>
             <RaisedButton style={ buttonStyle }
               disabled={ this.props.points.length === 0 }
-              onClick={ this.onPublish }
+              onTouchTap={ this.onPublish }
               label="Publish"
               primary={ true } />
           </div>
