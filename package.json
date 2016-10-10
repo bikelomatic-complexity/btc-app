@@ -1,6 +1,6 @@
 {
   "name": "bicycle-touring-companion",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Bicycle Touring Companion",
   "scripts": {
     "build": "browserify src/js/app.js -o www/bundle.js",
@@ -47,14 +47,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bikelomatic-complexity/btc-app.git"
+    "url": "git+https://github.com/tour-de-force/btc-app.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bikelomatic-complexity/btc-app/issues"
+    "url": "https://github.com/tour-de-force/btc-app/issues"
   },
-  "homepage": "https://github.com/bikelomatic-complexity/btc-app#readme",
+  "homepage": "https://github.com/tour-de-force/btc-app#readme",
   "dependencies": {
     "blob-util": "^1.2.0",
     "btc-models": "https://github.com/tour-de-force/btc-models#built",
@@ -125,6 +125,6 @@
     "redux-devtools": "^3.1.1",
     "shell-executor": "^0.3.2",
     "sinon": "^1.17.3",
-    "skin-deep": "https://github.com/bikelomatic-complexity/skin-deep"
+    "skin-deep": "https://github.com/tour-de-force/skin-deep"
   }
 }
