@@ -16,6 +16,9 @@ const fields = [ {
 }, {
   hint: 'Password',
   name: 'password'
+},{
+  hint: 'Confirm Password',
+  name: 'confirm_password'
 }, {
   hint: 'First name',
   name: 'first'

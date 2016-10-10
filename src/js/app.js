@@ -5,11 +5,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 /*eslint-enable no-unused-vars*/
 
 import ReactDOM from 'react-dom';
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 // The React components below are inserted by the React router
 import Main from './containers/main';
