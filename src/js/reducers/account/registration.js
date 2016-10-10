@@ -46,6 +46,9 @@ export function register( attrs, success ) {
   if ( user.validationError ) {
     return errorInRegistration( user.validationError );
   }
+  if(attrs.password != attrs.confirm_password){
+    return errorInRegistration([{dataPath: ".confirm_password", message: "passwords must match"}]);
+  }
 
   return dispatch => {
     dispatch( requestRegistration( attrs ) );

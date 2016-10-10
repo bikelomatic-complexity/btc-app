@@ -87,8 +87,12 @@ export class FormBlock extends Component {
       if ( error ) {
         textProps.errorText = error.message;
       }
-      if ( [ 'email', 'password' ].indexOf( field.name ) >= 0 ) {
-        textProps.type = field.name;
+      if ( [ 'email'].indexOf( field.name ) >= 0 ) {
+        textProps.type = "email";
+      }
+
+      if ( ['password', 'confirm_password'].indexOf( field.name ) >= 0 ) {
+        textProps.type = "password";
       }
 
       // These props control the appearance of the Field element
