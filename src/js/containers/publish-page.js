@@ -51,10 +51,12 @@ class PublishPage extends Component {
       margin: '5px 10px 0px 5px'
     };
 
-    const instructions = (
+    const instructions = ( this.props.points.length === 0 ? 
     <div style={ instructionsStyle }>
-      Click on
-      { clear } to delete a point.
+      There are no alerts or services ready to publish.
+    </div> : 
+	<div style={ instructionsStyle }>
+      Click on { clear } to delete a point.
     </div>
     );
 
