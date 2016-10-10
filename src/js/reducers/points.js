@@ -20,6 +20,8 @@ export const RECEIVE_REPLICATION = 'btc-app/points/RECEIVE_REPLICATION';
 export const REQUEST_PUBLISH = 'btc-app/points/REQUEST_PUBLISH';
 export const RECEIVE_PUBLISH = 'btc-app/points/RECEIVE_PUBLISH';
 
+const UPDATED_POINTS_LOCALSTORAGE_KEY = 'UPDATED_POINTS_LOCALSTORAGE_KEY'
+
 // # Points Reducer
 // The points reducer holds the points, their comments, and relevant metadata
 //
@@ -45,12 +47,17 @@ export default function reducer( state = initState, action ) {
   case ADD_SERVICE:
   case ADD_ALERT:
     state.publish.updated.push( action.id );
+    localStorage.setItem(UPDATED_POINTS_LOCALSTORAGE_KEY, JSON.stringify(state.publish.updated));
     set( state, idPath, action.point );
     break;
   case RESCIND_POINT:
     unset( state, idPath );
     break;
   case RELOAD_POINTS:
+    var updatedPointString = localStorage.getItem(UPDATED_POINTS_LOCALSTORAGE_KEY);
+    if (updatedPointString != null) {
+      state.publish.updated = JSON.parse(updatedPointString);
+    }
     set( state, 'points', action.points );
     break;
   case REQUEST_LOAD_POINT:
@@ -70,8 +77,9 @@ export default function reducer( state = initState, action ) {
     break;
   case RECEIVE_PUBLISH:
     set( state, 'publish.inProgress', false );
-    if ( !action.err ) {
+    if ( action.err == null ) {
       state.publish.updated = [];
+      localStorage.setItem(UPDATED_POINTS_LOCALSTORAGE_KEY, JSON.stringify(state.publish.updated));
     }
     break;
   }
@@ -195,7 +203,7 @@ export function replicatePoints() {
       dispatch( reloadPoints() );
     } ).catch( err => {
       dispatch( { type: RECEIVE_REPLICATION, time: err.end_time } );
-      dispatch( setSnackbar( { message: 'Replication error' } ) );
+      dispatch( setSnackbar( { message: 'Unable to get points of interest from server' } ) );
     } );
   };
 }
@@ -282,6 +290,7 @@ export function publishPoints() {
       dispatch( { type: RECEIVE_PUBLISH } );
     } ).catch( err => {
       dispatch( { type: RECEIVE_PUBLISH, err } );
+      dispatch( setSnackbar( { message: 'Unable to publish points of interest to server' } ) );
     } );
   };
 }
