@@ -52,15 +52,13 @@
  * entire height of the screen. Also, increase the max-width so the card
  * grows a bit more on Desktop.
  *
- * Override <Card>'s overflow-y property so we can scroll if needed.
- * The card is a flexbox in view and rate mode! This is so the card's contents
- * fill the space in the card.
+ * Overriding <Card>'s overflow-y property breaks the page in WebKit.
+ * It is unnecessary as both Chrome and Safari handle scrolling correctly.
  */
 .point-card--view, .point-card--rate {
-    flex-grow: 1;
-    max-width: 750px;
-    overflow-y: auto !important;
     display: flex;
+    flex-grow: 1;
+    max-width: 750px !important;
 }
 
 /*
