@@ -284,7 +284,7 @@ export default class PointPage extends Component {
     const tabs = this.getTabSet().map( tab => (
       <Tab key={ tab.value }
         value={ tab.value }
-        onTouchTap={ this.navigateToTab.bind( this, tab ) }
+        onActive={ this.navigateToTab.bind( this, tab ) }
         icon={ tab.icon } />
     ) );
 
