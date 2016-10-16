@@ -3,31 +3,31 @@ import assign from 'lodash/assign';
 import { User } from 'btc-models';
 import { request } from '../../util/server';
 
-const REQUEST_FORGOT_PASSWORD = 'btc-app/account/REQUEST_FORGOT_PASSWORD';
-const RECEIVE_FORGOT_PASSWORD = 'btc-app/account/RECEIVE_FORGOT_PASSWORD';
-const FAILED_FORGOT_PASSWORD_VALIDATION = 'btc-app/account/FAILED_FORGOT_PASSWORD_VALIDATION';
+const REQUEST_RESET_PASSWORD = 'btc-app/account/REQUEST_RESET_PASSWORD';
+const RECEIVE_RESET_PASSWORD = 'btc-app/account/RECEIVE_RESET_PASSWORD';
+const FAILED_RESET_PASSWORD_VALIDATION = 'btc-app/account/FAILED_RESET_PASSWORD_VALIDATION';
 
 const initState = {
-  fetching: false, // true during forgot password request
-  received: false, // false until forgot password response received
+  fetching: false, // true during reset password request
+  received: false, // false until reset password response received
   validation: [],
   error: null
 };
 
 export default function reducer( state = initState, action ) {
   switch ( action.type ) {
-  case REQUEST_FORGOT_PASSWORD:
+  case REQUEST_RESET_PASSWORD:
     return assign( {}, state, {
       fetching: true
     } );
-  case RECEIVE_FORGOT_PASSWORD:
+  case RECEIVE_RESET_PASSWORD:
     return assign( {}, state, {
       fetching: false,
       received: true,
       validation: [],
       error: action.error || null
     } );
-  case FAILED_FORGOT_PASSWORD_VALIDATION:
+  case FAILED_RESET_PASSWORD_VALIDATION:
     return assign( {}, state, {
       fetching: false,
       received: false,
@@ -38,20 +38,23 @@ export default function reducer( state = initState, action ) {
   }
 }
 
-// This action validates User attributes then sends a forgot password request
+// This action validates User attributes then sends a reset password request
 // to the api server.
-export function forgotPassword( attrs, success ) {
+export function resetPassword( attrs, success ) {
   // Short-circuit the request if there is a client side validation error
   //const user = new User( attrs, { validate: true } );
   if ( user.validationError ) {
-    return errorInForgotPassword( user.validationError );
+    return errorInResetPassword( user.validationError );
+  }
+  if(attrs.password != attrs.confirm_password){
+    return errorInResetPassword([{dataPath: ".confirm_password", message: "passwords must match"}]);
   }
 
   return dispatch => {
-    dispatch( requestForgotPassword( attrs ) );
+    dispatch( requestResetPassword( attrs ) );
 
     const promise = new Promise( ( resolve, reject ) => {
-      request.post( '/forgotPassword' )
+      request.post( '/resetPassword' )
         .set( 'Content-Type', 'application/json' )
         .send( attrs )
         .end( ( error, response ) => {
@@ -68,10 +71,10 @@ export function forgotPassword( attrs, success ) {
     } );
 
     promise.then( ( ) => {
-      dispatch( receiveForgotPassword() );
+      dispatch( receiveResetPassword() );
       if ( success ) success();
     }, error => {
-      dispatch( receiveForgotPassword( error ) );
+      dispatch( receiveResetPassword( error ) );
     } );
 
     return promise;
@@ -79,17 +82,17 @@ export function forgotPassword( attrs, success ) {
 }
 
 // The action to create when there are client-side validation errors
-function errorInForgotPassword( error ) {
-  return { type: FAILED_FORGOT_PASSWORD_VALIDATION, error };
+function errorInResetPassword( error ) {
+  return { type: FAILED_RESET_PASSWORD_VALIDATION, error };
 }
 
-// The action to create when we send the forgot password request to the server
-function requestForgotPassword() {
-  return { type: REQUEST_FORGOT_PASSWORD };
+// The action to create when we send the reset password request to the server
+function requestResetPassword() {
+  return { type: REQUEST_RESET_PASSWORD };
 }
 
-// The action to create when there is a server error during forgot password
-function receiveForgotPassword( error ) {
-  return { type: RECEIVE_FORGOT_PASSWORD, error };
+// The action to create when there is a server error during reset password
+function receiveResetPassword( error ) {
+  return { type: RECEIVE_RESET_PASSWORD, error };
 }
 
