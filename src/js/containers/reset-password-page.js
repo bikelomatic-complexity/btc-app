@@ -7,43 +7,46 @@ import { FormBlock, errorProps } from '../components/block';
 import { connect } from 'react-redux';
 import bindAll from 'lodash/bindAll';
 
-import { forgotPassword } from '../reducers/account';
+import { resetPassword } from '../reducers/account';
 import { setDrawer } from '../reducers/btc-drawer';
 
 const fields = [ {
-  hint: 'Email',
-  name: 'email'
+  hint: 'Password',
+  name: 'password'
+},{
+  hint: 'Confirm Password',
+  name: 'confirm_password'
 }];
 
-export class ForgotPasswordPage extends Component {
+export class ResetPasswordPage extends Component {
   constructor( props ) {
     super( props );
-    bindAll( this, 'onForgotPassword' );
+    bindAll( this, 'onResetPassword' );
   }
 
   componentDidMount() {
-    this.props.dispatch( setDrawer( 'Forgot Password' ) );
+    this.props.dispatch( setDrawer( 'Password Reset' ) );
   }
 
-  // The FormBlock will call `onForgotPassword` with `values` as an object containing
+  // The FormBlock will call `onResetPassword` with `values` as an object containing
   // field, field value pairs.
   //
-  // If password reset is successful, redirect the user to a "thank you" page
-  onForgotPassword( values ) {
+  // If reset is successful, redirect the user to a "thank you" page
+  onResetPassword( values ) {
     const {dispatch, history} = this.props;
-    dispatch( forgotPassword( values, ( ) => history.push( '/thanks' ) ) );
+    dispatch( resetPassword( values, ( ) => history.push( '/thanks' ) ) );
   }
 
   render() {
     const {account} = this.props;
-    const {error, validation} = account.forgotPassword;
+    const {error, validation} = account.resetPassword;
 
     return (
       <LetterheadPage className="layout__section">
-        <FormBlock onAction={ this.onForgotPassword }
-          header="Enter the email associated with the account"
+        <FormBlock onAction={ this.onResetPassword }
+          header="Enter a new password"
           { ...errorProps( error, validation ) }
-          actionText='Send Link'
+          actionText='Reset'
           fields={ fields } />
       </LetterheadPage>
       );
@@ -55,4 +58,4 @@ function select( state ) {
     account: state.account
   };
 }
-export default connect( select )( ForgotPasswordPage );
+export default connect( select )( ResetPasswordPage );
