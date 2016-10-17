@@ -59,7 +59,7 @@ export function register( attrs, success ) {
         .send( attrs )
         .end( ( error, response ) => {
         	if (typeof response == "undefined") {
-        		reject( "Unable to connect to server" );
+        		reject( "Unable to connect to the server." );
         	}
         	else {
 				    switch ( response.statusCode ) {
