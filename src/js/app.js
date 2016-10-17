@@ -118,7 +118,9 @@ document.addEventListener( 'deviceReady', ( ) => {
             </Route>
             <Route path="/update-service/:id"
               component={ UpdateServicePage }>
-              <IndexRoute component={ ServiceDescription } />
+              <IndexRoute component={ ServiceName } />
+              <Route path="name"
+                component={ ServiceName } />
               <Route path="description"
                 component={ ServiceDescription } />
               <Route path="hours"
