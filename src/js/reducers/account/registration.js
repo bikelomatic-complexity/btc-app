@@ -58,15 +58,20 @@ export function register( attrs, success ) {
         .set( 'Content-Type', 'application/json' )
         .send( attrs )
         .end( ( error, response ) => {
-          switch ( response.statusCode ) {
-          case 200:
-            resolve();
-            break;
-          case 400:
-          default:
-            reject( response.body.error );
-            break;
-          }
+        	if (typeof response == "undefined") {
+        		reject( "Unable to connect to the server." );
+        	}
+        	else {
+				    switch ( response.statusCode ) {
+					    case 200:
+						    resolve();
+						    break;
+					    case 400:
+					  default:
+					    reject( response.body.error );
+					    break;
+				    }
+          }  
         } );
     } );
 
