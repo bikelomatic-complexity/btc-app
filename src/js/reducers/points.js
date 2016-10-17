@@ -292,6 +292,7 @@ export function publishPoints() {
       } );
     } ).then( res => {
       dispatch( { type: RECEIVE_PUBLISH } );
+      dispatch( setSnackbar( { message: 'Published points of interest' } ) );
     } ).catch( err => {
       dispatch( { type: RECEIVE_PUBLISH, err } );
       dispatch( setSnackbar( { message: 'Unable to publish points of interest to server' } ) );
