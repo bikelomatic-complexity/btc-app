@@ -46,7 +46,11 @@ export default function reducer( state = initState, action ) {
   case UPDATE_SERVICE:
   case ADD_SERVICE:
   case ADD_ALERT:
-    state.publish.updated.push( action.id );
+    // Make sure the point isn't already in our updated list.
+    if(state.publish.updated.indexOf(action.id) < 0) {
+      state.publish.updated.push(action.id);
+    }
+    
     localStorage.setItem(UPDATED_POINTS_LOCALSTORAGE_KEY, JSON.stringify(state.publish.updated));
     set( state, idPath, action.point );
     break;
