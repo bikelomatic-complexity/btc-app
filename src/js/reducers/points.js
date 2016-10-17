@@ -258,7 +258,7 @@ export class ReplicationAgent extends Agent {
 
 export function publishPoints() {
   return ( dispatch, getState ) => {
-    const {points} = getState();
+    const {points, account} = getState();
 
     dispatch( { type: REQUEST_PUBLISH } );
 
@@ -274,6 +274,7 @@ export function publishPoints() {
       return new Promise( ( resolve, reject ) => {
         const request = new XMLHttpRequest();
         request.open( 'POST', baseUrl + '/publish' );
+        request.setHeader('authorization', 'JWT ' + account.login.token);
         request.onload = event => {
           if ( request.status === 200 ) {
             resolve( request.statusText );
