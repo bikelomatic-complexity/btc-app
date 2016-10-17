@@ -46,7 +46,7 @@ export default function reducer( state = initState, action ) {
   case UPDATE_SERVICE:
   case ADD_SERVICE:
   case ADD_ALERT:
-    // Make sure the point is already in our updated list.
+    // Make sure the point isn't already in our updated list.
     if(state.publish.updated.indexOf(action.id) < 0) {
       state.publish.updated.push(action.id);
     }
