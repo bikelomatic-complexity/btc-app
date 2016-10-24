@@ -274,7 +274,7 @@ export function publishPoints() {
       return new Promise( ( resolve, reject ) => {
         const request = new XMLHttpRequest();
         request.open( 'POST', baseUrl + '/publish' );
-        request.setHeader('authorization', 'JWT ' + account.login.token);
+        request.setRequestHeader('authorization', 'JWT ' + account.login.token);
         request.onload = event => {
           if ( request.status === 200 ) {
             resolve( request.statusText );
