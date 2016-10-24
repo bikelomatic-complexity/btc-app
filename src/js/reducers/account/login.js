@@ -14,6 +14,7 @@ const initState = {
   password: null,
   fetching: false, // true during login request
   received: false, // false until login response received
+  token: null,
   validation: [],
   error: null
 };
