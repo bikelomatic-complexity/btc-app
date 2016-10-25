@@ -281,13 +281,13 @@ export function publishPoints() {
         request.setRequestHeader('authorization', 'JWT ' + account.login.token);
         request.onload = event => {
           if ( request.status === 200 ) {
-            resolve( request.statusText );
+            resolve( request );
           } else {
-            reject( request.statusText );
+            reject( request);
           }
         };
         request.onerror = event => {
-          reject( request.statusText );
+          reject( request );
         };
         request.send( formData );
       } );
@@ -296,7 +296,11 @@ export function publishPoints() {
       dispatch( setSnackbar( { message: 'Published points of interest' } ) );
     } ).catch( err => {
       dispatch( { type: RECEIVE_PUBLISH, err } );
-      dispatch( setSnackbar( { message: 'Unable to publish points of interest to server' } ) );
+      if(err.status === 401){
+        dispatch( setSnackbar( { message: 'You must be logged in to publish points' } ) );
+      }else{
+        dispatch( setSnackbar( { message: 'Unable to publish points of interest to server' } ) );
+      }
     } );
   };
 }
