@@ -82,13 +82,19 @@ export class PointCard extends Component {
 
   static openUntil( service ) {
     const schedule = new Schedule( service.schedule );
-    const closing = schedule.getClosingToday();
-    if ( closing ) {
-      const time = new Date( schedule.getClosingToday() )
-        .toLocaleTimeString( [], { hour: 'numeric', minutes: 'numeric ' } );
-      return 'Open until: ' + time;
+    if (schedule.hasAnyHoursAdded()) {
+      // There are some hours added.
+      const closing = schedule.getClosingToday();
+      if ( closing ) {
+        const time = new Date( schedule.getClosingToday() )
+          .toLocaleTimeString( [], { hour: 'numeric', minutes: 'numeric ' } );
+        return 'Open until: ' + time;
+      } else {
+        return 'Not open today';
+      }
     } else {
-      return 'Not open today';
+      // There are no hours added.
+      return 'Hours not available'
     }
   }
 
