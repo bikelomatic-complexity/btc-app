@@ -186,7 +186,7 @@ export class PointCard extends Component {
         <CardHeader className="point-card__header"
           title={ point.name }
           subtitle={ display( point.type ) }
-          avatar={ <LocationIcon className="point-card__avatar" height="36px"/> }>
+          avatar={ <LocationIcon className="point-card__avatar"/> }>
           { this.getIconMenu() }
         </CardHeader>
         <div className="point-card__scroll">
