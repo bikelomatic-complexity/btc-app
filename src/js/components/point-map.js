@@ -138,7 +138,7 @@ export class PointMap extends Component {
       .filter( track => track.status === 'available' );
 	
     const tileLayerInfo = {
-      url: 'http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=5d65d56b7a4646a5af842d8beb7d3cff',
+      url: 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=5d65d56b7a4646a5af842d8beb7d3cff',
       attr: `Maps &copy; <a href="http://www.thunderforest.com">Thunderforest</a>, Data &copy; <a href="http://osm.org/copyright">
               OpenStreetMap</a> contributors`
     };
