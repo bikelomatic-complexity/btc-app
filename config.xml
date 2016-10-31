@@ -30,7 +30,7 @@
     <preference name="android-minSdkVersion" value="19" />
 
     <!-- Set's iOS's minimum -->
-    <preference name="deployment-target" value="8.0" />
+    <preference name="deployment-target" value="9.0" />
 
     <platform name="android">
         <allow-intent href="market:*" />
