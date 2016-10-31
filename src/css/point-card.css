@@ -101,11 +101,11 @@
 
 /*
  * SVG icon representing the type of the point. We override Material-UI's
- * height and width properties set as inline styles. This causes the icon
- * to fill the height of the card header.
+ * height and width properties set as inline styles. We set a height that
+ * looks good here.
  */
 .point-card__avatar {
-    height: 100% !important;
+    height: 36px !important;
     width: auto !important;
 }
 
@@ -113,7 +113,9 @@
  * Menu inside the point-card's header.
  */
 .point-card__icon-menu {
-    float: right;
+	position: absolute !important;
+	top: 16px;
+	right: 16px;
     height: 40px;
     width: auto;
 }
