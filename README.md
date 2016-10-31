@@ -25,10 +25,15 @@ Have [npm](https://www.npmjs.com) installed on your development machine (availab
 5. You can inspect the iOS view by using Safari remote debugging on your Mac  
 
 ## Browser
-### Running in Browser
+### Developing in Browser
 1. `npm run dev`
 2. Open `http://localhost:8000/browser/www/`
-3. The Chrome extension _LiveReload_ your browser session will reload when you update a file.  (not required, but nice)  
+3. The Chrome extension _LiveReload_ your browser session will reload when you update a file.  (not required, but nice)
+
+### Deploying for Web
+1. Set your `NODE_ENV` environment variable to `production` if you want the build to point to AWS
+2. `npm run dev` (you can stop the local server once it starts)
+3. Copy contents of `platforms/browser/www` to your web server's documents directory (all served files are static)
 
 _Look at the `package.json` for other commands!_  
 
