@@ -1,6 +1,6 @@
 import assign from 'lodash/assign';
 
-import { User } from 'btc-models';
+import { Reset } from 'btc-models';
 import { request } from '../../util/server';
 
 const REQUEST_RESET_PASSWORD = 'btc-app/account/REQUEST_RESET_PASSWORD';
@@ -42,7 +42,7 @@ export default function reducer( state = initState, action ) {
 // to the api server.
 export function resetPassword( attrs, success ) {
   // Short-circuit the request if there is a client side validation error
-  //const user = new User( attrs, { validate: true } );
+  const user = new Reset( attrs, { validate: true } );
   if ( user.validationError ) {
     return errorInResetPassword( user.validationError );
   }
