@@ -1,6 +1,6 @@
 import assign from 'lodash/assign';
 
-import { User } from 'btc-models';
+import { Forgot } from 'btc-models';
 import { request } from '../../util/server';
 
 const REQUEST_FORGOT_PASSWORD = 'btc-app/account/REQUEST_FORGOT_PASSWORD';
@@ -42,7 +42,7 @@ export default function reducer( state = initState, action ) {
 // to the api server.
 export function forgotPassword( attrs, success ) {
   // Short-circuit the request if there is a client side validation error
-  //const user = new User( attrs, { validate: true } );
+  const user = new Forgot( attrs, { validate: true } );
   if ( user.validationError ) {
     return errorInForgotPassword( user.validationError );
   }
