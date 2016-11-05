@@ -21,6 +21,7 @@ import RegisterPage from './containers/register-page';
 import ForgotPasswordPage from './containers/forgot-password-page';
 import ResetPasswordPage from './containers/reset-password-page';
 import ThanksPageForgotPassword from './containers/thanks-page-forgot-password';
+import ThanksPageResetPassword from './containers/thanks-page-reset-password';
 import ThanksPage from './containers/thanks-page';
 import DownloadTrackPage from './containers/download-track-page';
 import FilterPage from './containers/filter-page';
@@ -103,12 +104,14 @@ document.addEventListener( 'deviceReady', ( ) => {
               component={ RegisterPage } />
             <Route path="forgotPassword"
               component={ ForgotPasswordPage } />
-            <Route path="resetPassword"
+            <Route path="/resetPassword/:verification"
               component={ ResetPasswordPage } />
             <Route path="logout"
               component={ LogoutPage } />
             <Route path="thanksForgotPassword"
               component={ ThanksPageForgotPassword } />
+            <Route path="thanksResetPassword"
+              component={ ThanksPageResetPassword } />
             <Route path="thanks"
               component={ ThanksPage } />
             <Route path="add-service"
