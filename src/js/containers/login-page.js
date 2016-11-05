@@ -24,10 +24,8 @@ const footer = (
 <BlockFooter>
   <span><Link to="register">Sign up</Link> for the app</span>
   <span><Link to="forgotPassword">Forgot password?</Link></span>
-  <span><Link to="resetPassword">Reset</Link></span>
 </BlockFooter>
 );
-            // Reset link is TEMPORARY - using while debugging
 
 export class LoginPage extends Component {
   constructor( props ) {
