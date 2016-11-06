@@ -31,7 +31,7 @@ export class ForgotPasswordPage extends Component {
   // If password reset is successful, redirect the user to a "thank you" page
   onForgotPassword( values ) {
     const {dispatch, history} = this.props;
-    dispatch( forgotPassword( values, ( ) => history.push( '/thanksForgotPassword' ) ) );
+    dispatch( forgotPassword( values, ( ) => history.push( '/thanks-forgot-password' ) ) );
   }
 
   render() {

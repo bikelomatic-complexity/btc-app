@@ -35,7 +35,7 @@ export class ResetPasswordPage extends Component {
   onResetPassword( values ) {
     values["verification"] = encodeURIComponent( this.props.params.verification );
     const {dispatch, history} = this.props;
-    dispatch( resetPassword( values, ( ) => history.push( '/thanksResetPassword' ) ) );
+    dispatch( resetPassword( values, ( ) => history.push( '/thanks-reset-password' ) ) );
   }
 
   render() {
