@@ -23,7 +23,7 @@ const fields = [ {
 const footer = (
 <BlockFooter>
   <span><Link to="register">Sign up</Link> for the app</span>
-  <span><Link to="forgot">Forgot password?</Link></span>
+  <span><Link to="forgot-password">Forgot password?</Link></span>
 </BlockFooter>
 );
 
