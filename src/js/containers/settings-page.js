@@ -7,8 +7,8 @@ import { Page } from '../components/page';
 import { Block } from '../components/block';
 import { SettingSwitch } from '../components/setting-switch';
 
-import Refresh from 'material-ui/lib/svg-icons/navigation/refresh';
-import Delete from 'material-ui/lib/svg-icons/action/delete';
+import Refresh from 'material-ui/svg-icons/navigation/refresh';
+import Delete from 'material-ui/svg-icons/action/delete';
 /*eslint-enable no-unused-vars*/
 
 import noop from 'lodash/noop';
@@ -17,7 +17,7 @@ import { resetPoints, replicatePoints } from '../reducers/points';
 import { setOnlineMode } from '../reducers/settings';
 import { connect } from 'react-redux';
 
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 
 export class SettingsPage extends Component {
   componentDidMount() {
@@ -53,14 +53,14 @@ export class SettingsPage extends Component {
     const date = 'Last updated: ' + new Date().toLocaleDateString();
     const lastUpdated = (
     <ListItem primaryText='Update now'
-      onClick={ replicatePoints }
+      onTouchTap={ replicatePoints }
       secondaryText={ date }
       leftIcon={ <Refresh /> } />
     );
 
     const clearPoints = (
     <ListItem primaryText='Delete cache'
-      onClick={ resetPoints }
+      onTouchTap={ resetPoints }
       secondaryText='80 MB'
       leftIcon={ <Delete /> } />
     );

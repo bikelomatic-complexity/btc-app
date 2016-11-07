@@ -4,11 +4,11 @@ import { Page } from '../components/page';
 
 import React, { Component } from 'react';
 import { Paper, RaisedButton } from 'material-ui';
-import FilterIcon from 'material-ui/lib/svg-icons/content/filter-list';
-import MapIcon from 'material-ui/lib/svg-icons/maps/map';
+import FilterIcon from 'material-ui/svg-icons/content/filter-list';
+import MapIcon from 'material-ui/svg-icons/maps/map';
 /*eslint-enable no-unused-vars*/
 
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 import history from '../history';
 
 import { connect } from 'react-redux';
@@ -40,13 +40,13 @@ class ListPage extends Component {
             labelPosition="after"
             primary={ true }
             icon={ <MapIcon /> }
-            onClick={ ( ) => history.push( '/' ) } />
+            onTouchTap={ ( ) => history.push( '/' ) } />
           <RaisedButton style={ buttonStyles[ 1 ] }
             label="Filter"
             labelPosition="after"
             primary={ true }
             icon={ <FilterIcon /> }
-            onClick={ ( ) => history.push( 'filter' ) } />
+            onTouchTap={ ( ) => history.push( 'filter' ) } />
           <PointList points={ this.props.points }
             clickAction={ this.onPointClick.bind( this ) } />
         </div>

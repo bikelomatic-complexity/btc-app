@@ -8,7 +8,7 @@ import { Page } from '../components/page';
 import { connect } from 'react-redux';
 import { isFinite } from 'underscore';
 
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 import { fetchTrack, clearTrack, activateTrack, deactivateTrack } from '../reducers/tracks';
 
 class DownloadTrackPage extends Component {
@@ -34,6 +34,7 @@ class DownloadTrackPage extends Component {
   }
 
   render() {
+    const scrollStyle = {'overflow-y':'scroll'};
     const {tracks} = this.props;
 
     const downloaded = Object.keys( tracks ).reduce( ( pre, cur ) => {
@@ -76,7 +77,7 @@ class DownloadTrackPage extends Component {
 
       return (
         <Card key={ id }
-          style={ { margin: 16 } }>
+          style={ { margin: 24 } }>
           <CardMedia overlay={ <CardTitle title={ track.name }
                                  subtitle={ `${track.sizeMiB} MiB` } /> }>
             <img src='./img/usbr20.png' />
@@ -87,13 +88,13 @@ class DownloadTrackPage extends Component {
           <CardActions>
             <RaisedButton secondary={ isSave }
               primary={ !isSave }
-              onClick={ action }
+              onTouchTap={ action }
               label={ downloadButtonText }
               icon={ <FontIcon className='material-icons'>cloud_download</FontIcon> } />
             <RaisedButton id={ id }
               label='Show Track'
               secondary={ track.active }
-              onClick={ this.onActivationTrack.bind( this, id, !track.active ) }
+              onTouchTap={ this.onActivationTrack.bind( this, id, !track.active ) }
               icon={ <FontIcon className='material-icons'>visibility</FontIcon> } />
           </CardActions>
         </Card>
@@ -103,7 +104,9 @@ class DownloadTrackPage extends Component {
     return (
       <Page className="layout__section">
         <DeviceStorage downloaded={ downloaded } />
-        { rows }
+        <div style={scrollStyle}>
+          { rows }
+        </div>
       </Page>
       );
   }

@@ -6,7 +6,7 @@ import { FloatingActionButton, FontIcon } from 'material-ui';
 // MapButtons takes in props for buttons, in which buttons should be an array of
 // button objects, like so:
 /*
-  [{onClick: goToFilter, icon:'filter'}, {onClick: goToList, icon:'list'}]
+  [{onTouchTap: goToFilter, icon:'filter'}, {onTouchTap: goToList, icon:'list'}]
 */
 export class MapButtons extends Component {
   render() {
@@ -14,9 +14,9 @@ export class MapButtons extends Component {
       return (
         <FloatingActionButton key={ button.page }
           mini={ true }
-          style={ { position: 'fixed', top: `${82 + 55 * index}px`, right: '10px' } }>
-          <FontIcon onClick={ ( ) => this.props.history.push( button.page ) }
-            className="material-icons">
+          style={ { position: 'fixed', top: `${82 + 55 * index}px`, right: '10px' } }
+          onTouchTap={ ( ) => this.props.history.push( button.page ) }>
+          <FontIcon className="material-icons">
             { button.icon }
           </FontIcon>
         </FloatingActionButton>

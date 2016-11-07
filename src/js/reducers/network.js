@@ -1,3 +1,5 @@
+import objectAssign from 'object-assign';
+
 import { Agent } from '../util/agent';
 import Device from '../util/device';
 
@@ -13,7 +15,7 @@ const initState = {
 export default function reducer( state = initState, action ) {
   switch ( action.type ) {
   case CONNECTION:
-    return Object.assign( {}, state, action.status );
+    return objectAssign( {}, state, action.status );
   default:
     return state;
   }

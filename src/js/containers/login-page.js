@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import bindAll from 'lodash/bindAll';
 
 import { login } from '../reducers/account';
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 import { setSnackbar } from '../reducers/notifications';
 
 const fields = [ {
@@ -23,7 +23,7 @@ const fields = [ {
 const footer = (
 <BlockFooter>
   <span><Link to="register">Sign up</Link> for the app</span>
-  <span><Link to="forgot">Forgot password?</Link></span>
+  <span><Link to="forgot-password">Forgot password?</Link></span>
 </BlockFooter>
 );
 

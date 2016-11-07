@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Paper, Dialog, FlatButton, Snackbar } from 'material-ui';
 
-import Drawer from '../containers/drawer';
+import BtcDrawer from '../containers/btc-drawer';
 import Notifications from '../containers/notifications';
 /*eslint-enable no-unused-vars*/
 
@@ -24,7 +24,7 @@ export class App extends Component {
 
     return (
       <div className='layout'>
-        <Drawer />
+        <BtcDrawer />
         { page }
         <Notifications />
       </div>

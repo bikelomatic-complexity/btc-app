@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { display, serviceTypes, alertTypes } from 'btc-models';
 
 import { setFilters } from '../reducers/filter';
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 
 import history from '../history';
 
@@ -102,7 +102,7 @@ class FilterPage extends Component {
         return (
           <RaisedButton key={ filterService }
             style={ { margin: 8 } }
-            onClick={ this.removeFilter.bind( this, index ) }
+            onTouchTap={ this.removeFilter.bind( this, index ) }
             label={ display( filterService ) }
             labelPosition="before"
             icon={ <FontIcon className="material-icons">clear</FontIcon> } />
@@ -115,10 +115,10 @@ class FilterPage extends Component {
         <div>
           <div className="form-row">
             <RaisedButton style={ buttonStyles[ 0 ] }
-              onClick={ this.clearFilters.bind( this ) }
+              onTouchTap={ this.clearFilters.bind( this ) }
               label="Clear" />
             <RaisedButton style={ buttonStyles[ 1 ] }
-              onClick={ this.onFilter.bind( this ) }
+              onTouchTap={ this.onFilter.bind( this ) }
               secondary
               label="Filter" />
           </div>
@@ -132,13 +132,13 @@ class FilterPage extends Component {
           <div className="form-row">
             <Checkbox label="Only Show Open Services"
               onCheck={ this.toggleOpenServices.bind( this ) }
-              style={ { marginBotton: 16 } }
+              style={ { marginBottom: 16 } }
               checked={ this.state.openServices } />
           </div>
           <div className="form-row">
             <Checkbox label="Hide Alerts"
               onCheck={ this.toggleAlert.bind( this ) }
-              style={ { marginBotton: 16 } }
+              style={ { marginBottom: 16 } }
               checked={ this.state.hideAlert } />
           </div>
           { filtersDropDowns }

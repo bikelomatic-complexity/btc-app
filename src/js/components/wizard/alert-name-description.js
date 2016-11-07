@@ -87,7 +87,7 @@ export class AlertNameDescription extends WizardPage {
 
   getPageSecondaryActions() {
     return (
-      <FlatButton onClick={ this.onPhotoAdd }
+      <FlatButton onTouchTap={ this.onPhotoAdd }
         label="Upload Photo" />
       );
   }
