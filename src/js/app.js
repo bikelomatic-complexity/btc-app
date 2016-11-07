@@ -23,6 +23,7 @@ import DownloadTrackPage from './containers/download-track-page';
 import FilterPage from './containers/filter-page';
 import SettingsPage from './containers/settings-page';
 import PublishPage from './containers/publish-page';
+import AboutPage from './containers/about-page';
 
 import AddServicePage from './containers/wizard/add-service-page';
 import UpdateServicePage from './containers/wizard/update-service-page';
@@ -92,6 +93,8 @@ document.addEventListener( 'deviceReady', ( ) => {
               component={ ListPage } />
             <Route path="settings"
               component={ SettingsPage } />
+            <Route path="about"
+              component={ AboutPage } />
             <Route path="publish"
               component={ PublishPage } />
             <Route path="login"
