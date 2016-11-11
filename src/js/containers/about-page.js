@@ -5,18 +5,34 @@ import { Page } from '../components/page';
 import { Block } from '../components/block';
 /*eslint-enable no-unused-vars*/
 
-export default class AboutPage extends Component {
+import { connect } from 'react-redux';
+
+import { setDrawer } from '../reducers/btc-drawer';
+
+export class AboutPage extends Component {
+  componentDidMount() {
+    this.props.setDrawer( 'About' );
+  }
+
   render() {
     return (
 		<Page className="section__layout">
 			<Block style={ { padding: 0 } }>
 				<h2>Bicycle Touring Companion</h2>
-				<i>Version 1.0 (build 6)</i><br/>
-				&copy; 2015-2016 Adventure Cycling Association<br/>
-				Maps &copy; <a href="http://www.thunderforest.com">Thunderforest</a>, Data &copy; <a href="http://osm.org/copyright">
-				OpenStreetMap</a> contributors
+				<i>Version 1.0 (build 7)</i><br/>
+				&copy; 2015-2016 Adventure Cycling Association<br/><br/>
+				Maps &copy;Thunderforest, Data &copy;OpenStreetMap contributors.<br/><br/>
+				TODO: Other software and data acknowledgements go here.
 			</Block>
 		</Page>
       );
   }
 }
+
+function mapStateToProps( state ) {
+  return {};
+}
+
+const actions = { setDrawer };
+
+export default connect( mapStateToProps, actions )( AboutPage );
