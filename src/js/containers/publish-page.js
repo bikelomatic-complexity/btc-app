@@ -54,10 +54,10 @@ class PublishPage extends Component {
     const instructions = ( this.props.points.length === 0 ? 
     <div style={ instructionsStyle }>
       There are no alerts or services ready to publish.
-    </div> : 
-	<div style={ instructionsStyle }>
+    </div> : <div></div>
+	/*<div style={ instructionsStyle }>
       Click on { clear } to delete a point.
-    </div>
+    </div>*/
     );
 
     return (
@@ -65,8 +65,8 @@ class PublishPage extends Component {
         <Paper>
           <PointList instructions={ instructions }
             points={ this.props.points }
-            buttonIcon='clear'
-            buttonAction={ this.onPointRemove.bind( this ) }
+            /*buttonIcon='clear'
+            buttonAction={ this.onPointRemove.bind( this ) }*/
             clickAction={ this.onPointClick.bind( this ) } />
           <div style={ instructionsStyle }>
             <RaisedButton style={ buttonStyle }

@@ -1,6 +1,6 @@
 /*global process*/
 import { assignIn } from 'lodash';
-import { connectMut, models } from 'btc-models';
+import { connectMut, pointModels } from 'btc-models';
 import PouchDB from 'pouchdb';
 import config from 'config';
 
@@ -13,7 +13,7 @@ if ( process.env.NODE_ENV === 'development' ) {
 export const local = new PouchDB( 'points' );
 export default local;
 
-connectMut( local, models );
+connectMut( local, pointModels );
 
 export function reset() {
   return local.destroy().then(
