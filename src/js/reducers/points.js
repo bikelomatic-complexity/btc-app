@@ -195,6 +195,44 @@ export function loadPoint( id ) {
   };
 }
 
+//Calling the server API flag
+export function flagPoint( id ) {
+  return ( dispatch, getState ) => {
+    const {account} = getState();
+    return new Promise( ( resolve, reject ) => {
+    const request = new XMLHttpRequest();
+    request.open( 'POST', baseUrl + '/flag' );
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.setRequestHeader('authorization', 'JWT ' + account.login.token);
+
+    var jsonData = JSON.stringify({ "pointId": id });
+
+    request.onload = event => {
+      if ( request.status === 200 ) {
+        resolve( request );
+      } else {
+        reject( request);
+      }
+    };
+    request.onerror = event => {
+      reject( request );
+    };
+    request.send( jsonData );
+    } ).then( res => {
+        dispatch( setSnackbar( { message: 'Successfully flagged point' } ) );
+      } ).catch( err => {
+        if(err.status === 401){
+          dispatch( setSnackbar( { message: 'You must be logged in to flag points' } ) );
+        }else if(err.status === 400){
+          dispatch( setSnackbar( { message: JSON.parse(err.responseText).error } ) );
+        }else{
+          dispatch( setSnackbar( { message: 'Unable to contact the server to flag the point' } ) );
+        }
+      } );
+
+    }; 
+}
+
 // # Replicate Points
 // Start a replication job from the remote points database.
 export function replicatePoints() {
