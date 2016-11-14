@@ -191,7 +191,7 @@ export class PointCard extends Component {
     if ( point.coverUrl ) {
       coverUrlStyle.backgroundImage = `url(${point.coverUrl})`;
     }
-
+    
     return (
       <Card className={ className }>
         <CardHeader className="point-card__header"

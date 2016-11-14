@@ -10,6 +10,10 @@ import RatingSelector from '../rating-selector';
 import { bindAll } from 'lodash';
 import history from '../../history';
 
+import uuid from 'node-uuid';
+import { Service } from 'btc-models';
+import {updateService} from '../../reducers/points';
+
 const mockComments = [ {
   'user': 'gypsy',
   'rating': 0,
@@ -50,7 +54,8 @@ export class RatingPointCard extends PointCard {
   }
 
   getCardContent() {
-    return (
+	  console.log(this.point);
+	return (
       <div className="point-card__content">
         { this.getCommentEntry() }
         { this.getCommentList() }
@@ -86,11 +91,23 @@ export class RatingPointCard extends PointCard {
   }
 
   onComment( values ) {
-    // const comment = {
-    //   comment: values.comment,
-    //   rating: values.rating,
-    //   date: ( new Date().toISOString() )
-    // };
+    const comment = {
+       text: values.comment,
+       rating: values.rating,
+       //date: ( new Date().toISOString() )
+       uuid: uuid.v1()
+     };
+	//console.log(values.comment);
+    this.point.comments.push(comment);
+    const service = new Service( this.point );
+    service.update();
+    if (service.isValid()) {
+    	console.log("It is valid");
+    }
+    else {
+    	console.log("not valid");
+    }
+	updateService(service);
   }
 
   getCommentEntry() {

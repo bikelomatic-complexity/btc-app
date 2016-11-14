@@ -56,6 +56,7 @@
   },
   "homepage": "https://github.com/tour-de-force/btc-app#readme",
   "dependencies": {
+    "node-uuid": "^1.4.7",
     "blob-util": "^1.2.0",
     "btc-models": "https://github.com/tour-de-force/btc-models#built",
     "classnames": "^2.2.3",
