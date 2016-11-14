@@ -80,6 +80,11 @@ export class PointCard extends Component {
     return ( ) => navigateWithId( prefix, point );
   }
 
+  callToFlagPoint( id ) {
+    const {flagPoint} = this.props;
+    return ( ) => flagPoint( id );
+  }
+
   static openUntil( service ) {
     const schedule = new Schedule( service.schedule );
     const closing = schedule.getClosingToday();
@@ -136,10 +141,10 @@ export class PointCard extends Component {
       );
     }
 
-    const flag = (
-    <MenuItem primaryText='Flag'
-      onTouchTap={ this.navigate( '' ) } />
-    );
+      let flag = (
+      <MenuItem primaryText='Flag'
+          onTouchTap={ this.callToFlagPoint( point._id ) } />
+      );
 
     const button = (
     <IconButton>
