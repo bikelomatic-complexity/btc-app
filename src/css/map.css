@@ -85,3 +85,9 @@
 .leaflet-control-container div {
     z-index: 1;
 }
+
+.leaflet-control-attribution {
+    /* We show map attribution on the about page. */
+    display: none !important;
+}
+

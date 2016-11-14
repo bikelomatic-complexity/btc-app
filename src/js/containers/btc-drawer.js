@@ -64,6 +64,10 @@ export class BtcDrawer extends Component {
       link: 'settings',
       title: 'Settings',
       icon: 'settings'
+    }, {
+      link: 'about',
+      title: 'About',
+      icon: 'info'
     } ];
 
     if ( login.loggedIn ) {
