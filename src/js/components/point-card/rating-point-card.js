@@ -12,7 +12,6 @@ import history from '../../history';
 
 import uuid from 'node-uuid';
 import { Service } from 'btc-models';
-import {updateService} from '../../reducers/points';
 
 const mockComments = [ {
   'user': 'gypsy',
@@ -54,8 +53,7 @@ export class RatingPointCard extends PointCard {
   }
 
   getCardContent() {
-	  console.log(this.point);
-	return (
+    return (
       <div className="point-card__content">
         { this.getCommentEntry() }
         { this.getCommentList() }
@@ -91,23 +89,22 @@ export class RatingPointCard extends PointCard {
   }
 
   onComment( values ) {
+    const { updateService } = this.props;
     const comment = {
        text: values.comment,
        rating: values.rating,
-       //date: ( new Date().toISOString() )
        uuid: uuid.v1()
-     };
-	//console.log(values.comment);
+    };
+    // TODO: Is it legit to mutate this point here???
     this.point.comments.push(comment);
     const service = new Service( this.point );
     service.update();
     if (service.isValid()) {
-    	console.log("It is valid");
+    	updateService(service);
     }
     else {
-    	console.log("not valid");
+    	console.log("TODO: This comment is not valid; we should show the user an error here.");
     }
-	updateService(service);
   }
 
   getCommentEntry() {

@@ -114,7 +114,6 @@ export default function reducer( state = initState, action ) {
 //  - Serialize the point and return the action
 const factory = type => {
   return ( point, coverBlob ) => {
-	console.log("in points.js");
     if ( !point.isValid() ) {
       console.error( 'the submitted point was not valid!' );
     } else {
