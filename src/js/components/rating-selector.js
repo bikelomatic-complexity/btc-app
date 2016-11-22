@@ -42,7 +42,7 @@ export class RatingSelector extends Component {
 }
 
 RatingSelector.defaultProps = {
-  rating: 3
+  rating: 0
 };
 
 export default RatingSelector;

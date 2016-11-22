@@ -13,23 +13,6 @@ import history from '../../history';
 import uuid from 'node-uuid';
 import { Service } from 'btc-models';
 
-const mockComments = [ {
-  'user': 'gypsy',
-  'rating': 0,
-  'text': 'This place was a great... place.',
-  'date': '2016-02-28T15:37:04.540Z'
-}, {
-  'user': 'tomservo',
-  'rating': 3,
-  'text': 'This place was okay',
-  'date': '2016-02-28T15:37:04.540Z'
-}, {
-  'user': 'crow',
-  'rating': 5,
-  'text': 'This place smells like pepperoni... I love pepperoni!',
-  'date': '2016-02-28T15:37:04.540Z'
-} ];
-
 export class RatingPointCard extends PointCard {
   constructor( props ) {
     super( props );
@@ -62,7 +45,7 @@ export class RatingPointCard extends PointCard {
   }
 
   getCommentList() {
-    const comments = mockComments.map( comment => {
+    const comments = this.point.comments.map( comment => {
       const style = { fontSize: '16px' };
       const stars = (
       <RatingSelector disabled
@@ -72,7 +55,7 @@ export class RatingPointCard extends PointCard {
       const date = this.formatDateTimeString( comment.date );
 
       return (
-        <ListItem key={ comment.user }
+        <ListItem key={ comment.uuid }
           primaryText={ comment.user }
           secondaryTextLines={ comment.text ? 2 : 1 }
           secondaryText={ (
@@ -91,9 +74,12 @@ export class RatingPointCard extends PointCard {
   onComment( values ) {
     const { updateService } = this.props;
     const comment = {
-       text: values.comment,
-       rating: values.rating,
-       uuid: uuid.v1()
+  		// TODO: Set the first name and last initial of the user (keeping in mind they might not be logged in).
+    	user: "Anonymous",
+    	date: new Date().toISOString(),
+		text: values.comment,
+		rating: values.rating,
+		uuid: uuid.v1()
     };
     // TODO: Is it legit to mutate this point here???
     this.point.comments.push(comment);
