@@ -89,6 +89,7 @@ export class RatingPointCard extends PointCard {
     	updateService(service);
     }
     else {
+    	// TODO: We also need to rollback any changes if we can't just not do them in the first place.
     	console.log("TODO: This comment is not valid; we should show the user an error here.");
     }
   }
