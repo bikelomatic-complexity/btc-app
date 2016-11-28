@@ -7,7 +7,7 @@ import { FormBlock } from '../block';
 import RatingSelector from '../rating-selector';
 /*eslint-enable no-unused-vars*/
 
-import { bindAll } from 'lodash';
+import { bindAll, cloneDeep } from 'lodash';
 import history from '../../history';
 
 import uuid from 'node-uuid';
@@ -17,6 +17,7 @@ export class RatingPointCard extends PointCard {
   constructor( props ) {
     super( props );
     bindAll( this, 'onComment' );
+    this.errorMessage = "";
   }
 
   getCardState() {
@@ -74,23 +75,26 @@ export class RatingPointCard extends PointCard {
   onComment( values ) {
     const { updateService } = this.props;
     const comment = {
-  		// TODO: Set the first name and last initial of the user (keeping in mind they might not be logged in).
-    	user: "Anonymous",
-    	date: new Date().toISOString(),
-		text: values.comment,
-		rating: values.rating,
-		uuid: uuid.v1()
+      user: "Anonymous",
+      date: new Date().toISOString(),
+      text: values.comment,
+      rating: values.rating,
+      uuid: uuid.v1()
     };
-    // TODO: Is it legit to mutate this point here???
-    this.point.comments.push(comment);
-    const service = new Service( this.point );
+    
+    var newPoint = cloneDeep(this.point);
+    newPoint.comments.push(comment);
+    
+    const service = new Service( newPoint );
     service.update();
     if (service.isValid()) {
-    	updateService(service);
+      this.errorMessage = "";
+      updateService(service);
     }
     else {
-    	// TODO: We also need to rollback any changes if we can't just not do them in the first place.
-    	console.log("TODO: This comment is not valid; we should show the user an error here.");
+      this.errorMessage = "Enter a comment between 1 and 140 characters and select a rating between 1 and 5 stars.";
+      // Re-render to show the error message.
+      this.forceUpdate();
     }
   }
 
@@ -113,7 +117,8 @@ export class RatingPointCard extends PointCard {
         thinActionButton
         zDepth={ 0 }
         actionText="Comment"
-        fields={ fields } />
+        fields={ fields }
+        problemText={ this.errorMessage } />
       );
   }
 
