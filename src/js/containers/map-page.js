@@ -11,7 +11,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { setDrawer } from '../reducers/btc-drawer';
-import { loadPoint, flagPoint } from '../reducers/points';
+import { loadPoint, flagPoint, updateService } from '../reducers/points';
 
 import history from '../history';
 
@@ -107,7 +107,8 @@ function mapDispatchToProps( dispatch ) {
   return {
     cardActions: bindActionCreators( {
       'loadPoint': loadPoint, // Cards load markers on componentDidMount,
-      'flagPoint': flagPoint
+      'flagPoint': flagPoint,
+      'updateService': updateService
     }, dispatch ),
     pageActions: bindActionCreators( {
       'setDrawer': setDrawer

@@ -7,30 +7,17 @@ import { FormBlock } from '../block';
 import RatingSelector from '../rating-selector';
 /*eslint-enable no-unused-vars*/
 
-import { bindAll } from 'lodash';
+import { bindAll, cloneDeep } from 'lodash';
 import history from '../../history';
 
-const mockComments = [ {
-  'user': 'gypsy',
-  'rating': 0,
-  'text': 'This place was a great... place.',
-  'date': '2016-02-28T15:37:04.540Z'
-}, {
-  'user': 'tomservo',
-  'rating': 3,
-  'text': 'This place was okay',
-  'date': '2016-02-28T15:37:04.540Z'
-}, {
-  'user': 'crow',
-  'rating': 5,
-  'text': 'This place smells like pepperoni... I love pepperoni!',
-  'date': '2016-02-28T15:37:04.540Z'
-} ];
+import uuid from 'node-uuid';
+import { Service } from 'btc-models';
 
 export class RatingPointCard extends PointCard {
   constructor( props ) {
     super( props );
     bindAll( this, 'onComment' );
+    this.errorMessage = "";
   }
 
   getCardState() {
@@ -59,7 +46,7 @@ export class RatingPointCard extends PointCard {
   }
 
   getCommentList() {
-    const comments = mockComments.map( comment => {
+    const comments = this.point.comments.map( comment => {
       const style = { fontSize: '16px' };
       const stars = (
       <RatingSelector disabled
@@ -69,7 +56,7 @@ export class RatingPointCard extends PointCard {
       const date = this.formatDateTimeString( comment.date );
 
       return (
-        <ListItem key={ comment.user }
+        <ListItem key={ comment.uuid }
           primaryText={ comment.user }
           secondaryTextLines={ comment.text ? 2 : 1 }
           secondaryText={ (
@@ -86,11 +73,29 @@ export class RatingPointCard extends PointCard {
   }
 
   onComment( values ) {
-    // const comment = {
-    //   comment: values.comment,
-    //   rating: values.rating,
-    //   date: ( new Date().toISOString() )
-    // };
+    const { updateService } = this.props;
+    const comment = {
+      user: "Anonymous",
+      date: new Date().toISOString(),
+      text: values.comment,
+      rating: values.rating,
+      uuid: uuid.v1()
+    };
+    
+    var newPoint = cloneDeep(this.point);
+    newPoint.comments.push(comment);
+    
+    const service = new Service( newPoint );
+    service.update();
+    if (service.isValid()) {
+      this.errorMessage = "";
+      updateService(service);
+    }
+    else {
+      this.errorMessage = "Enter a comment between 1 and 140 characters and select a rating between 1 and 5 stars.";
+      // Re-render to show the error message.
+      this.forceUpdate();
+    }
   }
 
   getCommentEntry() {
@@ -112,7 +117,8 @@ export class RatingPointCard extends PointCard {
         thinActionButton
         zDepth={ 0 }
         actionText="Comment"
-        fields={ fields } />
+        fields={ fields }
+        problemText={ this.errorMessage } />
       );
   }
 
