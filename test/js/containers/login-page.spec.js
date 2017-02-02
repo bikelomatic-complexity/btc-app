@@ -9,7 +9,7 @@ import { LoginPage } from '../../../src/js/containers/login-page';
 /*eslint-enable no-unused-vars*/
 
 import * as login from '../../../src/js/reducers/account/login';
-import * as drawer from '../../../src/js/reducers/drawer';
+import * as drawer from '../../../src/js/reducers/btc-drawer';
 
 describe( '<LoginPage />', function() {
   beforeEach( function() {

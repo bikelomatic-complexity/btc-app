@@ -5,7 +5,7 @@ import sd from 'skin-deep';
 
 import React from 'react';
 import ReactDom from 'react-dom';
-import { Drawer } from '../../../src/js/containers/drawer';
+import { Drawer } from '../../../src/js/containers/btc-drawer';
 /*eslint-enable no-unused-vars*/
 
 describe( '<Drawer />', function() {

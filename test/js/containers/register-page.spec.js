@@ -9,7 +9,7 @@ import { RegisterPage } from '../../../src/js/containers/register-page';
 /*eslint-enable no-unused-vars*/
 
 import * as registration from '../../../src/js/reducers/account/registration';
-import * as drawer from '../../../src/js/reducers/drawer';
+import * as drawer from '../../../src/js/reducers/btc-drawer';
 
 describe( '<RegisterPage />', function() {
   beforeEach( function() {
