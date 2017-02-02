@@ -15,7 +15,7 @@ export class ViewPointCard extends PointCard {
 
   getCardAction() {
     return <FlatButton label="See Less"
-             onClick={ this.navigate( 'peek-point' ) } />;
+             onTouchTap={ this.navigate( 'peek-point' ) } />;
   }
 
   getCardContent() {
@@ -67,7 +67,9 @@ export class ViewPointCard extends PointCard {
       }
 
       let timezone = '';
-      if ( point.schedule.default[ 0 ] ) {
+      // Check that this has a schedule property before trying
+      // to access things in it (alerts don't have a schedule, but services do).
+      if ( point.schedule && point.schedule.default && point.schedule.default[ 0 ] ) {
         timezone = '(' + point.schedule.default[ 0 ].timezone + ')';
       }
 

@@ -1,10 +1,12 @@
 {
   "name": "bicycle-touring-companion",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Bicycle Touring Companion",
   "scripts": {
     "build": "browserify src/js/app.js -o www/bundle.js",
-    "debug:android": "cordova build  android",
+    "debug:android": "cordova build android",
+    "debug:ios-device": "cordova build ios --device",
+    "debug:ios-sim": "cordova build ios",
     "dev": "shell-exec --colored-output \"npm run watch\" \"npm run livereload\"",
     "doc": "docco src/js/*.js src/js/*/*.js -o docs/generated",
     "format": "esformatter --diff \"?(src|test)/js/**/*.js\"",
@@ -17,10 +19,16 @@
     "postrelease:android": "cp \"./platforms/android/build/outputs/apk/android-release-unsigned.apk\" \"./bicycle-touring-companion.apk\"",
     "prestart:android": "npm run build",
     "prestart:browser": "npm run build",
+    "prestart:ios-device": "env NODE_ENV=production npm run build",
+    "prestart:ios-sim": "npm run build",
     "release:android": "cordova build android --release",
     "release:browser": "cordova build browser",
+    "release:ios-device": "cordova build ios --release --device",
+    "release:ios-sim": "cordova build ios --release",
     "start:android": "cordova run android",
     "start:browser": "cordova serve 8000",
+    "start:ios-device": "cordova run ios --device",
+    "start:ios-sim": "cordova run ios",
     "test": "karma start",
     "watch": "nodemon -e js,html,css --watch \"src\" --exec \"npm run start:browser\""
   },
@@ -39,34 +47,37 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bikelomatic-complexity/btc-app.git"
+    "url": "git+https://github.com/tour-de-force/btc-app.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bikelomatic-complexity/btc-app/issues"
+    "url": "https://github.com/tour-de-force/btc-app/issues"
   },
-  "homepage": "https://github.com/bikelomatic-complexity/btc-app#readme",
+  "homepage": "https://github.com/tour-de-force/btc-app#readme",
   "dependencies": {
+    "node-uuid": "^1.4.7",
     "blob-util": "^1.2.0",
-    "btc-models": "^0.4.2",
+    "bowser": "^1.5.0",
+    "btc-models": "https://github.com/tour-de-force/btc-models#built",
     "classnames": "^2.2.3",
     "docuri": "^4.2.1",
     "history": "^1.17.0",
     "immutable": "^3.7.6",
     "leaflet": "^0.7.7",
     "lodash": "^4.5.1",
-    "material-ui": "^0.14.4",
+    "material-ui": "^0.16.0",
     "moment-timezone": "^0.5.3",
     "ngeohash": "^0.6.0",
+    "object-assign": "^4.1.0",
     "pouchdb": "^5.1.0",
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0",
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0",
     "react-hammerjs": "^0.4.2",
     "react-leaflet": "^0.10.0",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.0",
-    "react-tap-event-plugin": "^0.2.2",
+    "react-tap-event-plugin": "^2.0.0",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.3",
     "superagent": "^1.7.2",
@@ -111,10 +122,12 @@
     "mocha": "^2.3.4",
     "nodemon": "^1.8.1",
     "phantomjs-prebuilt": "^2.1.4",
-    "react-addons-test-utils": "^0.14.7",
+    "react-addons-test-utils": "^15.0.0",
     "redux-devtools": "^3.1.1",
     "shell-executor": "^0.3.2",
     "sinon": "^1.17.3",
-    "skin-deep": "https://github.com/bikelomatic-complexity/skin-deep"
-  }
+    "skin-deep": "https://github.com/tour-de-force/skin-deep"
+  },
+  "optionalDependencies" :
+  {"ios-deploy": "^1.9.0"}
 }

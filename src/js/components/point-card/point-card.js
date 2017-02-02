@@ -1,8 +1,8 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { Card, CardActions, CardText, FlatButton, CardMedia, CardTitle, CardHeader, IconButton, IconMenu, MenuItem, CircularProgress } from 'material-ui';
-import LocationIcon from 'material-ui/lib/svg-icons/maps/place';
-import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
+import LocationIcon from 'material-ui/svg-icons/maps/place';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import { setSnackbar } from '../../reducers/notifications';
 
 /*eslint-enable no-unused-vars*/
@@ -80,15 +80,26 @@ export class PointCard extends Component {
     return ( ) => navigateWithId( prefix, point );
   }
 
+  callToFlagPoint( id ) {
+    const {flagPoint} = this.props;
+    return ( ) => flagPoint( id );
+  }
+
   static openUntil( service ) {
     const schedule = new Schedule( service.schedule );
-    const closing = schedule.getClosingToday();
-    if ( closing ) {
-      const time = new Date( schedule.getClosingToday() )
-        .toLocaleTimeString( [], { hour: 'numeric', minutes: 'numeric ' } );
-      return 'Open until: ' + time;
+    if (schedule.hasAnyHoursAdded()) {
+      // There are some hours added.
+      const closing = schedule.getClosingToday();
+      if ( closing ) {
+        const time = new Date( schedule.getClosingToday() )
+          .toLocaleTimeString( [], { hour: 'numeric', minutes: 'numeric ' } );
+        return 'Open until: ' + time;
+      } else {
+        return 'Not open today';
+      }
     } else {
-      return 'Not open today';
+      // There are no hours added.
+      return 'Hours not available'
     }
   }
 
@@ -128,18 +139,18 @@ export class PointCard extends Component {
     if ( type === 'service' ) {
       update = (
         <MenuItem primaryText='Update Information'
-          onClick={ this.navigate( 'update-service' ) } />
+          onTouchTap={ this.navigate( 'update-service' ) } />
       );
       rate = (
         <MenuItem primaryText='Rate Service'
-          onClick={ this.navigate( 'rate-point' ) } />
+          onTouchTap={ this.navigate( 'rate-point' ) } />
       );
     }
 
-    const flag = (
-    <MenuItem primaryText='Flag'
-      onClick={ this.navigate( '' ) } />
-    );
+      let flag = (
+      <MenuItem primaryText='Flag'
+          onTouchTap={ this.callToFlagPoint( point._id ) } />
+      );
 
     const button = (
     <IconButton>
@@ -186,7 +197,7 @@ export class PointCard extends Component {
         <CardHeader className="point-card__header"
           title={ point.name }
           subtitle={ display( point.type ) }
-          avatar={ <LocationIcon className="point-card__avatar" /> }>
+          avatar={ <LocationIcon className="point-card__avatar"/> }>
           { this.getIconMenu() }
         </CardHeader>
         <div className="point-card__scroll">
@@ -197,7 +208,7 @@ export class PointCard extends Component {
         <CardActions className="point-card__actions">
           { this.getCardAction() }
           <FlatButton label="Close"
-            onClick={ deselectMarker } />
+            onTouchTap={ deselectMarker } />
         </CardActions>
       </Card>
       );

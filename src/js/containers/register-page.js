@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import bindAll from 'lodash/bindAll';
 
 import { register } from '../reducers/account';
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 
 const fields = [ {
   hint: 'Email',
@@ -16,16 +16,16 @@ const fields = [ {
 }, {
   hint: 'Password',
   name: 'password'
+},{
+  hint: 'Confirm Password',
+  name: 'confirm_password'
 }, {
   hint: 'First name',
   name: 'first'
 }, {
   hint: 'Last name',
   name: 'last'
-}, {
-  hint: 'Username',
-  name: 'username'
-} ];
+}];
 
 export class RegisterPage extends Component {
   constructor( props ) {

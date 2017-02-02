@@ -5,6 +5,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 /*eslint-enable no-unused-vars*/
 
 import ReactDOM from 'react-dom';
@@ -17,11 +18,16 @@ import ListPage from './containers/list-page';
 import LoginPage from './containers/login-page';
 import LogoutPage from './containers/logout-page';
 import RegisterPage from './containers/register-page';
+import ForgotPasswordPage from './containers/forgot-password-page';
+import ResetPasswordPage from './containers/reset-password-page';
+import ThanksPageForgotPassword from './containers/thanks-page-forgot-password';
+import ThanksPageResetPassword from './containers/thanks-page-reset-password';
 import ThanksPage from './containers/thanks-page';
 import DownloadTrackPage from './containers/download-track-page';
 import FilterPage from './containers/filter-page';
 import SettingsPage from './containers/settings-page';
 import PublishPage from './containers/publish-page';
+import AboutPage from './containers/about-page';
 
 import AddServicePage from './containers/wizard/add-service-page';
 import UpdateServicePage from './containers/wizard/update-service-page';
@@ -73,71 +79,85 @@ document.addEventListener( 'deviceReady', ( ) => {
   store.dispatch( reloadPoints() );
 
   ReactDOM.render( (
-    <Provider store={ store }>
-      <Router history={ history }>
-        <Route path="/"
-          component={ Main }>
-          <Route component={ MapPage }>
-            <IndexRoute />
-            <Route path="peek-point/:id"
-              component={ PeekPointCard } />
-            <Route path="view-point/:id"
-              component={ ViewPointCard } />
-            <Route path="rate-point/:id"
-              component={ RatingPointCard } />
+    <MuiThemeProvider>
+      <Provider store={ store }>
+        <Router history={ history }>
+          <Route path="/"
+            component={ Main }>
+            <Route component={ MapPage }>
+              <IndexRoute />
+              <Route path="peek-point/:id"
+                component={ PeekPointCard } />
+              <Route path="view-point/:id"
+                component={ ViewPointCard } />
+              <Route path="rate-point/:id"
+                component={ RatingPointCard } />
+            </Route>
+            <Route path="list"
+              component={ ListPage } />
+            <Route path="settings"
+              component={ SettingsPage } />
+            <Route path="about"
+              component={ AboutPage } />
+            <Route path="publish"
+              component={ PublishPage } />
+            <Route path="login"
+              component={ LoginPage } />
+            <Route path="register"
+              component={ RegisterPage } />
+            <Route path="forgot-password"
+              component={ ForgotPasswordPage } />
+            <Route path="/reset-password/:verification"
+              component={ ResetPasswordPage } />
+            <Route path="logout"
+              component={ LogoutPage } />
+            <Route path="thanks-forgot-password"
+              component={ ThanksPageForgotPassword } />
+            <Route path="thanks-reset-password"
+              component={ ThanksPageResetPassword } />
+            <Route path="thanks"
+              component={ ThanksPage } />
+            <Route path="add-service"
+              component={ AddServicePage }>
+              <IndexRoute component={ PointLocation } />
+              <Route path="location"
+                component={ PointLocation } />
+              <Route path="name"
+                component={ ServiceName } />
+              <Route path="description"
+                component={ ServiceDescription } />
+              <Route path="hours"
+                component={ ServiceHours } />
+              <Route path="amenities"
+                component={ ServiceAmenities } />
+            </Route>
+            <Route path="/update-service/:id"
+              component={ UpdateServicePage }>
+              <IndexRoute component={ ServiceName } />
+              <Route path="name"
+                component={ ServiceName } />
+              <Route path="description"
+                component={ ServiceDescription } />
+              <Route path="hours"
+                component={ ServiceHours } />
+              <Route path="amenities"
+                component={ ServiceAmenities } />
+            </Route>
+            <Route path="add-alert"
+              component={ AddAlertPage }>
+              <IndexRoute component={ PointLocation } />
+              <Route path="location"
+                component={ PointLocation } />
+              <Route path="name"
+                component={ AlertNameDescription } />
+            </Route>
+            <Route path="/download-track"
+              component={ DownloadTrackPage } />
+            <Route path="/filter"
+              component={ FilterPage } />
           </Route>
-          <Route path="list"
-            component={ ListPage } />
-          <Route path="settings"
-            component={ SettingsPage } />
-          <Route path="publish"
-            component={ PublishPage } />
-          <Route path="login"
-            component={ LoginPage } />
-          <Route path="register"
-            component={ RegisterPage } />
-          <Route path="logout"
-            component={ LogoutPage } />
-          <Route path="thanks"
-            component={ ThanksPage } />
-          <Route path="add-service"
-            component={ AddServicePage }>
-            <IndexRoute component={ PointLocation } />
-            <Route path="location"
-              component={ PointLocation } />
-            <Route path="name"
-              component={ ServiceName } />
-            <Route path="description"
-              component={ ServiceDescription } />
-            <Route path="hours"
-              component={ ServiceHours } />
-            <Route path="amenities"
-              component={ ServiceAmenities } />
-          </Route>
-          <Route path="/update-service/:id"
-            component={ UpdateServicePage }>
-            <IndexRoute component={ ServiceDescription } />
-            <Route path="description"
-              component={ ServiceDescription } />
-            <Route path="hours"
-              component={ ServiceHours } />
-            <Route path="amenities"
-              component={ ServiceAmenities } />
-          </Route>
-          <Route path="add-alert"
-            component={ AddAlertPage }>
-            <IndexRoute component={ PointLocation } />
-            <Route path="location"
-              component={ PointLocation } />
-            <Route path="name"
-              component={ AlertNameDescription } />
-          </Route>
-          <Route path="/download-track"
-            component={ DownloadTrackPage } />
-          <Route path="/filter"
-            component={ FilterPage } />
-        </Route>
-      </Router>
-    </Provider>
+        </Router>
+      </Provider>
+    </MuiThemeProvider>
     ), document.getElementById( 'main' ) );
 } );

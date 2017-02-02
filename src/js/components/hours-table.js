@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
-import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 import { CardText, Table, TableBody, TableHeader, TableRow, TableHeaderColumn, TableRowColumn, IconButton } from 'material-ui';
 /*eslint-enable no-unused-vars*/
 
@@ -25,7 +25,7 @@ export class HoursTable extends Component {
       let remove;
       if ( removable ) {
         const button = (
-        <IconButton onClick={ ( ) => onRowRemove( index ) }>
+        <IconButton onTouchTap={ ( ) => onRowRemove( index ) }>
           <ClearIcon />
         </IconButton>
         );

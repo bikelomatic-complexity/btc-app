@@ -1,7 +1,7 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { Paper, FontIcon, RaisedButton } from 'material-ui';
-import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 
 import { Page } from '../components/page';
 
@@ -9,7 +9,7 @@ import PointList from '../components/point-list';
 /*eslint-enable no-unused-vars*/
 
 import { publishPoints } from '../reducers/points';
-import { setDrawer } from '../reducers/drawer';
+import { setDrawer } from '../reducers/btc-drawer';
 import history from '../history';
 
 import { connect } from 'react-redux';
@@ -51,11 +51,13 @@ class PublishPage extends Component {
       margin: '5px 10px 0px 5px'
     };
 
-    const instructions = (
+    const instructions = ( this.props.points.length === 0 ? 
     <div style={ instructionsStyle }>
-      Click on
-      { clear } to delete a point.
-    </div>
+      There are no alerts or services ready to publish.
+    </div> : <div></div>
+	/*<div style={ instructionsStyle }>
+      Click on { clear } to delete a point.
+    </div>*/
     );
 
     return (
@@ -63,13 +65,13 @@ class PublishPage extends Component {
         <Paper>
           <PointList instructions={ instructions }
             points={ this.props.points }
-            buttonIcon='clear'
-            buttonAction={ this.onPointRemove.bind( this ) }
+            /*buttonIcon='clear'
+            buttonAction={ this.onPointRemove.bind( this ) }*/
             clickAction={ this.onPointClick.bind( this ) } />
           <div style={ instructionsStyle }>
             <RaisedButton style={ buttonStyle }
               disabled={ this.props.points.length === 0 }
-              onClick={ this.onPublish }
+              onTouchTap={ this.onPublish }
               label="Publish"
               primary={ true } />
           </div>

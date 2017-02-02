@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 
 import { loadPoint } from '../../reducers/points';
 import { setMapCenter } from '../../reducers/map';
-import { setDrawer } from '../../reducers/drawer';
+import { setDrawer } from '../../reducers/btc-drawer';
 
 import history from '../../history';
 import '../../../css/layout.css';
@@ -174,7 +174,7 @@ export default class PointPage extends Component {
   // When we are on the last WizardPage, we want to submit the form. Otherwise,
   // we want to progress to the next page in the wizard.
   //
-  // This callback is installed in the ``onClick'' handler for the ``Next``
+  // This callback is installed in the ``onTouchTap'' handler for the ``Next``
   // (or ``Skip'',``Submit'', etc.) button at the bottom of each WizardPage.
   // The underlying methods, `navigateToTab` and `onSubmit` are responsible
   // on their own for persisting data before navigation.
@@ -284,7 +284,7 @@ export default class PointPage extends Component {
     const tabs = this.getTabSet().map( tab => (
       <Tab key={ tab.value }
         value={ tab.value }
-        onClick={ this.navigateToTab.bind( this, tab ) }
+        onActive={ this.navigateToTab.bind( this, tab ) }
         icon={ tab.icon } />
     ) );
 

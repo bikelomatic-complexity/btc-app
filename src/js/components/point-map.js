@@ -136,11 +136,10 @@ export class PointMap extends Component {
     // If offline, display tile layers for tracks with available packages
     const availableTracks = values( tracks )
       .filter( track => track.status === 'available' );
-
+	
     const tileLayerInfo = {
-      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      attr: `&copy; <a href="http://osm.org/copyright">
-              OpenStreetMap</a>contributors`
+      url: 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=5d65d56b7a4646a5af842d8beb7d3cff',
+      attr: 'See about page for map copyright.'
     };
 
     // In online mode, use tiles from OpenStreetMap. When offline, display

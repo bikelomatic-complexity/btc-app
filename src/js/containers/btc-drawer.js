@@ -1,7 +1,8 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 
-import { AppBar, MenuItem, LeftNav, FontIcon, Badge } from 'material-ui';
+import { AppBar, Badge, Drawer, FontIcon, MenuItem } from 'material-ui';
+
 import { Link } from 'react-router';
 /*eslint-enable no-unused-vars*/
 
@@ -10,7 +11,7 @@ import bindAll from 'lodash/bindAll';
 
 import history from '../history';
 
-export class Drawer extends Component {
+export class BtcDrawer extends Component {
   constructor( props ) {
     super( props );
     bindAll( this, 'onMenuItemTap', 'showNav', 'hideNav' );
@@ -63,6 +64,10 @@ export class Drawer extends Component {
       link: 'settings',
       title: 'Settings',
       icon: 'settings'
+    }, {
+      link: 'about',
+      title: 'About',
+      icon: 'info'
     } ];
 
     if ( login.loggedIn ) {
@@ -100,11 +105,11 @@ export class Drawer extends Component {
     return (
       <AppBar onLeftIconButtonTouchTap={ this.showNav }
         title={ this.props.drawer }>
-        <LeftNav docked={ false }
+        <Drawer docked={ false }
           onRequestChange={ this.hideNav }
           open={ this.state.open }>
           { navs }
-        </LeftNav>
+        </Drawer>
       </AppBar>
       );
   }
@@ -117,4 +122,4 @@ function mapStateToProps( state ) {
     publishable: state.points.publish.updated.length
   };
 }
-export default connect( mapStateToProps )( Drawer );
+export default connect( mapStateToProps )( BtcDrawer );

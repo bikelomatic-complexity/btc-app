@@ -16,6 +16,7 @@ export class UpdateServicePage extends PointPage {
 
   getTabSet() {
     return [
+      tabs.ServiceNameTab,
       tabs.ServiceDescriptionTab,
       tabs.ServiceHoursTab,
       tabs.ServiceAmenitiesTab
@@ -67,11 +68,13 @@ export class UpdateServicePage extends PointPage {
   // Before calling `updateService`, transfer our original coverUrl to the
   // new service in case we don't have a new one to attach.
   onFinal() {
-    const {updateService} = this.props;
+    const {updateService, params} = this.props;
     const {point, coverBlob} = this.state;
 
     const service = new Service( point );
     service.update();
+    // Keep the previous ID. We can't be changing IDs when the name changes.
+    service._id = params.id;
     service.coverUrl = point.coverUrl;
     if ( service.isValid() ) {
       updateService( service, coverBlob );

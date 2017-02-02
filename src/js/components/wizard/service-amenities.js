@@ -1,7 +1,7 @@
 /*eslint-disable no-unused-vars*/
 import React, { Component } from 'react';
 import { RaisedButton, FlatButton, CardText, FontIcon, MenuItem, SelectField } from 'material-ui';
-import ClearIcon from 'material-ui/lib/svg-icons/content/clear';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 /*eslint-disable no-unused-vars*/
 
 import WizardPage from './wizard-page';
@@ -51,7 +51,7 @@ export class ServiceAmenities extends WizardPage {
     const amenities = this.state.amenities.map( amenity => (
       <RaisedButton key={ amenity }
         label={ display( amenity ) }
-        onClick={ this.removeAmenity.bind( this, amenity ) }
+        onTouchTap={ this.removeAmenity.bind( this, amenity ) }
         icon={ <ClearIcon /> }
         style={ { margin: 8 } }
         labelPosition="before" />
@@ -75,7 +75,7 @@ export class ServiceAmenities extends WizardPage {
     return (
       <FlatButton label="Add amenity"
         disabled={ !this.state.amenity }
-        onClick={ this.addAmenity } />
+        onTouchTap={ this.addAmenity } />
       );
   }
 

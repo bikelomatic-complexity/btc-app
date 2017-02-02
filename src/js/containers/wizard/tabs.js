@@ -7,11 +7,11 @@ import AlertNameDescription from '../../components/wizard/alert-name-description
 
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import LocationIcon from 'material-ui/lib/svg-icons/maps/place';
-import NameIcon from 'material-ui/lib/svg-icons/image/edit';
-import DescIcon from 'material-ui/lib/svg-icons/editor/format-align-left';
-import HoursIcon from 'material-ui/lib/svg-icons/action/schedule';
-import AmenitiesIcon from 'material-ui/lib/svg-icons/maps/local-bar';
+import LocationIcon from 'material-ui/svg-icons/maps/place';
+import NameIcon from 'material-ui/svg-icons/image/edit';
+import DescIcon from 'material-ui/svg-icons/editor/format-align-left';
+import HoursIcon from 'material-ui/svg-icons/action/schedule';
+import AmenitiesIcon from 'material-ui/svg-icons/maps/local-bar';
 /* eslint-enable no-unused-vars */
 
 export const PointLocationTab = {

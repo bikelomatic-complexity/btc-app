@@ -1,20 +1,39 @@
-# Client App
+# Bicycle Touring Companion - Client App
 
-The Application! Bicycle Touring Companion! Uses [React](https://facebook.github.io/react/) and [Cordova](https://cordova.apache.org) to build a native android application.
+Bicycle Touring Companion uses [React](https://facebook.github.io/react/) and [Cordova](https://cordova.apache.org) to build a native android application.
 
-Have [npm](https://nodejs.org/en/) installed on your development machine (available when installing [node](https://nodejs.org/)).
+Have [npm](https://www.npmjs.com) installed on your development machine (available when installing [node](https://nodejs.org/)).
 
 **Run `npm install`**
-### running on android device
-1. Install [android studio](https://developer.android.com/studio/index.html) (required for having the resources to deploy to a phone)
-2. Make sure your device shows up on `adb devices`
-3. `npm run start:android`
-4. You can inspect the android view by going to `chrome://inspect`!  
+## Android
+### Running on Android
+*Minimum SDK 19 (Android 4.4)*
 
-### running in browser
+1. Install [Android Studio](https://developer.android.com/studio/index.html) (required for having the resources to deploy to a phone)
+2. Make sure your device shows up on `adb devices`
+3. `npm run start:android` (You only need to do this after the first run)
+4. You can inspect the Android view by going to `chrome://inspect`!  
+
+## iOS
+### Running on iOS
+*Minimum iOS 8.0*  
+
+1. Install [Xcode](https://developer.apple.com/xcode/)
+2. Open platforms/iOS/BTC.xcodeproj  
+3. Set the project to use your code signing credentials  
+4. `npm run start:ios-device` (You only need to do this after the first run)
+5. You can inspect the iOS view by using Safari remote debugging on your Mac  
+
+## Browser
+### Developing in Browser
 1. `npm run dev`
-2. open `localhost:8000/browser/www/`
-3. The chrome extension _LiveReload_ your browser session will reload when you update a file.  (not required, but nice)
+2. Open `http://localhost:8000/browser/www/`
+3. The Chrome extension _LiveReload_ your browser session will reload when you update a file.  (not required, but nice)
+
+### Deploying for Web
+1. Set your `NODE_ENV` environment variable to `production` if you want the build to point to AWS
+2. `npm run dev` (you can stop the local server once it starts)
+3. Copy contents of `platforms/browser/www` to your web server's documents directory (all served files are static)
 
 _Look at the `package.json` for other commands!_  
 

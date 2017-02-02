@@ -7,7 +7,7 @@ import network from './reducers/network';
 import map from './reducers/map';
 import filters from './reducers/filter';
 import account from './reducers/account';
-import drawer from './reducers/drawer';
+import drawer from './reducers/btc-drawer';
 
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';

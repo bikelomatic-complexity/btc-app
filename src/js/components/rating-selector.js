@@ -30,7 +30,7 @@ export class RatingSelector extends Component {
       return (<FontIcon style={ this.props.style }
                 key={ star }
                 className='material-icons'
-                onClick={ ( ) => this.onSetRating( star ) }>
+                onTouchTap={ ( ) => this.onSetRating( star ) }>
                 { icon }
               </FontIcon>);
     } );
@@ -42,7 +42,7 @@ export class RatingSelector extends Component {
 }
 
 RatingSelector.defaultProps = {
-  rating: 3
+  rating: 0
 };
 
 export default RatingSelector;
